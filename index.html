@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OOZEMeter — Today's Economic Containment Level</title>
+<meta name="description" content="How stressed is the U.S. economy today? One score, one jar, trusted public data. Check today's Ooze Level at the Division of Economic Containment.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800;900&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="lab.css">
+</head>
+<body>
+<div id="boot"><div id="bootLog"></div><div class="skip">CLICK TO SKIP CLEARANCE CHECK</div></div>
+
+<div id="page">
+
+<!-- ============ HERO: CONTAINMENT CHAMBER ============ -->
+<section class="hero" id="top">
+  <div class="wrap" id="heroTheme" data-level="4">
+
+    <div class="hero-head">
+      <div class="kicker cine c2">Today's Containment Level</div>
+      <div class="big-score cine c3"><span id="heroScore">0</span><small>/100</small></div>
+      <div class="status-row cine c4">
+        <div class="status-chip" id="heroStatus">OOZING</div>
+        <div class="tier" id="heroTier">🟠 CONTAINMENT WARNING</div>
+        <div class="delta" id="heroDelta">▲ +3 SINCE LAST READING</div>
+      </div>
+      <div class="inject-readout cine c5" id="injectReadout">HOVER A PRESSURE SOURCE · CLICK TO OPEN ITS FILE</div>
+    </div>
+
+    <div class="hero-stage">
+      <div class="nodes left cine c5" id="nodesLeft"></div>
+      <div class="chamber cine c1">
+        <div class="rig">
+          <span class="beacon"></span>
+          <span>SPECIMEN US-ECON-01</span>
+          <span class="lamps"><span class="lamp"></span><span class="lamp"></span><span class="lamp"></span></span>
+        </div>
+        <div class="jar" id="heroJar" role="img" aria-label="Containment jar, ooze level 67 of 100"></div>
+        <div class="console">
+          <div class="inst">Pressure<div class="gauge"><i id="gaugeNeedle"></i></div><b id="instPressure">67 psi</b></div>
+          <div class="inst">Specimen Temp<b id="instTemp">98.6°F</b></div>
+          <div class="inst">Integrity<b id="instIntegrity">33%</b></div>
+        </div>
+        <div class="chamber-label">⚠ Please do not tap the glass</div>
+      </div>
+      <div class="nodes right cine c5" id="nodesRight"></div>
+    </div>
+
+    <div class="specimen-line cine c5">🧪 Fresh specimen collected — <b>Jul 23, 2026 · 08:00 ET</b> · next collection in 16h</div>
+  </div>
+</section>
+
+<!-- ============ TOP PRESSURE SOURCES ============ -->
+<section id="pressure">
+  <div class="wrap">
+    <div class="sec-label reveal">File 01 — Pressure Sources</div>
+    <h2 class="sec-title reveal">Today's top pressure sources</h2>
+    <p class="sec-sub reveal">The three intake lines pushing hardest on the specimen right now. Open a file for the full reading, history, and lab analysis.</p>
+    <div class="cards" id="topCards"></div>
+    <div class="chip-row reveal" id="restChips"></div>
+  </div>
+</section>
+
+<div class="ad-wrap"><div class="ad-slot">Advertisement — sponsor's beaker here</div></div>
+
+<!-- ============ LEAKS ============ -->
+<section id="leaks">
+  <div class="wrap">
+    <div class="sec-label reveal">File 02 — 24H Surveillance</div>
+    <h2 class="sec-title reveal">Fresh leaks detected</h2>
+    <p class="sec-sub reveal">Changes recorded since the previous specimen collection.</p>
+    <div class="movers reveal" id="moversList"></div>
+  </div>
+</section>
+
+<!-- ============ DEEPER INTO THE LAB ============ -->
+<section id="deeper">
+  <div class="wrap">
+    <div class="sec-label reveal">File 03 — Restricted Wings</div>
+    <h2 class="sec-title reveal">Deeper into the facility</h2>
+    <div class="teasers reveal">
+      <a class="teaser" href="archive.html">
+        <div class="t-icon">🗄</div>
+        <h3>Incident Archive</h3>
+        <p>Scrub the timeline back to 2008 and watch containment fail. Facility alarms may activate.</p>
+        <span class="t-cta">Open the archive →</span>
+      </a>
+      <a class="teaser" href="personal.html">
+        <div class="t-icon">🧬</div>
+        <h3>Your Personal Ooze</h3>
+        <p>Income, rent, car payment — get your own containment reading and compare it to the nation's.</p>
+        <span class="t-cta">Run your sample →</span>
+      </a>
+      <a class="teaser" href="states.html">
+        <div class="t-icon">🗺</div>
+        <h3>State Ooze Rankings</h3>
+        <p>Fifty jars, fifty pressure readings. Which state is closest to overflowing?</p>
+        <span class="t-cta">View rankings →</span>
+      </a>
+      <a class="teaser" href="notes.html">
+        <div class="t-icon">📋</div>
+        <h3>Lab Notes</h3>
+        <p>The full Ooze Formula, published weights, and containment classifications. No black boxes.</p>
+        <span class="t-cta">Read methodology →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="ad-wrap"><div class="ad-slot">Advertisement — sponsor's beaker here</div></div>
+
+<!-- ============ NEWSLETTER ============ -->
+<section id="newsletter">
+  <div class="wrap reveal" id="nlMount"></div>
+</section>
+
+<!-- ============ FIELD REPORT ============ -->
+<section id="report">
+  <div class="wrap">
+    <div class="sec-label reveal">File 04 — Field Report</div>
+    <h2 class="sec-title reveal">Leak today's report</h2>
+    <p class="sec-sub reveal">Civilian distribution is authorized. One click.</p>
+    <div class="share-grid reveal">
+      <div class="share-card">
+        <div class="sc-alarm">🚨</div>
+        <div class="sc-kicker">Ooze Level</div>
+        <div class="sc-score">67<span style="font-size:.4em;color:var(--dim)">/100</span></div>
+        <div class="sc-status">🟠 Containment Warning</div>
+        <div class="sc-line" id="scLine">Top pressure: Unemployment +15 · Housing +14 · Credit Cards +13</div>
+        <div class="sc-brand">OOZEMETER · Division of Economic Containment</div>
+      </div>
+      <div>
+        <p class="sec-sub" style="margin-bottom:0">The report copies as plain text, ready for any feed. If the jar hits ☢ NATIONAL MESS, we suggest posting quickly — before the ooze reaches your keyboard.</p>
+        <div class="share-actions">
+          <button class="btn primary" id="copyBtn">Copy Report</button>
+          <a class="btn" id="tweetBtn" target="_blank" rel="noopener">Post to X</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div><!-- /page -->
+
+<script src="lab.js"></script>
+<script>
+renderHeader('pressure');
+renderFooter();
+
+/* ============ BOOT ============ */
+const BOOT_LINES=[
+  ['> DIVISION OF ECONOMIC CONTAINMENT',''],
+  ['> SPECIMEN US-ECON-01','LOCATED'],
+  ['> PRESSURE SENSORS ×8','ONLINE'],
+  ['> CONTAINMENT FIELD','33% INTEGRITY'],
+  ['> VISITOR CLEARANCE','GRANTED'],
+];
+const boot=$('boot');
+function endBoot(){
+  if(boot.classList.contains('done'))return;
+  boot.classList.add('done');
+  sessionStorage.setItem('oozeboot','1');
+  document.body.classList.add('intro-go');
+  startCountUp();
+  setTimeout(()=>setJar(heroJar,heroTheme,TODAY_SCORE),300);
+}
+boot.addEventListener('click',endBoot);
+if(sessionStorage.getItem('oozeboot')||matchMedia('(prefers-reduced-motion: reduce)').matches){
+  boot.style.display='none';
+  requestAnimationFrame(()=>endBoot());
+}else{
+  BOOT_LINES.forEach(([l,r],i)=>setTimeout(()=>{
+    $('bootLog').insertAdjacentHTML('beforeend',`<div>${l}${r?` <span class="ok">... ${r}</span>`:''}</div>`);
+    bloop(200+i*40,.05);
+  },220+i*300));
+  setTimeout(endBoot,220+BOOT_LINES.length*300+500);
+}
+
+/* ============ HERO ============ */
+const heroTheme=$('heroTheme'),heroJar=$('heroJar');
+buildJar(heroJar);
+$('heroStatus').textContent=bandOf(TODAY_SCORE).name;
+$('heroTier').textContent=tierOf(TODAY_SCORE);
+$('gaugeNeedle').style.transform=`rotate(${TODAY_SCORE/100*180-90}deg)`;
+$('instPressure').textContent=TODAY_SCORE+' psi';
+$('instIntegrity').textContent=(100-TODAY_SCORE)+'%';
+setFacility(TODAY_SCORE);
+const d=TODAY_SCORE-YESTERDAY;
+$('heroDelta').textContent=`${d>=0?'▲ +':'▼ '}${d} SINCE LAST READING`;
+
+let countStarted=false;
+function startCountUp(){
+  if(countStarted)return;countStarted=true;
+  let t0=null;
+  (function step(ts){
+    if(!t0)t0=ts;
+    const p=Math.min((ts-t0)/1600,1),eased=1-Math.pow(1-p,3);
+    $('heroScore').textContent=Math.round(eased*TODAY_SCORE);
+    if(p<1)requestAnimationFrame(step);
+  })(performance.now());
+}
+
+/* pressure nodes: hover = flow demo, click = open indicator file */
+function nodeHTML(x){
+  const drain=x.dir==='down';
+  return `<a class="node" href="indicator.html?i=${x.slug}" data-name="${x.name}" data-contrib="${x.contrib}" data-dir="${x.dir}"
+    aria-label="${x.name}: ${x.contrib} ooze. Open indicator page.">
+    <i class="pipe"></i><span>${x.emoji}</span>
+    <span class="nname">${x.name}</span>
+    <span class="noz${drain?' drain':''}">${drain?'−':'+'}${x.contrib}</span>
+  </a>`;
+}
+$('nodesLeft').innerHTML=INDICATORS.slice(0,4).map(nodeHTML).join('');
+$('nodesRight').innerHTML=INDICATORS.slice(4).map(nodeHTML).join('');
+
+const injectReadout=$('injectReadout');
+let flowTimer=null;
+document.querySelectorAll('.node').forEach(n=>{
+  const test=()=>{
+    const c=+n.dataset.contrib, drain=n.dataset.dir==='down';
+    const L=heroJar.querySelector('.liquid');
+    clearTimeout(flowTimer);
+    wakeJar(heroJar,2200);
+    L.classList.add('fast');L.style.height=Math.max(TODAY_SCORE-c,2)+'%';
+    if(drain){
+      injectReadout.textContent=`${n.dataset.name.toUpperCase()} — RELIEVING −${c} OZ OF PRESSURE`;
+      flowTimer=setTimeout(()=>{L.classList.remove('fast');L.style.height=TODAY_SCORE+'%'},900);
+      bloop(240,.08);
+    }else{
+      injectReadout.textContent=`${n.dataset.name.toUpperCase()} — INJECTING +${c} OZ THROUGH INTAKE LINE`;
+      flowTimer=setTimeout(()=>{L.classList.remove('fast');L.style.height=TODAY_SCORE+'%'},280);
+      bloop(150,.08);
+    }
+    injectReadout.classList.add('hot');
+  };
+  const rest=()=>{
+    injectReadout.textContent='HOVER A PRESSURE SOURCE · CLICK TO OPEN ITS FILE';
+    injectReadout.classList.remove('hot');
+  };
+  n.addEventListener('mouseenter',test);
+  n.addEventListener('focus',test);
+  n.addEventListener('mouseleave',rest);
+  n.addEventListener('blur',rest);
+});
+
+/* ============ TOP 3 CARDS + CHIPS ============ */
+const top3=[...INDICATORS].sort((a,b)=>b.contrib-a.contrib).slice(0,3);
+$('topCards').innerHTML=top3.map(x=>`
+  <a class="card reveal" href="indicator.html?i=${x.slug}">
+    <div class="card-top"><span class="card-name">${x.name}</span><span class="card-emoji">${x.emoji}</span></div>
+    <div class="card-val">${x.val}</div>
+    <div class="card-trend ${x.dir}">${x.trend}</div>
+    ${sparkline(x.spark)}
+    <div class="contrib"><span>Intake line pressure</span><b>+${x.contrib}</b></div>
+    <div class="card-bar"><i style="width:${x.contrib/16*100}%"></i></div>
+    <div class="card-cta">Open file →</div>
+  </a>`).join('');
+$('restChips').innerHTML='<span style="font-size:.66rem;letter-spacing:.24em;color:var(--dim);align-self:center">ALL INTAKE LINES:</span>'+
+  INDICATORS.map(x=>`<a href="indicator.html?i=${x.slug}">${x.emoji} ${x.name}</a>`).join('');
+
+/* ============ LEAKS ============ */
+$('moversList').innerHTML=MOVERS.map(m=>`
+  <a class="mover ${m.dir}" href="indicator.html?i=${m.slug}">
+    <span class="arrow">${m.dir==='up'?'▲':'▼'}</span>
+    <span><strong>${m.name}</strong><span class="why">${m.why}</span></span>
+    <span class="pts">${m.pts} ooze</span>
+  </a>`).join('');
+
+/* ============ NEWSLETTER + SHARE ============ */
+$('nlMount').innerHTML=newsletterHTML();
+wireNewsletter();
+
+const reportText=
+`🚨 OOZE LEVEL ${TODAY_SCORE}/100 — ${tierOf(TODAY_SCORE).replace(/^[^ ]+ /,'')}
+Status: ${bandOf(TODAY_SCORE).name}
+Top pressure: ${top3.map(x=>`${x.name} +${x.contrib}`).join(' · ')}
+— OOZEMeter · Division of Economic Containment`;
+$('copyBtn').addEventListener('click',async e=>{
+  await navigator.clipboard.writeText(reportText);
+  e.target.textContent='REPORT COPIED ✓';
+  bloop(300,.1);
+  setTimeout(()=>e.target.textContent='COPY REPORT',1800);
+});
+$('tweetBtn').href='https://twitter.com/intent/tweet?text='+encodeURIComponent(reportText);
+
+wireReveals();
+</script>
+</body>
+</html>

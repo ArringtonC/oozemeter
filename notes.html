@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OOZEMeter — Lab Notes | The Ooze Formula & Methodology</title>
+<meta name="description" content="How the Ooze Score is calculated: published weights, normalization method, containment classifications, and data sources. No black boxes.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800;900&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="lab.css">
+</head>
+<body>
+<div id="page">
+
+<section>
+  <div class="wrap">
+    <div class="crumbs" style="padding-bottom:22px"><a href="index.html">Facility</a> / Lab Notes</div>
+    <div class="sec-label">Restricted Wing — Lab Notes</div>
+    <h1 class="sec-title">The Ooze Formula</h1>
+    <p class="sec-sub">No black boxes in this facility. Every point of ooze is explainable and reproducible — this page is the complete recipe.</p>
+
+    <div class="formula">
+      <div class="reveal" id="weights"></div>
+      <div class="formula-note reveal">
+        <h3>How the specimen is measured</h3>
+        <code>OOZE = Σ ( weightᵢ × stressᵢ )</code>
+        <p>Each indicator is normalized to a 0–100 stress reading against its own historical range, then multiplied by its published weight. Today: unemployment contributes <b style="color:var(--ooze)">+15</b>, housing <b style="color:var(--ooze)">+14</b>, credit <b style="color:var(--ooze)">+13</b> — totaling <b style="color:var(--ooze)">{TOTAL}</b>.</p>
+        <p>Weights are fixed and published. Every chart links to its original government or industry source. If we change the recipe, we tell you.</p>
+        <p>Containment classifications:</p>
+        <table class="tier-table">
+          <tr><td>🟢 STABLE</td><td>0 – 20</td></tr>
+          <tr><td>🟡 OBSERVATION</td><td>21 – 40</td></tr>
+          <tr><td>🟠 CONTAINMENT WATCH</td><td>41 – 60</td></tr>
+          <tr><td>🟠 CONTAINMENT WARNING</td><td>61 – 80</td></tr>
+          <tr><td>🔴 OVERFLOW RISK</td><td>81 – 94</td></tr>
+          <tr><td>☢ NATIONAL MESS</td><td>95 – 100</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-label reveal">Today's Ledger</div>
+    <h2 class="sec-title reveal">Exactly how today's {TOTAL} was assembled</h2>
+    <p class="sec-sub reveal">Every intake line, every ounce. Click any line for its full file.</p>
+    <div class="related reveal" id="ledger"></div>
+  </div>
+</section>
+
+<div class="ad-wrap"><div class="ad-slot">Advertisement — sponsor's beaker here</div></div>
+
+<section>
+  <div class="wrap reveal" id="nlMount"></div>
+</section>
+
+</div><!-- /page -->
+
+<script src="lab.js"></script>
+<script>
+renderHeader('notes');
+
+/* fill placeholders — scoped to sections so the header's wired buttons survive */
+document.querySelectorAll('section .wrap').forEach(el=>{
+  el.innerHTML=el.innerHTML.replaceAll('{TOTAL}',TODAY_SCORE);
+});
+
+$('weights').innerHTML=WEIGHTS.map(w=>`
+  <div class="weight">
+    <div class="weight-head"><span>${w.name}</span><b>${w.w}%</b></div>
+    <div class="weight-bar"><i data-w="${w.w}"></i></div>
+  </div>`).join('');
+
+$('ledger').innerHTML=INDICATORS.map(y=>
+  `<a href="indicator.html?i=${y.slug}"><span>${y.emoji}</span> ${y.name} <span class="r-oz">+${y.contrib}</span></a>`).join('');
+
+$('nlMount').innerHTML=newsletterHTML();
+wireNewsletter();
+renderFooter();
+wireReveals();
+</script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OOZEMeter — Your Personal Ooze Score</title>
+<meta name="description" content="Enter your income, housing, and car payment to get your own economic stress reading — and compare it to the national jar.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800;900&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="lab.css">
+</head>
+<body>
+<div id="page">
+
+<section>
+  <div class="wrap">
+    <div class="crumbs" style="padding-bottom:22px"><a href="index.html">Facility</a> / Personal Ooze</div>
+    <div class="sec-label">Restricted Wing — Specimen Intake</div>
+    <h1 class="sec-title">Run your own sample</h1>
+    <p class="sec-sub">The national jar measures everyone. This bench measures <em>you</em>. Numbers never leave your browser — this facility has no interest in your file.</p>
+
+    <div class="calc-grid">
+      <form class="calc-form" id="calcForm">
+        <label for="cState">Your state</label>
+        <select id="cState"></select>
+        <label for="cIncome">Monthly take-home income ($)</label>
+        <input id="cIncome" type="number" min="0" placeholder="4800" required>
+        <label for="cHousing">Monthly rent or mortgage ($)</label>
+        <input id="cHousing" type="number" min="0" placeholder="1650" required>
+        <label for="cCar">Monthly car payment ($)</label>
+        <input id="cCar" type="number" min="0" placeholder="450" value="0">
+        <label for="cCards">Total credit card balance ($)</label>
+        <input id="cCards" type="number" min="0" placeholder="3000" value="0">
+        <div style="margin-top:24px">
+          <button class="btn primary" type="submit">Analyze Specimen</button>
+        </div>
+      </form>
+
+      <div class="calc-result" id="calcResult" data-level="2">
+        <div class="jar mini" id="pJar"></div>
+        <div class="calc-score" id="pScore">—</div>
+        <div class="calc-verdict" id="pVerdict">Awaiting specimen…</div>
+        <div class="share-actions" style="justify-content:center;display:none" id="pShare">
+          <button class="btn" id="pCopy">Copy My Report</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="ad-wrap"><div class="ad-slot">Advertisement — sponsor's beaker here</div></div>
+
+<section>
+  <div class="wrap">
+    <div class="sec-label reveal">Cross-Reference</div>
+    <h2 class="sec-title reveal">What's pressurizing the national jar</h2>
+    <div class="related reveal" id="allLines"></div>
+  </div>
+</section>
+
+</div><!-- /page -->
+
+<script src="lab.js"></script>
+<script>
+renderHeader('personal');
+
+$('cState').innerHTML=STATES.map(([n])=>`<option>${n}</option>`).join('');
+const pJar=$('pJar');buildJar(pJar);
+pJar.classList.add('settled'); /* at rest until a specimen is submitted */
+
+/* ponytail: naive burden heuristic, not financial science — tune when real
+   affordability data (income percentiles, regional COL) is wired in */
+function personalOoze(stateScore,income,housing,car,cards){
+  if(!income)return 50;
+  const housingStress=Math.min(housing/income/0.36,1)*40;   /* 36% rule → max 40 */
+  const carStress=Math.min(car/income/0.15,1)*20;           /* 15% rule → max 20 */
+  const cardStress=Math.min((cards*0.03)/income/0.10,1)*20; /* ~3% min payment  */
+  const stateStress=stateScore/100*20;                      /* local conditions  */
+  return Math.round(Math.min(housingStress+carStress+cardStress+stateStress,100));
+}
+
+let lastReport='';
+$('calcForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  const state=$('cState').value;
+  const stateScore=STATES.find(([n])=>n===state)[1];
+  const s=personalOoze(stateScore,+$('cIncome').value,+$('cHousing').value,+$('cCar').value,+$('cCards').value);
+  const result=$('calcResult');
+  setJar(pJar,result,s);
+  $('pScore').textContent=s+' / 100';
+  const vsNation=s<TODAY_SCORE?`below the national jar (${TODAY_SCORE})`:s>TODAY_SCORE?`above the national jar (${TODAY_SCORE})`:`exactly at the national jar (${TODAY_SCORE})`;
+  $('pVerdict').textContent=`${tierOf(s)} — ${bandOf(s).name} · ${vsNation}`;
+  $('pShare').style.display='flex';
+  lastReport=`🧬 MY PERSONAL OOZE: ${s}/100 — ${bandOf(s).name}\nNational jar: ${TODAY_SCORE}/100\n— OOZEMeter · Division of Economic Containment`;
+  bloop(180,.1);
+});
+$('pCopy').addEventListener('click',async e=>{
+  await navigator.clipboard.writeText(lastReport);
+  e.target.textContent='COPIED ✓';
+  setTimeout(()=>e.target.textContent='COPY MY REPORT',1800);
+});
+
+$('allLines').innerHTML=INDICATORS.map(y=>
+  `<a href="indicator.html?i=${y.slug}"><span>${y.emoji}</span> ${y.name} <span class="r-oz">+${y.contrib}</span></a>`).join('');
+
+renderFooter();
+wireReveals();
+</script>
+</body>
+</html>

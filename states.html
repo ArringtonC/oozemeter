@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OOZEMeter — State Ooze Rankings | Economic Stress by State</title>
+<meta name="description" content="Fifty jars, fifty pressure readings. Which U.S. state is under the most economic stress today?">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800;900&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="lab.css">
+</head>
+<body>
+<div id="page">
+
+<section>
+  <div class="wrap">
+    <div class="crumbs" style="padding-bottom:22px"><a href="index.html">Facility</a> / State Rankings</div>
+    <div class="sec-label">Restricted Wing — Regional Containment</div>
+    <h1 class="sec-title">State Ooze Rankings</h1>
+    <p class="sec-sub">Fifty jars, fifty pressure readings. Ranked from closest-to-overflow down to smoothest. Regional readings blend housing burden, employment, and cost-of-living pressure.</p>
+
+    <div class="podium" id="podium"></div>
+
+    <table class="rank-table">
+      <thead><tr><th>#</th><th>State</th><th>Pressure</th><th>Ooze</th><th>Classification</th></tr></thead>
+      <tbody id="rankBody"></tbody>
+    </table>
+  </div>
+</section>
+
+<div class="ad-wrap"><div class="ad-slot">Advertisement — sponsor's beaker here</div></div>
+
+<section>
+  <div class="wrap reveal" id="nlMount"></div>
+</section>
+
+</div><!-- /page -->
+
+<script src="lab.js"></script>
+<script>
+renderHeader('states');
+
+const ranked=[...STATES].sort((a,b)=>b[1]-a[1]);
+
+$('podium').innerHTML=ranked.slice(0,3).map(([name,s],i)=>`
+  <div class="incident" style="cursor:default">
+    <span class="stamp ${s>80?'failed':'stressed'}">${['Most Pressurized','Runner-Up','Third Jar'][i]}</span>
+    <h3>#${i+1} ${name}</h3>
+    <div class="iname">${bandOf(s).name}</div>
+    <div class="peak">Ooze <b>${s}</b> / 100</div>
+  </div>`).join('');
+
+$('rankBody').innerHTML=ranked.map(([name,s],i)=>`
+  <tr>
+    <td class="rank-num">${i+1}</td>
+    <td>${name}</td>
+    <td class="rank-bar"><div><i style="width:${s}%"></i></div></td>
+    <td class="rank-score">${s}</td>
+    <td class="rank-tier">${tierOf(s)}</td>
+  </tr>`).join('');
+
+$('nlMount').innerHTML=newsletterHTML();
+wireNewsletter();
+renderFooter();
+wireReveals();
+</script>
+</body>
+</html>

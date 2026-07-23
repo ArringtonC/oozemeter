@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OOZEMeter — Intake Line</title>
+<meta name="description" content="Current reading, 20-year stress history, why it matters, and how it feeds the Ooze Score.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800;900&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="lab.css">
+</head>
+<body>
+<div id="page">
+<main class="wrap-narrow" id="main"></main>
+</div>
+
+<script src="lab.js"></script>
+<script>
+renderHeader('');
+/* ponytail: one template serves all 8 indicator URLs via ?i=slug — a static-site
+   generator can stamp real per-slug pages when SEO matters */
+const slug=new URLSearchParams(location.search).get('i')||'gas';
+const x=indBySlug(slug)||INDICATORS[0];
+const idx=INDICATORS.indexOf(x)+1;
+document.title=`OOZEMeter — ${x.name} | Today's Reading & Stress History`;
+
+const drain=x.dir==='down';
+$('main').innerHTML=`
+  <div class="crumbs"><a href="index.html">Facility</a> / <a href="index.html#pressure">Pressure Sources</a> / ${x.name}</div>
+
+  <div class="ind-head">
+    <div class="ind-title">
+      <div class="intake">Intake Line ${String(idx).padStart(2,'0')} — ${x.weight?x.weight+'% of formula':'auxiliary sensor'}</div>
+      <h1>${x.emoji} ${x.name}</h1>
+    </div>
+    <div class="contrib-chip">Feeding the jar today: <b>+${x.contrib} oz</b></div>
+  </div>
+
+  <div class="ind-reading">
+    <div class="ind-val">${x.val}</div>
+    <div class="ind-meta">
+      <span class="${x.dir}">${x.trend}</span><br>
+      Fresh specimen collected — ${UPDATED}
+    </div>
+  </div>
+
+  <div class="chart-panel reveal">
+    <h2>20-Year Stress History — ${x.name}</h2>
+    ${bigChart(x.stressHist)}
+    <div class="src">Stress reading 0–100 vs. own historical range · Source: <a href="${x.source.url}" target="_blank" rel="noopener">${x.source.name}</a> · Red bands: U.S. recessions</div>
+  </div>
+
+  <div class="prose reveal">
+    <h2>Why this line matters</h2>
+    <p>${x.why}</p>
+  </div>
+
+  <div class="prose reveal">
+    <h2>How it compares to 2008</h2>
+    <div class="incident-callout">
+      <span class="ic-stamp">Incident File — 2008</span>
+      <p>${x.vs2008}</p>
+    </div>
+    <p>Full replay available in the <a href="archive.html">Incident Archive</a>.</p>
+  </div>
+
+  <div class="ad-wrap" style="border:none;padding-left:0;padding-right:0"><div class="ad-slot">Advertisement — sponsor's beaker here</div></div>
+
+  <div class="prose reveal">
+    <h2>How it feeds the ooze</h2>
+    <p>${x.name} ${x.weight?`carries a published weight of <strong>${x.weight}%</strong> in the Ooze Formula`:`is an auxiliary sensor — it doesn't carry formula weight, but it feeds the daily reading`}. Its current stress reading contributes <strong>+${x.contrib} of today's ${TODAY_SCORE} oz</strong>${drain?' — and it has been relieving pressure lately':''}. The complete recipe is public in the <a href="notes.html">Lab Notes</a>.</p>
+  </div>
+
+  <div class="prose reveal faq">
+    <h2>Frequently asked questions</h2>
+    ${x.faqs.map(f=>`<details><summary>${f.q}</summary><p>${f.a}</p></details>`).join('')}
+  </div>
+
+  <div class="reveal">
+    <h2 style="font-family:var(--display);font-weight:800;font-size:1.25rem;margin:38px 0 12px">Personnel monitoring ${x.name.toLowerCase()} also observe</h2>
+    <div class="related">
+      ${x.related.map(r=>{const y=indBySlug(r);return `<a href="indicator.html?i=${y.slug}"><span>${y.emoji}</span> ${y.name} <span class="r-oz">+${y.contrib}</span></a>`}).join('')}
+      <a href="personal.html"><span>🧬</span> Your Personal Ooze <span class="r-oz">?</span></a>
+    </div>
+  </div>
+
+  <div class="reveal" style="margin:56px 0" id="nlMount"></div>
+`;
+
+$('nlMount').innerHTML=newsletterHTML();
+wireNewsletter();
+renderFooter();
+wireReveals();
+</script>
+</body>
+</html>

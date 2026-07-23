@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OOZEMeter — Incident Archive | Economic History Replay</title>
+<meta name="description" content="Scrub through 25 years of economic stress. Watch containment fail in 2008 and 2020. The jar remembers everything.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800;900&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="lab.css">
+</head>
+<body>
+<div id="page">
+
+<section id="archive">
+  <div class="wrap">
+    <div class="crumbs" style="padding-bottom:22px"><a href="index.html">Facility</a> / Incident Archive</div>
+    <div class="sec-label">Restricted Wing — Incident Archive</div>
+    <h1 class="sec-title">Containment incident log</h1>
+    <p class="sec-sub">Drag the timeline — or open an incident file. The jar remembers everything. Warning: scrubbing to 2008 may trigger facility alarms.</p>
+
+    <div class="replay-grid" id="replayTheme" data-level="4">
+      <div class="replay-jar-box">
+        <div class="jar" id="replayJar"></div>
+      </div>
+      <div class="replay-panel">
+        <div class="replay-year" id="replayYear">2026</div>
+        <div class="replay-score"><span id="replayScore">67</span> / 100</div>
+        <div class="replay-status" id="replayStatus">OOZING</div>
+        <div class="replay-tier" id="replayTier">🟠 CONTAINMENT WARNING</div>
+        <div class="replay-event" id="replayEvent">TODAY — Elevated stress, below recession territory.</div>
+        <input type="range" id="timeSlider" min="2000" max="2026" step="0.1" value="2026" aria-label="Scrub through economic history from 2000 to today">
+        <div class="range-labels"><span>2000</span><span>2008</span><span>2015</span><span>2020</span><span>TODAY</span></div>
+      </div>
+    </div>
+
+    <div class="incidents" id="incidents"></div>
+  </div>
+</section>
+
+<div class="ad-wrap"><div class="ad-slot">Advertisement — sponsor's beaker here</div></div>
+
+<section>
+  <div class="wrap">
+    <div class="sec-label reveal">Cross-Reference</div>
+    <h2 class="sec-title reveal">Trace an incident to its intake lines</h2>
+    <p class="sec-sub reveal">Every containment failure started as pressure in one of these lines. Open a file to see its 20-year stress history with recession bands marked.</p>
+    <div class="related reveal" id="allLines"></div>
+  </div>
+</section>
+
+</div><!-- /page -->
+
+<script src="lab.js"></script>
+<script>
+renderHeader('archive');
+
+const replayJar=$('replayJar'),replayTheme=$('replayTheme');
+buildJar(replayJar);
+setJar(replayJar,replayTheme,TODAY_SCORE);
+
+const slider=$('timeSlider');
+function renderReplay(){
+  const yr=parseFloat(slider.value),s=Math.round(scoreAt(yr));
+  $('replayYear').textContent=Math.floor(yr);
+  $('replayScore').textContent=s;
+  $('replayStatus').textContent=bandOf(s).name;
+  $('replayTier').textContent=tierOf(s);
+  setJar(replayJar,replayTheme,s);
+  setFacility(s); /* 2008 → alarms, flicker, page drips */
+  const ev=EVENTS.find(([y])=>Math.abs(y-yr)<0.5);
+  $('replayEvent').textContent=ev?ev[1]:'';
+}
+slider.addEventListener('input',renderReplay);
+
+$('incidents').innerHTML=INCIDENTS.map(x=>`
+  <div class="incident" data-year="${x.year}" tabindex="0" role="button" aria-label="Open incident file: ${x.year} ${x.name}">
+    <span class="stamp ${x.stamp}">${x.label}</span>
+    <h3>${x.year}</h3>
+    <div class="iname">${x.name}</div>
+    <div class="itags">${x.tags.map(t=>`<span>${t}</span>`).join('')}</div>
+    <div class="peak">Peak ooze <b>${x.peak}</b></div>
+  </div>`).join('');
+
+function jumpTo(year){
+  const from=+slider.value,t0=performance.now();
+  bloop(100,.12);
+  (function step(t){
+    const p=Math.min((t-t0)/900,1),e=1-Math.pow(1-p,3);
+    slider.value=from+(year-from)*e;
+    renderReplay();
+    if(p<1)requestAnimationFrame(step);
+  })(t0);
+}
+document.querySelectorAll('.incident').forEach(el=>{
+  el.addEventListener('click',()=>jumpTo(+el.dataset.year));
+  el.addEventListener('keydown',e=>{if(e.key==='Enter')jumpTo(+el.dataset.year)});
+});
+
+$('allLines').innerHTML=INDICATORS.map(y=>
+  `<a href="indicator.html?i=${y.slug}"><span>${y.emoji}</span> ${y.name} <span class="r-oz">+${y.contrib}</span></a>`).join('');
+
+renderFooter();
+wireReveals();
+</script>
+</body>
+</html>
