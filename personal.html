@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#070b06">
 <title>OOZEMeter — Your Personal Ooze Score</title>
 <meta name="description" content="Enter your income, housing, and car payment to get your own economic stress reading — and compare it to the national jar.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,13 +26,13 @@
         <label for="cState">Your state</label>
         <select id="cState"></select>
         <label for="cIncome">Monthly take-home income ($)</label>
-        <input id="cIncome" type="number" min="0" placeholder="4800" required>
+        <input id="cIncome" type="number" inputmode="decimal" min="0" placeholder="4800" required>
         <label for="cHousing">Monthly rent or mortgage ($)</label>
-        <input id="cHousing" type="number" min="0" placeholder="1650" required>
+        <input id="cHousing" type="number" inputmode="decimal" min="0" placeholder="1650" required>
         <label for="cCar">Monthly car payment ($)</label>
-        <input id="cCar" type="number" min="0" placeholder="450" value="0">
+        <input id="cCar" type="number" inputmode="decimal" min="0" placeholder="450" value="0">
         <label for="cCards">Total credit card balance ($)</label>
-        <input id="cCards" type="number" min="0" placeholder="3000" value="0">
+        <input id="cCards" type="number" inputmode="decimal" min="0" placeholder="3000" value="0">
         <div style="margin-top:24px">
           <button class="btn primary" type="submit">Analyze Specimen</button>
         </div>
@@ -92,6 +93,7 @@ $('calcForm').addEventListener('submit',e=>{
   const vsNation=s<TODAY_SCORE?`below the national jar (${TODAY_SCORE})`:s>TODAY_SCORE?`above the national jar (${TODAY_SCORE})`:`exactly at the national jar (${TODAY_SCORE})`;
   $('pVerdict').textContent=`${tierOf(s)} — ${bandOf(s).name} · ${vsNation}`;
   $('pShare').style.display='flex';
+  result.scrollIntoView({behavior:'smooth',block:'center'}); /* result sits below the form on mobile */
   lastReport=`🧬 MY PERSONAL OOZE: ${s}/100 — ${bandOf(s).name}\nNational jar: ${TODAY_SCORE}/100\n— OOZEMeter · Division of Economic Containment`;
   bloop(180,.1);
 });

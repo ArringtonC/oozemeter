@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#070b06">
 <title>OOZEMeter — Today's Economic Containment Level</title>
 <meta name="description" content="How stressed is the U.S. economy today? One score, one jar, trusted public data. Check today's Ooze Level at the Division of Economic Containment.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -217,6 +218,9 @@ $('nodesLeft').innerHTML=INDICATORS.slice(0,4).map(nodeHTML).join('');
 $('nodesRight').innerHTML=INDICATORS.slice(4).map(nodeHTML).join('');
 
 const injectReadout=$('injectReadout');
+const TOUCH=matchMedia('(hover: none)').matches;
+const IDLE_HINT=TOUCH?'TAP A PRESSURE SOURCE TO OPEN ITS FILE':'HOVER A PRESSURE SOURCE · CLICK TO OPEN ITS FILE';
+injectReadout.textContent=IDLE_HINT;
 let flowTimer=null;
 document.querySelectorAll('.node').forEach(n=>{
   const test=()=>{
@@ -237,7 +241,7 @@ document.querySelectorAll('.node').forEach(n=>{
     injectReadout.classList.add('hot');
   };
   const rest=()=>{
-    injectReadout.textContent='HOVER A PRESSURE SOURCE · CLICK TO OPEN ITS FILE';
+    injectReadout.textContent=IDLE_HINT;
     injectReadout.classList.remove('hot');
   };
   n.addEventListener('mouseenter',test);

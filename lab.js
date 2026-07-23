@@ -249,11 +249,11 @@ function bigChart(hist){
   const Y=v=>h-24-(v/100)*(h-44);
   const xy=hist.map((v,i)=>`${X(y0+i).toFixed(1)},${Y(v).toFixed(1)}`);
   const grid=[25,50,75].map(g=>`<line x1="${pad}" y1="${Y(g)}" x2="${w-pad}" y2="${Y(g)}" stroke="rgba(163,255,18,.08)"/>
-    <text x="${pad}" y="${Y(g)-4}" fill="#5c6e50" font-size="9">${g}</text>`).join('');
+    <text x="${pad}" y="${Y(g)-4}" fill="#708363" font-size="9">${g}</text>`).join('');
   const band=(a,b,label)=>`<rect x="${X(a)}" y="${Y(100)}" width="${X(b)-X(a)}" height="${h-44}" fill="rgba(255,77,61,.07)"/>
     <text x="${X(a)+3}" y="${Y(100)+11}" fill="rgba(255,77,61,.7)" font-size="8" letter-spacing="1">${label}</text>`;
   const years=[2006,2011,2016,2021,2026].map(yr=>
-    `<text x="${X(yr)}" y="${h-8}" fill="#5c6e50" font-size="9" text-anchor="middle">${yr}</text>`).join('');
+    `<text x="${X(yr)}" y="${h-8}" fill="#708363" font-size="9" text-anchor="middle">${yr}</text>`).join('');
   return `<svg viewBox="0 0 ${w} ${h}" role="img" aria-label="20-year stress history chart">
     ${grid}${band(2007.8,2009.5,'GFC')}${band(2020,2020.8,'COVID')}
     <polygon points="${X(y0)},${Y(0)} ${xy.join(' ')} ${X(y1)},${Y(0)}" fill="rgba(163,255,18,.08)"/>
