@@ -26,7 +26,8 @@
       <div class="formula-note reveal">
         <h3>How the specimen is measured</h3>
         <code>OOZE = Σ ( weightᵢ × stressᵢ )</code>
-        <p>Each indicator is normalized to a 0–100 stress reading against its own historical range, then multiplied by its published weight. The day's contributions sum to the headline score — currently <b style="color:var(--ooze)">{TOTAL}</b>, because no live feeds are connected yet and every sensor honestly reads zero.</p>
+        <p>Each indicator is scored 0–100 against fixed, published anchor points (unemployment at 25% = 100; the calmest modern month = 10; the 2008 peak = 90), then multiplied by its weight. The month's contributions sum to the headline — currently <b style="color:var(--ooze)">{TOTAL}</b> ({MONTH}).</p>
+        <p><b>Cadence:</b> the headline seals once a month, when that month's jobs report and CPI land (~mid-month — the earliest moment all six lines exist). Individual intake lines refresh whenever their source releases: gas and mortgage rates weekly, jobs and inflation monthly, delinquencies quarterly. Each line carries its own as-of date, and a line gone quiet past its normal cadence is flagged STALE rather than silently reused.</p>
         <p>Weights are fixed and published. Every chart links to its original government or industry source. If we change the recipe, we tell you.</p>
         <p>Containment classifications:</p>
         <table class="tier-table">
@@ -46,8 +47,8 @@
 <section>
   <div class="wrap">
     <div class="sec-label reveal">Today's Ledger</div>
-    <h2 class="sec-title reveal">Exactly how today's {TOTAL} was assembled</h2>
-    <p class="sec-sub reveal">Every intake line, every ounce. All lines read 0 until feeds connect. Click any line for its full file.</p>
+    <h2 class="sec-title reveal">Exactly how {MONTH}'s {TOTAL} was assembled</h2>
+    <p class="sec-sub reveal">Every intake line, every ounce. Click any line for its full file.</p>
     <div class="related reveal" id="ledger"></div>
   </div>
 </section>
@@ -60,13 +61,15 @@
 
 </div><!-- /page -->
 
+<script src="data/latest.js"></script>
 <script src="lab.js"></script>
 <script>
 renderHeader('notes');
 
 /* fill placeholders — scoped to sections so the header's wired buttons survive */
 document.querySelectorAll('section .wrap').forEach(el=>{
-  el.innerHTML=el.innerHTML.replaceAll('{TOTAL}',TODAY_SCORE);
+  el.innerHTML=el.innerHTML.replaceAll('{TOTAL}',TODAY_SCORE)
+    .replaceAll('{MONTH}',LIVE?LD.monthLabel:'awaiting first collection');
 });
 
 $('weights').innerHTML=WEIGHTS.map(w=>`

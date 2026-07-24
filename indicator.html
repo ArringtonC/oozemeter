@@ -16,6 +16,7 @@
 <main class="wrap-narrow" id="main"></main>
 </div>
 
+<script src="data/latest.js"></script>
 <script src="lab.js"></script>
 <script>
 renderHeader('');
@@ -27,6 +28,7 @@ const idx=INDICATORS.indexOf(x)+1;
 document.title=`OOZEMeter — ${x.name} | Today's Reading & Stress History`;
 
 const drain=x.dir==='down';
+const lineLive=LIVE&&x.val!=='—'; /* foreclosures/manufacturing stay pending even in LIVE */
 $('main').innerHTML=`
   <div class="crumbs"><a href="index.html">Facility</a> / <a href="index.html#pressure">Pressure Sources</a> / ${x.name}</div>
 
@@ -35,21 +37,21 @@ $('main').innerHTML=`
       <div class="intake">Intake Line ${String(idx).padStart(2,'0')} — ${x.weight?x.weight+'% of formula':'auxiliary sensor'}</div>
       <h1>${x.emoji} ${x.name}</h1>
     </div>
-    <div class="contrib-chip">${LIVE?`Feeding the jar today: <b>+${x.contrib} oz</b>`:`Feed pending — reads <b>0 oz</b>`}</div>
+    <div class="contrib-chip">${lineLive?`Feeding the jar this month: <b>+${x.contrib} oz</b>`:`Feed pending — reads <b>0 oz</b>`}</div>
   </div>
 
   <div class="ind-reading">
     <div class="ind-val">${x.val}</div>
     <div class="ind-meta">
       <span class="${x.dir}">${x.trend}</span><br>
-      ${LIVE?`Fresh specimen collected — ${UPDATED}`:`Live feed pending — will meter <a href="${x.source.url}" target="_blank" rel="noopener">${x.source.name}</a>`}
+      ${lineLive?`Fresh specimen collected — ${UPDATED}`:`Live feed pending — will meter <a href="${x.source.url}" target="_blank" rel="noopener">${x.source.name}</a>`}
     </div>
   </div>
 
   <div class="chart-panel reveal">
-    <h2>20-Year Stress History — ${x.name}${LIVE?'':' (illustrative)'}</h2>
+    <h2>20-Year Stress History — ${x.name} (illustrative)</h2>
     ${bigChart(x.stressHist)}
-    <div class="src">${LIVE?'Stress reading 0–100 vs. own historical range':'Illustrative reconstruction — replaced by a real backfill when feeds connect'} · Source: <a href="${x.source.url}" target="_blank" rel="noopener">${x.source.name}</a> · Red bands: U.S. recessions</div>
+    <div class="src">Illustrative sketch — the real per-line backfill lands with milestone M2 · Source: <a href="${x.source.url}" target="_blank" rel="noopener">${x.source.name}</a> · Red bands: U.S. recessions</div>
   </div>
 
   <div class="prose reveal">
@@ -70,7 +72,7 @@ $('main').innerHTML=`
 
   <div class="prose reveal">
     <h2>How it feeds the ooze</h2>
-    <p>${x.name} ${x.weight?`carries a published weight of <strong>${x.weight}%</strong> in the Ooze Formula`:`is an auxiliary sensor — it doesn't carry formula weight, but it feeds the daily reading`}. ${LIVE?`Its current stress reading contributes <strong>+${x.contrib} of today's ${TODAY_SCORE} oz</strong>${drain?' — and it has been relieving pressure lately':''}.`:`Once its feed connects, its normalized stress reading × weight will appear here as ounces of ooze.`} The complete recipe is public in the <a href="notes.html">Lab Notes</a>.</p>
+    <p>${x.name} ${x.weight?`carries a published weight of <strong>${x.weight}%</strong> in the Ooze Formula`:`is an auxiliary sensor — it doesn't carry formula weight, but it feeds the daily reading`}. ${lineLive?`Its current stress reading contributes <strong>+${x.contrib} of this month's ${TODAY_SCORE} oz</strong>${drain?' — and it has been relieving pressure lately':''}.`:`Once its feed connects, its normalized stress reading × weight will appear here as ounces of ooze.`} The complete recipe is public in the <a href="notes.html">Lab Notes</a>.</p>
   </div>
 
   <div class="prose reveal faq">

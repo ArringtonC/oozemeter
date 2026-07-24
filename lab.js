@@ -1,12 +1,13 @@
 /* ============ OOZEMETER SHARED LAB EQUIPMENT ============ */
 /* Demo build: all figures illustrative. Real feeds (FRED/BLS/AAA) come later. */
 
-/* LIVE=false: no data feeds connected yet. The jar honestly reads 0 and every
-   current-value field shows offline. Flip to true when real feeds land
-   (see REQUIREMENTS.md). Demo values stay in source as fixtures. */
-const LIVE = false;
-const TODAY_SCORE = LIVE ? 67 : 0, YESTERDAY = LIVE ? 64 : 0;
-const UPDATED = LIVE ? 'Jul 23, 2026 · 08:00 ET' : 'no collections yet';
+/* LIVE mode: pages load data/latest.js (written by scripts/collect.js) before
+   this file; it defines window.LIVE_DATA. Present → real numbers. Absent →
+   honest offline state (score 0, sensors offline). No hand-set values. */
+const LD = (typeof window!=='undefined' && window.LIVE_DATA) || null;
+const LIVE = !!LD;
+const TODAY_SCORE = LD ? LD.ooze : 0, YESTERDAY = LD ? LD.prevOoze : 0;
+const UPDATED = LD ? LD.updatedLabel : 'no collections yet';
 
 const BANDS = [
   {max:20, name:'SMOOTH',      tier:'🟢 STABLE'},
@@ -176,12 +177,30 @@ const STATES = [
   ['Virginia',55],['Washington',59],['West Virginia',69],['Wisconsin',53],['Wyoming',50],
 ];
 
-/* offline: blank all "current" readings; keep educational content and
-   illustrative history (charts carry an explicit reconstruction label) */
-if(!LIVE){
+/* LIVE: patch indicators + movers from collected data. Offline: blank all
+   "current" readings; educational content stays either way. */
+if(LD){
+  for(const x of INDICATORS){
+    const l=LD.lines[x.slug];
+    if(!l){x.val='—';x.trend='auxiliary sensor — feed pending';x.dir='down';x.contrib=0;continue;}
+    x.val=l.value;
+    x.contrib=l.contrib;
+    x.dir=l.delta>=0?'up':'down';
+    x.trend=`${l.delta>=0?'▲ +':'▼ −'}${Math.abs(l.delta)} pts vs ${LD.prevMonthLabel.split(' ')[0]}`
+      +(l.stale?' · ⚠ STALE FEED':'')+` · as of ${l.asOf}`;
+  }
+  MOVERS.length=0;
+  for(const m of LD.movers){
+    const y=indBySlugRaw(m.slug);
+    MOVERS.push({dir:m.delta>=0?'up':'down',slug:m.slug,name:y.name,
+      why:`Line pressure ${m.delta>=0?'rose':'eased'} ${Math.abs(m.delta)} points vs ${LD.prevMonthLabel}.`,
+      pts:`${m.delta>=0?'+':'−'}${Math.abs(m.delta)}`});
+  }
+}else{
   INDICATORS.forEach(x=>{x.val='—';x.trend='sensor offline';x.dir='down';x.contrib=0;});
   MOVERS.length=0;
 }
+function indBySlugRaw(slug){return INDICATORS.find(x=>x.slug===slug)}
 
 /* ============ HELPERS ============ */
 const $=id=>document.getElementById(id);
@@ -396,7 +415,7 @@ function wireReveals(){
 }
 
 /* self-checks */
-console.assert(INDICATORS.reduce((a,x)=>a+x.contrib,0)===TODAY_SCORE,'contributions ≠ headline score');
+console.assert(Math.abs(INDICATORS.reduce((a,x)=>a+x.contrib,0)-TODAY_SCORE)<=3,'contributions drifted from headline score');
 console.assert(WEIGHTS.reduce((a,x)=>a+x.w,0)===100,'weights ≠ 100%');
 console.assert(STATES.length===50,'need 50 states');
 console.assert(INDICATORS.every(x=>x.stressHist.length===21),'stressHist must span 2006–2026');

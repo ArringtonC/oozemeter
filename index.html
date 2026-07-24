@@ -170,6 +170,7 @@
 
 </div><!-- /page -->
 
+<script src="data/latest.js"></script>
 <script src="lab.js"></script>
 <script>
 renderHeader('pressure');
@@ -211,11 +212,15 @@ $('gaugeNeedle').style.transform=`rotate(${TODAY_SCORE/100*180-90}deg)`;
 $('instPressure').textContent=TODAY_SCORE+' psi';
 $('instIntegrity').textContent=(100-TODAY_SCORE)+'%';
 setFacility(TODAY_SCORE);
+heroJar.setAttribute('aria-label',`Containment jar, ooze level ${TODAY_SCORE} of 100`);
 if(LIVE){
+  document.querySelector('.kicker').textContent=`Containment Level — ${LD.monthLabel}`;
   $('heroStatus').textContent=bandOf(TODAY_SCORE).name;
   $('heroTier').textContent=tierOf(TODAY_SCORE);
   const d=TODAY_SCORE-YESTERDAY;
-  $('heroDelta').textContent=`${d>=0?'▲ +':'▼ '}${d} SINCE LAST READING`;
+  $('heroDelta').textContent=`${d>=0?'▲ +':'▼ −'}${Math.abs(d)} VS ${LD.prevMonthLabel.toUpperCase()}`;
+  document.querySelector('.specimen-line').innerHTML=
+    `🧪 Monthly specimen sealed: <b>${LD.monthLabel} = ${TODAY_SCORE}</b> · intake lines refresh as their data releases · collected ${LD.generated.slice(0,10)}`;
 }else{
   $('heroStatus').textContent='OFFLINE';
   $('heroTier').textContent='⚪ AWAITING CALIBRATION';
@@ -323,14 +328,17 @@ $('moversList').innerHTML=MOVERS.length?MOVERS.map(m=>`
 $('nlMount').innerHTML=newsletterHTML();
 wireNewsletter();
 
-if(!LIVE){
-  document.querySelector('.sc-score').innerHTML='0<span style="font-size:.4em;color:var(--dim)">/100</span>';
+document.querySelector('.sc-score').innerHTML=`${TODAY_SCORE}<span style="font-size:.4em;color:var(--dim)">/100</span>`;
+if(LIVE){
+  document.querySelector('.sc-status').textContent=tierOf(TODAY_SCORE);
+  $('scLine').textContent=`${LD.monthLabel}: top pressure — ${top3.map(x=>`${x.name} +${x.contrib}`).join(' · ')}`;
+}else{
   document.querySelector('.sc-status').textContent='⚪ Sensors Offline';
   $('scLine').textContent='The jar is empty until live feeds connect. Watch this space.';
 }
 const reportText=LIVE?
-`🚨 OOZE LEVEL ${TODAY_SCORE}/100 — ${tierOf(TODAY_SCORE).replace(/^[^ ]+ /,'')}
-Status: ${bandOf(TODAY_SCORE).name}
+`🧪 OOZE LEVEL — ${LD.monthLabel.toUpperCase()}: ${TODAY_SCORE}/100 (${bandOf(TODAY_SCORE).name})
+${TODAY_SCORE-YESTERDAY>=0?'▲ up':'▼ down'} ${Math.abs(TODAY_SCORE-YESTERDAY)} vs ${LD.prevMonthLabel}
 Top pressure: ${top3.map(x=>`${x.name} +${x.contrib}`).join(' · ')}
 — OOZEMeter · Division of Economic Containment`:
 `🧪 OOZE LEVEL 0/100 — SENSORS OFFLINE
