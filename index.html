@@ -155,8 +155,8 @@ renderFooter();
 const BOOT_LINES=[
   ['> DIVISION OF ECONOMIC CONTAINMENT',''],
   ['> SPECIMEN US-ECON-01','LOCATED'],
-  ['> PRESSURE SENSORS ×8','ONLINE'],
-  ['> CONTAINMENT FIELD','33% INTEGRITY'],
+  ['> PRESSURE SENSORS ×8', LIVE?'ONLINE':'OFFLINE'],
+  ['> CONTAINMENT FIELD',(100-TODAY_SCORE)+'% INTEGRITY'],
   ['> VISITOR CLEARANCE','GRANTED'],
 ];
 const boot=$('boot');
@@ -183,14 +183,22 @@ if(sessionStorage.getItem('oozeboot')||matchMedia('(prefers-reduced-motion: redu
 /* ============ HERO ============ */
 const heroTheme=$('heroTheme'),heroJar=$('heroJar');
 buildJar(heroJar);
-$('heroStatus').textContent=bandOf(TODAY_SCORE).name;
-$('heroTier').textContent=tierOf(TODAY_SCORE);
 $('gaugeNeedle').style.transform=`rotate(${TODAY_SCORE/100*180-90}deg)`;
 $('instPressure').textContent=TODAY_SCORE+' psi';
 $('instIntegrity').textContent=(100-TODAY_SCORE)+'%';
 setFacility(TODAY_SCORE);
-const d=TODAY_SCORE-YESTERDAY;
-$('heroDelta').textContent=`${d>=0?'▲ +':'▼ '}${d} SINCE LAST READING`;
+if(LIVE){
+  $('heroStatus').textContent=bandOf(TODAY_SCORE).name;
+  $('heroTier').textContent=tierOf(TODAY_SCORE);
+  const d=TODAY_SCORE-YESTERDAY;
+  $('heroDelta').textContent=`${d>=0?'▲ +':'▼ '}${d} SINCE LAST READING`;
+}else{
+  $('heroStatus').textContent='OFFLINE';
+  $('heroTier').textContent='⚪ AWAITING CALIBRATION';
+  $('heroDelta').textContent='NO PRIOR READING';
+  document.querySelector('.specimen-line').innerHTML='🧪 Sensors offline — <b>no live data connected yet</b>. The jar reads 0 until the first specimen is collected.';
+  document.querySelector('.chamber-label').textContent='⚠ Instruments not yet calibrated';
+}
 
 let countStarted=false;
 function startCountUp(){
@@ -224,6 +232,11 @@ injectReadout.textContent=IDLE_HINT;
 let flowTimer=null;
 document.querySelectorAll('.node').forEach(n=>{
   const test=()=>{
+    if(!LIVE){
+      injectReadout.textContent=`${n.dataset.name.toUpperCase()} — SENSOR OFFLINE · OPEN FILE TO LEARN WHAT IT METERS`;
+      injectReadout.classList.add('hot');
+      return;
+    }
     const c=+n.dataset.contrib, drain=n.dataset.dir==='down';
     const L=heroJar.querySelector('.liquid');
     clearTimeout(flowTimer);
@@ -252,12 +265,16 @@ document.querySelectorAll('.node').forEach(n=>{
 
 /* ============ TOP 3 CARDS + CHIPS ============ */
 const top3=[...INDICATORS].sort((a,b)=>b.contrib-a.contrib).slice(0,3);
+if(!LIVE){
+  document.querySelector('#pressure .sec-title').textContent='The intake lines, awaiting connection';
+  document.querySelector('#pressure .sec-sub').textContent='No live feeds are wired in yet, so every line reads 0. Each file below explains what the sensor will meter, why it matters, and where the data will come from.';
+}
 $('topCards').innerHTML=top3.map(x=>`
   <a class="card reveal" href="indicator.html?i=${x.slug}">
     <div class="card-top"><span class="card-name">${x.name}</span><span class="card-emoji">${x.emoji}</span></div>
     <div class="card-val">${x.val}</div>
     <div class="card-trend ${x.dir}">${x.trend}</div>
-    ${sparkline(x.spark)}
+    ${LIVE?sparkline(x.spark):''}
     <div class="contrib"><span>Intake line pressure</span><b>+${x.contrib}</b></div>
     <div class="card-bar"><i style="width:${x.contrib/16*100}%"></i></div>
     <div class="card-cta">Open file →</div>
@@ -266,22 +283,36 @@ $('restChips').innerHTML='<span style="font-size:.66rem;letter-spacing:.24em;col
   INDICATORS.map(x=>`<a href="indicator.html?i=${x.slug}">${x.emoji} ${x.name}</a>`).join('');
 
 /* ============ LEAKS ============ */
-$('moversList').innerHTML=MOVERS.map(m=>`
+$('moversList').innerHTML=MOVERS.length?MOVERS.map(m=>`
   <a class="mover ${m.dir}" href="indicator.html?i=${m.slug}">
     <span class="arrow">${m.dir==='up'?'▲':'▼'}</span>
     <span><strong>${m.name}</strong><span class="why">${m.why}</span></span>
     <span class="pts">${m.pts} ooze</span>
-  </a>`).join('');
+  </a>`).join(''):`
+  <div class="mover down">
+    <span class="arrow">—</span>
+    <span><strong>No leaks recorded</strong><span class="why">Surveillance begins with the first specimen collection.</span></span>
+    <span class="pts">0 ooze</span>
+  </div>`;
 
 /* ============ NEWSLETTER + SHARE ============ */
 $('nlMount').innerHTML=newsletterHTML();
 wireNewsletter();
 
-const reportText=
+if(!LIVE){
+  document.querySelector('.sc-score').innerHTML='0<span style="font-size:.4em;color:var(--dim)">/100</span>';
+  document.querySelector('.sc-status').textContent='⚪ Sensors Offline';
+  $('scLine').textContent='The jar is empty until live feeds connect. Watch this space.';
+}
+const reportText=LIVE?
 `🚨 OOZE LEVEL ${TODAY_SCORE}/100 — ${tierOf(TODAY_SCORE).replace(/^[^ ]+ /,'')}
 Status: ${bandOf(TODAY_SCORE).name}
 Top pressure: ${top3.map(x=>`${x.name} +${x.contrib}`).join(' · ')}
-— OOZEMeter · Division of Economic Containment`;
+— OOZEMeter · Division of Economic Containment`:
+`🧪 OOZE LEVEL 0/100 — SENSORS OFFLINE
+The Division of Economic Containment is calibrating its instruments.
+First specimen collection soon.
+— OOZEMeter`;
 $('copyBtn').addEventListener('click',async e=>{
   await navigator.clipboard.writeText(reportText);
   e.target.textContent='REPORT COPIED ✓';

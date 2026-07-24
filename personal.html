@@ -19,7 +19,7 @@
     <div class="crumbs" style="padding-bottom:22px"><a href="index.html">Facility</a> / Personal Ooze</div>
     <div class="sec-label">Restricted Wing — Specimen Intake</div>
     <h1 class="sec-title">Run your own sample</h1>
-    <p class="sec-sub">The national jar measures everyone. This bench measures <em>you</em>. Numbers never leave your browser — this facility has no interest in your file.</p>
+    <p class="sec-sub">The national jar measures everyone. This bench measures <em>you</em>. Numbers never leave your browser — this facility has no interest in your file. Note: this is a rough budget-burden estimate (state baselines are simulated until regional feeds connect), not financial advice.</p>
 
     <div class="calc-grid">
       <form class="calc-form" id="calcForm">
@@ -90,11 +90,12 @@ $('calcForm').addEventListener('submit',e=>{
   const result=$('calcResult');
   setJar(pJar,result,s);
   $('pScore').textContent=s+' / 100';
-  const vsNation=s<TODAY_SCORE?`below the national jar (${TODAY_SCORE})`:s>TODAY_SCORE?`above the national jar (${TODAY_SCORE})`:`exactly at the national jar (${TODAY_SCORE})`;
-  $('pVerdict').textContent=`${tierOf(s)} — ${bandOf(s).name} · ${vsNation}`;
+  /* national comparison only makes sense once the national jar has live data */
+  const vsNation=!LIVE?'':s<TODAY_SCORE?` · below the national jar (${TODAY_SCORE})`:s>TODAY_SCORE?` · above the national jar (${TODAY_SCORE})`:` · exactly at the national jar (${TODAY_SCORE})`;
+  $('pVerdict').textContent=`${tierOf(s)} — ${bandOf(s).name}${vsNation}`;
   $('pShare').style.display='flex';
   result.scrollIntoView({behavior:'smooth',block:'center'}); /* result sits below the form on mobile */
-  lastReport=`🧬 MY PERSONAL OOZE: ${s}/100 — ${bandOf(s).name}\nNational jar: ${TODAY_SCORE}/100\n— OOZEMeter · Division of Economic Containment`;
+  lastReport=`🧬 MY PERSONAL OOZE: ${s}/100 — ${bandOf(s).name}${LIVE?`\nNational jar: ${TODAY_SCORE}/100`:''}\n— OOZEMeter · Division of Economic Containment`;
   bloop(180,.1);
 });
 $('pCopy').addEventListener('click',async e=>{

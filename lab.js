@@ -1,8 +1,12 @@
 /* ============ OOZEMETER SHARED LAB EQUIPMENT ============ */
 /* Demo build: all figures illustrative. Real feeds (FRED/BLS/AAA) come later. */
 
-const TODAY_SCORE = 67, YESTERDAY = 64;
-const UPDATED = 'Jul 23, 2026 · 08:00 ET';
+/* LIVE=false: no data feeds connected yet. The jar honestly reads 0 and every
+   current-value field shows offline. Flip to true when real feeds land
+   (see REQUIREMENTS.md). Demo values stay in source as fixtures. */
+const LIVE = false;
+const TODAY_SCORE = LIVE ? 67 : 0, YESTERDAY = LIVE ? 64 : 0;
+const UPDATED = LIVE ? 'Jul 23, 2026 · 08:00 ET' : 'no collections yet';
 
 const BANDS = [
   {max:20, name:'SMOOTH',      tier:'🟢 STABLE'},
@@ -163,6 +167,13 @@ const STATES = [
   ['South Dakota',45],['Tennessee',58],['Texas',66],['Utah',52],['Vermont',49],
   ['Virginia',55],['Washington',59],['West Virginia',69],['Wisconsin',53],['Wyoming',50],
 ];
+
+/* offline: blank all "current" readings; keep educational content and
+   illustrative history (charts carry an explicit reconstruction label) */
+if(!LIVE){
+  INDICATORS.forEach(x=>{x.val='—';x.trend='sensor offline';x.dir='down';x.contrib=0;});
+  MOVERS.length=0;
+}
 
 /* ============ HELPERS ============ */
 const $=id=>document.getElementById(id);
