@@ -5,6 +5,15 @@ Priority: **P0** = blocks going live honestly · **P1** = pre-launch · **P2** =
 
 ---
 
+## 0. Department of Fun (owner: the Operator — outranks the board on this)
+
+Standing rule: the serious people exist so the fun thing can be trusted, not to make the fun thing serious. Every launch review includes the question "is it still fun?" — if the answer is no, the release waits.
+
+- [x] Protected inventory (may not be cut in any cleanup): boot clearance check · pipe bloops · "please do not tap the glass" · facility alarms/flicker/page drips · incident stamps · OOZEMAXING · the disclaimer jokes
+- [ ] **P2** Lab anthem: a funky *original* groove behind the audio toggle ("LAB ANTHEM: ON"). Note: the actual "This Is How We Do It" recording needs sync + master licenses ($$$$); even a "This Is How We Ooze It" parody cover needs composition rights to record safely. Path: commission/generate an original 90s-R&B-style soundalike now, pursue the real parody license if the site blows up
+- [ ] **P2** More easter eggs: konami code → jar confetti bubbles · tap the glass 10× → incident report filed against the visitor · 4:04 page already specced in facility voice
+- [ ] **P2** April 1: all readings displayed in "fl oz"
+
 ## 1. Scoring engine & data (owner: Burry)
 
 - [ ] **P0** Add ICSA weekly-claims momentum term to the employment line so fast shocks register (COVID scored 45 in the backtest because quarterly delinquency data lags; claims would have caught it)

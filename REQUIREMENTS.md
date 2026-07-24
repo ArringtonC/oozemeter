@@ -50,13 +50,14 @@ All FRED series are free via the FRED API (one free API key, generous limits). E
 
 ## 3. Scoring engine
 
-### 3.1 Normalization (must be reproducible and published)
+### 3.1 Normalization — ONE doctrine: absolute anchors (percentile spec deleted per board review 2026-07-24)
 For each indicator *i* on day *t*:
-1. Fetch latest value and 25-year trailing history.
-2. `stress_i = percentile rank of current value within trailing window` × 100, oriented so higher = more stress (invert where needed, e.g. job openings).
-3. For multi-metric indicators (e.g. Employment = UNRATE + ICSA + JTSJOL), average sub-metric stresses with fixed, published sub-weights.
-4. `OOZE = Σ (weight_i × stress_i)`, weights: Employment 25, Housing 20, Credit 20, Auto 15, Gas 10, Inflation 10 (= 100). Foreclosures/Manufacturing are display-only sensors at launch (as the site already states) or weights get rebalanced — decide before launch and publish it.
-5. Round to integer; band and tier mapping already defined in `lab.js`.
+1. Fetch latest value.
+2. `stress_i = piecewise-linear interpolation on that indicator's published anchor curve` (the ANCHORS tables in `scripts/backtest.js` are canonical). Anchors are fixed and historically motivated (e.g. unemployment 25% → 100); the scale is absolute, not graded on a curve — 90+ stays depression-class forever.
+3. Fast+slow composition where a line has both: employment = `max(UNRATE level stress, ICSA claims-spike stress)`; housing = `max(rate affordability, mortgage delinquency)`.
+4. `OOZE_raw = Σ (weight_i × stress_i)`, weights: Employment 25, Housing 20, Credit 20, Auto 15, Gas 10, Inflation 10 (= 100).
+5. **Calibration (published, frozen):** `OOZE = a × OOZE_raw + b` with a/b fixed by two points on the frozen 2000–2025 window: calmest month → 10, GFC peak (Jun 2009) → 90. Current constants: a=1.4828, b=−27.4883 (see backtest-results.json). Clamp 0–100, round.
+6. OOZEMAXING: breadth condition, all six weighted lines ≥ 60 simultaneously (raw stresses, uncalibrated).
 
 ### 3.2 Derived values
 - **Delta**: today vs. previous collection.

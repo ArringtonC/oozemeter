@@ -5,6 +5,7 @@
 
 const SERIES = {
   UNRATE:      'Unemployment rate',
+  ICSA:        'Initial jobless claims (weekly, fast signal)',
   CPIAUCSL:    'CPI (index, YoY computed)',
   MORTGAGE30US:'30yr mortgage rate',
   DRSFRMACBS:  'Mortgage delinquency rate',
@@ -19,6 +20,9 @@ const SERIES = {
    GFC peak ≈ 90; everything else falls where the data puts it. */
 const ANCHORS = {
   unemployment: [[3.5,5],[5,25],[6.5,45],[8,62],[10,78],[15,90],[25,100]],
+  /* weekly initial claims, thousands (4wk-avg-ish via monthly mean) — the fast
+     signal that catches crises months before unemployment/delinquencies move */
+  claimsK:      [[200,5],[300,30],[400,60],[550,75],[700,85],[1000,95],[6000,100]],
   inflationYoY: [[-10,95],[-5,85],[0,45],[1,25],[2,10],[3,25],[4,40],[6,60],[9,80],[14,90],[20,100]],
   mortgageRate: [[3,10],[5,25],[7,50],[10,70],[15,90],[18.6,100]],
   mortgageDelinq:[[1,5],[2,25],[3,45],[5,65],[8,85],[11.5,95]],
@@ -87,16 +91,18 @@ function ffill(series,months){
   const results=[];
   for(const m of months){
     const un=data.UNRATE[m];
+    const icsa=data.ICSA[m];
     const cpi=data.CPIAUCSL[m];
     const prev=`${+m.slice(0,4)-1}${m.slice(4)}`;
     const cpiPrev=data.CPIAUCSL[prev];
     const mort=data.MORTGAGE30US[m];
     const mdel=ff.DRSFRMACBS[m], cdel=ff.DRCCLACBS[m], adel=ff.DRCLACBS[m];
     const gasNom=data.GASREGW[m];
-    if([un,cpi,cpiPrev,mort,mdel,cdel,adel,gasNom].some(v=>v==null))continue;
+    if([un,icsa,cpi,cpiPrev,mort,mdel,cdel,adel,gasNom].some(v=>v==null))continue;
 
     const stresses={
-      employment:interp(ANCHORS.unemployment,un),
+      /* level (unemployment) OR speed (claims spike) — whichever screams louder */
+      employment:Math.max(interp(ANCHORS.unemployment,un),interp(ANCHORS.claimsK,icsa/1000)),
       inflation:interp(ANCHORS.inflationYoY,(cpi/cpiPrev-1)*100),
       housing:Math.max(interp(ANCHORS.mortgageRate,mort),interp(ANCHORS.mortgageDelinq,mdel)),
       credit:interp(ANCHORS.cardDelinq,cdel),
@@ -104,8 +110,18 @@ function ffill(series,months){
       gas:interp(ANCHORS.gasReal,gasNom*cpiNow/cpi),
     };
     const ooze=Object.entries(WEIGHTS).reduce((a,[k,w])=>a+w*stresses[k],0)/100;
-    results.push({month:m,ooze:Math.round(ooze*10)/10,stresses});
+    results.push({month:m,ooze,stresses});
   }
+
+  /* ---- calibration: two published points on the frozen 2000-2025 window ----
+     calmest month → 10 (so SMOOTH is reachable) · GFC peak → 90 (the doctrine).
+     After this run the printed a/b constants get frozen into collect.js. */
+  const win=results.filter(x=>x.month>='2000-01'&&x.month<='2025-12');
+  const rawCalm=Math.min(...win.map(x=>x.ooze));
+  const rawGfc=Math.max(...win.filter(x=>x.month>='2007-01'&&x.month<='2010-12').map(x=>x.ooze));
+  const a=(90-10)/(rawGfc-rawCalm), b=10-a*rawCalm;
+  console.log(`\ncalibration: raw calm ${rawCalm.toFixed(1)} → 10 · raw GFC peak ${rawGfc.toFixed(1)} → 90 · a=${a.toFixed(4)} b=${b.toFixed(4)}`);
+  for(const r of results)r.ooze=Math.round(Math.max(0,Math.min(100,a*r.ooze+b))*10)/10;
 
   const peak=(from,to)=>{
     const r=results.filter(x=>x.month>=from&&x.month<=to);
@@ -135,7 +151,17 @@ function ffill(series,months){
   const min=results.reduce((a,b)=>b.ooze<a.ooze?b:a);
   console.log(`Calmest month         ${min.ooze} in ${min.month}`);
 
+  /* the June-2009 breadth check quoted in Lab Notes — keep the copy honest */
+  const jun09=results.find(x=>x.month==='2009-06');
+  if(jun09)console.log('\n2009-06 line stresses:',Object.entries(jun09.stresses).map(([k,v])=>`${k} ${Math.round(v)}`).join(' · '));
+
   require('fs').writeFileSync('research/backtest-results.json',
-    JSON.stringify({generated:new Date().toISOString(),anchors:ANCHORS,weights:WEIGHTS,monthly:results},null,1));
-  console.log('\nwrote research/backtest-results.json');
+    JSON.stringify({generated:new Date().toISOString(),anchors:ANCHORS,weights:WEIGHTS,
+      calibration:{rawCalm,rawGfc,a,b,rule:'calm 2000-2025 → 10, GFC peak → 90'},monthly:results},null,1));
+  console.log('wrote research/backtest-results.json');
+
+  /* emit the site's HISTORY array (monthly, calibrated) for lab.js */
+  const hist=results.map(r=>{const [y,mo]=r.month.split('-');return `[${(+y+(+mo-1)/12).toFixed(3)},${Math.round(r.ooze)}]`});
+  require('fs').writeFileSync('research/history-array.txt',hist.join(','));
+  console.log('wrote research/history-array.txt (paste target: lab.js HISTORY)');
 })();

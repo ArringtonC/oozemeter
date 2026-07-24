@@ -19,7 +19,7 @@
     <div class="crumbs" style="padding-bottom:22px"><a href="index.html">Facility</a> / Incident Archive</div>
     <div class="sec-label">Restricted Wing — Incident Archive</div>
     <h1 class="sec-title">Containment incident log</h1>
-    <p class="sec-sub">Drag the timeline — or open an incident file. Warning: scrubbing to 2008 may trigger facility alarms. Readings here are an illustrative reconstruction of real events; a true FRED-backfilled series replaces them when feeds connect.</p>
+    <p class="sec-sub">Drag the timeline — or open an incident file. Warning: scrubbing to 2008 may trigger facility alarms. Every reading is backtested from real FRED data with published anchors, calibrated so the calmest modern month = 10 and the 2008 peak = 90. Nothing here is hand-drawn.</p>
 
     <div class="replay-grid" id="replayTheme" data-level="4">
       <div class="replay-jar-box">
@@ -64,11 +64,10 @@ setJar(replayJar,replayTheme,TODAY_SCORE);
 const slider=$('timeSlider');
 function renderReplay(){
   const yr=parseFloat(slider.value),s=Math.round(scoreAt(yr));
-  const atToday=!LIVE&&yr>2025.5;
   $('replayYear').textContent=Math.floor(yr);
-  $('replayScore').textContent=atToday?'—':s;
-  $('replayStatus').textContent=atToday?'OFFLINE':bandOf(s).name;
-  $('replayTier').textContent=atToday?'⚪ AWAITING CALIBRATION':tierOf(s);
+  $('replayScore').textContent=s;
+  $('replayStatus').textContent=bandOf(s).name;
+  $('replayTier').textContent=tierOf(s);
   setJar(replayJar,replayTheme,s);
   setFacility(s); /* 2008 → alarms, flicker, page drips */
   const ev=EVENTS.find(([y])=>Math.abs(y-yr)<0.3);
@@ -84,7 +83,7 @@ $('incidents').innerHTML=INCIDENTS.map(x=>`
     <div class="iname">${x.name}</div>
     <div class="iname" style="color:var(--dim);letter-spacing:.12em;margin-top:-8px">${x.dates}</div>
     <div class="itags">${x.tags.map(t=>`<span>${t}</span>`).join('')}</div>
-    <div class="peak">Peak ooze <b>~${x.peak}</b> (est.)</div>
+    <div class="peak">Peak ooze <b>${x.peak}</b> · backtested</div>
   </div>`).join('');
 
 function jumpTo(year){
