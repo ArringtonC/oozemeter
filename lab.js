@@ -135,23 +135,36 @@ const WEIGHTS = [
   {name:'Auto Loans', w:15},{name:'Gas Prices', w:10},{name:'Inflation', w:10},
 ];
 
+/* Reconstructed score anchors, 2000 → today. Estimates applying today's formula
+   to the historical record (see research/HISTORY.md) — replaced by the real
+   FRED backfill at milestone M2. Fractional years mark dated events. */
 const HISTORY = [
-  [2000,38],[2001,52],[2002,46],[2003,35],[2005,30],[2007,48],[2008,98],[2009,86],
-  [2010,72],[2011,60],[2013,44],[2015,32],[2017,25],[2019,28],[2020,96],[2021,45],
-  [2022,71],[2023,50],[2024,52],[2025,60],[2026,TODAY_SCORE],
+  [2000.0,32],[2000.2,38],[2001.2,55],[2001.7,65],[2002.7,60],[2003.5,48],
+  [2004.5,38],[2005.5,32],[2006.5,34],[2007.6,50],[2008.7,95],[2009.3,92],
+  [2009.8,90],[2010.5,75],[2011.5,63],[2012.5,56],[2013.5,50],[2014.5,44],
+  [2015.5,38],[2016.5,34],[2017.5,28],[2018.5,31],[2019.5,28],[2020.1,32],
+  [2020.3,94],[2020.7,72],[2021.5,48],[2022.45,72],[2023.2,68],[2024,52],
+  [2025,45],[2026,TODAY_SCORE],
 ];
+/* real dates; NBER dating for recessions */
 const EVENTS = [
-  [2001,'DOT-COM BUST — Nasdaq loses 78% from peak. The jar gets sticky.'],
-  [2008,'LEHMAN BROTHERS COLLAPSES — Containment failed. The jar overflows.'],
-  [2020,'COVID-19 SHOCK — 22M jobs lost in two months. Overflow, again.'],
-  [2022,'INFLATION SURGE — CPI peaks at 9.1%, fastest since 1981.'],
-  [2026,'TODAY — Elevated stress, below recession territory.'],
+  [2000.2,'MAR 10 2000 — Nasdaq peaks at 5,048. The dot-com bubble tops.'],
+  [2001.2,'MAR 2001 — Recession begins (NBER). Nasdaq on its way to −78%.'],
+  [2001.7,'SEP 11 2001 — Markets close for four days.'],
+  [2007.6,'AUG 9 2007 — BNP Paribas freezes funds. The credit crunch begins.'],
+  [2008.7,'SEP 15 2008 — Lehman Brothers files. Containment failed.'],
+  [2009.8,'OCT 2009 — Unemployment peaks at 10.0%.'],
+  [2020.3,'MAR–APR 2020 — 22M jobs lost; 6.87M claims in one week; unemployment 14.8%.'],
+  [2022.45,'JUN 2022 — CPI peaks at 9.1%, fastest since 1981.'],
+  [2023.2,'MAR 2023 — SVB fails; 3 of the 4 largest U.S. bank failures in weeks.'],
+  [2026,'TODAY — Sensors offline. Live score pending.'],
 ];
 const INCIDENTS = [
-  {year:2001, name:'Dot-Com Bust',            stamp:'held',     label:'Containment Held',     peak:52, tags:['Tech','Jobs']},
-  {year:2008, name:'Global Financial Crisis', stamp:'failed',   label:'Containment Failed',   peak:98, tags:['Housing','Credit','Bank Failures']},
-  {year:2020, name:'COVID-19 Shock',          stamp:'failed',   label:'Containment Failed',   peak:96, tags:['Jobs','Shutdowns']},
-  {year:2022, name:'Inflation Surge',         stamp:'stressed', label:'Containment Stressed', peak:71, tags:['CPI','Energy']},
+  {year:2001, jump:2001.7,  name:'Dot-Com Bust',            dates:'NBER: Mar – Nov 2001',       stamp:'held',     label:'Containment Held',     peak:65, tags:['Tech','Jobs','9/11']},
+  {year:2008, jump:2008.7,  name:'Global Financial Crisis', dates:'NBER: Dec 2007 – Jun 2009',  stamp:'failed',   label:'Containment Failed',   peak:95, tags:['Housing','Credit','Bank Failures']},
+  {year:2020, jump:2020.3,  name:'COVID-19 Shock',          dates:'NBER: Feb – Apr 2020',       stamp:'failed',   label:'Containment Failed',   peak:94, tags:['Jobs','Shutdowns']},
+  {year:2022, jump:2022.45, name:'Inflation Surge',         dates:'CPI peak: Jun 2022',         stamp:'stressed', label:'Containment Stressed', peak:72, tags:['CPI','Energy','Rates']},
+  {year:2023, jump:2023.2,  name:'Regional Bank Stress',    dates:'Mar – May 2023',             stamp:'held',     label:'Containment Held',     peak:68, tags:['Banks','Rates']},
 ];
 
 /* demo state stress scores */

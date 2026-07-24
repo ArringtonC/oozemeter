@@ -64,24 +64,27 @@ setJar(replayJar,replayTheme,TODAY_SCORE);
 const slider=$('timeSlider');
 function renderReplay(){
   const yr=parseFloat(slider.value),s=Math.round(scoreAt(yr));
+  const atToday=!LIVE&&yr>2025.5;
   $('replayYear').textContent=Math.floor(yr);
-  $('replayScore').textContent=s;
-  $('replayStatus').textContent=bandOf(s).name;
-  $('replayTier').textContent=tierOf(s);
+  $('replayScore').textContent=atToday?'—':s;
+  $('replayStatus').textContent=atToday?'OFFLINE':bandOf(s).name;
+  $('replayTier').textContent=atToday?'⚪ AWAITING CALIBRATION':tierOf(s);
   setJar(replayJar,replayTheme,s);
   setFacility(s); /* 2008 → alarms, flicker, page drips */
-  const ev=EVENTS.find(([y])=>Math.abs(y-yr)<0.5);
+  const ev=EVENTS.find(([y])=>Math.abs(y-yr)<0.3);
   $('replayEvent').textContent=ev?ev[1]:'';
 }
 slider.addEventListener('input',renderReplay);
+renderReplay();
 
 $('incidents').innerHTML=INCIDENTS.map(x=>`
-  <div class="incident" data-year="${x.year}" tabindex="0" role="button" aria-label="Open incident file: ${x.year} ${x.name}">
+  <div class="incident" data-jump="${x.jump}" tabindex="0" role="button" aria-label="Open incident file: ${x.year} ${x.name}">
     <span class="stamp ${x.stamp}">${x.label}</span>
     <h3>${x.year}</h3>
     <div class="iname">${x.name}</div>
+    <div class="iname" style="color:var(--dim);letter-spacing:.12em;margin-top:-8px">${x.dates}</div>
     <div class="itags">${x.tags.map(t=>`<span>${t}</span>`).join('')}</div>
-    <div class="peak">Peak ooze <b>${x.peak}</b></div>
+    <div class="peak">Peak ooze <b>~${x.peak}</b> (est.)</div>
   </div>`).join('');
 
 function jumpTo(year){
@@ -95,8 +98,8 @@ function jumpTo(year){
   })(t0);
 }
 document.querySelectorAll('.incident').forEach(el=>{
-  el.addEventListener('click',()=>jumpTo(+el.dataset.year));
-  el.addEventListener('keydown',e=>{if(e.key==='Enter')jumpTo(+el.dataset.year)});
+  el.addEventListener('click',()=>jumpTo(+el.dataset.jump));
+  el.addEventListener('keydown',e=>{if(e.key==='Enter')jumpTo(+el.dataset.jump)});
 });
 
 $('allLines').innerHTML=INDICATORS.map(y=>

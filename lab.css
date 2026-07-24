@@ -218,6 +218,21 @@ body.intro-go .cine{animation-play-state:running}
 .cine.c1{animation-delay:.1s}.cine.c2{animation-delay:.5s}.cine.c3{animation-delay:1s}
 .cine.c4{animation-delay:1.5s}.cine.c5{animation-delay:1.9s}
 
+/* ============ THE CASCADE ============ */
+.cascade{max-width:720px}
+.cstep{display:flex;gap:20px;align-items:baseline;padding:20px 0;border-bottom:1px solid var(--line)}
+.cstep:last-of-type{border-bottom:none}
+.cstep .cnum{font-family:var(--display);font-weight:800;font-size:1.3rem;color:var(--ooze);min-width:52px}
+.cstep h3{font-family:var(--display);font-weight:800;font-size:1rem;margin-bottom:4px}
+.cstep p{color:var(--muted);font-size:.86rem}
+.cstep a{font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;white-space:nowrap;margin-left:auto;padding-left:16px}
+@media(max-width:560px){.cstep a{display:none}}
+.oozemax{border:1px solid var(--red);border-radius:var(--radius);padding:24px 26px;margin-top:34px;background:rgba(255,77,61,.04);max-width:720px}
+.oozemax h3{font-family:var(--display);font-weight:800;color:var(--red);letter-spacing:.14em;margin-bottom:8px}
+.oozemax p{color:var(--muted);font-size:.88rem;margin-bottom:8px}
+.oozemax p:last-child{margin-bottom:0}
+.oozemax b{color:var(--text)}
+
 /* ============ CARDS ============ */
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
 .card{display:block;background:linear-gradient(180deg,var(--panel),rgba(14,21,12,.4));border:1px solid var(--line);border-radius:var(--radius);padding:18px 18px 16px;position:relative;overflow:hidden;transition:transform .25s,border-color .25s,box-shadow .25s;color:var(--text)}
