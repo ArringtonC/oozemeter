@@ -48,7 +48,19 @@ Priority: **P0** = blocks going live honestly · **P1** = pre-launch · **P2** =
 - [ ] **P2** 10–20 evergreen explainers (seed: the indicator FAQ content) — required for AdSense approval anyway
 - [ ] **P2** Reddit/X launch plan around a single dated artifact: "the backtest that shows 2008 missed OOZEMAXING by one line"
 
-## 5. Trust & legal (shared: Burry + Jobs)
+## 5. Content engine — articles, headlines, forum (owner: Zuckerberg, numbers signed by Burry)
+
+Reference: the AI-SEO daily-content system (trending topics → grounded article → auto-publish → fast index → gap-mine loop). Adapted for ooze: every article is grounded in our own `latest.json` data, never generic news rewrites.
+
+- [ ] **P1** Headlines module: daily scan of trending economic news, filtered to "does this move an intake line?" — surfaces as "Today's Drivers" with links
+- [ ] **P1** Daily Ooze Report article: auto-generated from `latest.json` + movers + relevant headlines; published as a dated page (`/report/2026-07-24/`) — the fresh-content flywheel
+- [ ] **P1** Fast indexing: IndexNow + Google Indexing API ping on every publish; sitemap auto-updates
+- [ ] **P2** Gap miner: Search Console API → impressions-without-clicks keywords → new or re-optimized indicator/explainer pages (the loop from the reference system)
+- [ ] **P2** Agent control panel: a private dashboard where the personas propose content/updates and the human approves — the site itself stays "zero-login," agent-operated
+- [ ] **P2** Forum/community: comments or a lightweight forum (giscus via GitHub Discussions to start) so readers discuss each day's reading — UGC that feeds the gap miner
+- [ ] House rule applies: every generated article's numbers come from `data/`, and Burry's refutation check runs before publish
+
+## 6. Trust & legal (shared: Burry + Jobs)
 
 - [ ] **P1** Privacy policy, terms, about page (who runs this, why, methodology promise)
 - [ ] **P1** Attribution page: every series, its source, its license

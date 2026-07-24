@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#070b06">
+<title>OOZEMeter — Facility Blueprints (Flow Map)</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800;900&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+/* Facility blueprint — drafted under the Ive mandate: hairlines, stillness,
+   one type ramp, no decoration that isn't information. */
+:root{
+  --bg:#070b06;--panel:#0e150c;--panel2:#0a1009;
+  --line:rgba(163,255,18,.16);--line-hard:rgba(163,255,18,.34);
+  --text:#e6f2da;--muted:#8ba07c;--dim:#708363;
+  --ooze:#a3ff12;--amber:#ffb02e;--red:#ff4d3d;--cyan:#5fd7ff;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;--display:'Unbounded',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--mono);font-size:14px;line-height:1.55}
+body::before{content:"";position:fixed;inset:0;z-index:-1;background:
+  radial-gradient(900px 500px at 50% -5%,rgba(163,255,18,.05),transparent 60%),
+  repeating-linear-gradient(0deg,transparent 0 39px,rgba(163,255,18,.015) 39px 40px),
+  repeating-linear-gradient(90deg,transparent 0 39px,rgba(163,255,18,.015) 39px 40px)}
+.wrap{max-width:1240px;margin:0 auto;padding:0 28px}
+a{color:var(--ooze);text-decoration:none}
+
+/* ---- masthead ---- */
+header{border-bottom:1px solid var(--line);padding:34px 0 26px}
+.doc-id{font-size:.62rem;letter-spacing:.34em;color:var(--dim);text-transform:uppercase;margin-bottom:10px}
+h1{font-family:var(--display);font-weight:900;font-size:clamp(1.5rem,3.6vw,2.4rem)}
+h1 em{font-style:normal;color:var(--ooze)}
+.drafted{margin-top:10px;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+
+/* ---- blueprint section chrome ---- */
+section{padding:64px 0;border-bottom:1px solid var(--line)}
+.bp-label{font-size:.68rem;letter-spacing:.3em;text-transform:uppercase;color:var(--dim);display:flex;gap:14px;align-items:center;margin-bottom:14px}
+.bp-label::after{content:"";flex:1;height:1px;background:var(--line)}
+h2{font-family:var(--display);font-weight:800;font-size:clamp(1.2rem,2.6vw,1.7rem);margin-bottom:8px}
+.bp-sub{color:var(--muted);max-width:72ch;margin-bottom:40px;font-size:.86rem}
+
+/* ---- lanes (architecture) ---- */
+.lanes{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+@media(max-width:1000px){.lanes{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.lanes{grid-template-columns:1fr}}
+.lane{border:1px solid var(--line);border-radius:12px;background:var(--panel2);padding:18px 16px 22px}
+.lane-head{font-size:.64rem;letter-spacing:.26em;text-transform:uppercase;padding-bottom:12px;margin-bottom:16px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:baseline}
+.lane-head b{color:var(--text)}
+.lane-head span{color:var(--dim);font-size:.58rem}
+.lane[data-accent="green"] .lane-head b{color:var(--ooze)}
+.lane[data-accent="cyan"] .lane-head b{color:var(--cyan)}
+.lane[data-accent="amber"] .lane-head b{color:var(--amber)}
+.lane[data-accent="red"] .lane-head b{color:var(--red)}
+
+.n{border:1px solid var(--line-hard);border-radius:8px;background:var(--panel);padding:12px 14px;position:relative}
+.n+.n{margin-top:26px}
+.n+.n::before{content:"↓";position:absolute;top:-22px;left:50%;transform:translateX(-50%);color:var(--dim);font-size:.8rem}
+.n h4{font-size:.78rem;letter-spacing:.06em;margin-bottom:3px}
+.n p{color:var(--muted);font-size:.72rem}
+.n .tag{position:absolute;top:-8px;right:10px;font-size:.54rem;letter-spacing:.16em;background:var(--bg);border:1px solid var(--line);border-radius:99px;padding:2px 8px;color:var(--dim);text-transform:uppercase}
+.n.hot{border-color:var(--ooze);box-shadow:0 0 18px rgba(163,255,18,.08)}
+.n.hot h4{color:var(--ooze)}
+
+.crossflow{margin-top:26px;border:1px solid var(--line);border-radius:12px;padding:16px 20px;display:flex;gap:14px;flex-wrap:wrap;align-items:center;font-size:.72rem;color:var(--muted)}
+.crossflow b{color:var(--text);letter-spacing:.1em;font-size:.66rem;text-transform:uppercase}
+.crossflow .arr{color:var(--dim)}
+
+/* ---- visitor flow (journey) ---- */
+.journey{display:flex;flex-direction:column;gap:0}
+.stage{display:grid;grid-template-columns:64px 300px 1fr 240px;gap:24px;padding:26px 0;border-bottom:1px solid var(--line);align-items:start}
+.stage:last-child{border-bottom:none}
+@media(max-width:960px){.stage{grid-template-columns:48px 1fr;row-gap:10px}.stage .look,.stage .kpi{grid-column:2}}
+.snum{font-family:var(--display);font-weight:900;font-size:1.5rem;color:var(--ooze)}
+.stage h3{font-family:var(--display);font-weight:800;font-size:.95rem;margin-bottom:6px}
+.stage .what p{color:var(--muted);font-size:.78rem}
+.stage .what .paths{margin-top:10px;font-size:.66rem;letter-spacing:.12em;color:var(--dim);text-transform:uppercase}
+.look{border:1px solid var(--line);border-radius:10px;background:var(--panel2);padding:14px 16px}
+.look h5{font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;color:var(--dim);margin-bottom:8px}
+.look p{font-size:.72rem;color:var(--muted)}
+.look .swatch{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+.kpi{border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.kpi h5{font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;color:var(--dim);margin-bottom:8px}
+.kpi p{font-size:.7rem;color:var(--muted)}
+.kpi b{color:var(--ooze)}
+
+/* mini jar glyph for stage 1 */
+.jarglyph{width:34px;height:44px;border:1px solid var(--line-hard);border-top:none;border-radius:0 0 10px 10px;position:relative;margin-top:6px}
+.jarglyph::before{content:"";position:absolute;left:-3px;right:-3px;top:-6px;height:5px;background:#1c2617;border:1px solid var(--line-hard);border-radius:2px}
+.jarglyph i{position:absolute;bottom:0;left:0;right:0;height:35%;background:linear-gradient(180deg,var(--ooze),#5cb800);border-radius:0 0 9px 9px}
+
+.legend{display:flex;gap:22px;flex-wrap:wrap;margin-top:36px;font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:7px;vertical-align:-1px}
+
+footer{padding:36px 0 64px;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+@media print{body::before{display:none}body{background:#fff;color:#111}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="doc-id">Division of Economic Containment · Internal Document · Not for Public Deployment</div>
+    <h1>FACILITY <em>BLUEPRINTS</em></h1>
+    <div class="drafted">Drafted by the Office of the Chief Design Officer (J. Ive) · Reviewed: Jobs (product) · Burry (data) · Zuckerberg (distribution)</div>
+  </div>
+</header>
+
+<!-- ============================================================ -->
+<!-- BLUEPRINT 01 — SYSTEM ARCHITECTURE                            -->
+<!-- ============================================================ -->
+<section>
+  <div class="wrap">
+    <div class="bp-label">Blueprint 01 — System Architecture</div>
+    <h2>How the facility runs itself</h2>
+    <p class="bp-sub">Four lanes. The Data Core produces the number; the Content Engine turns each day's number into publishable pages; Distribution carries them out of the building; Governance keeps every claim honest. No lane publishes a figure the Data Core didn't produce.</p>
+
+    <div class="lanes">
+
+      <div class="lane" data-accent="green">
+        <div class="lane-head"><b>A · DATA CORE</b><span>daily cron</span></div>
+        <div class="n"><span class="tag">external</span><h4>Public feeds</h4><p>FRED (UNRATE, CPI, MORTGAGE30US, delinquencies) · EIA gas · NY Fed CSVs. Free, licensed, linked at source.</p></div>
+        <div class="n"><span class="tag">GitHub Actions</span><h4>Collector — collect.js</h4><p>Runs daily 12:00 UTC. Fetches every series, records asOf per line, flags staleness.</p></div>
+        <div class="n hot"><h4>Scoring engine</h4><p>Published anchor curves × weights → stress per line → OOZE 0–100. ICSA momentum term. One calibration: GFC = 90. OOZEMAXING breadth check (all 6 ≥ 60).</p></div>
+        <div class="n"><span class="tag">the database</span><h4>data/latest.json + history.json</h4><p>Committed to the repo. Git history = public audit log. Pages redeploys automatically.</p></div>
+      </div>
+
+      <div class="lane" data-accent="cyan">
+        <div class="lane-head"><b>B · CONTENT ENGINE</b><span>daily, agent-run</span></div>
+        <div class="n"><span class="tag">daily scan</span><h4>Headline intake</h4><p>Trending economic news, filtered by one question: does this move an intake line? Everything else is discarded.</p></div>
+        <div class="n hot"><h4>Daily Ooze Report</h4><p>Auto-drafted from latest.json + movers + surviving headlines. Dated page (/report/2026-07-24/). Grounded in our own data — never a news rewrite.</p></div>
+        <div class="n"><span class="tag">speed</span><h4>Fast index</h4><p>IndexNow + Indexing API ping on publish. Sitemap regenerates. First-to-rank on data-backed econ queries.</p></div>
+        <div class="n"><span class="tag">the loop</span><h4>Gap miner</h4><p>Search Console API → impressions-without-clicks → new or re-optimized explainer/indicator pages. Feeds back into intake.</p></div>
+      </div>
+
+      <div class="lane" data-accent="amber">
+        <div class="lane-head"><b>C · DISTRIBUTION</b><span>every reading</span></div>
+        <div class="n"><h4>The site</h4><p>Static pages on the custom domain: home, 8 indicator files, archive, tools, notes, daily reports, evergreen explainers.</p></div>
+        <div class="n"><span class="tag">habit</span><h4>Morning Specimen</h4><p>Daily email built from latest.json: score, delta, top movers, five links back in.</p></div>
+        <div class="n"><span class="tag">reach</span><h4>Share artifacts</h4><p>OG image per band, one-tap field reports, personal-ooze cards.</p></div>
+        <div class="n"><span class="tag">backlinks</span><h4>Embeddable widget</h4><p>"Today's Ooze" iframe badge for blogs and forums. Every embed is a link.</p></div>
+      </div>
+
+      <div class="lane" data-accent="red">
+        <div class="lane-head"><b>D · GOVERNANCE</b><span>always on</span></div>
+        <div class="n hot"><span class="tag">veto</span><h4>Burry — refutation loop</h4><p>Every number, headline claim, and article is checked against data/ before publish. No unlabeled simulation, ever.</p></div>
+        <div class="n"><h4>Jobs — the edit</h4><p>Five-second promise on every surface. Kill or commit. Copy tone.</p></div>
+        <div class="n"><h4>Ive — the object</h4><p>One design language. Motion only when something changed. The Jar's rendering everywhere.</p></div>
+        <div class="n"><span class="tag">human</span><h4>Control panel</h4><p>The one login. Agents propose (drafts, updates, re-optimizations); the operator approves. The site itself stays zero-login, agent-operated.</p></div>
+      </div>
+
+    </div>
+
+    <div class="crossflow">
+      <b>Daily cycle</b><span class="arr">→</span> feeds <span class="arr">→</span> score committed <span class="arr">→</span> site + report + email update together <span class="arr">→</span> shares & embeds circulate <span class="arr">→</span> search brings new visitors <span class="arr">→</span> gap miner finds what they wanted <span class="arr">→</span> tomorrow's pages
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- BLUEPRINT 02 — VISITOR FLOW & LOOK                            -->
+<!-- ============================================================ -->
+<section>
+  <div class="wrap">
+    <div class="bp-label">Blueprint 02 — Visitor Flow &amp; Look</div>
+    <h2>How a visit works, and how each moment looks</h2>
+    <p class="bp-sub">Six stages from arrival to habit. Left: what happens. Middle: what it must accomplish. Right: how it looks and what proves it worked.</p>
+
+    <div class="journey">
+
+      <div class="stage">
+        <div class="snum">01</div>
+        <div class="what">
+          <h3>Arrive — the clearance</h3>
+          <p>First visit of the session: the boot check types out, the room fades in, the jar fills to today's real score while the number counts up. Repeat sessions skip straight to the jar.</p>
+          <div class="paths">Entry: search · share link · newsletter · direct habit</div>
+          <div class="jarglyph"><i></i></div>
+        </div>
+        <div class="look"><h5>Look</h5><p><span class="swatch" style="background:#070b06;border:1px solid #333"></span>Dark lab, phosphor green on near-black. Unbounded numerals, Plex Mono labels. Motion happens once, then the liquid comes to rest. Stillness is the resting state.</p></div>
+        <div class="kpi"><h5>Proof it worked</h5><p>Score + status + delta + top driver understood in <b>&lt; 5 seconds</b>, phone-first, no scroll.</p></div>
+      </div>
+
+      <div class="stage">
+        <div class="snum">02</div>
+        <div class="what">
+          <h3>Understand — the cascade</h3>
+          <p>File 00 tells the definition as a story: gas → credit → car → job → house. Six steps, each one line of copy, each linking to its indicator file. Then the top pressure cards and today's fresh leaks.</p>
+          <div class="paths">Home → cascade → top 3 cards → movers</div>
+        </div>
+        <div class="look"><h5>Look</h5><p>Numbered hairline rows, no boxes-in-boxes. The OOZEMAXING callout is the only red object on the page — red is spent nowhere else, so here it lands.</p></div>
+        <div class="kpi"><h5>Proof</h5><p>"Ohhh — housing is why the jar is filling." <b>No reading required</b> beyond one screen.</p></div>
+      </div>
+
+      <div class="stage">
+        <div class="snum">03</div>
+        <div class="what">
+          <h3>Go deeper — an indicator file</h3>
+          <p>One intake line, one page: current reading, 20-year chart with recession bands, why it matters, the 2008 incident comparison, FAQ, and "personnel also observe" links to the next file.</p>
+          <div class="paths">Card / node / chip / footer → /gas → related → /credit …</div>
+        </div>
+        <div class="look"><h5>Look</h5><p>Narrow prose column (~70ch), chart in a quiet panel, red reserved for the 2008 incident stamp. Native details/summary FAQ — no widgetry.</p></div>
+        <div class="kpi"><h5>Proof</h5><p><b>2+ pages per session.</b> The related-links loop is the whole SEO/session model.</p></div>
+      </div>
+
+      <div class="stage">
+        <div class="snum">04</div>
+        <div class="what">
+          <h3>Explore — the restricted wings</h3>
+          <p>Incident Archive (scrub to 2008, alarms fire), Personal Ooze (your own jar fills), State Rankings, Lab Notes (the full recipe), and the daily Ooze Report articles with headlines that survived the filter.</p>
+          <div class="paths">Teasers → archive / personal / states / notes / reports</div>
+        </div>
+        <div class="look"><h5>Look</h5><p>Each wing keeps the instrument language but earns one signature moment: the alarm wash, the second jar, the ranked pressure bars. Easter eggs stay event-driven.</p></div>
+        <div class="kpi"><h5>Proof</h5><p>Archive scrub-to-2008 is the <b>screenshot moment</b>; session time &gt; 2 min.</p></div>
+      </div>
+
+      <div class="stage">
+        <div class="snum">05</div>
+        <div class="what">
+          <h3>Carry it out — share &amp; subscribe</h3>
+          <p>The field report copies in one tap; the OG image makes the link unfurl as the jar itself. The Morning Specimen asks for exactly one thing: an email address.</p>
+          <div class="paths">Share card → X/Reddit/Threads · Newsletter → inbox</div>
+        </div>
+        <div class="look"><h5>Look</h5><p>The share card is designed like the product's business card — jar, number, band color, nothing else. The signup form is two fields pretending to be a clearance request.</p></div>
+        <div class="kpi"><h5>Proof</h5><p>Share rate per session; <b>subscriber growth</b>; embeds in the wild.</p></div>
+      </div>
+
+      <div class="stage">
+        <div class="snum">06</div>
+        <div class="what">
+          <h3>Return — the habit</h3>
+          <p>New reading every morning at 8 ET. The email says what changed; the site says why. Streak counter acknowledges the ritual. Over time: alerts ("notify me above 70") and the widget on other people's sites doing the reminding.</p>
+          <div class="paths">Email / muscle memory / alert → home → repeat</div>
+        </div>
+        <div class="look"><h5>Look</h5><p>The delta is the hero on return visits — yesterday's mark ghosted on the jar ticks. The site should feel like checking a gauge, not reading a website.</p></div>
+        <div class="kpi"><h5>Proof</h5><p><b>Daily returning visitors</b> — the only metric that means the product works.</p></div>
+      </div>
+
+    </div>
+
+    <div class="legend">
+      <span><i style="background:var(--ooze)"></i>Data / the number</span>
+      <span><i style="background:var(--cyan)"></i>Content engine</span>
+      <span><i style="background:var(--amber)"></i>Distribution</span>
+      <span><i style="background:var(--red)"></i>Governance / veto</span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">Blueprint v1 · Sources: improvements.md · REQUIREMENTS.md · research/HISTORY.md · backtest 2000–2026 · Next revision after operator review</div>
+</footer>
+
+</body>
+</html>
