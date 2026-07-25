@@ -31,3 +31,8 @@ Summarized here; commissioned to benchmark OOZEMeter's navigation and informatio
 8. One message per viewport; a highlights module for skimmers. (Apple)
 9. Same flyout formula in every menu so it's learned once. (Apple)
 10. News as flat reverse-chron cards with category chips + three filters, no clever curation. (Apple)
+
+## Gap #4 — Ads (added by operator question)
+- CNBC HAS ads: only ~5 named slots on the whole homepage (TopBanner, sponsor logos INSIDE data modules, one mid-river in-feed, MobileAdhesion sticky, sponsored nav countdown clock). Restraint + structure. Premium sold via inline PRO pills on headlines, not walled sections.
+- Apple has ZERO ads — cleanliness is the monetization; only self-promotion tiles; price demoted to footnotes.
+- OOZEMeter doctrine: CNBC's ad model on Apple's surface budget. Max ~3 named slots, article pages only, never the Jar (law). Aspirational format: sponsor-logo-in-module — "this specimen sponsored by ___" etched on the beaker. Premium later = inline pill badges, not a walled wing.
