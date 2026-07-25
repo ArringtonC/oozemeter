@@ -156,6 +156,9 @@ footer{padding:36px 0 64px;font-size:.66rem;letter-spacing:.16em;text-transform:
       <button class="tab" data-panel="p-arch">Architecture</button>
       <button class="tab" data-panel="p-flow">Visitor Flow</button>
       <button class="tab" data-panel="p-complete">% Complete</button>
+      <button class="tab" data-panel="p-tasks">Tasks</button>
+      <button class="tab" data-panel="p-reqs">Requirements</button>
+      <button class="tab" data-panel="p-goals">Goals</button>
     </nav>
   </div>
 </header>
@@ -374,10 +377,88 @@ footer{padding:36px 0 64px;font-size:.66rem;letter-spacing:.16em;text-transform:
   </div>
 </section>
 
+<!-- BLUEPRINT 04 — TASK LEDGER -->
+<section class="panel" id="p-tasks">
+  <div class="wrap">
+    <div class="bp-label">Blueprint 04 — Task Ledger</div>
+    <h2>Every task, its version, its state</h2>
+    <p class="bp-sub">Source of truth: <b>tasks.js</b> in the repo root — a plain text file, one task per line (<code style="color:var(--ooze)">version | area | task | status</code>). Edit the file, refresh this page. Versions map to the gates: v1 shell · v2 real number · v3 capture · v4 content engine · v5 expansion.</p>
+    <div class="pc-overall"><div class="num" id="taskOverall">–</div><p id="taskSummary"><b>Ledger totals.</b></p></div>
+    <div id="taskBoard"></div>
+  </div>
+</section>
+
+<!-- BLUEPRINT 05 — REQUIREMENTS -->
+<section class="panel" id="p-reqs">
+  <div class="wrap">
+    <div class="bp-label">Blueprint 05 — High-Level Requirements</div>
+    <h2>What "working correctly" means, per section</h2>
+    <p class="bp-sub">Short and testable. If a change breaks one of these, it doesn't ship. Detailed specs live in REQUIREMENTS.md; these are the laws.</p>
+    <div class="gates" style="grid-template-columns:repeat(auto-fill,minmax(290px,1fr))">
+      <div class="gate"><div class="gnum">THE JAR</div><h3>Homepage</h3><ul>
+        <li><b>HOME-1</b> · A first-time visitor understands the score, direction, and top driver in under 5 seconds, on a phone</li>
+        <li><b>HOME-2</b> · The jar's fill level always equals the displayed number</li>
+        <li><b>HOME-3</b> · Motion settles when nothing is changing; alarms only at real thresholds</li>
+      </ul></div>
+      <div class="gate"><div class="gnum">DATA</div><h3>Feeds &amp; cadence</h3><ul>
+        <li><b>DATA-1</b> · Every displayed number traces to a linked public source</li>
+        <li><b>DATA-2</b> · The monthly headline seals once per month, when jobs + CPI land</li>
+        <li><b>DATA-3</b> · Each line refreshes on its own release schedule and shows its own as-of date</li>
+        <li><b>DATA-4</b> · A quiet feed gets flagged STALE — never silently reused</li>
+      </ul></div>
+      <div class="gate"><div class="gnum">ALGO</div><h3>Scoring</h3><ul>
+        <li><b>ALGO-1</b> · No black boxes: anchors, weights, and calibration are published</li>
+        <li><b>ALGO-2</b> · The scale is absolute — 90+ stays depression-class forever</li>
+        <li><b>ALGO-3</b> · Anyone can rerun the script and get the same score</li>
+        <li><b>ALGO-4</b> · Recipe changes are announced, never silent</li>
+      </ul></div>
+      <div class="gate"><div class="gnum">TRUTH</div><h3>Honesty</h3><ul>
+        <li><b>TRUTH-1</b> · No simulated or estimated number ever renders without a label</li>
+        <li><b>TRUTH-2</b> · If data is missing, the site says OFFLINE — it never invents</li>
+        <li><b>TRUTH-3</b> · Every historical claim survives a check against the raw series</li>
+      </ul></div>
+      <div class="gate"><div class="gnum">ARCHIVE</div><h3>History</h3><ul>
+        <li><b>ARCH-1</b> · The replay curve is computed from data, never hand-drawn</li>
+        <li><b>ARCH-2</b> · Incident files carry real dates (NBER) and backtested peaks</li>
+      </ul></div>
+      <div class="gate"><div class="gnum">TOOLS</div><h3>Calculator &amp; states</h3><ul>
+        <li><b>TOOL-1</b> · Personal numbers never leave the visitor's browser</li>
+        <li><b>TOOL-2</b> · Simulated placeholders (states) say so on the page</li>
+      </ul></div>
+      <div class="gate"><div class="gnum">CONTENT</div><h3>Articles (Gate 4)</h3><ul>
+        <li><b>CONT-1</b> · Every article's numbers come from data/ — grounded, never a news rewrite</li>
+        <li><b>CONT-2</b> · Generated pages are stamped from the golden-master template</li>
+        <li><b>CONT-3</b> · The refutation check runs before anything publishes</li>
+      </ul></div>
+      <div class="gate"><div class="gnum">GROWTH</div><h3>Distribution</h3><ul>
+        <li><b>GROW-1</b> · Every page links deeper into the facility (no dead ends)</li>
+        <li><b>GROW-2</b> · Sharing anything takes one tap</li>
+        <li><b>GROW-3</b> · No feature ships without knowing how it will be measured</li>
+      </ul></div>
+      <div class="gate"><div class="gnum">FUN</div><h3>Delight</h3><ul>
+        <li><b>FUN-1</b> · The protected inventory (bloops, glass tap, alarms, boot) survives every cleanup</li>
+        <li><b>FUN-2</b> · Every release answers "is it still fun?" before shipping</li>
+        <li><b>FUN-3</b> · Playful never trivializes real hardship</li>
+      </ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- BLUEPRINT 06 — GOALS -->
+<section class="panel" id="p-goals">
+  <div class="wrap">
+    <div class="bp-label">Blueprint 06 — Goals &amp; Alignment</div>
+    <h2>What the facility is trying to achieve</h2>
+    <p class="bp-sub">The monitoring page: every goal has a target, a current honest reading, how it's measured, and which part of the facility feeds it. Most read "not measured yet" until analytics lands (Gate 3) — that's the point of Gate 3.</p>
+    <div id="goalBoard"></div>
+  </div>
+</section>
+
 <footer>
-  <div class="wrap">Blueprint Rev 3 · Board review 2026-07-24 · Gates 1–2 cleared 2026-07-25 · Sources: improvements.md · REQUIREMENTS.md · research/HISTORY.md · backtest 2000–2026 · data/latest.json</div>
+  <div class="wrap">Blueprint Rev 4 · Board review 2026-07-24 · Gates 1–2 cleared 2026-07-25 · Sources: improvements.md · REQUIREMENTS.md · tasks.js · research/ · data/latest.json</div>
 </footer>
 
+<script src="tasks.js"></script>
 <script>
 /* ---- tabs ---- */
 document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
@@ -463,6 +544,53 @@ document.getElementById('pcBoard').innerHTML=BOARD.map(g=>{
   </div>`;
 }).join('');
 document.getElementById('pcOverall').textContent=Math.round(wSum/wTot)+'%';
+
+/* ---- task ledger (parses tasks.js: version | area | task | status) ---- */
+const VLABEL={v1:'v1 — The Shell',v2:'v2 — The Real Number (Gates 1-2)',v3:'v3 — Capture & Launch (Gate 3)',v4:'v4 — Content Engine (Gate 4)',v5:'v5 — Expansion'};
+const SICON={done:['✓','var(--ooze)'],wip:['◐','var(--amber)'],todo:['○','var(--dim)']};
+const tasks=(window.TASKS||'').trim().split('\n').filter(Boolean).map(l=>{
+  const[version,area,task,status]=l.split('|').map(s=>s.trim());
+  return{version,area,task,status};
+});
+const byV={};
+tasks.forEach(t=>(byV[t.version]??=[]).push(t));
+const doneN=tasks.filter(t=>t.status==='done').length;
+document.getElementById('taskOverall').textContent=`${doneN}/${tasks.length}`;
+document.getElementById('taskSummary').innerHTML=
+  `<b>Ledger totals.</b> ${doneN} done · ${tasks.filter(t=>t.status==='wip').length} in progress · ${tasks.filter(t=>t.status==='todo').length} to do — ${Math.round(doneN/tasks.length*100)}% of all logged tasks complete.`;
+document.getElementById('taskBoard').innerHTML=Object.keys(byV).map(v=>{
+  const rows=byV[v],d=rows.filter(t=>t.status==='done').length;
+  return `<div class="pc-group">
+    <div class="pc-head"><div><h3>${VLABEL[v]||v}</h3><div class="pc-ref">${d} of ${rows.length} complete</div></div>
+      <div class="pc-avg">${Math.round(d/rows.length*100)}%</div></div>
+    ${rows.map(t=>{const[i,c]=SICON[t.status]||SICON.todo;
+      return `<div class="pc-row" style="grid-template-columns:26px 110px 1fr">
+        <span style="color:${c};font-weight:600">${i}</span>
+        <span class="pc-name" style="font-size:.64rem;letter-spacing:.14em;text-transform:uppercase">${t.area}</span>
+        <span style="color:${t.status==='done'?'var(--muted)':'var(--text)'}">${t.task}</span>
+      </div>`}).join('')}
+  </div>`;
+}).join('');
+
+/* ---- goals board ---- */
+const GOALS=[
+ {g:'★ NORTH STAR — People check the jar daily, like the weather',t:'Daily returning visitors: 100 → 1,000 → 10,000',c:'Not measured yet — analytics is Gate 3',m:'Analytics: 7-day returning visitors',a:'Everything feeds this: the number (v2) gets them, content (v4) brings them back'},
+ {g:'Understanding — the five-second promise',t:'Score, direction, top driver understood in <5s on a phone',c:'Designed for it; unverified with real users',m:'Session recordings / bounce on hero',a:'HOME-1 · homepage 90% complete'},
+ {g:'Reach — search finds the facility',t:'100k monthly visitors (PRD phase 1)',c:'0 — site not yet pushed with real data',m:'Analytics + Search Console',a:'Static URLs (v3) → content engine (v4) → gap miner'},
+ {g:'Depth — visitors go deeper',t:'2+ pages per session',c:'Not measured yet',m:'Analytics pages/session',a:'GROW-1 · cascade links, related-links loop, archive'},
+ {g:'Capture — a channel we own',t:'1,000 newsletter subscribers',c:'0 — form not connected to a real ESP yet',m:'ESP dashboard',a:'v3 Buttondown task · Morning Specimen automation (v4)'},
+ {g:'Freshness — the robot never sleeps',t:'Data collected within 24h, every day',c:'Collector works locally; cron activates on push',m:'Actions run history + asOf dates on site',a:'DATA-2/3/4 · v3 launch task'},
+ {g:'Trust — the differentiator',t:'Unlabeled simulated numbers on the site: zero, forever',c:'✓ MET — verified at board review',m:'Burry refutation audit each release',a:'TRUTH-1/2/3 · the house rule'},
+ {g:'Fun — still a joy to check',t:'Every release passes "is it still fun?"',c:'✓ Holding — protected inventory intact',m:'Operator review (you outrank the board here)',a:'FUN-1/2/3 · Department of Fun'},
+ {g:'Revenue — earns its keep',t:'Phase 1: AdSense approved · first $100/mo',c:'0 — blocked on domain + legal + content volume',m:'AdSense dashboard',a:'v3 trust pages → v5 AdSense task · ads weighted last on purpose'},
+];
+document.getElementById('goalBoard').innerHTML=GOALS.map(x=>`
+  <div class="pc-group">
+    <div class="pc-head"><div><h3>${x.g}</h3><div class="pc-ref">Aligned with: ${x.a}</div></div></div>
+    <div class="pc-row" style="grid-template-columns:110px 1fr"><span class="pc-name">TARGET</span><span style="color:var(--text)">${x.t}</span></div>
+    <div class="pc-row" style="grid-template-columns:110px 1fr"><span class="pc-name">CURRENT</span><span style="color:${x.c.startsWith('✓')?'var(--ooze)':'var(--amber)'}">${x.c}</span></div>
+    <div class="pc-row" style="grid-template-columns:110px 1fr"><span class="pc-name">MEASURED BY</span><span style="color:var(--muted)">${x.m}</span></div>
+  </div>`).join('');
 </script>
 </body>
 </html>
