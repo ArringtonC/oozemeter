@@ -116,6 +116,30 @@ h2{font-family:var(--display);font-weight:800;font-size:clamp(1.2rem,2.6vw,1.7re
 .stamp-card{border:1px solid var(--line);border-radius:10px;padding:14px 16px;font-size:.72rem;color:var(--muted)}
 .stamp-card b{display:block;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--text);margin-bottom:6px}
 
+/* ---- roadmap path (duolingo-style, still and quiet) ---- */
+.season{max-width:460px;margin:0 auto;position:relative}
+.season-head{text-align:center;margin-bottom:40px}
+.season-head .s-kicker{font-size:.62rem;letter-spacing:.3em;color:var(--dim);text-transform:uppercase}
+.season-head h3{font-family:var(--display);font-weight:900;font-size:1.4rem;margin-top:6px}
+.season-head p{font-size:.74rem;color:var(--muted);margin-top:8px}
+.rpath{display:flex;flex-direction:column;align-items:center;gap:38px;position:relative;padding:10px 0 30px}
+.rnode{display:flex;flex-direction:column;align-items:center;gap:10px;position:relative;transform:translateX(var(--dx,0));max-width:230px;text-align:center}
+.rbtn{width:78px;height:78px;border-radius:50%;display:grid;place-items:center;font-size:1.7rem;position:relative;
+  background:#161e14;box-shadow:0 7px 0 #0c120a,inset 0 2px 0 rgba(255,255,255,.04);border:1px solid var(--line)}
+.rnode.locked .rbtn{filter:grayscale(1);opacity:.45}
+.rnode.done .rbtn{background:linear-gradient(180deg,var(--ooze),#6fae00);box-shadow:0 7px 0 #3e6b00;border:none}
+.rnode.current .rbtn{background:linear-gradient(180deg,var(--ooze),#6fae00);box-shadow:0 7px 0 #3e6b00,0 0 0 7px rgba(163,255,18,.13);border:none}
+.rnode.done .rbtn::after{content:"✓";position:absolute;inset:0;display:grid;place-items:center;font-family:var(--display);font-weight:900;font-size:1.5rem;color:#0a0f08;background:inherit;border-radius:50%}
+.start-bub{position:absolute;top:-48px;left:50%;transform:translateX(-50%);background:var(--text);color:#0a0f08;font-family:var(--display);font-weight:900;font-size:.72rem;letter-spacing:.2em;padding:8px 16px;border-radius:10px;white-space:nowrap}
+.start-bub::after{content:"";position:absolute;top:100%;left:50%;transform:translateX(-50%);border:7px solid transparent;border-top-color:var(--text)}
+.rname{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--text)}
+.rnode.locked .rname{color:var(--dim)}
+.rnote{font-size:.66rem;color:var(--dim);line-height:1.5}
+.rmascot{position:absolute;right:-30px;top:190px;transform:scale(2.2);transform-origin:top right;opacity:.9}
+@media(max-width:700px){.rmascot{display:none}.rnode{--dx:0!important}}
+.season-lock{display:flex;align-items:center;gap:14px;margin:44px 0 40px;font-size:.64rem;letter-spacing:.24em;text-transform:uppercase;color:var(--dim)}
+.season-lock::before,.season-lock::after{content:"";flex:1;height:1px;background:var(--line)}
+
 /* ---- tabs ---- */
 .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-top:22px}
 .tab{font-family:var(--mono);font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;padding:10px 18px;border:1px solid var(--line);border-radius:8px 8px 0 0;background:none;color:var(--dim);cursor:pointer}
@@ -174,6 +198,7 @@ footer{padding:36px 0 64px;font-size:.66rem;letter-spacing:.16em;text-transform:
       <button class="tab" data-panel="p-reqs">Requirements</button>
       <button class="tab" data-panel="p-goals">Goals</button>
       <button class="tab" data-panel="p-how">How</button>
+      <button class="tab" data-panel="p-road">Roadmap</button>
     </nav>
   </div>
 </header>
@@ -470,6 +495,26 @@ footer{padding:36px 0 64px;font-size:.66rem;letter-spacing:.16em;text-transform:
       <summary><span class="gdot" style="background:var(--dim)"></span><span class="gname">Appendix — detailed board goals (targets, measurements, alignment)</span><span class="gplus">+</span></summary>
       <div class="gbody" id="goalBoard"></div>
     </details>
+  </div>
+</section>
+
+<!-- BLUEPRINT 08 — ROADMAP -->
+<section class="panel" id="p-road">
+  <div class="wrap">
+    <div class="bp-label">Blueprint 08 — Roadmap</div>
+    <h2>The path</h2>
+    <p class="bp-sub">Architected by the Operator; the panel updates it as seasons close. Season 1 has one rule, set by the Operator: <b>no money yet — make it fun, and make it mine.</b> The facility must be genuinely usable and useful to its owner before it chases anyone else.</p>
+    <div class="season">
+      <div class="rmascot"><div class="jarglyph"><i style="height:25%"></i></div></div>
+      <div class="season-head">
+        <div class="s-kicker">Season 1 · Month 1</div>
+        <h3>MAKE IT MINE</h3>
+        <p>Usable by the Operator, every day, from a phone — with the fun protected and growing.</p>
+      </div>
+      <div class="rpath" id="rpath1"></div>
+      <div class="season-lock">🔒 Season 2 · The Facility Opens — unlocks when Season 1 is complete</div>
+      <div class="rpath" id="rpath2"></div>
+    </div>
   </div>
 </section>
 
@@ -773,6 +818,38 @@ const OBJECTIVES=[
   ['Email capture wired (Formspree pattern → Buttondown)',false],
   ['Port privacy/terms page templates',false]]],
 ];
+/* ---- roadmap path (Season 1 architected by the Operator: fun + usable-by-me,
+        no money. Panel proposes updates when the season closes.) ---- */
+const SEASON1=[
+ {icon:'⭐',name:'Go live',note:'Push the facility to the public URL so the jar is checkable from your phone, anywhere.',state:'current'},
+ {icon:'📱',name:'On your home screen',note:'Jar favicon + apple-touch-icon — one tap from your phone to today\'s reading.',state:'todo'},
+ {icon:'🧪',name:'All eight sensors',note:'Wire foreclosures + manufacturing so every line you named reads real data.',state:'todo'},
+ {icon:'🎁',name:'Fun drop #1',note:'The lab anthem — an original funky groove behind the audio toggle. LAB ANTHEM: ON.',state:'todo'},
+ {icon:'📖',name:'The About page',note:'Who runs this facility and why — it\'s yours, the site should say so.',state:'todo'},
+ {icon:'⭐',name:'First live seal',note:'Mid-August: watch July\'s reading seal itself while you\'re holding your phone. The machine works without you.',state:'todo'},
+ {icon:'🏋️',name:'Your streak',note:'"You\'ve checked the jar N days in a row" — your own habit, measured.',state:'todo'},
+ {icon:'🎁',name:'Fun drop #2',note:'Konami confetti bubbles + tap-the-glass-10× files an incident report against you.',state:'todo'},
+ {icon:'⭐',name:'Season finale: It\'s yours',note:'You check it daily for a full week without touching the code. Then the panel plans Season 2.',state:'todo'},
+];
+const SEASON2=[
+ {icon:'🌐',name:'The real address',note:'Custom domain.',state:'locked'},
+ {icon:'✉️',name:'Morning Specimen',note:'The daily email, real ESP.',state:'locked'},
+ {icon:'📰',name:'First reports',note:'The content engine wakes.',state:'locked'},
+ {icon:'💵',name:'First dollar',note:'The ladder begins.',state:'locked'},
+];
+const DX=[0,-80,-120,-80,0,80,120,80,0];
+function pathHTML(nodes,offset=true){
+  return nodes.map((n,i)=>`
+    <div class="rnode ${n.state}" style="--dx:${offset?(DX[i%DX.length]):0}px">
+      ${n.state==='current'?'<div class="start-bub">START</div>':''}
+      <div class="rbtn">${n.state==='locked'?'🔒':n.icon}</div>
+      <div class="rname">${n.name}</div>
+      <div class="rnote">${n.note}</div>
+    </div>`).join('');
+}
+document.getElementById('rpath1').innerHTML=pathHTML(SEASON1);
+document.getElementById('rpath2').innerHTML=pathHTML(SEASON2);
+
 /* ---- HOW playbooks — authored by the board personas ---- */
 const HOWS=[
  {owner:'JOBS · PRODUCT',color:'var(--ooze)',systems:[
