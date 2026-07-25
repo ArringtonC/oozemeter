@@ -1,12 +1,12 @@
 {
- "generated": "2026-07-24T23:11:50.092Z",
+ "generated": "2026-07-25T11:10:09.556Z",
  "month": "2026-06",
  "monthLabel": "June 2026",
  "prevMonth": "2026-05",
  "prevMonthLabel": "May 2026",
  "ooze": 25,
  "prevOoze": 28,
- "updatedLabel": "June 2026 reading · collected 2026-07-24",
+ "updatedLabel": "June 2026 reading · collected 2026-07-25",
  "calibration": {
   "a": 1.4828,
   "b": -27.4883
