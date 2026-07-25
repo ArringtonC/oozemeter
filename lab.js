@@ -23,7 +23,7 @@ const INDICATORS = [
   {slug:'gas', emoji:'⛽', name:'Gas Prices', val:'$3.42', trend:'▲ +$0.02 today', dir:'up', contrib:7, weight:10,
    spark:[28,30,29,33,31,36,40],
    stressHist:[42,48,72,30,38,55,58,50,46,28,22,26,30,28,18,44,88,60,48,42,40],
-   source:{name:'AAA National Average', url:'https://gasprices.aaa.com'},
+   source:{name:'EIA Weekly Retail Gasoline (via FRED)', url:'https://www.eia.gov/petroleum/gasdiesel/'},
    why:`Gasoline is the price everyone sees twice a week, posted in foot-tall numbers on every corner. When it rises, the pain is immediate: commuters, delivery businesses, and family budgets all feel it within days. Economists watch it because fuel costs leak into the price of nearly everything that moves on a truck.`,
    vs2008:`In June 2008, the national average hit $4.11 — a record that, adjusted for inflation, still stings. Combined with the housing collapse, expensive fuel squeezed households from both sides. Today's $3.42 is elevated but nowhere near that intake line's 2008 peak pressure.`,
    faqs:[

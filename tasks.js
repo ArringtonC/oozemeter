@@ -23,6 +23,20 @@ v2 | Website    | Site consumes data/latest.js — real June 2026 = 25 live loca
 v2 | Agents     | Personas with mandates (Jobs, Ive, Zuckerberg, Burry) | done
 v2 | Agents     | First full board review — findings became Gates 1-4 | done
 v2 | Docs       | Flowmap: build order, architecture, visitor flow, completion board | done
+v2 | Research   | /teach foundation: mission, resources, notes, and shared lesson assets | done
+v2 | Research   | /teach Gas Prices: measurement, interpretation, and reproducible data path | done
+v2 | Research   | /teach Housing: measurement, interpretation, and reproducible data path | done
+v2 | Research   | /teach Credit Cards: measurement, interpretation, and reproducible data path | done
+v2 | Research   | /teach Auto Loans: measurement, interpretation, and reproducible data path | done
+v2 | Research   | /teach Unemployment: measurement, interpretation, and reproducible data path | done
+v2 | Research   | /teach Inflation: measurement, interpretation, and reproducible data path | done
+v2 | Research   | /teach Foreclosures: measurement, proxy limits, and reproducible data path | done
+v2 | Research   | /teach Manufacturing: measurement, licensed-PMI limits, and free data path | done
+v2 | Research   | Intake-line source registry + quick-reference data map | done
+v3 | Data       | Replace broad DRCLACBS auto proxy with NY Fed auto 30+ delinquency flow | todo
+v3 | Algorithm  | Resolve ICSA monthly-average vs trailing four-week-mean methodology | todo
+v3 | Algorithm  | Freeze CPI adjustment basis: current CPIAUCSL vs recommended NSA CUUR0000SA0 YoY | todo
+v3 | Trust      | Reconcile UI source labels with original publishers and proxy disclosures | todo
 v3 | Launch     | Push live: real number + cron running in the cloud | todo
 v3 | Data       | Wire foreclosures feed (DRSFRMACBS already fetched — surface it) | todo
 v3 | Data       | Wire manufacturing feed (INDPRO) | todo

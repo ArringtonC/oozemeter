@@ -1,0 +1,301 @@
+{
+  "schemaVersion": 1,
+  "reviewed": "2026-07-25",
+  "purpose": "Reproducible primary-source registry for OOZEMeter intake lines",
+  "rules": [
+    "Preserve observation date, release date, retrieval timestamp, units, adjustment basis, and vintage.",
+    "A daily run recalculates from the freshest available observations; it does not create daily economic data.",
+    "Label proxies as proxies and retain the original publisher even when FRED is the delivery layer."
+  ],
+  "areas": [
+    {
+      "slug": "gas",
+      "name": "Gas Prices",
+      "formulaStatus": "weighted",
+      "weight": 10,
+      "recommendedMetric": "U.S. Regular All Formulations Retail Gasoline Price",
+      "series": [
+        {
+          "id": "GASREGW",
+          "publisher": "U.S. Energy Information Administration",
+          "delivery": "FRED keyless CSV",
+          "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=GASREGW",
+          "metadata": "https://fred.stlouisfed.org/series/GASREGW",
+          "frequency": "weekly",
+          "units": "dollars per gallon, taxes included, not seasonally adjusted",
+          "coverage": "1990-08-20 to present",
+          "role": "production convenience mirror"
+        },
+        {
+          "id": "EMM_EPMR_PTE_NUS_DPG",
+          "publisher": "U.S. Energy Information Administration",
+          "delivery": "EIA API v2; free API key required",
+          "url": "https://api.eia.gov/v2/petroleum/pri/gnd/data/?api_key=YOUR_KEY&frequency=weekly&data[0]=value&facets[duoarea][]=NUS&facets[product][]=EPMR&facets[process][]=PTE&sort[0][column]=period&sort[0][direction]=desc&offset=0&length=5000",
+          "metadata": "https://www.eia.gov/petroleum/gasdiesel/gas_proc-methods.php",
+          "frequency": "weekly",
+          "units": "dollars per gallon",
+          "coverage": "1990-08-20 to present",
+          "role": "original first-party API"
+        }
+      ],
+      "implementationNote": "GASREGW and the EIA API are the same underlying measurement; never count them as independent signals.",
+      "research": "source-notes/gas-housing.md"
+    },
+    {
+      "slug": "housing",
+      "name": "Housing",
+      "formulaStatus": "weighted",
+      "weight": 20,
+      "recommendedMetric": "Freddie Mac PMMS 30-year fixed mortgage rate",
+      "series": [
+        {
+          "id": "MORTGAGE30US",
+          "publisher": "Freddie Mac",
+          "delivery": "FRED keyless CSV",
+          "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=MORTGAGE30US",
+          "metadata": "https://www.freddiemac.com/pmms",
+          "frequency": "weekly",
+          "units": "percent, not seasonally adjusted",
+          "coverage": "1971-04-02 to present",
+          "role": "new-borrower financing-pressure signal"
+        },
+        {
+          "id": "DRSFRMACBS",
+          "publisher": "Board of Governors of the Federal Reserve System",
+          "delivery": "FRED keyless CSV",
+          "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DRSFRMACBS",
+          "metadata": "https://fred.stlouisfed.org/series/DRSFRMACBS",
+          "frequency": "quarterly",
+          "units": "percent, seasonally adjusted",
+          "coverage": "1991 Q1 to present",
+          "role": "lagging bank-held mortgage delinquency validation"
+        },
+        {
+          "id": "CUSR0000SEHA",
+          "publisher": "U.S. Bureau of Labor Statistics",
+          "delivery": "FRED keyless CSV",
+          "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=CUSR0000SEHA",
+          "metadata": "https://fred.stlouisfed.org/series/CUSR0000SEHA",
+          "frequency": "monthly",
+          "units": "index 1982-84=100, seasonally adjusted",
+          "coverage": "1953-01 to present",
+          "role": "recommended renter-pressure companion"
+        }
+      ],
+      "implementationNote": "Call MORTGAGE30US new-borrower mortgage conditions, not current-homeowner burden. Freddie Mac data is copyrighted and requires attribution review.",
+      "research": "source-notes/gas-housing.md"
+    },
+    {
+      "slug": "credit",
+      "name": "Credit Cards",
+      "formulaStatus": "weighted",
+      "weight": 20,
+      "recommendedMetric": "Commercial-bank credit-card delinquent balance share",
+      "series": [
+        {
+          "id": "DRCCLACBS",
+          "publisher": "Board of Governors of the Federal Reserve System",
+          "delivery": "FRED keyless CSV",
+          "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DRCCLACBS",
+          "metadata": "https://fred.stlouisfed.org/series/DRCCLACBS",
+          "frequency": "quarterly",
+          "units": "percent of credit-card loan dollars, seasonally adjusted",
+          "coverage": "1991 Q1 to present",
+          "role": "recommended launch input"
+        },
+        {
+          "id": "FRBNY_CC_30PLUS_FLOW",
+          "publisher": "New York Fed Consumer Credit Panel / Equifax",
+          "delivery": "Latest Household Debt and Credit XLSX, Page 13 Data, CC column",
+          "url": "https://www.newyorkfed.org/medialibrary/interactives/householdcredit/data/xls/HHD_C_Report_2026Q1.xlsx",
+          "landing": "https://www.newyorkfed.org/microeconomics/hhdc",
+          "metadata": "https://www.newyorkfed.org/medialibrary/interactives/householdcredit/data/pdf/data_dictionary_HHDC.pdf",
+          "frequency": "quarterly",
+          "units": "percent of previously non-delinquent card balance entering 30+ delinquency",
+          "coverage": "2003 Q1 to present",
+          "role": "early-warning validation"
+        }
+      ],
+      "implementationNote": "Balances, APR, delinquency stock, delinquency flow, and charge-offs answer different questions and must remain separate.",
+      "research": "source-notes/credit-auto.md"
+    },
+    {
+      "slug": "auto",
+      "name": "Auto Loans",
+      "formulaStatus": "weighted",
+      "weight": 15,
+      "recommendedMetric": "Flow into 30+ auto-loan delinquency",
+      "series": [
+        {
+          "id": "FRBNY_AUTO_30PLUS_FLOW",
+          "publisher": "New York Fed Consumer Credit Panel / Equifax",
+          "delivery": "Latest Household Debt and Credit XLSX, Page 13 Data, AUTO column",
+          "url": "https://www.newyorkfed.org/medialibrary/interactives/householdcredit/data/xls/HHD_C_Report_2026Q1.xlsx",
+          "landing": "https://www.newyorkfed.org/microeconomics/hhdc",
+          "metadata": "https://www.newyorkfed.org/medialibrary/interactives/householdcredit/data/pdf/data_dictionary_HHDC.pdf",
+          "frequency": "quarterly",
+          "units": "percent of previously non-delinquent auto balance entering 30+ delinquency",
+          "coverage": "2003 Q1 to present",
+          "role": "recommended production input"
+        },
+        {
+          "id": "DRCLACBS",
+          "publisher": "Board of Governors of the Federal Reserve System",
+          "delivery": "FRED keyless CSV",
+          "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DRCLACBS",
+          "metadata": "https://fred.stlouisfed.org/series/DRCLACBS",
+          "frequency": "quarterly",
+          "units": "percent, seasonally adjusted",
+          "coverage": "1987 Q1 to present",
+          "role": "broad consumer-loan context only; not auto-specific"
+        }
+      ],
+      "implementationNote": "Replace DRCLACBS in the auto component. It is not defensible as an auto-specific metric and omits major nonbank auto-finance channels.",
+      "research": "source-notes/credit-auto.md"
+    },
+    {
+      "slug": "jobs",
+      "name": "Unemployment",
+      "formulaStatus": "weighted",
+      "weight": 25,
+      "recommendedMetric": "UNRATE level plus four-week mean of ICSA",
+      "series": [
+        {
+          "id": "UNRATE",
+          "publisher": "U.S. Bureau of Labor Statistics",
+          "delivery": "FRED keyless CSV",
+          "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=UNRATE",
+          "metadata": "https://fred.stlouisfed.org/series/UNRATE",
+          "frequency": "monthly",
+          "units": "percent of civilian labor force, seasonally adjusted",
+          "coverage": "1948-01 to present",
+          "role": "broad joblessness level"
+        },
+        {
+          "id": "ICSA",
+          "publisher": "U.S. Department of Labor",
+          "delivery": "FRED keyless CSV",
+          "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=ICSA",
+          "metadata": "https://oui.doleta.gov/unemploy/claims.asp",
+          "frequency": "weekly",
+          "units": "initial claims, persons, seasonally adjusted",
+          "coverage": "1967-01-07 to present",
+          "role": "fast emerging-layoff flow; use trailing four-week mean"
+        }
+      ],
+      "implementationNote": "Normalize UNRATE and claims separately. Claims are not unemployed people and should be smoothed before scoring.",
+      "research": "source-notes/labor-inflation-foreclosure-manufacturing.md"
+    },
+    {
+      "slug": "inflation",
+      "name": "Inflation",
+      "formulaStatus": "weighted",
+      "weight": 10,
+      "recommendedMetric": "12-month percent change in NSA headline CPI-U",
+      "series": [
+        {
+          "id": "CUUR0000SA0",
+          "publisher": "U.S. Bureau of Labor Statistics",
+          "delivery": "BLS public data API v2; POST series ID and year range",
+          "url": "https://api.bls.gov/publicAPI/v2/timeseries/data/",
+          "flatFile": "https://download.bls.gov/pub/time.series/cu/cu.data.1.AllItems",
+          "metadata": "https://www.bls.gov/opub/hom/cpi/",
+          "frequency": "monthly",
+          "units": "index 1982-84=100, not seasonally adjusted",
+          "coverage": "1913 to present",
+          "role": "original first-party series for recommended household-pressure YoY input"
+        },
+        {
+          "id": "CPIAUCNS",
+          "publisher": "U.S. Bureau of Labor Statistics",
+          "delivery": "FRED keyless CSV mirror of NSA headline CPI-U",
+          "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=CPIAUCNS",
+          "metadata": "https://fred.stlouisfed.org/series/CPIAUCNS",
+          "frequency": "monthly",
+          "units": "index 1982-84=100, not seasonally adjusted",
+          "coverage": "1913-01 to present",
+          "role": "practical keyless transport for CUUR0000SA0"
+        },
+        {
+          "id": "CPIAUCSL",
+          "publisher": "U.S. Bureau of Labor Statistics",
+          "delivery": "FRED keyless CSV",
+          "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=CPIAUCSL",
+          "metadata": "https://fred.stlouisfed.org/series/CPIAUCSL",
+          "frequency": "monthly",
+          "units": "index 1982-84=100, seasonally adjusted",
+          "coverage": "1947-01 to present",
+          "role": "current collector series; suitable if adjustment choice is explicitly frozen"
+        }
+      ],
+      "implementationNote": "For published 12-month inflation, NSA same-month YoY is conventional and avoids annual seasonal-factor revisions. Decide whether to migrate the collector from CPIAUCSL.",
+      "research": "source-notes/labor-inflation-foreclosure-manufacturing.md"
+    },
+    {
+      "slug": "foreclosures",
+      "name": "Foreclosures",
+      "formulaStatus": "auxiliary",
+      "weight": 0,
+      "recommendedMetric": "Commercial-bank single-family mortgage delinquency proxy",
+      "series": [
+        {
+          "id": "DRSFRMACBS",
+          "publisher": "Board of Governors of the Federal Reserve System",
+          "delivery": "FRED keyless CSV",
+          "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DRSFRMACBS",
+          "metadata": "https://fred.stlouisfed.org/series/DRSFRMACBS",
+          "frequency": "quarterly",
+          "units": "percent, seasonally adjusted",
+          "coverage": "1991 Q1 to present",
+          "role": "free launch proxy"
+        },
+        {
+          "id": "FHFA_NMDB_MORTGAGE_PERFORMANCE",
+          "publisher": "Federal Housing Finance Agency",
+          "delivery": "All-quarterly ZIP",
+          "url": "https://www.fhfa.gov/document/d/nmdb/nmdb-mortgage-performance-statistics-all-quarterly.zip",
+          "metadata": "https://www.fhfa.gov/data/dashboard/nmdb-residential-mortgage-performance-statistics",
+          "frequency": "quarterly",
+          "units": "table-dependent rates and counts",
+          "coverage": "verify selected table metadata",
+          "role": "broader public mortgage-performance upgrade path"
+        }
+      ],
+      "implementationNote": "Never label DRSFRMACBS as a foreclosure rate. Display 'mortgage delinquency proxy' and its commercial-bank-book denominator.",
+      "research": "source-notes/labor-inflation-foreclosure-manufacturing.md"
+    },
+    {
+      "slug": "manufacturing",
+      "name": "Manufacturing",
+      "formulaStatus": "auxiliary",
+      "weight": 0,
+      "recommendedMetric": "INDPRO YoY plus AMTMNO YoY",
+      "series": [
+        {
+          "id": "INDPRO",
+          "publisher": "Board of Governors of the Federal Reserve System",
+          "delivery": "FRED keyless CSV",
+          "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=INDPRO",
+          "metadata": "https://www.federalreserve.gov/releases/g17/current/default.htm",
+          "frequency": "monthly",
+          "units": "index 2017=100, seasonally adjusted",
+          "coverage": "1919-01 to present",
+          "role": "realized industrial output; reverse growth orientation for stress"
+        },
+        {
+          "id": "AMTMNO",
+          "publisher": "U.S. Census Bureau",
+          "delivery": "FRED keyless CSV",
+          "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=AMTMNO",
+          "metadata": "https://www.census.gov/manufacturing/m3/",
+          "frequency": "monthly",
+          "units": "millions of dollars, seasonally adjusted, nominal",
+          "coverage": "1992-02 to present",
+          "role": "orders pipeline; reverse growth orientation for stress"
+        }
+      ],
+      "implementationNote": "These are public alternatives, not replicas of ISM PMI. PMI data and automated use require licensing review.",
+      "research": "source-notes/labor-inflation-foreclosure-manufacturing.md"
+    }
+  ]
+}

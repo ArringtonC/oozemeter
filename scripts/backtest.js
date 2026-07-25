@@ -1,7 +1,14 @@
 #!/usr/bin/env node
-/* OOZEMeter backtest — real FRED data vs. proposed calibration.
-   No API key needed (fredgraph.csv). Run: node scripts/backtest.js
+/* OOZEMeter backtest — real public data vs. proposed calibration.
+   FRED series need no key; auto distress comes from the NY Fed HHDC workbook.
+   Run: node scripts/backtest.js
    Writes research/backtest-results.json and prints episode peaks. */
+
+const {
+  AUTO_30_PLUS_ANCHORS,
+  auto30PlusStress,
+  fetchNyFedAutoSeries,
+} = require('./lib/methodology');
 
 const SERIES = {
   UNRATE:      'Unemployment rate',
@@ -10,7 +17,6 @@ const SERIES = {
   MORTGAGE30US:'30yr mortgage rate',
   DRSFRMACBS:  'Mortgage delinquency rate',
   DRCCLACBS:   'Credit card delinquency rate',
-  DRCLACBS:    'Consumer loan delinquency (auto proxy)',
   GASREGW:     'Regular gas, $/gal (nominal, deflated by CPI)',
 };
 
@@ -27,7 +33,7 @@ const ANCHORS = {
   mortgageRate: [[3,10],[5,25],[7,50],[10,70],[15,90],[18.6,100]],
   mortgageDelinq:[[1,5],[2,25],[3,45],[5,65],[8,85],[11.5,95]],
   cardDelinq:   [[1.5,10],[2.5,30],[3.5,50],[5,70],[6.8,90],[9,100]],
-  consumerDelinq:[[1.5,10],[2.5,35],[3.5,60],[4.85,85],[6,100]],
+  auto30Plus:   AUTO_30_PLUS_ANCHORS,
   gasReal:      [[2,10],[3,35],[4,60],[5,85],[6.5,100]],
 };
 const WEIGHTS = { employment:25, housing:20, credit:20, auto:15, gas:10, inflation:10 };
@@ -73,6 +79,10 @@ function ffill(series,months){
     data[id]=await fetchSeries(id);
     console.log(`${Object.keys(data[id]).length} months`);
   }
+  process.stdout.write('fetching NY Fed auto 30+ flow... ');
+  const nyFedAuto=await fetchNyFedAutoSeries();
+  data.NYFED_AUTO_30PLUS=nyFedAuto.monthly;
+  console.log(`${Object.keys(data.NYFED_AUTO_30PLUS).length} quarters`);
 
   const months=[];
   const now=new Date();
@@ -85,7 +95,7 @@ function ffill(series,months){
 
   const ff={DRSFRMACBS:ffill(data.DRSFRMACBS,months),
             DRCCLACBS:ffill(data.DRCCLACBS,months),
-            DRCLACBS:ffill(data.DRCLACBS,months)};
+            NYFED_AUTO_30PLUS:ffill(data.NYFED_AUTO_30PLUS,months)};
   const cpiNow=Object.entries(data.CPIAUCSL).sort().pop()[1];
 
   const results=[];
@@ -96,9 +106,9 @@ function ffill(series,months){
     const prev=`${+m.slice(0,4)-1}${m.slice(4)}`;
     const cpiPrev=data.CPIAUCSL[prev];
     const mort=data.MORTGAGE30US[m];
-    const mdel=ff.DRSFRMACBS[m], cdel=ff.DRCCLACBS[m], adel=ff.DRCLACBS[m];
+    const mdel=ff.DRSFRMACBS[m], cdel=ff.DRCCLACBS[m], auto30=ff.NYFED_AUTO_30PLUS[m];
     const gasNom=data.GASREGW[m];
-    if([un,icsa,cpi,cpiPrev,mort,mdel,cdel,adel,gasNom].some(v=>v==null))continue;
+    if([un,icsa,cpi,cpiPrev,mort,mdel,cdel,auto30,gasNom].some(v=>v==null))continue;
 
     const stresses={
       /* level (unemployment) OR speed (claims spike) — whichever screams louder */
@@ -106,7 +116,7 @@ function ffill(series,months){
       inflation:interp(ANCHORS.inflationYoY,(cpi/cpiPrev-1)*100),
       housing:Math.max(interp(ANCHORS.mortgageRate,mort),interp(ANCHORS.mortgageDelinq,mdel)),
       credit:interp(ANCHORS.cardDelinq,cdel),
-      auto:interp(ANCHORS.consumerDelinq,adel),
+      auto:auto30PlusStress(auto30),
       gas:interp(ANCHORS.gasReal,gasNom*cpiNow/cpi),
     };
     const ooze=Object.entries(WEIGHTS).reduce((a,[k,w])=>a+w*stresses[k],0)/100;
@@ -157,7 +167,17 @@ function ffill(series,months){
 
   require('fs').writeFileSync('research/backtest-results.json',
     JSON.stringify({generated:new Date().toISOString(),anchors:ANCHORS,weights:WEIGHTS,
-      calibration:{rawCalm,rawGfc,a,b,rule:'calm 2000-2025 → 10, GFC peak → 90'},monthly:results},null,1));
+      methodology:{
+        auto:{
+          source:'New York Fed Consumer Credit Panel / Equifax',
+          metric:'Previously current auto balance entering 30+ delinquency',
+          workbook:nyFedAuto.sourceUrl,
+          worksheet:'Page 13 Data',
+          column:'AUTO',
+          frequency:'quarterly',
+        },
+      },
+      calibration:{rawCalm,rawGfc,a,b,rule:'calm 2003-2025 → 10, GFC peak → 90'},monthly:results},null,1));
   console.log('wrote research/backtest-results.json');
 
   /* emit the site's HISTORY array (monthly, calibrated) for lab.js */
