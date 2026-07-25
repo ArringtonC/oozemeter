@@ -140,6 +140,20 @@ h2{font-family:var(--display);font-weight:800;font-size:clamp(1.2rem,2.6vw,1.7re
 .pc-overall .num{font-family:var(--display);font-weight:900;font-size:2.6rem;color:var(--ooze)}
 .pc-overall p{font-size:.74rem;color:var(--muted);max-width:60ch}
 
+/* ---- goals as a disclosure list (Ive revision: scan first, read on demand) ---- */
+.goal{border:1px solid var(--line);border-radius:10px;margin-bottom:6px;background:var(--panel2)}
+.goal summary{display:flex;gap:12px;align-items:center;padding:13px 16px;cursor:pointer;list-style:none;font-size:.78rem}
+.goal summary::-webkit-details-marker{display:none}
+.goal .gdot{width:8px;height:8px;border-radius:50%;flex:none}
+.goal .gname{color:var(--text)}
+.goal .gstate{margin-left:auto;font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;white-space:nowrap;flex:none}
+.goal .gplus{color:var(--dim);font-family:var(--display);flex:none;width:12px;text-align:center}
+.goal[open] .gplus{color:var(--ooze)}
+.goal .gbody{padding:2px 16px 14px;border-top:1px solid var(--line)}
+.goal .gbody .pc-row{grid-template-columns:110px 1fr}
+.goal-group{margin-bottom:36px}
+.goal-count{font-size:.62rem;letter-spacing:.14em;color:var(--dim);text-transform:uppercase}
+
 footer{padding:36px 0 64px;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
 @media print{body::before{display:none}body{background:#fff;color:#111}.panel{display:block}.tabs{display:none}}
 </style>
@@ -653,19 +667,35 @@ const AGENT_GOALS=[
    a:'v5 backfill + severities + state data · DATA-2/3 · TRUTH-2/3'}]},
 ];
 
-const goalCard=x=>`
-  <div class="pc-group">
-    <div class="pc-head"><div><h3>${x.g}</h3><div class="pc-ref">Aligned with: ${x.a}</div></div></div>
-    <div class="pc-row" style="grid-template-columns:110px 1fr"><span class="pc-name">TARGET</span><span style="color:var(--text)">${x.t}</span></div>
-    <div class="pc-row" style="grid-template-columns:110px 1fr"><span class="pc-name">CURRENT</span><span style="color:${x.c.startsWith('✓')?'var(--ooze)':'var(--amber)'}">${x.c}</span></div>
-    <div class="pc-row" style="grid-template-columns:110px 1fr"><span class="pc-name">MEASURED BY</span><span style="color:var(--muted)">${x.m}</span></div>
+/* one line per goal; open for target/current/measured. Status derived from the
+   honest "current" text: ✓ MET green · everything else OPEN amber. */
+const goalRow=x=>{
+  const met=x.c.startsWith('✓');
+  return `<details class="goal">
+    <summary>
+      <span class="gdot" style="background:${met?'var(--ooze)':'var(--amber)'}"></span>
+      <span class="gname">${x.g}</span>
+      <span class="gstate" style="color:${met?'var(--ooze)':'var(--dim)'}">${met?'MET':'OPEN'}</span>
+      <span class="gplus">+</span>
+    </summary>
+    <div class="gbody">
+      <div class="pc-row"><span class="pc-name">TARGET</span><span style="color:var(--text)">${x.t}</span></div>
+      <div class="pc-row"><span class="pc-name">CURRENT</span><span style="color:${met?'var(--ooze)':'var(--amber)'}">${x.c}</span></div>
+      <div class="pc-row"><span class="pc-name">MEASURED BY</span><span style="color:var(--muted)">${x.m}</span></div>
+      <div class="pc-row"><span class="pc-name">ALIGNED WITH</span><span style="color:var(--dim)">${x.a}</span></div>
+    </div>
+  </details>`;
+};
+const goalGroup=(label,color,goals)=>{
+  const met=goals.filter(x=>x.c.startsWith('✓')).length;
+  return `<div class="goal-group">
+    <div class="bp-label" style="color:${color}">${label} <span class="goal-count">· ${met} of ${goals.length} met</span></div>
+    ${goals.map(goalRow).join('')}
   </div>`;
-
+};
 document.getElementById('goalBoard').innerHTML=
-  GOALS.map(goalCard).join('')
-  +AGENT_GOALS.map(o=>`
-    <div class="bp-label" style="margin-top:44px;color:${o.color}">Board Goals — ${o.owner}</div>
-    ${o.goals.map(goalCard).join('')}`).join('');
+  goalGroup('Operator Goals — North Star First','var(--text)',GOALS)
+  +AGENT_GOALS.map(o=>goalGroup('Board Goals — '+o.owner,o.color,o.goals)).join('');
 </script>
 </body>
 </html>
