@@ -29,6 +29,7 @@
         <div class="ep-date" id="epDate"></div>
         <h4 id="epTitle"></h4>
         <div class="ep-score" id="epScore"></div>
+        <div class="ep-next" id="epNext" style="font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;margin:-4px 0 10px"></div>
         <p id="epDesc"></p>
         <button class="btn primary" id="epGo">Replay this moment ▸</button>
       </div>
@@ -152,10 +153,18 @@ const pts=HISTORY.map(([t,v])=>`${X(t).toFixed(1)},${Y(v).toFixed(1)}`).join(' '
 const [lastT,lastV]=HISTORY[HISTORY.length-1];
 const latestTag=`<g><rect x="${W-R+4}" y="${Y(lastV)-9}" width="34" height="18" rx="4" fill="#a3ff12"/>
   <text x="${W-R+21}" y="${Y(lastV)+4}" fill="#070b06" font-size="10" font-weight="700" text-anchor="middle">${Math.round(lastV)}</text></g>`;
-const evDots=EV.map((e,i)=>`<g class="evt" data-i="${i}">
-  <circle cx="${X(e.t)}" cy="${Y(e.s)}" r="4.5" fill="#a3ff12" stroke="#070b06" stroke-width="1.5"/>
-  <rect x="${X(e.t)-16}" y="${Y(e.s)-16}" width="32" height="32" fill="transparent"/>
-</g>`).join('');
+/* markers pin to the bottom axis — they mark TIME, not severity (a dot on the
+   curve made BP-2010 look "worse" than Lehman-2008, because Lehman's date sits
+   on the slope while the peak came 9 months later). The curve carries severity;
+   the pins only say when. */
+const evDots=EV.map((e,i)=>{
+  const cx=X(e.t),cy=Y(e.s),by=H-B;
+  return `<g class="evt" data-i="${i}">
+    <line x1="${cx}" y1="${by-2}" x2="${cx}" y2="${cy}" stroke="rgba(230,242,218,.13)" stroke-dasharray="2 3"/>
+    <circle cx="${cx}" cy="${cy}" r="2.6" fill="none" stroke="#a3ff12" stroke-width="1.1" opacity=".7"/>
+    <circle cx="${cx}" cy="${by}" r="4.5" fill="#a3ff12" stroke="#070b06" stroke-width="1.5"/>
+    <rect x="${cx-16}" y="${by-18}" width="32" height="24" fill="transparent"/>
+  </g>`}).join('');
 
 $('echartMount').innerHTML=`<svg id="echartSvg" viewBox="0 0 ${W} ${H}" role="img" aria-label="Ooze level, 2000 to today, with event markers">
   ${bands}${grid}
@@ -183,12 +192,22 @@ svg.addEventListener('pointerleave',()=>{chip.style.opacity=0;chLine.setAttribut
 /* ============ POPUP (click an event) ============ */
 const epop=$('epop');
 let selI=-1;
+/* what the meter did in the 12 months after the event — consequence, stated */
+function aftermath(t){
+  const win=HISTORY.filter(([y])=>y>=t&&y<=t+1.05).map(x=>x[1]);
+  const at=scoreAt(t),peak=Math.max(...win),trough=Math.min(...win);
+  if(peak-at>=8)return[`the year after: rose to ${Math.round(peak)}`,'var(--amber)'];
+  if(at-trough>=8)return[`the year after: drained to ${Math.round(trough)}`,'var(--green)'];
+  return['the year after: barely moved','var(--dim)'];
+}
 function openPop(i){
   const e=EV[i];selI=i;
   $('epDate').textContent=e.date;
   $('epTitle').textContent=e.title;
-  $('epScore').innerHTML=`${e.s}<small> /100 · ${bandOf(e.s).name}</small>`;
+  $('epScore').innerHTML=`${e.s}<small> /100 at the time · ${bandOf(e.s).name}</small>`;
   $('epScore').style.color=BANDCOLORS[levelOf(e.s)-1];
+  const [ntxt,ncol]=aftermath(e.t);
+  $('epNext').textContent=ntxt;$('epNext').style.color=ncol;
   $('epDesc').textContent=e.desc;
   const panel=epop.parentElement,pw=panel.offsetWidth,popW=Math.min(300,pw*.8);
   const px=X(e.t)/W*pw;
@@ -215,7 +234,7 @@ $('etimeline').innerHTML=EV.map((e,i)=>`
   <div class="ecard" data-i="${i}">
     <div class="ec-date">${e.date}</div>
     <h4>${e.title}</h4>
-    <span class="ec-score" style="color:${BANDCOLORS[levelOf(e.s)-1]};border-color:${BANDCOLORS[levelOf(e.s)-1]}">OOZE ${e.s}</span>
+    <span class="ec-score" style="color:${BANDCOLORS[levelOf(e.s)-1]};border-color:${BANDCOLORS[levelOf(e.s)-1]}">AT THE TIME · ${e.s}</span>
   </div>`).join('');
 document.querySelectorAll('.ecard').forEach(c=>
   c.addEventListener('click',()=>openPop(+c.dataset.i)));
