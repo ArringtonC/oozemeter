@@ -116,8 +116,32 @@ h2{font-family:var(--display);font-weight:800;font-size:clamp(1.2rem,2.6vw,1.7re
 .stamp-card{border:1px solid var(--line);border-radius:10px;padding:14px 16px;font-size:.72rem;color:var(--muted)}
 .stamp-card b{display:block;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--text);margin-bottom:6px}
 
+/* ---- tabs ---- */
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-top:22px}
+.tab{font-family:var(--mono);font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;padding:10px 18px;border:1px solid var(--line);border-radius:8px 8px 0 0;background:none;color:var(--dim);cursor:pointer}
+.tab.on{color:var(--ooze);border-color:var(--line-hard);border-bottom-color:var(--bg);background:var(--panel2)}
+.panel{display:none}
+.panel.on{display:block}
+
+/* ---- completion board ---- */
+.pc-group{border:1px solid var(--line);border-radius:12px;background:var(--panel2);padding:20px 22px;margin-bottom:22px}
+.pc-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:16px;border-bottom:1px solid var(--line);padding-bottom:12px}
+.pc-head h3{font-family:var(--display);font-weight:800;font-size:.95rem}
+.pc-head .pc-avg{font-family:var(--display);font-weight:900;font-size:1.3rem;color:var(--ooze)}
+.pc-head .pc-ref{font-size:.6rem;letter-spacing:.16em;color:var(--dim);text-transform:uppercase}
+.pc-row{display:grid;grid-template-columns:190px 1fr 52px;gap:14px;align-items:center;padding:7px 0;font-size:.74rem}
+@media(max-width:620px){.pc-row{grid-template-columns:120px 1fr 44px}}
+.pc-row .pc-name{color:var(--muted);letter-spacing:.06em}
+.pc-row .pc-note{grid-column:1/-1;margin-top:-4px;font-size:.62rem;color:var(--dim);padding-left:2px}
+.pc-bar{height:9px;background:rgba(163,255,18,.07);border:1px solid var(--line);border-radius:4px;overflow:hidden}
+.pc-bar i{display:block;height:100%;border-radius:3px}
+.pc-val{font-family:var(--display);font-weight:800;text-align:right}
+.pc-overall{display:flex;align-items:center;gap:24px;border:1px solid var(--line-hard);border-radius:12px;padding:22px 26px;margin-bottom:26px;background:var(--panel)}
+.pc-overall .num{font-family:var(--display);font-weight:900;font-size:2.6rem;color:var(--ooze)}
+.pc-overall p{font-size:.74rem;color:var(--muted);max-width:60ch}
+
 footer{padding:36px 0 64px;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
-@media print{body::before{display:none}body{background:#fff;color:#111}}
+@media print{body::before{display:none}body{background:#fff;color:#111}.panel{display:block}.tabs{display:none}}
 </style>
 </head>
 <body>
@@ -126,23 +150,27 @@ footer{padding:36px 0 64px;font-size:.66rem;letter-spacing:.16em;text-transform:
   <div class="wrap">
     <div class="doc-id">Division of Economic Containment · Internal Document · Not for Public Deployment</div>
     <h1>FACILITY <em>BLUEPRINTS</em> <small style="font-size:.4em;color:var(--dim)">REV 2</small></h1>
-    <div class="drafted">Drafted by the Office of the CDO (J. Ive) · Rev 2 incorporates full board review — one active veto (Burry) · Consensus: expand, in gate order, number first</div>
+    <div class="drafted">Drafted by the Office of the CDO (J. Ive) · Rev 3 adds the Completion Board · Gates 1–2 CLEARED — Burry's veto lifted, the number is real (June 2026 = 25)</div>
+    <nav class="tabs">
+      <button class="tab on" data-panel="p-order">Build Order</button>
+      <button class="tab" data-panel="p-arch">Architecture</button>
+      <button class="tab" data-panel="p-flow">Visitor Flow</button>
+      <button class="tab" data-panel="p-complete">% Complete</button>
+    </nav>
   </div>
 </header>
 
-<!-- ============================================================ -->
-<!-- BLUEPRINT 00 — BUILD ORDER (BOARD CONSENSUS)                  -->
-<!-- ============================================================ -->
-<section>
+<!-- BLUEPRINT 00 -->
+<section class="panel on" id="p-order">
   <div class="wrap">
     <div class="bp-label">Blueprint 00 — Build Order · Board Consensus, Rev 2</div>
     <h2>Nothing advances until its gate opens</h2>
     <p class="bp-sub">Unanimous finding: the expansion architecture is right and the design language will hold — but the sequence was wrong. "Ship the number first" (all four reviewers, independently). Lanes B–D of Blueprint 01 are frozen until Gates 1–3 pass.</p>
 
     <div class="gates">
-      <div class="gate veto">
+      <div class="gate">
         <div class="gnum">GATE 1</div>
-        <h3>Reconcile the truth <span class="status veto">VETO ACTIVE</span></h3>
+        <h3>Reconcile the truth <span class="status now">✓ CLEARED</span></h3>
         <ul>
           <li><b>One scoring doctrine:</b> absolute anchors win; delete percentile spec from REQUIREMENTS §3.1</li>
           <li><b>Archive from data:</b> generate lab.js HISTORY/INCIDENTS from backtest-results.json — site says COVID 94 where data says 45</li>
@@ -155,7 +183,7 @@ footer{padding:36px 0 64px;font-size:.66rem;letter-spacing:.16em;text-transform:
 
       <div class="gate">
         <div class="gnum">GATE 2</div>
-        <h3>The number goes live</h3>
+        <h3>The number goes live <span class="status now">✓ CLEARED</span></h3>
         <ul>
           <li><b>collect.js + Actions cron</b> commit data/latest.json daily</li>
           <li><b>LIVE flips:</b> jar shows the real reading (~35) with delta and asOf</li>
@@ -199,10 +227,8 @@ footer{padding:36px 0 64px;font-size:.66rem;letter-spacing:.16em;text-transform:
   </div>
 </section>
 
-<!-- ============================================================ -->
-<!-- BLUEPRINT 01 — SYSTEM ARCHITECTURE                            -->
-<!-- ============================================================ -->
-<section>
+<!-- BLUEPRINT 01 -->
+<section class="panel" id="p-arch">
   <div class="wrap">
     <div class="bp-label">Blueprint 01 — System Architecture</div>
     <h2>How the facility runs itself</h2>
@@ -211,7 +237,7 @@ footer{padding:36px 0 64px;font-size:.66rem;letter-spacing:.16em;text-transform:
     <div class="lanes">
 
       <div class="lane" data-accent="green">
-        <div class="lane-head"><b>A · DATA CORE</b><span class="status now">Build now</span></div>
+        <div class="lane-head"><b>A · DATA CORE</b><span class="status now">LIVE</span></div>
         <div class="n"><span class="tag">external</span><h4>Public feeds</h4><p>FRED (UNRATE, CPI, MORTGAGE30US, delinquencies) · EIA gas · NY Fed CSVs. Free, licensed, linked at source.</p></div>
         <div class="n"><span class="tag">GitHub Actions</span><h4>Collector — collect.js</h4><p>Runs daily 12:00 UTC. Fetches every series, records asOf per line, flags staleness.</p></div>
         <div class="n hot"><h4>Scoring engine</h4><p>Published anchor curves × weights → stress per line → OOZE 0–100. ICSA momentum term. One calibration: GFC = 90. OOZEMAXING breadth check (all 6 ≥ 60).</p></div>
@@ -236,7 +262,7 @@ footer{padding:36px 0 64px;font-size:.66rem;letter-spacing:.16em;text-transform:
 
       <div class="lane" data-accent="red">
         <div class="lane-head"><b>D · GOVERNANCE</b><span class="status now">Active</span></div>
-        <div class="n hot"><span class="tag">veto active</span><h4>Burry — refutation loop</h4><p>Every number, headline claim, and article is checked against data/ before publish. No unlabeled simulation, ever. <b style="color:var(--red)">Standing veto: archive (COVID 94) vs backtest (45) — Gate 1.</b></p></div>
+        <div class="n hot"><span class="tag">veto active</span><h4>Burry — refutation loop</h4><p>Every number, headline claim, and article is checked against data/ before publish. No unlabeled simulation, ever. <b style="color:var(--red)">Veto lifted 2026-07-25: archive now generated from the backtest.</b></p></div>
         <div class="n"><h4>Jobs — the edit</h4><p>Five-second promise on every surface. Kill or commit. Copy tone.</p></div>
         <div class="n"><h4>Ive — the object</h4><p>One design language. Motion only when something changed. The Jar's rendering everywhere.</p></div>
         <div class="n"><span class="tag">human</span><h4>Control panel</h4><p>The one login. Agents propose (drafts, updates, re-optimizations); the operator approves. The site itself stays zero-login, agent-operated.</p></div>
@@ -250,10 +276,8 @@ footer{padding:36px 0 64px;font-size:.66rem;letter-spacing:.16em;text-transform:
   </div>
 </section>
 
-<!-- ============================================================ -->
-<!-- BLUEPRINT 02 — VISITOR FLOW & LOOK                            -->
-<!-- ============================================================ -->
-<section>
+<!-- BLUEPRINT 02 -->
+<section class="panel" id="p-flow">
   <div class="wrap">
     <div class="bp-label">Blueprint 02 — Visitor Flow &amp; Look</div>
     <h2>How a visit works, and how each moment looks</h2>
@@ -339,9 +363,106 @@ footer{padding:36px 0 64px;font-size:.66rem;letter-spacing:.16em;text-transform:
   </div>
 </section>
 
+<!-- BLUEPRINT 03 — COMPLETION BOARD -->
+<section class="panel" id="p-complete">
+  <div class="wrap">
+    <div class="bp-label">Blueprint 03 — Completion Board</div>
+    <h2>How done is the facility?</h2>
+    <p class="bp-sub">Honest percentages, scored against the definition of done in improvements.md and REQUIREMENTS.md. A bar moves only when the work is verified — never when it's promised. Updated by hand at each revision; automating this board is itself a task below.</p>
+    <div class="pc-overall"><div class="num" id="pcOverall">–%</div><p><b>Facility overall.</b> Weighted toward the things that make the product real: data and algorithm count double; ads count least until there's traffic to sell.</p></div>
+    <div id="pcBoard"></div>
+  </div>
+</section>
+
 <footer>
-  <div class="wrap">Blueprint Rev 2 · Incorporates board review of 2026-07-24 (Jobs · Ive · Zuckerberg · Burry) · Sources: improvements.md · REQUIREMENTS.md · research/HISTORY.md · backtest 2000–2026 · Next revision: after Gate 1 clears</div>
+  <div class="wrap">Blueprint Rev 3 · Board review 2026-07-24 · Gates 1–2 cleared 2026-07-25 · Sources: improvements.md · REQUIREMENTS.md · research/HISTORY.md · backtest 2000–2026 · data/latest.json</div>
 </footer>
 
+<script>
+/* ---- tabs ---- */
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('on',x===t));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('on',p.id===t.dataset.panel));
+}));
+
+/* ---- completion board (hand-scored each revision; groupWeight → overall) ---- */
+const BOARD=[
+ {name:'Data Feeds — the eight intake lines',ref:'improvements.md §1 · REQUIREMENTS §2',weight:2,rows:[
+   ['Gas prices',85,'FRED GASREGW live, weekly, real-price anchors · missing: per-line history chart'],
+   ['Housing',75,'Mortgage rate + mortgage delinquency live · missing: prices, affordability, chart'],
+   ['Credit cards',70,'Delinquency live (quarterly) · missing: APR, balances, chart'],
+   ['Auto loans',60,'Consumer-loan proxy live · missing: true auto delinquency, repos'],
+   ['Unemployment',90,'UNRATE + weekly claims momentum live — the strongest line'],
+   ['Inflation',75,'CPI YoY live, U-shaped anchors · missing: core CPI, PPI, food/energy splits'],
+   ['Foreclosures',15,'Page + methodology exist · no feed wired (aux sensor, reads 0)'],
+   ['Manufacturing',15,'Page + methodology exist · no feed wired (aux sensor, reads 0)'],
+ ]},
+ {name:'Algorithm & scoring',ref:'REQUIREMENTS §3 · backtest.js / collect.js',weight:2,rows:[
+   ['Anchor curves + weights',95,'Published, backtested 2000→present'],
+   ['Calibration (calm=10 / GFC=90)',95,'Frozen constants in collect.js'],
+   ['Fast-signal momentum (claims)',90,'Live in employment line'],
+   ['Monthly seal + release cadence',90,'Headline seals mid-month; lines carry own asOf + STALE flags'],
+   ['OOZEMAXING breadth check',80,'Computed daily · not yet displayed on site'],
+   ['Unit tests / golden fixtures',10,'Only console.asserts so far'],
+   ['Incident severity ratings (C1–C5)',0,'Specced, not computed'],
+ ]},
+ {name:'Website — by area',ref:'improvements.md §2–3',weight:1.5,rows:[
+   ['Homepage / containment chamber',90,'Live data, cascade, movers · missing: OG images, analytics'],
+   ['Indicator pages',70,'Live readings via template · charts still illustrative, no static URLs'],
+   ['Incident archive',90,'Fully backtested replay + real incident files'],
+   ['Lab notes / methodology',85,'Cadence doctrine documented · anchor tables not yet human-readable'],
+   ['Personal ooze calculator',75,'Works, honest caveats · state baselines simulated'],
+   ['State rankings',30,'Page built · data simulated, awaiting regional feeds'],
+   ['Daily report / articles section',0,'Gate 4 — not started'],
+   ['404, about, favicon, share images',5,'Specced only'],
+ ]},
+ {name:'Automation (the video system, adapted)',ref:'improvements.md §5 · flowmap Lane B',weight:1.5,rows:[
+   ['Daily data collection cron',85,'collect.js + Actions workflow written · activates on push'],
+   ['Auto site refresh on new data',80,'Pages redeploys on commit · pending push'],
+   ['Trending headlines intake',0,'Gate 4'],
+   ['Auto-generated Daily Ooze Report',0,'Gate 4 — golden-master template first'],
+   ['Fast indexing (IndexNow / API)',0,'Gate 4'],
+   ['Search Console gap miner',0,'Gate 4'],
+   ['Newsletter automation',0,'Blocked on real ESP (Gate 3)'],
+ ]},
+ {name:'AI agent workflow',ref:'agents/ · flowmap Lane D',weight:1,rows:[
+   ['Personas defined with mandates',90,'Jobs, Ive, Zuckerberg, Burry — roles, vetoes, review styles'],
+   ['Board review loop',75,'First full review executed; findings drove Gates 1–2'],
+   ['Burry refutation gate in pipeline',40,'Practiced by hand twice · not yet automated pre-publish'],
+   ['Operator control panel',0,'Specced in Lane D'],
+   ['Scheduled agent runs',0,'Not started'],
+ ]},
+ {name:'Research',ref:'research/',weight:1,rows:[
+   ['Historical crisis research (NBER)',95,'HISTORY.md — dates, profiles, fidelity tiers'],
+   ['Backtest 2000→present',95,'317 months, real FRED data, published in repo'],
+   ['Severity / recovery-time framework',60,'Designed and data-checked · not computed into site'],
+   ['Pre-2000 extension (1929–1999)',10,'Researched, not backfilled'],
+   ['State-level research',10,'Series identified only'],
+ ]},
+ {name:'Ads & monetization',ref:'improvements.md §7 · REQUIREMENTS §7',weight:0.5,rows:[
+   ['Ad slot placement in design',60,'Slots exist · board says hide until traffic'],
+   ['Custom domain',0,'Not purchased'],
+   ['AdSense prerequisites (legal, content)',0,'Privacy/terms/about not written'],
+   ['Consent management + ads.txt',0,'Not started'],
+   ['Newsletter monetization',0,'Blocked on real ESP'],
+ ]},
+];
+const color=v=>v>=80?'var(--ooze)':v>=40?'var(--amber)':'var(--red)';
+let wSum=0,wTot=0;
+document.getElementById('pcBoard').innerHTML=BOARD.map(g=>{
+  const avg=Math.round(g.rows.reduce((a,r)=>a+r[1],0)/g.rows.length);
+  wSum+=avg*g.weight;wTot+=g.weight;
+  return `<div class="pc-group">
+    <div class="pc-head"><div><h3>${g.name}</h3><div class="pc-ref">${g.ref}</div></div><div class="pc-avg">${avg}%</div></div>
+    ${g.rows.map(([n,v,note])=>`<div class="pc-row">
+      <span class="pc-name">${n}</span>
+      <div class="pc-bar"><i style="width:${v}%;background:${color(v)}"></i></div>
+      <span class="pc-val" style="color:${color(v)}">${v}%</span>
+      <span class="pc-note">${note}</span>
+    </div>`).join('')}
+  </div>`;
+}).join('');
+document.getElementById('pcOverall').textContent=Math.round(wSum/wTot)+'%';
+</script>
 </body>
 </html>
