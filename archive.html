@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#070b06">
-<title>OOZEMeter — Incident Archive | Economic History Replay</title>
-<meta name="description" content="Scrub through 25 years of economic stress. Watch containment fail in 2008 and 2020. The jar remembers everything.">
+<title>OOZEMeter — The Ooze Chart | 26 Years of Economic Stress</title>
+<meta name="description" content="The Ooze Chart: 26 years of measured U.S. economic stress with every major event pinned to the real curve — dot-com, Lehman, COVID, and more. Click any event to replay it.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800;900&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
@@ -14,12 +14,36 @@
 <body>
 <div id="page">
 
-<section id="archive">
+<!-- ============ THE OOZE CHART (the main thing) ============ -->
+<section id="oozechart" style="padding-top:34px">
   <div class="wrap">
-    <div class="crumbs" style="padding-bottom:22px"><a href="index.html">Facility</a> / Incident Archive</div>
-    <div class="sec-label">Restricted Wing — Incident Archive</div>
-    <h1 class="sec-title">Containment incident log</h1>
-    <p class="sec-sub">Drag the timeline — or open an incident file. Warning: scrubbing to 2008 may trigger facility alarms. Every reading is backtested from real FRED data with published anchors, calibrated so the calmest modern month = 10 and the 2008 peak = 90. Nothing here is hand-drawn.</p>
+    <div class="crumbs" style="padding-bottom:18px"><a href="index.html">Facility</a> / The Ooze Chart</div>
+    <h1 class="sec-title">The Ooze Chart</h1>
+    <p class="sec-sub" style="margin-bottom:22px">26 years of measured economic stress. The dots are events — <b style="color:var(--text)">click one</b>.</p>
+
+    <div class="echart-panel">
+      <div id="echartMount"></div>
+      <div class="ch-chip" id="chChip"></div>
+      <div class="echart-pop" id="epop">
+        <button class="ep-x" id="epopX" aria-label="Close">✕</button>
+        <div class="ep-date" id="epDate"></div>
+        <h4 id="epTitle"></h4>
+        <div class="ep-score" id="epScore"></div>
+        <p id="epDesc"></p>
+        <button class="btn primary" id="epGo">Replay this moment ▸</button>
+      </div>
+    </div>
+
+    <div class="etimeline" id="etimeline"></div>
+  </div>
+</section>
+
+<!-- ============ REPLAY ============ -->
+<section id="replay">
+  <div class="wrap">
+    <div class="sec-label">The Time Machine</div>
+    <h2 class="sec-title">Replay any moment</h2>
+    <p class="sec-sub">Drag the slider and watch the jar refill. Warning: 2008 triggers facility alarms.</p>
 
     <div class="replay-grid" id="replayTheme" data-level="4">
       <div class="replay-jar-box">
@@ -27,39 +51,22 @@
       </div>
       <div class="replay-panel">
         <div class="replay-year" id="replayYear">2026</div>
-        <div class="replay-score"><span id="replayScore">67</span> / 100</div>
-        <div class="replay-status" id="replayStatus">OOZING</div>
-        <div class="replay-tier" id="replayTier">🟠 CONTAINMENT WARNING</div>
-        <div class="replay-event" id="replayEvent">TODAY — Elevated stress, below recession territory.</div>
+        <div class="replay-score"><span id="replayScore">25</span> / 100</div>
+        <div class="replay-status" id="replayStatus">STICKY</div>
+        <div class="replay-tier" id="replayTier">🟡 OBSERVATION</div>
+        <div class="replay-event" id="replayEvent"></div>
         <input type="range" id="timeSlider" min="2000" max="2026" step="0.1" value="2026" aria-label="Scrub through economic history from 2000 to today">
         <div class="range-labels"><span>2000</span><span>2008</span><span>2015</span><span>2020</span><span>TODAY</span></div>
       </div>
     </div>
-
-    <div class="incidents" id="incidents"></div>
   </div>
 </section>
 
-<!-- ============ THE OOZE CHART ============ -->
-<section id="oozechart">
-  <div class="wrap">
-    <div class="sec-label reveal">File 03B — The Ooze Chart</div>
-    <h2 class="sec-title reveal">Every event, pinned to the real curve</h2>
-    <p class="sec-sub reveal">The line is data — 26 years of backtested monthly readings. The flags are history. Some events moved the jar; some famous ones barely touched it — that is the point of plotting both. (BP spill added by request of the facility's consulting sister.)</p>
-    <div class="echart-panel reveal">
-      <div id="echartMount"></div>
-      <div class="echart-readout" id="echartReadout">Hover or tap an event marker — the replay above travels there.</div>
-    </div>
-  </div>
-</section>
-
-
-
+<!-- ============ CROSS-REFERENCE ============ -->
 <section>
   <div class="wrap">
     <div class="sec-label reveal">Cross-Reference</div>
-    <h2 class="sec-title reveal">Trace an incident to its intake lines</h2>
-    <p class="sec-sub reveal">Every containment failure started as pressure in one of these lines. Open a file to see its 20-year stress history with recession bands marked.</p>
+    <h2 class="sec-title reveal">Trace stress to its source</h2>
     <div class="related reveal" id="allLines"></div>
   </div>
 </section>
@@ -71,6 +78,7 @@
 <script>
 renderHeader('archive');
 
+/* ============ REPLAY (unchanged mechanics) ============ */
 const replayJar=$('replayJar'),replayTheme=$('replayTheme');
 buildJar(replayJar);
 setJar(replayJar,replayTheme,TODAY_SCORE);
@@ -83,23 +91,12 @@ function renderReplay(){
   $('replayStatus').textContent=bandOf(s).name;
   $('replayTier').textContent=tierOf(s);
   setJar(replayJar,replayTheme,s);
-  setFacility(s); /* 2008 → alarms, flicker, page drips */
+  setFacility(s);
   const ev=EVENTS.find(([y])=>Math.abs(y-yr)<0.3);
   $('replayEvent').textContent=ev?ev[1]:'';
 }
 slider.addEventListener('input',renderReplay);
 renderReplay();
-
-$('incidents').innerHTML=INCIDENTS.map(x=>`
-  <div class="incident" data-jump="${x.jump}" tabindex="0" role="button" aria-label="Open incident file: ${x.year} ${x.name}">
-    <span class="stamp ${x.stamp}">${x.label}</span>
-    <h3>${x.year}</h3>
-    <div class="iname">${x.name}</div>
-    <div class="iname" style="color:var(--dim);letter-spacing:.12em;margin-top:-8px">${x.dates}</div>
-    <div class="itags">${x.tags.map(t=>`<span>${t}</span>`).join('')}</div>
-    <div class="peak">Peak ooze <b>${x.peak}</b> · backtested</div>
-  </div>`).join('');
-
 function jumpTo(year){
   const from=+slider.value,t0=performance.now();
   bloop(100,.12);
@@ -110,70 +107,122 @@ function jumpTo(year){
     if(p<1)requestAnimationFrame(step);
   })(t0);
 }
-document.querySelectorAll('.incident').forEach(el=>{
-  el.addEventListener('click',()=>jumpTo(+el.dataset.jump));
-  el.addEventListener('keydown',e=>{if(e.key==='Enter')jumpTo(+el.dataset.jump)});
-});
+new IntersectionObserver(es=>es.forEach(e=>{
+  if(!e.isIntersecting)setFacility(TODAY_SCORE);
+}),{threshold:0}).observe($('replay'));
 
+/* ============ EVENT DATA — plain words, real dates ============ */
+const EV=[
+ {t:2000.19,date:'Mar 10, 2000',title:'Dot-com bubble tops',
+  desc:'The Nasdaq peaks at 5,048 and goes on to lose 78% over two and a half years. The jar barely reaches 48 — a market crash isn\'t the same thing as household stress.'},
+ {t:2001.70,date:'Sep 11, 2001',title:'9/11 — markets close four days',
+  desc:'The attacks close U.S. markets for four days. The economy was already in recession (NBER: March–November 2001), so the flag sits on a slope that was already rising.'},
+ {t:2007.60,date:'Aug 9, 2007',title:'The credit crunch begins',
+  desc:'BNP Paribas freezes three funds and banks stop trusting each other overnight. This is the quiet start of the chain reaction that becomes 2008.'},
+ {t:2008.71,date:'Sep 15, 2008',title:'Lehman Brothers collapses',
+  desc:'The largest bankruptcy in U.S. history. The jar climbs to 90 by June 2009 — the only Containment Failed on record, and the peak this whole scale is calibrated to.'},
+ {t:2010.30,date:'Apr 20, 2010',title:'BP Deepwater Horizon spill',
+  desc:'A national tragedy — and a lesson in what this meter measures. Household budgets barely moved; the elevated reading here is the 2008 hangover still draining. (Added by request of the facility\'s consulting sister.)'},
+ {t:2011.60,date:'Aug 5, 2011',title:'U.S. credit rating downgraded',
+  desc:'S&P strips America\'s AAA rating for the first time ever. Markets convulsed; the household cascade mostly shrugged and kept slowly healing.'},
+ {t:2020.20,date:'Mar–Apr 2020',title:'COVID crash — 22M jobs lost',
+  desc:'The fastest job loss in American history — and the jar only reaches 43, because stimulus checks and payment pauses held the household line. Containment held.'},
+ {t:2022.45,date:'Jun 2022',title:'Inflation peaks at 9.1%',
+  desc:'The fastest price growth since 1981. Everyone hated this economy — but jobs were plentiful and bills got paid, so the jar read just 27. The vibecession, measured.'},
+ {t:2023.19,date:'Mar 2023',title:'SVB fails',
+  desc:'Three of the four largest bank failures in U.S. history inside two months. Contained fast — the jar ticked up and settled.'},
+];
+EV.forEach(e=>e.s=Math.round(scoreAt(e.t)));
+
+/* ============ THE CHART — terminal style, no on-chart labels ============ */
+const W=960,H=380,L=14,R=64,T=18,B=30;
+const x0=2000,x1=HISTORY[HISTORY.length-1][0]+.3;
+const X=t=>L+(t-x0)/(x1-x0)*(W-L-R);
+const Y=v=>T+(100-v)/100*(H-T-B);
+const BANDCOLORS=['#4dffa1','#8aff3c','#d8ff2e','#ffb02e','#ff4d3d'];
+const bands=BANDCOLORS.map((c,i)=>{
+  const lo=i*20,hi=lo+20;
+  return `<rect x="${L}" y="${Y(hi)}" width="${W-L-R}" height="${Y(lo)-Y(hi)}" fill="${c}" opacity="0.03"/>`;
+}).join('');
+const grid=[20,40,60,80].map(g=>`<line x1="${L}" y1="${Y(g)}" x2="${W-R}" y2="${Y(g)}" stroke="rgba(163,255,18,.06)"/>
+  <text x="${W-R+8}" y="${Y(g)+3}" fill="#708363" font-size="9">${g}</text>`).join('');
+const years=[2000,2005,2010,2015,2020,2025].map(yr=>
+  `<text x="${X(yr)}" y="${H-9}" fill="#708363" font-size="9" text-anchor="middle">${yr}</text>`).join('');
+const pts=HISTORY.map(([t,v])=>`${X(t).toFixed(1)},${Y(v).toFixed(1)}`).join(' ');
+const [lastT,lastV]=HISTORY[HISTORY.length-1];
+const latestTag=`<g><rect x="${W-R+4}" y="${Y(lastV)-9}" width="34" height="18" rx="4" fill="#a3ff12"/>
+  <text x="${W-R+21}" y="${Y(lastV)+4}" fill="#070b06" font-size="10" font-weight="700" text-anchor="middle">${Math.round(lastV)}</text></g>`;
+const evDots=EV.map((e,i)=>`<g class="evt" data-i="${i}">
+  <circle cx="${X(e.t)}" cy="${Y(e.s)}" r="4.5" fill="#a3ff12" stroke="#070b06" stroke-width="1.5"/>
+  <rect x="${X(e.t)-16}" y="${Y(e.s)-16}" width="32" height="32" fill="transparent"/>
+</g>`).join('');
+
+$('echartMount').innerHTML=`<svg id="echartSvg" viewBox="0 0 ${W} ${H}" role="img" aria-label="Ooze level, 2000 to today, with event markers">
+  ${bands}${grid}
+  <polygon points="${L},${Y(0)} ${pts} ${X(lastT)},${Y(0)}" fill="rgba(163,255,18,.08)"/>
+  <polyline points="${pts}" fill="none" stroke="#a3ff12" stroke-width="1.7"/>
+  <line id="chLine" x1="0" y1="${T}" x2="0" y2="${H-B}" stroke="rgba(230,242,218,.25)" stroke-dasharray="3 3" visibility="hidden"/>
+  ${evDots}${latestTag}${years}</svg>`;
+
+/* crosshair: hover anywhere → month + score readout */
+const svg=$('echartSvg'),chip=$('chChip'),chLine=$('chLine');
+svg.addEventListener('pointermove',e=>{
+  const r=svg.getBoundingClientRect();
+  const t=x0+((e.clientX-r.left)/r.width*W-L)/(W-L-R)*(x1-x0);
+  if(t<x0||t>lastT){chip.style.opacity=0;chLine.setAttribute('visibility','hidden');return}
+  const near=HISTORY.reduce((a,b)=>Math.abs(b[0]-t)<Math.abs(a[0]-t)?b:a);
+  const label=new Date(Date.UTC(Math.floor(near[0]),Math.round((near[0]%1)*12),15))
+    .toLocaleString('en-US',{month:'short',year:'numeric'});
+  chip.innerHTML=`${label} · <b>${Math.round(near[1])}</b> ${bandOf(near[1]).name}`;
+  chip.style.opacity=1;
+  chLine.setAttribute('x1',X(near[0]));chLine.setAttribute('x2',X(near[0]));
+  chLine.setAttribute('visibility','visible');
+});
+svg.addEventListener('pointerleave',()=>{chip.style.opacity=0;chLine.setAttribute('visibility','hidden')});
+
+/* ============ POPUP (click an event) ============ */
+const epop=$('epop');
+let selI=-1;
+function openPop(i){
+  const e=EV[i];selI=i;
+  $('epDate').textContent=e.date;
+  $('epTitle').textContent=e.title;
+  $('epScore').innerHTML=`${e.s}<small> /100 · ${bandOf(e.s).name}</small>`;
+  $('epScore').style.color=BANDCOLORS[levelOf(e.s)-1];
+  $('epDesc').textContent=e.desc;
+  const panel=epop.parentElement,pw=panel.offsetWidth,popW=Math.min(300,pw*.8);
+  const px=X(e.t)/W*pw;
+  epop.style.left=Math.max(12,Math.min(pw-popW-12,px-popW/2))+'px';
+  epop.classList.add('on');
+  document.querySelectorAll('#echartMount .evt').forEach((g,gi)=>g.classList.toggle('sel',gi===i));
+  document.querySelectorAll('.ecard').forEach((c,ci)=>c.classList.toggle('sel',ci===i));
+  bloop(200,.07);
+}
+$('epopX').addEventListener('click',()=>epop.classList.remove('on'));
+document.addEventListener('click',e=>{
+  if(!epop.contains(e.target)&&!e.target.closest('.evt')&&!e.target.closest('.ecard'))epop.classList.remove('on');
+});
+$('epGo').addEventListener('click',()=>{
+  epop.classList.remove('on');
+  jumpTo(EV[selI].t);
+  $('replay').scrollIntoView({behavior:'smooth',block:'center'});
+});
+document.querySelectorAll('#echartMount .evt').forEach(g=>
+  g.addEventListener('click',()=>openPop(+g.dataset.i)));
+
+/* ============ SCROLLABLE TIMELINE ============ */
+$('etimeline').innerHTML=EV.map((e,i)=>`
+  <div class="ecard" data-i="${i}">
+    <div class="ec-date">${e.date}</div>
+    <h4>${e.title}</h4>
+    <span class="ec-score" style="color:${BANDCOLORS[levelOf(e.s)-1]};border-color:${BANDCOLORS[levelOf(e.s)-1]}">OOZE ${e.s}</span>
+  </div>`).join('');
+document.querySelectorAll('.ecard').forEach(c=>
+  c.addEventListener('click',()=>openPop(+c.dataset.i)));
+
+/* ============ CROSS-REF ============ */
 $('allLines').innerHTML=INDICATORS.map(y=>
   `<a href="indicator.html?i=${y.slug}"><span>${y.emoji}</span> ${y.name} <span class="r-oz">+${y.contrib}</span></a>`).join('');
-
-
-/* ============ THE OOZE CHART — events pinned to the backtested curve ============ */
-const CHART_EVENTS=[
-  [2000.19,'MAR 2000','Dot-com bubble tops'],
-  [2001.70,'SEP 2001','9/11 — markets close four days'],
-  [2007.60,'AUG 2007','Credit crunch begins'],
-  [2008.71,'SEP 2008','Lehman Brothers collapses'],
-  [2010.30,'APR 2010','BP Deepwater Horizon spill'],
-  [2011.60,'AUG 2011','U.S. credit rating downgraded'],
-  [2020.20,'MAR 2020','COVID crash — 22M jobs lost'],
-  [2022.45,'JUN 2022','Inflation peaks at 9.1%'],
-  [2023.19,'MAR 2023','SVB fails'],
-];
-(function(){
-  const W=920,H=340,L=34,R=104,T=40,B=34;
-  const x0=2000,x1=HISTORY[HISTORY.length-1][0]+.2;
-  const X=t=>L+(t-x0)/(x1-x0)*(W-L-R);
-  const Y=v=>T+(100-v)/100*(H-T-B);
-  /* band zones — the same five colors the jar wears, at a whisper */
-  const BANDCOLORS=['#4dffa1','#8aff3c','#d8ff2e','#ffb02e','#ff4d3d'];
-  const bands=BANDCOLORS.map((c,i)=>{
-    const lo=i*20,hi=lo+20;
-    return `<rect x="${L}" y="${Y(hi)}" width="${W-L-R}" height="${Y(lo)-Y(hi)}" fill="${c}" opacity="0.035"/>
-      <text x="${W-R+10}" y="${Y((lo+hi)/2)+3}" fill="#708363" font-size="8.5" letter-spacing="2">${BANDS[i].name}</text>`;
-  }).join('');
-  const grid=[20,40,60,80].map(g=>`<line x1="${L}" y1="${Y(g)}" x2="${W-R}" y2="${Y(g)}" stroke="rgba(163,255,18,.07)"/>
-    <text x="${L-6}" y="${Y(g)+3}" fill="#708363" font-size="9" text-anchor="end">${g}</text>`).join('');
-  const years=[2000,2005,2010,2015,2020,2025].map(yr=>
-    `<text x="${X(yr)}" y="${H-10}" fill="#708363" font-size="9" text-anchor="middle">${yr}</text>`).join('');
-  const pts=HISTORY.map(([t,v])=>`${X(t).toFixed(1)},${Y(v).toFixed(1)}`).join(' ');
-  const evts=CHART_EVENTS.map(([t,date,name],i)=>{
-    const s=Math.round(scoreAt(t)),cx=X(t),cy=Y(s);
-    const top=i%2===0,ly=top?T-14:H-B+24;
-    const lx=Math.max(L+30,Math.min(W-R-30,cx));
-    return `<g class="evt" data-t="${t}" data-date="${date}" data-name="${name}" data-s="${s}">
-      <line x1="${cx}" y1="${cy}" x2="${cx}" y2="${top?ly+6:ly-14}" stroke="rgba(230,242,218,.18)" stroke-dasharray="2 3"/>
-      <circle cx="${cx}" cy="${cy}" r="4" fill="#a3ff12" stroke="#070b06" stroke-width="1.5"/>
-      <text class="elabel" x="${lx}" y="${top?ly:ly-4}" fill="#8ba07c" font-size="8.5" text-anchor="middle" letter-spacing="1">${name.toUpperCase()}</text>
-      <rect x="${cx-14}" y="${cy-14}" width="28" height="28" fill="transparent"/>
-    </g>`;
-  }).join('');
-  $('echartMount').innerHTML=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Ooze level 2000 to today with historical events marked">
-    ${bands}${grid}
-    <polygon points="${L},${Y(0)} ${pts} ${X(HISTORY[HISTORY.length-1][0])},${Y(0)}" fill="rgba(163,255,18,.07)"/>
-    <polyline points="${pts}" fill="none" stroke="#a3ff12" stroke-width="1.6"/>
-    ${evts}${years}</svg>`;
-  const readout=$('echartReadout');
-  const show=g=>{readout.innerHTML=`<span class="edate">${g.dataset.date}</span>${g.dataset.name} — ooze at the time: <b>${g.dataset.s}</b> (${bandOf(+g.dataset.s).name})`};
-  document.querySelectorAll('#echartMount .evt').forEach(g=>{
-    g.addEventListener('mouseenter',()=>show(g));
-    g.addEventListener('click',()=>{
-      document.querySelectorAll('#echartMount .evt').forEach(x=>x.classList.remove('sel'));
-      g.classList.add('sel');show(g);jumpTo(+g.dataset.t);
-    });
-  });
-})();
 
 renderFooter();
 wireReveals();
