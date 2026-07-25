@@ -302,16 +302,11 @@ function bigChart(hist){
 
 /* ============ SHARED CHROME ============ */
 function renderHeader(active){
-  const links=[
-    ['index.html#pressure','Pressure Sources','pressure'],
-    ['archive.html','Incident Archive','archive'],
-    ['personal.html','Your Ooze','personal'],
-    ['states.html','State Rankings','states'],
-    ['notes.html','Lab Notes','notes'],
-  ];
   document.body.insertAdjacentHTML('afterbegin',`
   <div id="alarmWash"></div>
   <div id="pageDrips"><i></i><i></i><i></i></div>`);
+  const indLinks=INDICATORS.map(x=>`<a href="indicator.html?i=${x.slug}"><span>${x.emoji}</span>${x.name}</a>`).join('');
+  const act=k=>k===active?' class="active"':'';
   document.getElementById('page').insertAdjacentHTML('afterbegin',`
   <header>
     <div class="wrap nav">
@@ -320,11 +315,32 @@ function renderHeader(active){
         <div class="division">Division of Economic Containment</div>
       </a>
       <nav class="nav-links">
-        ${links.map(([h,t,k])=>`<a href="${h}"${k===active?' class="active"':''}>${t}</a>`).join('')}
+        <a href="what-is-ooze.html"${act('what')}>What is Ooze?</a>
+        <details class="nav-dd"><summary>Indicators</summary><div class="dd-panel">${indLinks}</div></details>
+        <a href="archive.html"${act('archive')}>Archive</a>
+        <details class="nav-dd"><summary>Tools</summary><div class="dd-panel">
+          <a href="personal.html"><span>🧬</span>Your Personal Ooze</a>
+          <a href="states.html"><span>🗺</span>State Rankings</a>
+        </div></details>
+        <a href="notes.html"${act('notes')}>Lab Notes</a>
       </nav>
       <div class="nav-right">
         <button id="audioBtn" title="Toggle laboratory audio">AUDIO OFF</button>
-        <div class="live"><i></i>LABORATORY FEED</div>
+        <div class="live" title="Laboratory feed"><i></i>LIVE</div>
+        <details class="mnav"><summary aria-label="Open menu">☰</summary>
+          <div class="mnav-panel">
+            <div class="mnav-h">The Jar</div>
+            <a href="index.html"><span>🫙</span>Today's Reading</a>
+            <a href="what-is-ooze.html"><span>🌊</span>What is Ooze?</a>
+            <div class="mnav-h">Indicators</div>
+            ${indLinks}
+            <div class="mnav-h">Facility</div>
+            <a href="archive.html"><span>🗄</span>Incident Archive</a>
+            <a href="personal.html"><span>🧬</span>Your Personal Ooze</a>
+            <a href="states.html"><span>🗺</span>State Rankings</a>
+            <a href="notes.html"><span>📋</span>Lab Notes</a>
+          </div>
+        </details>
       </div>
     </div>
   </header>`);
@@ -335,6 +351,12 @@ function renderHeader(active){
     bloop(220);
   });
   setInterval(()=>{ if(audioOn&&Math.random()<.5) bloop(120+Math.random()*90,.05); },5000);
+  /* dropdowns close on outside tap — the one behavior details can't do alone */
+  document.addEventListener('click',e=>{
+    document.querySelectorAll('details.nav-dd[open],details.mnav[open]').forEach(d=>{
+      if(!d.contains(e.target))d.removeAttribute('open');
+    });
+  });
 }
 
 function renderFooter(){

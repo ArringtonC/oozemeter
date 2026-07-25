@@ -68,8 +68,6 @@ $('main').innerHTML=`
     <p>Full replay available in the <a href="archive.html">Incident Archive</a>.</p>
   </div>
 
-  <div class="ad-wrap" style="border:none;padding-left:0;padding-right:0"><div class="ad-slot">Advertisement — sponsor's beaker here</div></div>
-
   <div class="prose reveal">
     <h2>How it feeds the ooze</h2>
     <p>${x.name} ${x.weight?`carries a published weight of <strong>${x.weight}%</strong> in the Ooze Formula`:`is an auxiliary sensor — it doesn't carry formula weight, but it feeds the daily reading`}. ${lineLive?`Its current stress reading contributes <strong>+${x.contrib} of this month's ${TODAY_SCORE} oz</strong>${drain?' — and it has been relieving pressure lately':''}.`:`Once its feed connects, its normalized stress reading × weight will appear here as ounces of ooze.`} The complete recipe is public in the <a href="notes.html">Lab Notes</a>.</p>

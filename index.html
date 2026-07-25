@@ -54,30 +54,6 @@
   </div>
 </section>
 
-<!-- ============ WHAT IS OOZE ============ -->
-<section id="what">
-  <div class="wrap">
-    <div class="sec-label reveal">File 00 — Field Manual</div>
-    <h2 class="sec-title reveal">What is ooze?</h2>
-    <p class="sec-sub reveal">Ooze is economic stress moving through a household's defenses — in a fixed order. Every budget fails the same way, one line at a time. The meter reads how far down the cascade the average American household is.</p>
-
-    <div class="cascade reveal">
-      <div class="cstep"><span class="cnum">01</span><div><h3>⛽ Gas gets expensive</h3><p>The first pressure every budget feels — posted in foot-tall numbers, paid twice a week, impossible to skip.</p></div><a href="indicator.html?i=gas">Open file →</a></div>
-      <div class="cstep"><span class="cnum">02</span><div><h3>💳 The credit card absorbs it</h3><p>The gap between paycheck and prices goes on the card. Balances climb toward the limit at record interest rates.</p></div><a href="indicator.html?i=credit">Open file →</a></div>
-      <div class="cstep"><span class="cnum">03</span><div><h3>🚫 The credit runs out</h3><p>The card maxes out, new credit gets denied, and payments start slipping. The cushion is gone — defaults begin.</p></div><a href="indicator.html?i=credit">Open file →</a></div>
-      <div class="cstep"><span class="cnum">04</span><div><h3>🚗 The car payment breaks</h3><p>With no cushion left, one repair or one missed payment forces default on the loan that gets you to work.</p></div><a href="indicator.html?i=auto">Open file →</a></div>
-      <div class="cstep"><span class="cnum">05</span><div><h3>👷 No car, no job</h3><p>Missed work becomes lost work. Multiply by millions of households, and unemployment starts to climb.</p></div><a href="indicator.html?i=jobs">Open file →</a></div>
-      <div class="cstep"><span class="cnum">06</span><div><h3>🏠 The house is last to fall</h3><p>No paycheck, no mortgage payment. Foreclosure is the terminal stage — every filing is a family that ran out of every option above.</p></div><a href="indicator.html?i=foreclosures">Open file →</a></div>
-    </div>
-
-    <div class="oozemax reveal">
-      <h3>☢ OOZEMAXING</h3>
-      <p><b>When the whole chain fails at once.</b> Not one line under pressure — every line, everywhere, feeding each other: gas, credit, cars, jobs, and housing failing together across the economy, the way it happened in the Great Depression and in the spring of 2020.</p>
-      <p>It's the ceiling of the meter. Formally: OOZEMAXING is declared when <b>every weighted intake line reads elevated at the same time</b> — a breadth condition, not just a high score. In 25 years of real data it has never been met. If this facility ever declares it, it will not be hype.</p>
-    </div>
-  </div>
-</section>
-
 <!-- ============ TOP PRESSURE SOURCES ============ -->
 <section id="pressure">
   <div class="wrap">
@@ -88,8 +64,6 @@
     <div class="chip-row reveal" id="restChips"></div>
   </div>
 </section>
-
-<div class="ad-wrap"><div class="ad-slot">Advertisement — sponsor's beaker here</div></div>
 
 <!-- ============ LEAKS ============ -->
 <section id="leaks">
@@ -107,6 +81,12 @@
     <div class="sec-label reveal">File 03 — Restricted Wings</div>
     <h2 class="sec-title reveal">Deeper into the facility</h2>
     <div class="teasers reveal">
+      <a class="teaser" href="what-is-ooze.html">
+        <div class="t-icon">🌊</div>
+        <h3>What is Ooze?</h3>
+        <p>Gas → credit card → car → job → house. How money trouble spreads, one line at a time.</p>
+        <span class="t-cta">Read the field manual →</span>
+      </a>
       <a class="teaser" href="archive.html">
         <div class="t-icon">🗄</div>
         <h3>Incident Archive</h3>
@@ -133,13 +113,6 @@
       </a>
     </div>
   </div>
-</section>
-
-<div class="ad-wrap"><div class="ad-slot">Advertisement — sponsor's beaker here</div></div>
-
-<!-- ============ NEWSLETTER ============ -->
-<section id="newsletter">
-  <div class="wrap reveal" id="nlMount"></div>
 </section>
 
 <!-- ============ FIELD REPORT ============ -->
@@ -325,9 +298,6 @@ $('moversList').innerHTML=MOVERS.length?MOVERS.map(m=>`
   </div>`;
 
 /* ============ NEWSLETTER + SHARE ============ */
-$('nlMount').innerHTML=newsletterHTML();
-wireNewsletter();
-
 document.querySelector('.sc-score').innerHTML=`${TODAY_SCORE}<span style="font-size:.4em;color:var(--dim)">/100</span>`;
 if(LIVE){
   document.querySelector('.sc-status').textContent=tierOf(TODAY_SCORE);

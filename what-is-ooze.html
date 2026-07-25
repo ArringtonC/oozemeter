@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#070b06">
+<title>What is Ooze? — How Economic Stress Spreads | OOZEMeter</title>
+<meta name="description" content="Ooze is economic stress moving through a household's defenses in a fixed order: gas, credit cards, car loans, jobs, housing. The definition behind the Ooze Level score.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800;900&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="lab.css">
+</head>
+<body>
+<div id="page">
+
+<section>
+  <div class="wrap">
+    <div class="crumbs" style="padding-bottom:22px"><a href="index.html">Facility</a> / What is Ooze?</div>
+    <div class="sec-label">File 00 — Field Manual</div>
+    <h1 class="sec-title">What is ooze?</h1>
+    <p class="sec-sub">Ooze is economic stress moving through a household's defenses — in a fixed order. Every budget fails the same way, one line at a time. The meter reads how far down the cascade the average American household is.</p>
+
+    <div class="cascade">
+      <div class="cstep"><span class="cnum">01</span><div><h3>⛽ Gas gets expensive</h3><p>The first pressure every budget feels — posted in foot-tall numbers, paid twice a week, impossible to skip.</p></div><a href="indicator.html?i=gas">Open file →</a></div>
+      <div class="cstep"><span class="cnum">02</span><div><h3>💳 The credit card absorbs it</h3><p>The gap between paycheck and prices goes on the card. Balances climb toward the limit at record interest rates.</p></div><a href="indicator.html?i=credit">Open file →</a></div>
+      <div class="cstep"><span class="cnum">03</span><div><h3>🚫 The credit runs out</h3><p>The card maxes out, new credit gets denied, and payments start slipping. The cushion is gone — defaults begin.</p></div><a href="indicator.html?i=credit">Open file →</a></div>
+      <div class="cstep"><span class="cnum">04</span><div><h3>🚗 The car payment breaks</h3><p>With no cushion left, one repair or one missed payment forces default on the loan that gets you to work.</p></div><a href="indicator.html?i=auto">Open file →</a></div>
+      <div class="cstep"><span class="cnum">05</span><div><h3>👷 No car, no job</h3><p>Missed work becomes lost work. Multiply by millions of households, and unemployment starts to climb.</p></div><a href="indicator.html?i=jobs">Open file →</a></div>
+      <div class="cstep"><span class="cnum">06</span><div><h3>🏠 The house is last to fall</h3><p>No paycheck, no mortgage payment. Foreclosure is the terminal stage — every filing is a family that ran out of every option above.</p></div><a href="indicator.html?i=foreclosures">Open file →</a></div>
+    </div>
+
+    <div class="oozemax">
+      <h3>☢ OOZEMAXING</h3>
+      <p><b>When the whole chain fails at once.</b> Not one line under pressure — every line, everywhere, feeding each other: gas, credit, cars, jobs, and housing failing together across the economy, the way it happened in the Great Depression and in the spring of 2020.</p>
+      <p>It's the ceiling of the meter. Formally: OOZEMAXING is declared when <b>every weighted intake line reads elevated at the same time</b> — a breadth condition, not just a high score. In 25 years of real data it has never been met. If this facility ever declares it, it will not be hype.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-label reveal">Cross-Reference</div>
+    <h2 class="sec-title reveal">Watch the cascade in the data</h2>
+    <p class="sec-sub reveal">Every intake line below is one link of the chain, metered from public data. Or see the whole recipe in the <a href="notes.html">Lab Notes</a>.</p>
+    <div class="related reveal" id="allLines"></div>
+  </div>
+</section>
+
+</div><!-- /page -->
+
+<script src="data/latest.js"></script>
+<script src="lab.js"></script>
+<script>
+renderHeader('what');
+$('allLines').innerHTML=INDICATORS.map(y=>
+  `<a href="indicator.html?i=${y.slug}"><span>${y.emoji}</span> ${y.name} <span class="r-oz">+${y.contrib}</span></a>`).join('');
+renderFooter();
+wireReveals();
+</script>
+</body>
+</html>
