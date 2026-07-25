@@ -173,6 +173,7 @@ footer{padding:36px 0 64px;font-size:.66rem;letter-spacing:.16em;text-transform:
       <button class="tab" data-panel="p-tasks">Tasks</button>
       <button class="tab" data-panel="p-reqs">Requirements</button>
       <button class="tab" data-panel="p-goals">Goals</button>
+      <button class="tab" data-panel="p-how">How</button>
     </nav>
   </div>
 </header>
@@ -472,8 +473,18 @@ footer{padding:36px 0 64px;font-size:.66rem;letter-spacing:.16em;text-transform:
   </div>
 </section>
 
+<!-- BLUEPRINT 07 — HOW -->
+<section class="panel" id="p-how">
+  <div class="wrap">
+    <div class="bp-label">Blueprint 07 — How</div>
+    <h2>Each officer's method for getting there</h2>
+    <p class="bp-sub">The board's playbooks for the Objectives — asked for their way, in their words. Where the operator's Tryst site already proved a pattern (GA4 events, Search Console, schemas, OG pipeline, Formspree), the playbooks transplant it instead of reinventing it.</p>
+    <div id="howBoard"></div>
+  </div>
+</section>
+
 <footer>
-  <div class="wrap">Blueprint Rev 4 · Board review 2026-07-24 · Gates 1–2 cleared 2026-07-25 · Sources: improvements.md · REQUIREMENTS.md · tasks.js · research/ · data/latest.json</div>
+  <div class="wrap">Blueprint Rev 5 · Board review 2026-07-24 · Gates 1–2 cleared 2026-07-25 · Sources: improvements.md · REQUIREMENTS.md · tasks.js · research/ · data/latest.json · Tryst playbook inventory</div>
 </footer>
 
 <script src="tasks.js"></script>
@@ -730,16 +741,18 @@ const OBJECTIVES=[
   ['Improve AI search visibility',false],
   ['Increase direct visitors',false]]],
  ['MONETIZATION',[
-  ['Launch display ads',false],
-  ['Optimize ad placements',false],
-  ['Grow affiliate revenue',false],
-  ['Build newsletter sponsorships',false],
+  ['First dollar earned',false],
+  ['$100 / month — AdSense + affiliate links',false],
+  ['$1,000 / month — newsletter sponsorships stacked on ads',false],
+  ['$10,000 / month — premium reports + API & widget licensing',false],
+  ['Launch display ads (article pages only — never on the Jar)',false],
   ['Create premium reports',false]]],
  ['AUDIENCE',[
   ['100 daily visitors',false],
   ['1,000 daily visitors',false],
   ['10,000 daily visitors',false],
   ['100 email subscribers',false],
+  ['1,000 email subscribers',false],
   ['Build daily returning visitors',false]]],
  ['AUTOMATION',[
   ['Automate daily data collection',true],
@@ -751,7 +764,103 @@ const OBJECTIVES=[
   ['Become a trusted economic reference',false],
   ['Build a recognizable brand',false],
   ['Make the facility self-sustaining',false]]],
+ ['TRYST PLAYBOOK — proven on the operator\'s other site, transplant it',[
+  ['Register GA4 property + port track.js custom events',false],
+  ['Verify Google Search Console',false],
+  ['Ship sitemap.xml + robots.txt',false],
+  ['JSON-LD schemas: FAQ, Organization, Breadcrumb',false],
+  ['OG image on every page (1200×630 pipeline)',false],
+  ['Email capture wired (Formspree pattern → Buttondown)',false],
+  ['Port privacy/terms page templates',false]]],
 ];
+/* ---- HOW playbooks — authored by the board personas ---- */
+const HOWS=[
+ {owner:'JOBS · PRODUCT',color:'var(--ooze)',systems:[
+  {system:'Website',steps:[
+   'Put the score, its direction arrow, and the one-line "because" above the fold and delete everything else until a stranger gets it in five seconds — test it on a phone, on someone\'s mother, not on us.',
+   'Steal Tryst\'s OG images, JSON-LD, and sitemap wholesale so every shared link looks finished — a link preview is the first pixel of the product.',
+   'Ship the historical chart as one swipeable line with today\'s reading marked, not a dashboard — if it needs a legend, it\'s fired.',
+   'Run everything through the page-speed playbook until the score paints in under a second on 4G — a stress meter that loads slowly is a joke about itself.',
+   'The About page answers exactly three questions — what the number is, where the data comes from, who\'s behind it — and Tryst\'s privacy/terms templates get us legally dressed in an afternoon.']},
+  {system:'Content',steps:[
+   'Templatize one report format so ruthlessly that publishing a new one is a 30-minute fill-in — 100 reports is a factory problem, not a writing problem.',
+   'Write the ten evergreen explainers people actually search — "what is economic stress," "why does unemployment lag" — with FAQ schema attached so Google hands us the featured snippet.',
+   'Every article ends with the current Ooze score and a link home; content exists to feed the meter, never the reverse.',
+   'Wire track.js custom events into every article day one so we know within a week which pieces deserve siblings and which get killed.',
+   'Consistency is a calendar, not a mood: one report every data release, and anything that threatens the cadence gets cut, not delayed.']},
+  {system:'Long-term',steps:[
+   'The daily habit is one glance: the number changed or it didn\'t, and the page says why in one sentence — engineer for the return visit, not the long visit.',
+   'Drop the Formspree capture in as a one-field "email me when the score moves" — alerts on change, not newsletters on schedule, because change is the product.',
+   'Trusted reference means showing our work: every score links to the raw FRED series and the formula, so citing us is safer than not citing us.',
+   'The brand is the number — one color for calm, one for stress, the same jar everywhere from favicon to OG card, until "the Ooze hit 40" needs no explanation.',
+   'Self-sustaining means the machine runs itself: automated pulls, one-command deploy, analytics telling us what to write next — the operator\'s job shrinks to taste.']}]},
+ {owner:'IVE · DESIGN',color:'var(--cyan)',systems:[
+  {system:'Brand & the Jar',steps:[
+   'Draw the Jar once, properly: a single canonical SVG master — geometry, phosphor glow, hairline weights specified to the pixel — from which every icon, favicon, and share image is derived, never redrawn.',
+   'Transplant Tryst\'s OG pipeline so every page exports its own 1200×630 card from that master: the Jar fixed in place, the headline in Unbounded, the near-black field unbroken.',
+   'Rebuild the favicon set from the same master, hand-checking the silhouette at 16, 32, and 180 pixels so it survives reduction rather than merely enduring it.',
+   'Any future rendering — widget, embed, print — inherits the master\'s exact proportions and the settled-jar stillness; a drifted Jar is a defect and comes back to me before it ships.',
+   'Finish the unseen surfaces — the empty state, the 404, the loading order — with the same care as the hero, because the brand is what the object does when nobody is watching.']},
+  {system:'Speed & craft',steps:[
+   'Inline the critical CSS for first paint — the dark field, the grid, the chamber — so the instrument appears composed in the first frame, never as unstyled scaffolding.',
+   'Apply the Tryst font pattern — preconnect, font-display swap, subset to the weights we use — so type arrives without a visible costume change.',
+   'Transplant the cache rules so fonts and Jar assets are fetched once and remembered; a returning visitor should feel the page recognize them.',
+   'Enforce zero idle paint: when the jar is settled, nothing repaints — audited with paint flashing each release, because stillness that costs CPU is not stillness.',
+   'Budget every page — weight, requests, first paint on a mid-range phone over throttled 4G — and treat an exceeded budget exactly as a visual defect.']},
+  {system:'Templates',steps:[
+   'One golden-master page template — head order, meta, OG, fonts, section chrome, footer — and every page is that file with different content, never a cousin of it.',
+   'Codify the system in DESIGN.md as law and review new pages by diffing against the master; every deviation justifies itself or is removed.',
+   'Build the About page as the proof of the template: the instrument, the method, the people — honesty expressed through restraint, not decoration.',
+   'Design mobile in the same pass, swept by hand on an actual phone before anything is called done.',
+   'Run a quarterly detail sweep and fold every correction back into the golden master, so the system heals in one place.']}]},
+ {owner:'ZUCKERBERG · GROWTH',color:'var(--amber)',systems:[
+  {system:'Discovery',steps:[
+   'Day one, port the Tryst infrastructure wholesale: new GA4 property, copy the track.js link-click event pattern, verify Search Console, ship sitemap + robots before writing a single new page.',
+   'Ship the custom domain with per-slug static pages carrying canonicals plus the Tryst FAQ and Breadcrumb schemas — every indicator page rich-results eligible from launch.',
+   'Turn the Daily Ooze Report into the flywheel: auto-generate from latest.json, ping IndexNow on publish, per-page OG images — shareable and indexable within hours.',
+   'Launch the embeddable "Today\'s Ooze" badge and pitch econ bloggers — every embed is a live backlink, which is also what feeds AI-search citations.',
+   'Once impressions flow, run the gap miner: impressions-without-clicks queries become new explainers, compounding the evergreen library.']},
+  {system:'Audience',steps:[
+   'Wire the email form to Formspree exactly as on Tryst (with GA4 capture events), then migrate to Buttondown for the daily Morning Specimen — the newsletter is the retention engine, not a nice-to-have.',
+   'Get to 100 daily visitors with two launch artifacts: the "2008 missed OOZEMAXING by one line" backtest post, and the daily report pages — both instrumented so we know which loop converts.',
+   'Build the habit that gets to 1,000: streaks ("N days in a row", localStorage only), a one-sentence "why it changed" on every move, one-tap share cards per band.',
+   'Define the north-star funnel in GA4 from day one — daily returners, share copies, embed loads, signups — and kill or double down weekly on those numbers.',
+   'Scale 1k→10k by multiplying surfaces: 50 state pages, community discussion feeding the gap miner, newsletter swaps with adjacent econ letters.']},
+  {system:'Monetization — the dollar ladder',steps:[
+   'FIRST DOLLAR (~100 visitors/day): one or two contextual affiliate links on indicator and explainer pages, tracked with the track.js click pattern so we know exactly which page converts.',
+   '$100/MO (~500–1k visitors/day): ship the evergreen explainers + privacy policy + ads.txt + consent to clear AdSense, then run ads on article pages only — never on the Jar.',
+   '$1,000/MO (~3–5k visitors/day, 1k+ subscribers): sell a weekly sponsorship slot in the Morning Specimen ($50–150/send to fintech brands) stacked on ads and affiliates.',
+   '$10,000/MO (~10k+ visitors/day): layer premium — a paid "Full Lab Report" tier ($5–10/mo, deeper data + alerts + API/widget licensing); ~150 subscribers covers half the goal.',
+   'House rule on every rung: no clickbait framing of the score, no simulated numbers near ad units — Burry co-signs anything public-facing, because trust is the asset that makes the ladder climbable.']}]},
+ {owner:'BURRY · DATA',color:'var(--red)',systems:[
+  {system:'Data',steps:[
+   'Wire foreclosures and manufacturing into the formula only after backtesting them on 2000–2025 — if adding a line doesn\'t change crisis scores in a direction the raw series justifies, it\'s noise and stays out.',
+   'Ship returning-visitor tracking with the track.js pattern as three GA4 events (first_visit, return_visit, score_viewed) keyed on a localStorage timestamp — verified in DebugView before trusting a single chart.',
+   'Drop the Search Console verification tag in, submit the sitemap, pull the query report monthly — impressions on "recession meter" terms are the only demand signal we don\'t fabricate ourselves.',
+   'Extend the per-line backfill so history carries every intake line monthly to 2000, then diff the recomputed headline against frozen calibration — any month moving more than a point means the backfill is wrong, not the calibration.',
+   'Freeze golden fixtures for Jun-2009=90, dot-com=46, COVID=45 and run them as real assertions on every data change — the backtest already refuted three of our own guesses.']},
+  {system:'Automation',steps:[
+   'Convert the console.asserts into a real test file (node --test, zero dependencies) with a canned FRED CSV fixture — the cron is worthless if it faithfully automates a bug.',
+   'Make the workflow fail loud: any fetch error or STALE trip exits nonzero and files an issue — a green check on stale data is the exact failure mode that kills a data site.',
+   'Diff each new latest.json against the previous commit and write a one-line changelog per moved line into the commit message — what moved and why, readable in ten seconds.',
+   'Generate charts as static SVGs in the same Actions run (no client chart library, no CDN) and snapshot-test one known month so a rendering regression can\'t ship unnoticed.',
+   'Add a monthly self-audit recomputing the last 12 headlines from raw data against history.json — silent FRED revisions are real, and this is the only way we ever see them.']},
+  {system:'Confidence scoring',steps:[
+   'Grade every intake line A–D on three factors — freshness vs. its native cadence, directness (UNRATE is direct; gas-as-stress is a proxy), and revision risk — stored next to the value in latest.json, not in prose.',
+   'Degrade freshness continuously against each line\'s STALE budget so confidence drops before the alarm fires, not after.',
+   'Roll line grades into one headline confidence using the same weights as the score — a stale 25-weight jobs line must hurt more than a stale 10-weight gas line, or the number is theater.',
+   'Display a plain letter with the failing lines named — never a percentage, because "87% confident" is a precision we cannot defend and I won\'t sign it.',
+   'Before it renders publicly, replay confidence across the full backtest: COVID spring 2020 must grade C or worse, clean months must grade A — or the grader is refuted and goes back in the drawer.']}]},
+];
+document.getElementById('howBoard').innerHTML=HOWS.map(o=>`
+  <div class="goal-group">
+    <div class="bp-label" style="color:${o.color}">${o.owner}</div>
+    ${o.systems.map(s=>`<details class="goal">
+      <summary><span class="gdot" style="background:${o.color}"></span><span class="gname">${s.system}</span><span class="gstate" style="color:var(--dim)">${s.steps.length} STEPS</span><span class="gplus">+</span></summary>
+      <div class="gbody">${s.steps.map((st,i)=>`<div class="pc-row" style="grid-template-columns:34px 1fr"><span class="pc-name">${String(i+1).padStart(2,'0')}</span><span style="color:var(--muted)">${st}</span></div>`).join('')}</div>
+    </details>`).join('')}
+  </div>`).join('');
+
 document.getElementById('objBoard').innerHTML=OBJECTIVES.map(([cat,items])=>{
   const done=items.filter(([,d])=>d).length;
   return `<div class="gate">
