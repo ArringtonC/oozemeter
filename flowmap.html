@@ -458,13 +458,17 @@ footer{padding:36px 0 64px;font-size:.66rem;letter-spacing:.16em;text-transform:
   </div>
 </section>
 
-<!-- BLUEPRINT 06 — GOALS -->
+<!-- BLUEPRINT 06 — OBJECTIVES -->
 <section class="panel" id="p-goals">
   <div class="wrap">
-    <div class="bp-label">Blueprint 06 — Goals &amp; Alignment</div>
-    <h2>What the facility is trying to achieve</h2>
-    <p class="bp-sub">The monitoring page: every goal has a target, a current honest reading, how it's measured, and which part of the facility feeds it. Most read "not measured yet" until analytics lands (Gate 3) — that's the point of Gate 3.</p>
-    <div id="goalBoard"></div>
+    <div class="bp-label">Blueprint 06 — Objectives</div>
+    <h2>The facility doesn't chase one goal</h2>
+    <p class="bp-sub">It improves every system that makes OOZEMeter valuable. A box gets checked when the work is verified — never when it's promised.</p>
+    <div class="gates" style="grid-template-columns:repeat(auto-fill,minmax(270px,1fr))" id="objBoard"></div>
+    <details class="goal" style="margin-top:36px">
+      <summary><span class="gdot" style="background:var(--dim)"></span><span class="gname">Appendix — detailed board goals (targets, measurements, alignment)</span><span class="gplus">+</span></summary>
+      <div class="gbody" id="goalBoard"></div>
+    </details>
   </div>
 </section>
 
@@ -696,6 +700,67 @@ const goalGroup=(label,color,goals)=>{
 document.getElementById('goalBoard').innerHTML=
   goalGroup('Operator Goals — North Star First','var(--text)',GOALS)
   +AGENT_GOALS.map(o=>goalGroup('Board Goals — '+o.owner,o.color,o.goals)).join('');
+
+/* ---- objectives checklist (Blueprint 06) — done:true only when verified ---- */
+const OBJECTIVES=[
+ ['WEBSITE',[
+  ['Explain OozeMeter in under 5 seconds',false],
+  ['Improve homepage conversion',false],
+  ['Improve mobile experience',false],
+  ['Increase page speed',false],
+  ['Launch historical charts',false],
+  ['Build a better About page',false]]],
+ ['CONTENT',[
+  ['Publish 100 economy reports',false],
+  ['Publish 250 searchable articles',false],
+  ['Add evergreen explainers',false],
+  ['Cover every major economic indicator',false],
+  ['Keep daily updates consistent',false]]],
+ ['DATA',[
+  ['Complete Gate 3 analytics',false],
+  ['Track returning visitors',false],
+  ['Track search performance',false],
+  ['Build historical data archive',true],
+  ['Add API-powered data feeds',true],
+  ['Improve confidence scoring',false]]],
+ ['DISCOVERY',[
+  ['Rank for economy-related searches',false],
+  ['Grow organic search traffic',false],
+  ['Increase backlinks',false],
+  ['Improve AI search visibility',false],
+  ['Increase direct visitors',false]]],
+ ['MONETIZATION',[
+  ['Launch display ads',false],
+  ['Optimize ad placements',false],
+  ['Grow affiliate revenue',false],
+  ['Build newsletter sponsorships',false],
+  ['Create premium reports',false]]],
+ ['AUDIENCE',[
+  ['100 daily visitors',false],
+  ['1,000 daily visitors',false],
+  ['10,000 daily visitors',false],
+  ['100 email subscribers',false],
+  ['Build daily returning visitors',false]]],
+ ['AUTOMATION',[
+  ['Automate daily data collection',true],
+  ['Automate report generation',false],
+  ['Automate chart creation',false],
+  ['Reduce manual maintenance',false]]],
+ ['LONG-TERM',[
+  ['Become a daily habit',false],
+  ['Become a trusted economic reference',false],
+  ['Build a recognizable brand',false],
+  ['Make the facility self-sustaining',false]]],
+];
+document.getElementById('objBoard').innerHTML=OBJECTIVES.map(([cat,items])=>{
+  const done=items.filter(([,d])=>d).length;
+  return `<div class="gate">
+    <div class="gnum" style="font-size:.85rem;letter-spacing:.2em">${cat}</div>
+    <div class="goal-count" style="margin-bottom:8px">${done} of ${items.length}</div>
+    <ul>${items.map(([t,d])=>`<li style="${d?'color:var(--muted)':''}">
+      <span style="color:${d?'var(--ooze)':'var(--dim)'};margin-right:9px">${d?'✓':'□'}</span>${t}</li>`).join('')}</ul>
+  </div>`;
+}).join('');
 </script>
 </body>
 </html>
