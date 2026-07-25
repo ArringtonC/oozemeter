@@ -37,7 +37,7 @@ v3 | Data       | Replace broad DRCLACBS auto proxy with NY Fed auto 30+ delinqu
 v3 | Algorithm  | Resolve ICSA monthly-average vs trailing four-week-mean methodology | todo
 v3 | Algorithm  | Freeze CPI adjustment basis: current CPIAUCSL vs recommended NSA CUUR0000SA0 YoY | todo
 v3 | Trust      | Reconcile UI source labels with original publishers and proxy disclosures | todo
-v3 | Launch     | Push live: real number + cron running in the cloud | todo
+v3 | Launch     | Push live: real number + cron running in the cloud | done
 v3 | Data       | Wire foreclosures feed (DRSFRMACBS already fetched — surface it) | todo
 v3 | Data       | Wire manufacturing feed (INDPRO) | todo
 v3 | Growth     | Real newsletter ESP behind the signup form (Buttondown) | todo
