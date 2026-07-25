@@ -47,6 +47,7 @@ v3 | Design     | OG share images per band + favicon (the Jar as an object) | to
 v3 | Design     | 404 page in facility voice | todo
 v3 | Trust      | Privacy, terms, about, attribution pages | todo
 v3 | Website    | Remove empty ad slots until there is traffic | done
+v3 | Website    | Ooze event chart: XY curve with dated event flags (incl. BP spill) | done
 v3 | Website    | Big-league navigation: Indicators/Tools dropdowns + mobile menu; homepage slimmed (cascade moved to what-is-ooze.html) | done
 v3 | Launch     | Custom domain purchase + setup | todo
 v4 | Content    | Golden-master report page (worst-case content, checked in) | todo
