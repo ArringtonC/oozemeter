@@ -506,14 +506,7 @@ footer{padding:36px 0 64px;font-size:.66rem;letter-spacing:.16em;text-transform:
     <p class="bp-sub">Architected by the Operator; the panel updates it as seasons close. Season 1 has one rule, set by the Operator: <b>no money yet — make it fun, and make it mine.</b> The facility must be genuinely usable and useful to its owner before it chases anyone else.</p>
     <div class="season">
       <div class="rmascot"><div class="jarglyph"><i style="height:25%"></i></div></div>
-      <div class="season-head">
-        <div class="s-kicker">Season 1 · Month 1</div>
-        <h3>MAKE IT MINE</h3>
-        <p>Usable by the Operator, every day, from a phone — with the fun protected and growing.</p>
-      </div>
-      <div class="rpath" id="rpath1"></div>
-      <div class="season-lock">🔒 Season 2 · The Facility Opens — unlocks when Season 1 is complete</div>
-      <div class="rpath" id="rpath2"></div>
+      <div id="roadAll"></div>
     </div>
   </div>
 </section>
@@ -818,37 +811,108 @@ const OBJECTIVES=[
   ['Email capture wired (Formspree pattern → Buttondown)',false],
   ['Port privacy/terms page templates',false]]],
 ];
-/* ---- roadmap path (Season 1 architected by the Operator: fun + usable-by-me,
-        no money. Panel proposes updates when the season closes.) ---- */
-const SEASON1=[
- {icon:'⭐',name:'Go live',note:'Push the facility to the public URL so the jar is checkable from your phone, anywhere.',state:'current'},
- {icon:'📱',name:'On your home screen',note:'Jar favicon + apple-touch-icon — one tap from your phone to today\'s reading.',state:'todo'},
- {icon:'🧪',name:'All eight sensors',note:'Wire foreclosures + manufacturing so every line you named reads real data.',state:'todo'},
- {icon:'🎁',name:'Fun drop #1',note:'The lab anthem — an original funky groove behind the audio toggle. LAB ANTHEM: ON.',state:'todo'},
- {icon:'📖',name:'The About page',note:'Who runs this facility and why — it\'s yours, the site should say so.',state:'todo'},
- {icon:'⭐',name:'First live seal',note:'Mid-August: watch July\'s reading seal itself while you\'re holding your phone. The machine works without you.',state:'todo'},
- {icon:'🏋️',name:'Your streak',note:'"You\'ve checked the jar N days in a row" — your own habit, measured.',state:'todo'},
- {icon:'🎁',name:'Fun drop #2',note:'Konami confetti bubbles + tap-the-glass-10× files an incident report against you.',state:'todo'},
- {icon:'⭐',name:'Season finale: It\'s yours',note:'You check it daily for a full week without touching the code. Then the panel plans Season 2.',state:'todo'},
+/* ---- the full path: every task in the ledger as a node.
+        Architected by the Operator; personal edition — long on purpose.
+        States: done ✓ · current (START) · todo · locked (future seasons). ---- */
+const CHAPTERS=[
+ {kicker:'The trail behind you · complete',title:'CHAPTER 0 — THE SHELL',
+  sub:'Everything already climbed to get here.',nodes:[
+  ['🖥','Six-page facility built','Home, indicators, archive, notes, personal, states — the containment lab exists.','done'],
+  ['🫙','The Jar lives','Staged motion, settles at rest, five level themes. The mascot is born.','done'],
+  ['🌊','The Cascade written','Gas → credit → car → job → house. Your definition, on the page.','done'],
+  ['🕹','Boot sequence + alarms','Clearance check, red wash at 80+, flicker at 90+, drips at 95+.','done'],
+  ['📱','Mobile pass','Scrollable nav, AA contrast, 44px targets, honest tap copy.','done'],
+  ['⚖','Honest offline state','No data = jar reads 0 and says so. The house rule is architecture.','done'],
+  ['🚨','Share card','One-tap field report, copy + post.','done'],
+  ['📖','Design context on file','PRODUCT.md + DESIGN.md — the brand is written down.','done']]},
+ {kicker:'The trail behind you · complete',title:'CHAPTER 1 — THE REAL NUMBER',
+  sub:'The month the meter stopped pretending.',nodes:[
+  ['📚','Crisis history researched','NBER dates, worst-times profiles, fidelity tiers.','done'],
+  ['🧮','The backtest','317 months computed from real FRED data. It refuted three of our own guesses.','done'],
+  ['⚡','Claims momentum','Weekly jobless claims catch fast crises the slow data misses.','done'],
+  ['🎯','Calibration locked','Calmest month = 10 · GFC peak = 90. The ruler means something forever.','done'],
+  ['🗄','Archive goes honest','Every replay number generated from data. COVID = 43, and that\'s the story.','done'],
+  ['🤖','The collector','collect.js: monthly seal, per-line freshness, STALE flags.','done'],
+  ['⏰','The cron written','Daily 9:45am ET collection, ready to run in the cloud.','done'],
+  ['🔴','Site goes LIVE-capable','June 2026 = 25, real values on every card, no fossil numbers.','done'],
+  ['🧑‍🔬','The board assembled','Jobs, Ive, Zuckerberg, Burry — mandates, vetoes, first full review.','done'],
+  ['🗺','The blueprints','This document: gates, lanes, ledger, objectives, playbooks, path.','done'],
+  ['📜','Cadence doctrine','Monthly seal at the best time; lines refresh on release. Your rule, now law.','done']]},
+ {kicker:'Season 1 · Month 1 · in progress',title:'SEASON 1 — MAKE IT MINE',
+  sub:'The Operator\'s rule: no money yet. Fun, and usable by me, every day, from a phone.',nodes:[
+  ['⭐','Go live','Push the facility public so the jar is checkable from your phone, anywhere.','current'],
+  ['📱','On your home screen','Jar favicon + apple-touch-icon — one tap to today\'s reading.','todo'],
+  ['🧪','Sensor 7: foreclosures','Surface the mortgage-delinquency feed already being fetched.','todo'],
+  ['🏭','Sensor 8: manufacturing','Wire INDPRO. All eight lines you named, reading real data.','todo'],
+  ['🧹','Sweep the beakers','Hide the empty ad slots — nothing for sale in a facility this young.','todo'],
+  ['🎁','Fun drop #1: the anthem','An original funky groove behind the toggle. LAB ANTHEM: ON.','todo'],
+  ['📖','The About page','Who runs this facility and why. It\'s yours — the site should say so.','todo'],
+  ['🚫','SPECIMEN NOT FOUND','The 404 page, finished like the front door.','todo'],
+  ['⭐','First live seal','Mid-August: July\'s reading seals itself while you hold your phone. The machine works without you.','todo'],
+  ['🏋️','Your streak','"You\'ve checked the jar N days in a row" — your habit, measured.','todo'],
+  ['🎁','Fun drop #2: mischief','Konami confetti + tap-the-glass-10× files an incident report against you.','todo'],
+  ['🧬','Your Personal Ooze, tuned','Run your own numbers monthly; compare against the national jar.','todo'],
+  ['⭐','SEASON FINALE: It\'s yours','Seven straight days of checking it without touching code. Then the panel plans Season 2.','todo']]},
+ {kicker:'Season 2 · locked until Season 1 completes',title:'SEASON 2 — THE FACILITY OPENS',
+  sub:'Capture and measure. The Tryst playbook transplanted wholesale.',locked:true,nodes:[
+  ['🌐','The real address','Custom domain purchased and pointed.'],
+  ['📊','GA4 + track.js','The Tryst analytics pattern: events on share, subscribe, session depth.'],
+  ['🔍','Search Console verified','The demand signal we don\'t fabricate ourselves.'],
+  ['🗺','sitemap.xml + robots.txt','Google gets a map of the facility.'],
+  ['🔗','Static per-slug pages','/gas/ not ?i=gas — eight real pages with canonicals.'],
+  ['🏷','JSON-LD schemas','FAQ, Organization, Breadcrumb — rich-results eligible.'],
+  ['🖼','OG image pipeline','The Jar at 1200×630 on every shared link, per band.'],
+  ['✉️','Morning Specimen goes real','ESP behind the form; the localStorage lie ends.'],
+  ['📜','Legally dressed','Privacy, terms, attribution — Tryst templates, an afternoon.'],
+  ['📈','First 100 daily visitors','The two launch artifacts: the OOZEMAXING near-miss post + daily pages.']]},
+ {kicker:'Season 3 · locked',title:'SEASON 3 — THE PRESSES RUN',
+  sub:'The content engine wakes. Zero-login, agent-operated, Burry-gated.',locked:true,nodes:[
+  ['🏆','Golden-master template','Worst-case report page perfected once; every generated page diffs against it.'],
+  ['🔤','Prose ramp completed','h3, lists, captions, dateline — before agents write a word.'],
+  ['📡','Headlines intake','Daily scan, one filter: does it move an intake line?'],
+  ['📰','Daily Ooze Report','Auto-drafted from latest.json. The fresh-content flywheel spins.'],
+  ['⚡','Fast indexing','IndexNow + Indexing API on every publish.'],
+  ['⛏','The gap miner','Impressions-without-clicks become tomorrow\'s pages.'],
+  ['🧐','Refutation gate automated','Burry\'s check runs before anything publishes, every time.'],
+  ['🎛','The control panel','Agents propose, the Operator approves. The one login.'],
+  ['💬','The forum opens','Readers argue about the day\'s reading; the arguing feeds the miner.']]},
+ {kicker:'Season 4 · locked',title:'SEASON 4 — THE EXPANSION',
+  sub:'Depth, scale, and the first dollar.',locked:true,nodes:[
+  ['📉','Per-line backfill','Every indicator chart real to 2000. Not one illustrative pixel survives.'],
+  ['🧪','Unit tests + golden days','Jun-2009=90 asserted forever. The cron can\'t automate a bug.'],
+  ['🔠','Confidence grades','A–D per line, honest letter on the headline. Never a fake percentage.'],
+  ['☢','OOZEMAXING on display','The breadth condition, computed daily, shown on the jar.'],
+  ['🏅','Severity ratings C1–C5','Peak × duration × recovery, computed from the archive.'],
+  ['🗽','Fifty real states','Regional feeds land; the rankings stop being simulated.'],
+  ['🕰','Back to 1929','The Depression enters the archive, fidelity tiers labeled.'],
+  ['📊','Chart automation','Static SVGs generated in the cron, snapshot-tested.'],
+  ['🔔','Threshold alerts','"Notify me above 70." Change is the product.'],
+  ['🪟','The widget','"Today\'s Ooze" on a thousand other sites, every embed a backlink.'],
+  ['📚','250 searchable articles','The evergreen library compounds.'],
+  ['💵','First dollar','Contextual affiliates on article pages. The ladder\'s first rung.'],
+  ['💰','$100 / month','AdSense clears: ads on articles only, never the Jar.'],
+  ['🤝','$1,000 / month','Morning Specimen sponsorships stack on ads.'],
+  ['🏛','$10,000 / month','Premium Lab Reports + API licensing. Self-sustaining.'],
+  ['🎤','This Is How We Ooze It','The parody license, pursued as a victory lap.']]},
 ];
-const SEASON2=[
- {icon:'🌐',name:'The real address',note:'Custom domain.',state:'locked'},
- {icon:'✉️',name:'Morning Specimen',note:'The daily email, real ESP.',state:'locked'},
- {icon:'📰',name:'First reports',note:'The content engine wakes.',state:'locked'},
- {icon:'💵',name:'First dollar',note:'The ladder begins.',state:'locked'},
-];
-const DX=[0,-80,-120,-80,0,80,120,80,0];
-function pathHTML(nodes,offset=true){
-  return nodes.map((n,i)=>`
-    <div class="rnode ${n.state}" style="--dx:${offset?(DX[i%DX.length]):0}px">
-      ${n.state==='current'?'<div class="start-bub">START</div>':''}
-      <div class="rbtn">${n.state==='locked'?'🔒':n.icon}</div>
-      <div class="rname">${n.name}</div>
-      <div class="rnote">${n.note}</div>
-    </div>`).join('');
-}
-document.getElementById('rpath1').innerHTML=pathHTML(SEASON1);
-document.getElementById('rpath2').innerHTML=pathHTML(SEASON2);
+const DX=[0,-80,-120,-80,0,80,120,80];
+document.getElementById('roadAll').innerHTML=CHAPTERS.map((ch,ci)=>`
+  ${ch.locked?`<div class="season-lock">🔒 ${ch.title.replace('SEASON','Season')} — locked</div>`:''}
+  <div class="season-head">
+    <div class="s-kicker">${ch.kicker}</div>
+    <h3>${ch.title}</h3>
+    <p>${ch.sub}</p>
+  </div>
+  <div class="rpath">
+    ${ch.nodes.map((n,i)=>{
+      const state=ch.locked?'locked':(n[3]||'todo');
+      return `<div class="rnode ${state}" style="--dx:${DX[i%DX.length]}px">
+        ${state==='current'?'<div class="start-bub">START</div>':''}
+        <div class="rbtn">${state==='locked'?'🔒':n[0]}</div>
+        <div class="rname">${n[1]}</div>
+        <div class="rnote">${n[2]}</div>
+      </div>`}).join('')}
+  </div>`).join('');
 
 /* ---- HOW playbooks — authored by the board personas ---- */
 const HOWS=[
