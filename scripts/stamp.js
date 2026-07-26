@@ -64,6 +64,15 @@ if(h.includes(LD_MARK)){
   h=h.replace('</head>',LD_MARK+ld+'</'+'script>\n</head>');
 }
 
+/* verdict line (AUDIT-2), computed from the same history the archive uses */
+try{
+  const hist=JSON.parse(fs.readFileSync('data/history.json','utf8'));
+  const worse=hist.filter(([,v])=>v>s).length,per10=Math.round(worse/hist.length*10);
+  const verdict=per10>=5?`Calmer than ${per10} of every 10 months since 2003`
+    :`More stressed than ${10-per10} of every 10 months since 2003`;
+  sub(/id="verdictLine">[^<]*</,`id="verdictLine">${verdict}<`,'verdict line');
+}catch(e){console.warn('stamp: verdict skipped —',e.message)}
+
 fs.writeFileSync('index.html',h);
 console.log(`stamped index.html: ${s}/100 ${band(s)} (${d.monthLabel}), delta ${delta>=0?'+':''}${delta}, missing markers: ${missing}`);
 if(missing>3)process.exit(1); /* structure drifted badly — fail loud for the cron */

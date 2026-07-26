@@ -64,12 +64,12 @@ v3 | Growth     | Previous/next file controls: "continue through the facility" o
 v5 | Ads        | Ad-readiness checklist as an objective launch gate (page depth, content volume, legal, speed, brand safety) | todo
 v3 | Docs       | "Do Not Build Yet" list: written refusals to protect focus | todo
 v3 | Docs       | House rule: measurement before expansion - every new section ships with its metric, target, and removal condition | todo
-v3 | Data       | AUDIT-1 Revision detector + calibration invariants: diff history on collect, assert GFC=90/calm=10, fail closed | todo
-v3 | Website    | AUDIT-2 Historical verdict line on hero: "calmer than X of 10 months since 2003", computed from history | todo
-v3 | Data       | AUDIT-3 Plausibility gate: per-series range + jump limits before publish; violation keeps prior snapshot | todo
-v3 | Website    | AUDIT-4 Stamp real score into static HTML (scripts/stamp.js, idempotent) - built + run; cron wiring pending | wip
-v3 | Growth     | AUDIT-5 RSS/Atom feed (scripts/rss.js, feed.xml live) - built + run; cron wiring pending | wip
-v3 | Design     | AUDIT-6 Motion + type tokens: settle curve declared once, durations to <=4 named tokens, fix faux-bold weights | todo
+v3 | Data       | AUDIT-1 Revision detector + calibration invariants (scripts/integrity.js, fail-closed; first log: v2 rewrote 244 months) | done
+v3 | Website    | AUDIT-2 Historical verdict line on hero, computed live + stamped static | done
+v3 | Data       | AUDIT-3 Plausibility gate: per-line ranges + 30pt jump cap in integrity.js; failure blocks the cron commit | done
+v3 | Website    | AUDIT-4 Stamp real score into static HTML (scripts/stamp.js) - wired into daily cron | done
+v3 | Growth     | AUDIT-5 RSS/Atom feed (feed.xml) - wired into daily cron | done
+v3 | Design     | AUDIT-6 Motion/type tokens: settle curve declared once (--ease), faux-bold fixed | done
 v3 | Growth     | AUDIT-7 JSON-LD: Dataset schema on homepage + Article schema on articles - done; FAQ schema on indicators pending | wip
 v3 | Design     | AUDIT-8 First-paint doctrine: static shell + preloaded fonts, LCP<2s, score visible before JS | todo
 v4 | Content    | Golden-master report page (article.html template, live) | done
