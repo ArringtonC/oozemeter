@@ -22,10 +22,10 @@ Scale 0–10 per dimension. "—" = not applicable to that site.
 
 | Dimension | OOZE before | OOZE after |
 |---|---|---|
-| Data in the chrome | 2 | **9** (chip on every page; -1: no hover detail panel yet) |
+| Data in the chrome | 2 | **10** (chip on every page + hover panel with all 8 lines) |
 | Nav depth & learnability | 8 | **8** (unchanged) |
 | Freshness signaling | 4 | **8** (relative timestamps + latest rail; -2: no per-article timestamps until content engine) |
 | In-page wayfinding | 2 | **8** (chapter nav + persistent action; -2: only on indicator pages so far) |
 | Message density | 8 | **8** (unchanged) |
-| Mobile nav | 7 | **7** (unchanged; bottom tab bar logged for later) |
-| **TOTAL** | 31/60 | **48/60** — from 52% to 80% of the CNBC/Apple bar in one pass |
+| Mobile nav | 7 | **9** (bottom tab bar: Jar/Chart/Ooze?/My Ooze, active states, safe-area) |
+| **TOTAL** | 31/60 | **51/60** — from 52% to 85% of the bar; remaining debt is content-dependent (per-article timestamps) |

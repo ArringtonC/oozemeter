@@ -56,15 +56,16 @@ async function fetchSeries(id){
   if(!res.ok)throw new Error(`${id}: HTTP ${res.status}`);
   const rows=(await res.text()).trim().split('\n').slice(1);
   const out={};                                     // 'YYYY-MM' -> avg value
-  const acc={};
+  const acc={},observations=[];
   for(const r of rows){
     const [d,v]=r.split(',');
     if(v==='.'||v===''||v==null)continue;
-    const key=d.slice(0,7);
-    (acc[key]??=[]).push(parseFloat(v));
+    const value=parseFloat(v),key=d.slice(0,7);
+    observations.push({date:d,value});
+    (acc[key]??=[]).push(value);
   }
   for(const k in acc)out[k]=acc[k].reduce((a,b)=>a+b,0)/acc[k].length;
-  return out;
+  return {monthly:out,observations};
 }
 
 /* quarterly series → forward-fill to months */
@@ -75,12 +76,15 @@ function ffill(series,months){
 }
 
 (async()=>{
-  const data={};
+  const data={},observations={};
   for(const id of Object.keys(SERIES)){
     process.stdout.write(`fetching ${id}... `);
-    data[id]=await fetchSeries(id);
+    const fetched=await fetchSeries(id);
+    data[id]=fetched.monthly;
+    observations[id]=fetched.observations;
     console.log(`${Object.keys(data[id]).length} months`);
   }
+  data.ICSA=trailingFourWeekByMonth(observations.ICSA);
   process.stdout.write('fetching NY Fed auto 30+ flow... ');
   const nyFedAuto=await fetchNyFedAutoSeries();
   data.NYFED_AUTO_30PLUS=nyFedAuto.monthly;
@@ -98,24 +102,23 @@ function ffill(series,months){
   const ff={DRSFRMACBS:ffill(data.DRSFRMACBS,months),
             DRCCLACBS:ffill(data.DRCCLACBS,months),
             NYFED_AUTO_30PLUS:ffill(data.NYFED_AUTO_30PLUS,months)};
-  const cpiNow=Object.entries(data.CPIAUCSL).sort().pop()[1];
+  const cpiNow=Object.entries(data.CPIAUCNS).sort().pop()[1];
 
   const results=[];
   for(const m of months){
     const un=data.UNRATE[m];
     const icsa=data.ICSA[m];
-    const cpi=data.CPIAUCSL[m];
-    const prev=`${+m.slice(0,4)-1}${m.slice(4)}`;
-    const cpiPrev=data.CPIAUCSL[prev];
+    const cpi=data.CPIAUCNS[m];
+    const inflationYoY=yearOverYear(data.CPIAUCNS,m);
     const mort=data.MORTGAGE30US[m];
     const mdel=ff.DRSFRMACBS[m], cdel=ff.DRCCLACBS[m], auto30=ff.NYFED_AUTO_30PLUS[m];
     const gasNom=data.GASREGW[m];
-    if([un,icsa,cpi,cpiPrev,mort,mdel,cdel,auto30,gasNom].some(v=>v==null))continue;
+    if([un,icsa,cpi,inflationYoY,mort,mdel,cdel,auto30,gasNom].some(v=>v==null))continue;
 
     const stresses={
       /* level (unemployment) OR speed (claims spike) — whichever screams louder */
       employment:Math.max(interp(ANCHORS.unemployment,un),interp(ANCHORS.claimsK,icsa/1000)),
-      inflation:interp(ANCHORS.inflationYoY,(cpi/cpiPrev-1)*100),
+      inflation:interp(ANCHORS.inflationYoY,inflationYoY),
       housing:Math.max(interp(ANCHORS.mortgageRate,mort),interp(ANCHORS.mortgageDelinq,mdel)),
       credit:interp(ANCHORS.cardDelinq,cdel),
       auto:auto30PlusStress(auto30),
@@ -177,6 +180,17 @@ function ffill(series,months){
           worksheet:'Page 13 Data',
           column:'AUTO',
           frequency:'quarterly',
+        },
+        claims:{
+          source:'U.S. Department of Labor',
+          seriesId:'ICSA',
+          transform:'Trailing mean of the latest four weekly observations available in each month',
+        },
+        inflation:{
+          source:'U.S. Bureau of Labor Statistics',
+          seriesId:'CPIAUCNS',
+          transform:'Same-month year-over-year percent change',
+          seasonalAdjustment:'not seasonally adjusted',
         },
       },
       calibration:{rawCalm,rawGfc,a,b,rule:'calm 2003-2025 → 10, GFC peak → 90'},monthly:results},null,1));

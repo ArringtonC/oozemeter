@@ -99,6 +99,29 @@ header{border-bottom:1px solid var(--line);background:linear-gradient(rgba(7,11,
 .score-chip b{font-family:var(--display);font-weight:800;font-size:.82rem}
 .score-chip small{font-size:.56rem;letter-spacing:.16em;color:var(--dim);text-transform:uppercase}
 @media(max-width:480px){.score-chip small{display:none}}
+/* chip hover panel — per-line detail without leaving the page (CNBC movers pattern) */
+.score-wrap{position:relative}
+.score-pop{position:absolute;top:calc(100% + 10px);right:0;width:264px;background:var(--panel);border:1px solid var(--line-hard);border-radius:12px;padding:10px 14px;z-index:46;box-shadow:0 20px 50px rgba(0,0,0,.6);display:none}
+.score-wrap:hover .score-pop,.score-wrap:focus-within .score-pop{display:block}
+@media(hover:none){.score-wrap:hover .score-pop{display:none}}
+.score-pop a{display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:baseline;padding:8px 0;border-top:1px solid var(--line);color:var(--muted);font-size:.7rem}
+.score-pop a:first-child{border-top:none}
+.score-pop a:hover{color:var(--text);text-decoration:none}
+.score-pop b{font-family:var(--display);font-size:.68rem;color:var(--text)}
+.score-pop .sp-d{font-size:.62rem}
+.score-pop .sp-d.up{color:var(--amber)}
+.score-pop .sp-d.down{color:var(--green)}
+.score-pop .sp-foot{font-size:.58rem;letter-spacing:.16em;color:var(--dim);text-transform:uppercase;padding-top:10px;border-top:1px solid var(--line);display:block;text-align:center}
+
+/* mobile bottom tab bar — app-like reach (CNBC pattern) */
+.tabbar{display:none}
+@media(max-width:960px){
+  .tabbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:35;background:rgba(7,11,6,.94);backdrop-filter:blur(10px);border-top:1px solid var(--line-hard);padding:6px 4px calc(6px + env(safe-area-inset-bottom))}
+  .tabbar a{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 0;color:var(--dim);font-size:1.05rem;text-decoration:none}
+  .tabbar a small{font-size:.52rem;letter-spacing:.14em;text-transform:uppercase}
+  .tabbar a.active{color:var(--ooze)}
+  body{padding-bottom:74px}
+}
 
 /* latest readings rail — dual-speed homepage (CNBC pattern) */
 .dualflow{display:grid;grid-template-columns:1fr 360px;gap:34px;align-items:start}

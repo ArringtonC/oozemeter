@@ -333,11 +333,19 @@ function renderHeader(active){
         <a href="notes.html"${act('notes')}>Lab Notes</a>
       </nav>
       <div class="nav-right">
+        <div class="score-wrap">
         <a class="score-chip" href="index.html" title="${LIVE?`Current Ooze Level: ${TODAY_SCORE}/100 (${bandOf(TODAY_SCORE).name}) — ${UPDATED}`:'Sensors offline'}">
           <span class="scj"><i style="height:${Math.max(TODAY_SCORE,4)}%;background:${LIVE?LEVELCOLORS[levelOf(TODAY_SCORE)-1]:'var(--dim)'}"></i></span>
           <b style="color:${LIVE?LEVELCOLORS[levelOf(TODAY_SCORE)-1]:'var(--dim)'}">${LIVE?TODAY_SCORE:'—'}</b>
           <small>${LIVE?bandOf(TODAY_SCORE).name:'OFFLINE'}</small>
         </a>
+        ${LIVE?`<div class="score-pop">
+          ${Object.entries(LD.lines).map(([slug,l])=>{
+            const y=INDICATORS.find(i=>i.slug===slug);
+            return `<a href="indicator.html?i=${slug}"><span>${y.emoji} ${y.name}</span><b>${l.value}</b><span class="sp-d ${l.delta>=0?'up':'down'}">${l.delta>=0?'▲':'▼'}${Math.abs(l.delta)}</span></a>`}).join('')}
+          <span class="sp-foot">${LD.monthLabel} reading · ${TODAY_SCORE}/100</span>
+        </div>`:''}
+        </div>
         <button id="audioBtn" title="Toggle laboratory audio">AUDIO OFF</button>
         <div class="live" title="Laboratory feed"><i></i>LIVE</div>
         <details class="mnav"><summary aria-label="Open menu">☰</summary>
@@ -370,6 +378,17 @@ function renderHeader(active){
       if(!d.contains(e.target))d.removeAttribute('open');
     });
   });
+  /* mobile bottom tab bar — app-like reach on every page */
+  const here=location.pathname.split('/').pop()||'index.html';
+  const tabs=[
+    ['index.html','🫙','Jar'],
+    ['archive.html','📈','Chart'],
+    ['what-is-ooze.html','🌊','Ooze?'],
+    ['personal.html','🧬','My Ooze'],
+  ];
+  document.body.insertAdjacentHTML('beforeend',`<nav class="tabbar" aria-label="Quick navigation">
+    ${tabs.map(([h,ic,l])=>`<a href="${h}"${h===here?' class="active"':''}><span>${ic}</span><small>${l}</small></a>`).join('')}
+  </nav>`);
 }
 
 function renderFooter(){

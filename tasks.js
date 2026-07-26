@@ -48,6 +48,8 @@ v3 | Design     | 404 page in facility voice | todo
 v3 | Trust      | Privacy, terms, about, attribution pages | todo
 v3 | Website    | Remove empty ad slots until there is traffic | done
 v3 | Website    | Score chip in the chrome: live jar + score + band in header, every page | done
+v3 | Website    | Chip hover panel: all 8 lines with deltas, no navigation needed | done
+v3 | Website    | Mobile bottom tab bar (Jar / Chart / Ooze? / My Ooze) | done
 v3 | Website    | Latest-readings rail: dual-speed homepage with relative timestamps | done
 v3 | Website    | Sticky local sub-nav on indicator pages (chapters + See the Jar) | done
 v3 | Website    | Ooze event chart: XY curve with dated event flags (incl. BP spill) | done

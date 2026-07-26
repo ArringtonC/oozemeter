@@ -10,10 +10,17 @@
    Run: node scripts/collect.js */
 
 const fs=require('fs');
+const {
+  AUTO_30_PLUS_ANCHORS,
+  auto30PlusStress,
+  fetchNyFedAutoSeries,
+  trailingFourWeekByMonth,
+  yearOverYear,
+}=require('./lib/methodology');
 
-/* frozen calibration — derived once on the 2000-2025 window (backtest.js),
+/* frozen calibration — derived once on the 2003-2025 window (backtest.js),
    calm month → 10, GFC peak Jun 2009 → 90. Do not re-derive daily. */
-const CAL={a:1.4828,b:-27.4883};
+const CAL={a:1.4209110232483089,b:-24.62145011353958};
 
 const ANCHORS={
   unemployment:[[3.5,5],[5,25],[6.5,45],[8,62],[10,78],[15,90],[25,100]],
@@ -22,7 +29,7 @@ const ANCHORS={
   mortgageRate:[[3,10],[5,25],[7,50],[10,70],[15,90],[18.6,100]],
   mortgageDelinq:[[1,5],[2,25],[3,45],[5,65],[8,85],[11.5,95]],
   cardDelinq:[[1.5,10],[2.5,30],[3.5,50],[5,70],[6.8,90],[9,100]],
-  consumerDelinq:[[1.5,10],[2.5,35],[3.5,60],[4.85,85],[6,100]],
+  auto30Plus:AUTO_30_PLUS_ANCHORS,
   gasReal:[[2,10],[3,35],[4,60],[5,85],[6.5,100]],
 };
 const WEIGHTS={jobs:25,housing:20,credit:20,auto:15,gas:10,inflation:10};
