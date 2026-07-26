@@ -475,6 +475,10 @@ footer{padding:36px 0 64px;font-size:.66rem;letter-spacing:.16em;text-transform:
         <li><b>GROW-2</b> · Sharing anything takes one tap</li>
         <li><b>GROW-3</b> · No feature ships without knowing how it will be measured</li>
       </ul></div>
+      <div class="gate"><div class="gnum">MEASURE</div><h3>Measurement law</h3><ul>
+        <li><b>MEAS-1</b> · Every new section ships with its metric, its target, and its removal condition — or it doesn't ship</li>
+        <li><b>MEAS-2</b> · A feature that can't be measured yet states what will measure it and when</li>
+      </ul></div>
       <div class="gate"><div class="gnum">FUN</div><h3>Delight</h3><ul>
         <li><b>FUN-1</b> · The protected inventory (bloops, glass tap, alarms, boot) survives every cleanup</li>
         <li><b>FUN-2</b> · Every release answers "is it still fun?" before shipping</li>
@@ -522,7 +526,7 @@ footer{padding:36px 0 64px;font-size:.66rem;letter-spacing:.16em;text-transform:
 </section>
 
 <footer>
-  <div class="wrap">Blueprint Rev 5 · Board review 2026-07-24 · Gates 1–2 cleared 2026-07-25 · Sources: improvements.md · REQUIREMENTS.md · tasks.js · research/ · data/latest.json · Tryst playbook inventory</div>
+  <div class="wrap">Blueprint Rev 6 · Refinement Audit v1 absorbed (8 findings + 9 deltas) · Board review 2026-07-24 · Gates 1–2 cleared 2026-07-25 · Sources: improvements.md · REQUIREMENTS.md · tasks.js · research/ · data/latest.json · Tryst playbook inventory</div>
 </footer>
 
 <script src="tasks.js"></script>
@@ -851,11 +855,15 @@ const CHAPTERS=[
   ['🏋️','Streak counter','"You\'ve checked the jar 5 days in a row."','todo'],
   ['🎁','Fun: hidden surprises','Secret code = confetti bubbles. Tap the glass 10 times = the site files a complaint about you.','todo'],
   ['🧬','My own score','Run my own budget through the calculator and compare against the national jar.','todo'],
+  ['🗣','The verdict line','One computed sentence under the score: "calmer than 8 of every 10 months since 2003." Now the number grades itself.','todo'],
   ['⭐','FINISH LINE','I check it every day for a week without needing to fix anything. Then we plan Month 2.','todo']]},
  {kicker:'Next month — locked until Month 1 is done',title:'MONTH 2 — LET PEOPLE FIND IT',
   sub:'Copy everything that already worked on my Tryst site.',locked:true,nodes:[
   ['🌐','Buy the web address','A real domain instead of the github.io link.'],
   ['📊','Visitor counter','Google Analytics, same setup as Tryst — finally see if anyone visits.'],
+  ['📅','Release calendar','When the next CPI and jobs numbers land — a reason to come back between monthly seals.'],
+  ['🛡','Self-checking robot','The collector detects data revisions, sanity-checks every number, and refuses to publish anything implausible.'],
+  ['📜','Policies + version history','Editorial policy, correction policy, and a public changelog of the formula (v2 is entry one).'],
   ['🔍','Tell Google we exist','Search Console + a sitemap so Google lists every page.'],
   ['🔗','Clean page addresses','oozemeter.com/gas instead of the ugly ?i=gas.'],
   ['🏷','Help Google understand the pages','The behind-the-scenes tags that got Tryst into rich search results.'],

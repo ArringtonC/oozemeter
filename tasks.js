@@ -13,7 +13,7 @@ v1 | Website    | Honest offline state — jar reads 0 when no data | done
 v1 | Website    | Share card + copy/post actions | done
 v1 | Docs       | PRODUCT.md + DESIGN.md design context | done
 v2 | Research   | NBER crisis research with real dates (research/HISTORY.md) | done
-v2 | Algorithm  | Backtest 2000→present on real FRED data, published anchors | done
+v2 | Algorithm  | Backtest 2003→present on public data, published anchors | done
 v2 | Algorithm  | Claims momentum term (fast crisis signal) | done
 v2 | Algorithm  | Calibration: calm month = 10, GFC peak = 90 | done
 v2 | Algorithm  | Archive + incidents generated from backtest (no hand-drawn numbers) | done
@@ -33,13 +33,13 @@ v2 | Research   | /teach Inflation: measurement, interpretation, and reproducibl
 v2 | Research   | /teach Foreclosures: measurement, proxy limits, and reproducible data path | done
 v2 | Research   | /teach Manufacturing: measurement, licensed-PMI limits, and free data path | done
 v2 | Research   | Intake-line source registry + quick-reference data map | done
-v3 | Data       | Replace broad DRCLACBS auto proxy with NY Fed auto 30+ delinquency flow | todo
-v3 | Algorithm  | Resolve ICSA monthly-average vs trailing four-week-mean methodology | todo
-v3 | Algorithm  | Freeze CPI adjustment basis: current CPIAUCSL vs recommended NSA CUUR0000SA0 YoY | todo
-v3 | Trust      | Reconcile UI source labels with original publishers and proxy disclosures | todo
+v3 | Data       | Replace broad DRCLACBS auto proxy with NY Fed auto 30+ delinquency flow | done
+v3 | Algorithm  | Resolve ICSA monthly-average vs trailing four-week-mean methodology | done
+v3 | Algorithm  | Freeze CPI adjustment basis: NSA CPI-U year-over-year via CPIAUCNS | done
+v3 | Trust      | Reconcile UI source labels with original publishers and proxy disclosures | done
 v3 | Launch     | Push live: real number + cron running in the cloud | done
-v3 | Data       | Wire foreclosures feed (DRSFRMACBS already fetched — surface it) | todo
-v3 | Data       | Wire manufacturing feed (INDPRO) | todo
+v3 | Data       | Wire mortgage-distress proxy feed (DRSFRMACBS, zero-weight auxiliary) | done
+v3 | Data       | Wire manufacturing feeds (INDPRO + AMTMNO, zero-weight auxiliary) | done
 v3 | Growth     | Real newsletter ESP behind the signup form (Buttondown) | todo
 v3 | Growth     | Analytics + events on share, subscribe, session depth | todo
 v3 | Growth     | Static per-slug pages (/gas/ not ?i=gas) + canonicals + sitemap | todo
@@ -55,6 +55,23 @@ v3 | Website    | Sticky local sub-nav on indicator pages (chapters + See the Ja
 v3 | Website    | Ooze event chart: XY curve with dated event flags (incl. BP spill) | done
 v3 | Website    | Big-league navigation: Indicators/Tools dropdowns + mobile menu; homepage slimmed (cascade moved to what-is-ooze.html) | done
 v3 | Launch     | Custom domain purchase + setup | todo
+v3 | Brand      | 80/20 language audit: find lab-speak that repeats or obscures meaning; plain language beside branded terms | todo
+v3 | Website    | Data-release calendar: when CPI/jobs/delinquency data lands next (metric: +15% weekly returners in 60d of analytics) | todo
+v3 | Content    | "Why it changed this month" auto-section on each indicator page, generated from delta data | todo
+v3 | Trust      | Formula version history page: public changelog of the recipe (methodology v2 is the first entry) | todo
+v3 | Trust      | Editorial + correction policy pages (credibility + AdSense signal) | todo
+v3 | Growth     | Previous/next file controls: "continue through the facility" on indicator + article pages (metric: pages/session 2.3 -> 3.1 once measured) | todo
+v5 | Ads        | Ad-readiness checklist as an objective launch gate (page depth, content volume, legal, speed, brand safety) | todo
+v3 | Docs       | "Do Not Build Yet" list: written refusals to protect focus | todo
+v3 | Docs       | House rule: measurement before expansion - every new section ships with its metric, target, and removal condition | todo
+v3 | Data       | AUDIT-1 Revision detector + calibration invariants: diff history on collect, assert GFC=90/calm=10, fail closed | todo
+v3 | Website    | AUDIT-2 Historical verdict line on hero: "calmer than X of 10 months since 2003", computed from history | todo
+v3 | Data       | AUDIT-3 Plausibility gate: per-series range + jump limits before publish; violation keeps prior snapshot | todo
+v3 | Website    | AUDIT-4 Stamp real score into static HTML at collection (title/meta/hero/share) - crawlers currently see fake 67 | todo
+v3 | Growth     | AUDIT-5 RSS/Atom feed emitted by the cron (aggregators + crawler pings + Buttondown RSS-to-email) | todo
+v3 | Design     | AUDIT-6 Motion + type tokens: settle curve declared once, durations to <=4 named tokens, fix faux-bold weights | todo
+v3 | Growth     | AUDIT-7 JSON-LD structured data: Article + FAQ + Dataset schema for the score | todo
+v3 | Design     | AUDIT-8 First-paint doctrine: static shell + preloaded fonts, LCP<2s, score visible before JS | todo
 v4 | Content    | Golden-master report page (article.html template, live) | done
 v3 | Website    | OOZEONOMICS section: index + article template + 4 seed articles from real data | done
 v3 | Ads        | Sponsored-beaker ad module modeled (doctrine gap #4), articles only | done
