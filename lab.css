@@ -511,6 +511,35 @@ input[type=range]:focus-visible{box-shadow:0 0 0 2px var(--ooze)}
 .podium{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:36px}
 .podium .incident h3{font-size:1.2rem}
 
+/* ============ OOZEONOMICS (articles) ============ */
+.news-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.news-card{display:block;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:20px;color:var(--text);transition:transform .2s,border-color .2s}
+.news-card:hover{transform:translateY(-3px);border-color:var(--line-hard);text-decoration:none}
+.nc-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px}
+.nc-cat{font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;border:1px solid;border-radius:4px;padding:3px 8px}
+.nc-date{font-size:.6rem;letter-spacing:.12em;color:var(--dim);text-transform:uppercase}
+.news-card h3{font-family:var(--display);font-weight:800;font-size:1rem;line-height:1.35;margin-bottom:8px}
+.news-card p{font-size:.76rem;color:var(--muted);line-height:1.6}
+/* article page */
+.art-eyebrow{font-size:.62rem;letter-spacing:.26em;text-transform:uppercase;margin-bottom:14px}
+.art-title{font-family:var(--display);font-weight:900;font-size:clamp(1.5rem,4vw,2.3rem);line-height:1.2;margin-bottom:12px}
+.art-dek{font-size:.95rem;color:var(--muted);line-height:1.6;margin-bottom:16px;max-width:62ch}
+.art-dateline{font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);padding-bottom:18px;border-bottom:1px solid var(--line);margin-bottom:24px}
+.keypoints{border:1px solid var(--line-hard);border-radius:12px;padding:18px 22px;margin-bottom:28px;background:var(--panel)}
+.keypoints .kp-h{font-size:.6rem;letter-spacing:.26em;text-transform:uppercase;color:var(--ooze);margin-bottom:10px}
+.keypoints li{font-size:.8rem;color:var(--muted);margin:0 0 8px 16px;line-height:1.55}
+.art-body p{color:var(--muted);font-size:.92rem;line-height:1.75;margin-bottom:18px;max-width:68ch}
+.art-body h3{font-family:var(--display);font-weight:800;font-size:1.05rem;margin:30px 0 12px;color:var(--text)}
+/* the sponsored-beaker ad module — designed placeholder, doctrine gap #4:
+   one sponsor per article, logo on the beaker, never on the Jar */
+.beaker-ad{display:flex;gap:16px;align-items:center;border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin:30px 0;background:rgba(163,255,18,.02);max-width:68ch;position:relative}
+.beaker-ad .ba-jar{width:26px;height:34px;border:1px solid var(--line-hard);border-top:none;border-radius:0 0 8px 8px;position:relative;flex:none}
+.beaker-ad .ba-jar::before{content:"";position:absolute;left:-3px;right:-3px;top:-5px;height:4px;background:#1c2617;border:1px solid var(--line-hard);border-radius:2px}
+.beaker-ad .ba-jar i{position:absolute;bottom:0;left:0;right:0;height:38%;background:rgba(163,255,18,.35);border-radius:0 0 7px 7px}
+.beaker-ad b{display:block;font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
+.beaker-ad p{font-size:.7rem;color:var(--dim);margin:0;line-height:1.5}
+.beaker-ad .ba-tag{position:absolute;top:10px;right:12px;font-size:.52rem;letter-spacing:.16em;border:1px solid var(--line);border-radius:4px;padding:2px 7px;color:var(--dim)}
+
 /* ============ FOOTER ============ */
 footer{padding:56px 0 80px;color:var(--dim);font-size:.78rem}
 .foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px}

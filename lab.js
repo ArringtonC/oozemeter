@@ -1,5 +1,6 @@
 /* ============ OOZEMETER SHARED LAB EQUIPMENT ============ */
-/* Demo build: all figures illustrative. Real feeds (FRED/BLS/AAA) come later. */
+/* Live public-data build. Current readings come from data/latest.js; auxiliary
+   sensors without an automated feed are labeled as such and never enter Ooze. */
 
 /* LIVE mode: pages load data/latest.js (written by scripts/collect.js) before
    this file; it defines window.LIVE_DATA. Present → real numbers. Absent →
@@ -98,29 +99,29 @@ const INDICATORS = [
    ],
    related:['gas','housing','credit']},
 
-  {slug:'foreclosures', emoji:'🏦', name:'Foreclosures', val:'0.26%', trend:'— flat monthly rate', dir:'down', contrib:2, weight:0,
+  {slug:'foreclosures', emoji:'🏦', name:'Mortgage Distress', val:'—', trend:'auxiliary delinquency proxy', dir:'down', contrib:0, weight:0,
    spark:[20,21,20,22,21,22,22],
    stressHist:[35,55,90,98,92,80,62,45,34,28,24,22,20,18,10,8,12,16,18,20,20],
-   source:{name:'ATTOM Data', url:'https://www.attomdata.com'},
-   why:`Foreclosure is the terminal stage of household financial failure — every foreclosure represents a family that exhausted every option. The rate is a lagging indicator (it takes months of missed payments to reach a filing), but when it moves, it confirms that stress elsewhere in the facility was real, not noise.`,
-   vs2008:`This was 2008's signature catastrophe: 2.9 million filings in 2010 alone, entire neighborhoods emptied, "REO" and "short sale" entering the national vocabulary. Today's rate is near historic lows — strict post-2008 lending plus massive home equity mean owners in trouble can usually sell rather than default.`,
+   source:{name:'Federal Reserve Mortgage Delinquency', seriesId:'DRSFRMACBS', url:'https://fred.stlouisfed.org/series/DRSFRMACBS'},
+   why:`This auxiliary sensor measures residential mortgage delinquency at commercial banks. It is a mortgage-distress proxy, not a count or rate of foreclosure filings, and it does not add separate weight to the Ooze because mortgage delinquency already informs Housing.`,
+   vs2008:`Mortgage delinquency surged during the Global Financial Crisis and confirms severe borrower distress, but it is not interchangeable with foreclosure filings. OOZEMeter keeps that distinction visible instead of presenting the proxy as a direct foreclosure rate.`,
    faqs:[
-     {q:'What is a foreclosure?', a:'The legal process where a lender takes back a home after sustained non-payment, typically beginning after 120 days of delinquency.'},
-     {q:'Why are foreclosures so low despite high rates?', a:'Two shields: most owners hold sub-4% mortgages from the refinancing wave, and record equity means distressed owners can sell at a profit instead of defaulting.'},
-     {q:'What would change that?', a:'A serious rise in unemployment. Foreclosures follow job losses with a lag of roughly 6–12 months — which is why this facility weights employment so heavily.'},
+     {q:'Is this a foreclosure rate?', a:'No. DRSFRMACBS measures delinquent residential mortgages held by commercial banks. It is displayed only as a mortgage-distress proxy.'},
+     {q:'Why use a proxy?', a:'A consistent public national foreclosure-filings series is not available through the same open acquisition path. The proxy remains useful when its limits are explicit.'},
+     {q:'Does it affect the score twice?', a:'No. Mortgage delinquency informs Housing; this auxiliary file has zero additional weight.'},
    ],
    related:['housing','jobs','credit']},
 
-  {slug:'manufacturing', emoji:'🏭', name:'Manufacturing', val:'48.7', trend:'▼ PMI contracting', dir:'up', contrib:1, weight:0,
+  {slug:'manufacturing', emoji:'🏭', name:'Manufacturing', val:'—', trend:'auxiliary public-data sensor', dir:'up', contrib:0, weight:0,
    spark:[55,52,50,49,48,49,48],
    stressHist:[40,44,75,85,50,45,48,46,44,52,48,40,44,52,70,30,25,52,56,54,52],
-   source:{name:'ISM Manufacturing PMI', url:'https://www.ismworld.org'},
-   why:`Factories feel the economy first. Orders get cancelled before workers get laid off, which makes the Purchasing Managers' Index (PMI) one of the best leading indicators available: below 50 means the factory sector is shrinking. It's a small pipe into the jar, but it often starts flowing before the big ones.`,
-   vs2008:`PMI cratered to 33.1 in December 2008 — the deepest factory contraction since 1980 — months after the housing lines had already ruptured. Today's 48.7 signals mild contraction: not an emergency, but the kind of low-grade pressure worth logging.`,
+   source:{name:'Federal Reserve Industrial Production', seriesId:'INDPRO', url:'https://fred.stlouisfed.org/series/INDPRO'},
+   why:`Factories feel the economy early. OOZEMeter's public-data path uses Federal Reserve industrial production and Census manufacturers' shipments rather than republishing licensed ISM PMI data. This remains an auxiliary sensor with zero score weight until its transformation is frozen and backtested.`,
+   vs2008:`Industrial production fell sharply during the Global Financial Crisis. Unlike PMI, INDPRO measures realized output rather than survey expectations, so the two should not be labeled as the same indicator.`,
    faqs:[
-     {q:'What is PMI?', a:'A monthly survey of purchasing managers on orders, production, employment, and deliveries. Above 50 = expansion, below 50 = contraction. It’s fast, forward-looking, and rarely revised.'},
+     {q:'Is this ISM PMI?', a:'No. The public candidate is Federal Reserve industrial production, with Census manufacturing shipments as context.'},
      {q:'Does manufacturing still matter?', a:'It’s ~11% of GDP but punches far above that weight in cyclical signal — factory orders swing early and hard, making them a preview of the broader economy.'},
-     {q:'What is industrial production?', a:'The Fed’s measure of actual physical output from factories, mines, and utilities — the "what happened" to PMI’s "what’s coming."'},
+     {q:'What is industrial production?', a:'The Federal Reserve’s measure of actual physical output from factories, mines, and utilities.'},
    ],
    related:['jobs','gas','inflation']},
 ];
@@ -180,6 +181,7 @@ const STATES = [
 /* LIVE: patch indicators + movers from collected data. Offline: blank all
    "current" readings; educational content stays either way. */
 if(LD){
+  if(Array.isArray(LD.history))HISTORY.splice(0,HISTORY.length,...LD.history);
   for(const x of INDICATORS){
     const l=LD.lines[x.slug];
     if(!l){x.val='—';x.trend='auxiliary sensor — feed pending';x.dir='down';x.contrib=0;continue;}
@@ -188,6 +190,7 @@ if(LD){
     x.dir=l.delta>=0?'up':'down';
     x.trend=`${l.delta>=0?'▲ +':'▼ −'}${Math.abs(l.delta)} pts vs ${LD.prevMonthLabel.split(' ')[0]}`
       +(l.stale?' · ⚠ STALE FEED':'')+` · as of ${l.asOf}`;
+    if(l.source)x.source={name:`${l.source.publisher} — ${l.source.metric}`,url:l.source.url};
   }
   MOVERS.length=0;
   for(const m of LD.movers){
@@ -325,6 +328,7 @@ function renderHeader(active){
       <nav class="nav-links">
         <a href="what-is-ooze.html"${act('what')}>What is Ooze?</a>
         <details class="nav-dd"><summary>Indicators</summary><div class="dd-panel">${indLinks}</div></details>
+        <a href="oozeonomics.html"${act('news')}>Oozeonomics</a>
         <a href="archive.html"${act('archive')}>Archive</a>
         <details class="nav-dd"><summary>Tools</summary><div class="dd-panel">
           <a href="personal.html"><span>🧬</span>Your Personal Ooze</a>
@@ -356,6 +360,7 @@ function renderHeader(active){
             <div class="mnav-h">Indicators</div>
             ${indLinks}
             <div class="mnav-h">Facility</div>
+            <a href="oozeonomics.html"><span>📰</span>Oozeonomics</a>
             <a href="archive.html"><span>🗄</span>Incident Archive</a>
             <a href="personal.html"><span>🧬</span>Your Personal Ooze</a>
             <a href="states.html"><span>🗺</span>State Rankings</a>
@@ -418,13 +423,13 @@ function renderFooter(){
           <ul>
             <li><a href="https://fred.stlouisfed.org" target="_blank" rel="noopener">FRED — St. Louis Fed</a></li>
             <li><a href="https://www.bls.gov" target="_blank" rel="noopener">Bureau of Labor Statistics</a></li>
-            <li><a href="https://gasprices.aaa.com" target="_blank" rel="noopener">AAA Gas Prices</a></li>
+            <li><a href="https://www.eia.gov/petroleum/gasdiesel/" target="_blank" rel="noopener">EIA Gasoline Data</a></li>
             <li><a href="https://www.freddiemac.com/pmms" target="_blank" rel="noopener">Freddie Mac PMMS</a></li>
             <li><a href="https://www.newyorkfed.org" target="_blank" rel="noopener">NY Fed — Household Debt</a></li>
           </ul>
         </div>
       </div>
-      <p class="disclaimer">OOZEMeter is an educational visualization, not financial advice. This facility is not responsible for lost savings, spilled specimens, or feelings about the housing market. Demo build — figures are illustrative. © 2026 OOZEMeter.</p>
+      <p class="disclaimer">OOZEMeter is an educational visualization, not financial advice. National readings use public data under methodology ${LD?.methodologyVersion||'offline'}; state and personal tools remain educational prototypes. This facility is not responsible for lost savings, spilled specimens, or feelings about the housing market. © 2026 OOZEMeter.</p>
     </div>
   </footer>`);
 }

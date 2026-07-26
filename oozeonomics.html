@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#070b06">
+<title>Oozeonomics — Reports & Explainers | OOZEMeter</title>
+<meta name="description" content="Oozeonomics: the study of economic slime. Monthly specimen reports, incident files, and plain-language explainers — every number checked against public data.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800;900&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="lab.css">
+</head>
+<body>
+<div id="page">
+
+<section style="padding-top:34px">
+  <div class="wrap">
+    <div class="crumbs" style="padding-bottom:18px"><a href="index.html">Facility</a> / Oozeonomics</div>
+    <div class="sec-label">The Editorial Wing</div>
+    <h1 class="sec-title">OOZEONOMICS</h1>
+    <p class="sec-sub">The study of economic slime. Monthly specimen reports, incident files, and plain-language explainers — every number checked against the data before it publishes. Facility-drafted pieces are seeded below; operator dispatches mix in.</p>
+    <div class="news-grid" id="newsGrid"></div>
+
+    <div class="beaker-ad" style="margin-top:34px">
+      <div class="ba-jar"><i></i></div>
+      <div><b>Sponsored specimen — slot available</b>
+      <p>One sponsor per article, logo etched on the beaker. Never on the Jar. Modeled placeholder — live when the facility opens for business.</p></div>
+      <span class="ba-tag">AD</span>
+    </div>
+  </div>
+</section>
+
+</div><!-- /page -->
+
+<script src="data/latest.js"></script>
+<script src="articles.js"></script>
+<script src="lab.js"></script>
+<script>
+renderHeader('news');
+const CATS={report:['SPECIMEN REPORT','var(--ooze)'],incident:['INCIDENT FILE','var(--red)'],
+            explainer:['OOZEONOMICS 101','var(--cyan, #5fd7ff)'],manual:['FIELD MANUAL','var(--amber)']};
+$('newsGrid').innerHTML=[...ARTICLES].sort((a,b)=>b.date.localeCompare(a.date)).map(a=>{
+  const [label,col]=CATS[a.cat]||CATS.manual;
+  return `<a class="news-card" href="article.html?a=${a.slug}">
+    <div class="nc-top"><span class="nc-cat" style="color:${col};border-color:${col}">${label}</span>
+    <span class="nc-date">${new Date(a.date+'T12:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}</span></div>
+    <h3>${a.title}</h3><p>${a.dek}</p>
+  </a>`}).join('');
+renderFooter();
+wireReveals();
+</script>
+</body>
+</html>
