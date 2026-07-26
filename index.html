@@ -68,10 +68,16 @@
 <!-- ============ LEAKS ============ -->
 <section id="leaks">
   <div class="wrap">
-    <div class="sec-label reveal">File 02 — 24H Surveillance</div>
+    <div class="sec-label reveal">File 02 — Surveillance</div>
     <h2 class="sec-title reveal">Fresh leaks detected</h2>
-    <p class="sec-sub reveal">Changes recorded since the previous specimen collection.</p>
-    <div class="movers reveal" id="moversList"></div>
+    <p class="sec-sub reveal">What moved this month — and every sensor's freshest reading.</p>
+    <div class="dualflow reveal">
+      <div class="movers" id="moversList"></div>
+      <div class="latest-rail" id="latestRail">
+        <div class="lr-h">Latest readings</div>
+        <div id="lrList"></div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -296,6 +302,22 @@ $('moversList').innerHTML=MOVERS.length?MOVERS.map(m=>`
     <span><strong>No leaks recorded</strong><span class="why">Surveillance begins with the first specimen collection.</span></span>
     <span class="pts">0 ooze</span>
   </div>`;
+
+/* latest readings rail — all lines sorted by data-release recency */
+if(LIVE){
+  $('lrList').innerHTML=Object.entries(LD.lines)
+    .sort((a,b)=>new Date(b[1].asOf)-new Date(a[1].asOf))
+    .map(([slug,l])=>{
+      const y=INDICATORS.find(i=>i.slug===slug);
+      return `<a href="indicator.html?i=${slug}">
+        <span class="lr-t">${relTime(l.asOf)}</span>
+        <span>${y.emoji} ${y.name}</span>
+        <b>${l.value}</b>
+        <span class="lr-d ${l.delta>=0?'up':'down'}">${l.delta>=0?'▲':'▼'}${Math.abs(l.delta)}${l.stale?' ⚠':''}</span>
+      </a>`}).join('');
+}else{
+  $('latestRail').style.display='none';
+}
 
 /* ============ NEWSLETTER + SHARE ============ */
 document.querySelector('.sc-score').innerHTML=`${TODAY_SCORE}<span style="font-size:.4em;color:var(--dim)">/100</span>`;

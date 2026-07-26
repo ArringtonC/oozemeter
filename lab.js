@@ -204,6 +204,14 @@ function indBySlugRaw(slug){return INDICATORS.find(x=>x.slug===slug)}
 
 /* ============ HELPERS ============ */
 const $=id=>document.getElementById(id);
+const LEVELCOLORS=['#4dffa1','#8aff3c','#d8ff2e','#ffb02e','#ff4d3d'];
+/* dual-format freshness, CNBC-style: relative while fresh, absolute once old */
+const relTime=d=>{
+  const days=Math.round((Date.now()-new Date(d))/864e5);
+  return days<=0?'today':days<7?days+'d ago':days<30?Math.round(days/7)+'w ago'
+    :days<365?Math.round(days/30)+'mo ago'
+    :new Date(d).toLocaleDateString('en-US',{month:'short',year:'numeric'});
+};
 const levelOf=s=>s<=20?1:s<=40?2:s<=60?3:s<=80?4:5;
 const bandOf=s=>BANDS[levelOf(s)-1];
 const tierOf=s=>s>=95?MESS_TIER:bandOf(s).tier;
@@ -325,6 +333,11 @@ function renderHeader(active){
         <a href="notes.html"${act('notes')}>Lab Notes</a>
       </nav>
       <div class="nav-right">
+        <a class="score-chip" href="index.html" title="${LIVE?`Current Ooze Level: ${TODAY_SCORE}/100 (${bandOf(TODAY_SCORE).name}) — ${UPDATED}`:'Sensors offline'}">
+          <span class="scj"><i style="height:${Math.max(TODAY_SCORE,4)}%;background:${LIVE?LEVELCOLORS[levelOf(TODAY_SCORE)-1]:'var(--dim)'}"></i></span>
+          <b style="color:${LIVE?LEVELCOLORS[levelOf(TODAY_SCORE)-1]:'var(--dim)'}">${LIVE?TODAY_SCORE:'—'}</b>
+          <small>${LIVE?bandOf(TODAY_SCORE).name:'OFFLINE'}</small>
+        </a>
         <button id="audioBtn" title="Toggle laboratory audio">AUDIO OFF</button>
         <div class="live" title="Laboratory feed"><i></i>LIVE</div>
         <details class="mnav"><summary aria-label="Open menu">☰</summary>

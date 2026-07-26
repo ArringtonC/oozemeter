@@ -19,5 +19,8 @@ test('backtest uses the NY Fed auto-specific 30-plus transition series', {timeou
   assert.equal(results.methodology.auto.source, 'New York Fed Consumer Credit Panel / Equifax');
   assert.equal(results.methodology.auto.metric, 'Previously current auto balance entering 30+ delinquency');
   assert.match(results.methodology.auto.workbook, /HHD_C_Report_\d{4}Q[1-4](?:\.xlsx)?$/);
+  assert.equal(results.methodology.claims.transform, 'Trailing mean of the latest four weekly observations available in each month');
+  assert.equal(results.methodology.inflation.seriesId, 'CPIAUCNS');
+  assert.equal(results.methodology.inflation.transform, 'Same-month year-over-year percent change');
   assert.ok(results.monthly[0].month >= '2003-01');
 });

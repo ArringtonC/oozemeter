@@ -8,12 +8,14 @@ const {
   AUTO_30_PLUS_ANCHORS,
   auto30PlusStress,
   fetchNyFedAutoSeries,
+  trailingFourWeekByMonth,
+  yearOverYear,
 } = require('./lib/methodology');
 
 const SERIES = {
   UNRATE:      'Unemployment rate',
   ICSA:        'Initial jobless claims (weekly, fast signal)',
-  CPIAUCSL:    'CPI (index, YoY computed)',
+  CPIAUCNS:    'CPI-U, not seasonally adjusted (YoY computed)',
   MORTGAGE30US:'30yr mortgage rate',
   DRSFRMACBS:  'Mortgage delinquency rate',
   DRCCLACBS:   'Credit card delinquency rate',
@@ -26,7 +28,7 @@ const SERIES = {
    GFC peak ≈ 90; everything else falls where the data puts it. */
 const ANCHORS = {
   unemployment: [[3.5,5],[5,25],[6.5,45],[8,62],[10,78],[15,90],[25,100]],
-  /* weekly initial claims, thousands (4wk-avg-ish via monthly mean) — the fast
+  /* weekly initial claims, thousands (trailing 4-week mean) — the fast
      signal that catches crises months before unemployment/delinquencies move */
   claimsK:      [[200,5],[300,30],[400,60],[550,75],[700,85],[1000,95],[6000,100]],
   inflationYoY: [[-10,95],[-5,85],[0,45],[1,25],[2,10],[3,25],[4,40],[6,60],[9,80],[14,90],[20,100]],

@@ -30,6 +30,17 @@ document.title=`OOZEMeter — ${x.name} | Today's Reading & Stress History`;
 const drain=x.dir==='down';
 const lineLive=LIVE&&x.val!=='—'; /* foreclosures/manufacturing stay pending even in LIVE */
 $('main').innerHTML=`
+  <div class="localnav">
+    <b>${x.emoji} ${x.name}</b>
+    <nav>
+      <a href="#reading">Reading</a>
+      <a href="#history">History</a>
+      <a href="#why">Why it matters</a>
+      <a href="#vs2008">vs 2008</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <a class="btn primary" href="index.html">See the Jar ▸</a>
+  </div>
   <div class="crumbs"><a href="index.html">Facility</a> / <a href="index.html#pressure">Pressure Sources</a> / ${x.name}</div>
 
   <div class="ind-head">
@@ -40,7 +51,7 @@ $('main').innerHTML=`
     <div class="contrib-chip">${lineLive?`Feeding the jar this month: <b>+${x.contrib} oz</b>`:`Feed pending — reads <b>0 oz</b>`}</div>
   </div>
 
-  <div class="ind-reading">
+  <div class="ind-reading" id="reading">
     <div class="ind-val">${x.val}</div>
     <div class="ind-meta">
       <span class="${x.dir}">${x.trend}</span><br>
@@ -48,18 +59,18 @@ $('main').innerHTML=`
     </div>
   </div>
 
-  <div class="chart-panel reveal">
+  <div class="chart-panel reveal" id="history">
     <h2>20-Year Stress History — ${x.name} (illustrative)</h2>
     ${bigChart(x.stressHist)}
     <div class="src">Illustrative sketch — the real per-line backfill lands with milestone M2 · Source: <a href="${x.source.url}" target="_blank" rel="noopener">${x.source.name}</a> · Red bands: U.S. recessions</div>
   </div>
 
-  <div class="prose reveal">
+  <div class="prose reveal" id="why">
     <h2>Why this line matters</h2>
     <p>${x.why}</p>
   </div>
 
-  <div class="prose reveal">
+  <div class="prose reveal" id="vs2008">
     <h2>How it compares to 2008</h2>
     <div class="incident-callout">
       <span class="ic-stamp">Incident File — 2008</span>
@@ -73,7 +84,7 @@ $('main').innerHTML=`
     <p>${x.name} ${x.weight?`carries a published weight of <strong>${x.weight}%</strong> in the Ooze Formula`:`is an auxiliary sensor — it doesn't carry formula weight, but it feeds the daily reading`}. ${lineLive?`Its current stress reading contributes <strong>+${x.contrib} of this month's ${TODAY_SCORE} oz</strong>${drain?' — and it has been relieving pressure lately':''}.`:`Once its feed connects, its normalized stress reading × weight will appear here as ounces of ooze.`} The complete recipe is public in the <a href="notes.html">Lab Notes</a>.</p>
   </div>
 
-  <div class="prose reveal faq">
+  <div class="prose reveal faq" id="faq">
     <h2>Frequently asked questions</h2>
     ${x.faqs.map(f=>`<details><summary>${f.q}</summary><p>${f.a}</p></details>`).join('')}
   </div>
