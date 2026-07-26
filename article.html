@@ -61,6 +61,17 @@ $('main').innerHTML=`
         <h3>${o.title}</h3><p>${o.dek}</p></a>`}).join('')}
     </div>
   </div>`;
+/* AUDIT-7: Article structured data so search + AI answer engines can cite us */
+const ld={'@context':'https://schema.org','@type':'Article',headline:a.title,
+  description:a.dek,datePublished:a.date,
+  author:{'@type':'Organization',name:'OOZEMeter'},
+  publisher:{'@type':'Organization',name:'OOZEMeter — Division of Economic Containment',
+    url:'https://arringtonc.github.io/oozemeter'}};
+const ldTag=document.createElement('script');
+ldTag.type='application/ld+json';
+ldTag.textContent=JSON.stringify(ld);
+document.head.appendChild(ldTag);
+
 renderFooter();
 wireReveals();
 </script>

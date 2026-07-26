@@ -67,10 +67,10 @@ v3 | Docs       | House rule: measurement before expansion - every new section s
 v3 | Data       | AUDIT-1 Revision detector + calibration invariants: diff history on collect, assert GFC=90/calm=10, fail closed | todo
 v3 | Website    | AUDIT-2 Historical verdict line on hero: "calmer than X of 10 months since 2003", computed from history | todo
 v3 | Data       | AUDIT-3 Plausibility gate: per-series range + jump limits before publish; violation keeps prior snapshot | todo
-v3 | Website    | AUDIT-4 Stamp real score into static HTML at collection (title/meta/hero/share) - crawlers currently see fake 67 | todo
-v3 | Growth     | AUDIT-5 RSS/Atom feed emitted by the cron (aggregators + crawler pings + Buttondown RSS-to-email) | todo
+v3 | Website    | AUDIT-4 Stamp real score into static HTML (scripts/stamp.js, idempotent) - built + run; cron wiring pending | wip
+v3 | Growth     | AUDIT-5 RSS/Atom feed (scripts/rss.js, feed.xml live) - built + run; cron wiring pending | wip
 v3 | Design     | AUDIT-6 Motion + type tokens: settle curve declared once, durations to <=4 named tokens, fix faux-bold weights | todo
-v3 | Growth     | AUDIT-7 JSON-LD structured data: Article + FAQ + Dataset schema for the score | todo
+v3 | Growth     | AUDIT-7 JSON-LD: Dataset schema on homepage + Article schema on articles - done; FAQ schema on indicators pending | wip
 v3 | Design     | AUDIT-8 First-paint doctrine: static shell + preloaded fonts, LCP<2s, score visible before JS | todo
 v4 | Content    | Golden-master report page (article.html template, live) | done
 v3 | Website    | OOZEONOMICS section: index + article template + 4 seed articles from real data | done
