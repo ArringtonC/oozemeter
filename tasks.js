@@ -77,12 +77,16 @@ v3 | Website    | Release calendar: next data drops with countdown in the latest
 v3 | Growth     | Previous/Next file controls on indicator + article pages | done
 v3 | Brand      | "Cross-References" rename (related sections, on-brand) | done
 v3 | Trust      | policies.html: editorial, correction, and data policy + methodology version history (v1/v2) | done
+v4 | Content    | OOZEBOT editorial engine: one dataset -> verdict, summary, story, line narratives, article, newsletter, RSS, social, confidence | done
+v4 | Content    | Auto-published monthly Ooze Report (keyed by month, golden-master template, OOZEBOT byline) | done
+v4 | Website    | Specimen Progress page: collection status, publication window, Data Watch - facts only, no forecasts | done
+v4 | Content    | Newsletter + social + RSS variants generated per seal (sending still blocked on ESP) | done
 v4 | Content    | Golden-master report page (article.html template, live) | done
 v3 | Website    | OOZEONOMICS section: index + article template + 4 seed articles from real data | done
 v3 | Ads        | Sponsored-beaker ad module modeled (doctrine gap #4), articles only | done
 v4 | Design     | Prose ramp completed: h3, lists, captions, dateline | todo
 v4 | Content    | Trending headlines intake (filter: does it move a line?) | todo
-v4 | Content    | Auto-generated Daily Ooze Report pages from data | todo
+v4 | Content    | Auto-generated Ooze Report pages - MONTHLY cadence live via OOZEBOT; daily notes await content engine | wip
 v4 | Content    | Fast indexing (IndexNow + Indexing API) on publish | todo
 v4 | Content    | Search Console gap miner loop | todo
 v4 | Agents     | Burry refutation gate automated pre-publish | todo

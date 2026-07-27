@@ -1,0 +1,24 @@
+{
+ "month": "2026-06",
+ "monthLabel": "June 2026",
+ "generated": "2026-07-26T20:42:38.022Z",
+ "byline": "Drafted by OOZEBOT · reviewed by the Division of Economic Containment",
+ "verdict": "Calmer than 6 of every 10 months since 2003",
+ "summary": "The June 2026 Ooze Level sealed at 27 out of 100 — Sticky territory, down 3 from May 2026. Calmer than 6 of every 10 months since 2003. The heaviest line was housing at 7 ounces.",
+ "story": "For the average household, housing was the largest source of financial pressure in June 2026 — 7 of the month's 27 ounces with the 30-year mortgage at 6.58%. The relief came from gas prices (down 11 points) and inflation (down 9 points). Altogether the jar drained 3 to 27, keeping the national containment level in the Sticky range.",
+ "lines": {
+  "gas": "Gas prices pressure eased sharply — down 11 points with the pump price at $4.00.",
+  "housing": "Housing held roughly steady this month (+1 points) with the 30-year mortgage at 6.58%.",
+  "credit": "Credit cards held roughly steady this month (+0 points) with card delinquency at 2.9%.",
+  "auto": "Auto loans held roughly steady this month (+0 points) with auto-loan delinquency at 7.7%.",
+  "jobs": "Employment held roughly steady this month (-2 points) with unemployment at 4.2%.",
+  "inflation": "Inflation pressure eased sharply — down 9 points as yearly price growth ran 3.5%.",
+  "foreclosures": "Mortgage distress held roughly steady this month (+2 points) with mortgage delinquency at 1.9%. (Auxiliary sensor — observed, but carries no score weight.)",
+  "manufacturing": "Manufacturing pressure climbed 3 points. (Auxiliary sensor — observed, but carries no score weight.)"
+ },
+ "confidence": "Methodology v2.0.0. All source feeds current at collection. 1 source-revision event on the public record (data/revisions.json). Every figure traces to a cited public series; the integrity gate verified plausibility bounds and calibration anchors before publication.",
+ "newsletter": "OOZEMETER — THE JUNE 2026 OOZE REPORT\n==============================================\nOOZE LEVEL: 27/100 (STICKY) · -3 vs May 2026\nCalmer than 6 of every 10 months since 2003.\n\nFor the average household, housing was the largest source of financial pressure in June 2026 — 7 of the month's 27 ounces with the 30-year mortgage at 6.58%. The relief came from gas prices (down 11 points) and inflation (down 9 points). Altogether the jar drained 3 to 27, keeping the national containment level in the Sticky range.\n\nLINE BY LINE\n· Gas prices pressure eased sharply — down 11 points with the pump price at $4.00.\n· Housing held roughly steady this month (+1 points) with the 30-year mortgage at 6.58%.\n· Credit cards held roughly steady this month (+0 points) with card delinquency at 2.9%.\n· Auto loans held roughly steady this month (+0 points) with auto-loan delinquency at 7.7%.\n· Employment held roughly steady this month (-2 points) with unemployment at 4.2%.\n· Inflation pressure eased sharply — down 9 points as yearly price growth ran 3.5%.\n\nCONFIDENCE\nMethodology v2.0.0. All source feeds current at collection. 1 source-revision event on the public record (data/revisions.json). Every figure traces to a cited public series; the integrity gate verified plausibility bounds and calibration anchors before publication.\n\nRead the full report: https://arringtonc.github.io/oozemeter/article.html?a=ooze-report-2026-06\nThe jar: https://arringtonc.github.io/oozemeter/\nDrafted by OOZEBOT · reviewed by the Division of Economic Containment",
+ "rssSummary": "The June 2026 Ooze Level sealed at 27 out of 100 — Sticky territory, down 3 from May 2026. Calmer than 6 of every 10 months since 2003. The heaviest line was housing at 7 ounces. The relief came from gas prices (down 11 points) and inflation (down 9 points). Every figure is computed from cited public data and passed the facility's integrity gate before publication.",
+ "social": "🧪 June 2026 Ooze Level: 27/100 (Sticky) — down 3 from May 2026. Calmer than 6 of every 10 months since 2003. Biggest pressure: housing. Full report: arringtonc.github.io/oozemeter",
+ "articleSlug": "ooze-report-2026-06"
+}

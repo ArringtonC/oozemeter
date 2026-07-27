@@ -66,10 +66,14 @@ if(h.includes(LD_MARK)){
 
 /* verdict line (AUDIT-2), computed from the same history the archive uses */
 try{
-  const hist=JSON.parse(fs.readFileSync('data/history.json','utf8'));
-  const worse=hist.filter(([,v])=>v>s).length,per10=Math.round(worse/hist.length*10);
-  const verdict=per10>=5?`Calmer than ${per10} of every 10 months since 2003`
-    :`More stressed than ${10-per10} of every 10 months since 2003`;
+  let verdict;
+  try{verdict=JSON.parse(fs.readFileSync('data/editorial.json','utf8')).verdict}catch{}
+  if(!verdict){
+    const hist=JSON.parse(fs.readFileSync('data/history.json','utf8'));
+    const worse=hist.filter(([,v])=>v>s).length,per10=Math.round(worse/hist.length*10);
+    verdict=per10>=5?`Calmer than ${per10} of every 10 months since 2003`
+      :`More stressed than ${10-per10} of every 10 months since 2003`;
+  }
   sub(/id="verdictLine">[^<]*</,`id="verdictLine">${verdict}<`,'verdict line');
 }catch(e){console.warn('stamp: verdict skipped —',e.message)}
 

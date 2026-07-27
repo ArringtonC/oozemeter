@@ -18,6 +18,8 @@
 
 <script src="data/latest.js"></script>
 <script src="articles.js"></script>
+<script src="data/auto-articles.js"></script>
+<script src="data/editorial.js"></script>
 <script src="lab.js"></script>
 <script>
 renderHeader('news');
@@ -25,8 +27,9 @@ renderHeader('news');
    through this exact layout. ?a=slug selects from articles.js */
 const CATS={report:['SPECIMEN REPORT','var(--ooze)'],incident:['INCIDENT FILE','var(--red)'],
             explainer:['OOZEONOMICS 101','#5fd7ff'],manual:['FIELD MANUAL','var(--amber)']};
-const slug=new URLSearchParams(location.search).get('a')||ARTICLES[0].slug;
-const a=ARTICLES.find(x=>x.slug===slug)||ARTICLES[0];
+const ALL_ARTICLES=(window.ARTICLES||[]).concat(window.AUTO_ARTICLES||[]);
+const slug=new URLSearchParams(location.search).get('a')||ALL_ARTICLES[0].slug;
+const a=ALL_ARTICLES.find(x=>x.slug===slug)||ALL_ARTICLES[0];
 const [catLabel,catCol]=CATS[a.cat]||CATS.manual;
 document.title=`${a.title} — Oozeonomics | OOZEMeter`;
 
@@ -43,13 +46,13 @@ for(const line of a.body){
   if(++pCount===2)bodyHtml+=AD;
 }
 
-const others=ARTICLES.filter(x=>x.slug!==a.slug).slice(0,3);
+const others=ALL_ARTICLES.filter(x=>x.slug!==a.slug).slice(0,3);
 $('main').innerHTML=`
   <div class="crumbs" style="padding-bottom:20px"><a href="index.html">Facility</a> / <a href="oozeonomics.html">Oozeonomics</a> / ${a.title}</div>
   <div class="art-eyebrow" style="color:${catCol}">${catLabel}</div>
   <h1 class="art-title">${a.title}</h1>
   <p class="art-dek">${a.dek}</p>
-  <div class="art-dateline">Division of Economic Containment · ${dateFmt} · Jar at publication: ${LIVE?TODAY_SCORE+' ('+bandOf(TODAY_SCORE).name+')':'offline'}</div>
+  <div class="art-dateline">${a.auto?a.byline:'Operator dispatch · Division of Economic Containment'} · ${dateFmt} · Jar at publication: ${LIVE?TODAY_SCORE+' ('+bandOf(TODAY_SCORE).name+')':'offline'}</div>
   <div class="keypoints"><div class="kp-h">Key Points</div><ul>${a.keyPoints.map(k=>`<li>${k}</li>`).join('')}</ul></div>
   <div class="art-body">${bodyHtml}</div>
   <div class="reveal" style="margin-top:44px">
@@ -73,7 +76,7 @@ ldTag.textContent=JSON.stringify(ld);
 document.head.appendChild(ldTag);
 
 /* previous / next article */
-const sorted=[...ARTICLES].sort((x,y)=>y.date.localeCompare(x.date));
+const sorted=[...ALL_ARTICLES].sort((x,y)=>y.date.localeCompare(x.date));
 const ai=sorted.findIndex(x=>x.slug===a.slug);
 const prevA=sorted[ai+1],nextA=sorted[ai-1];
 if(prevA||nextA)$('main').insertAdjacentHTML('beforeend',`

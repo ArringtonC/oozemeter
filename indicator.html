@@ -17,7 +17,7 @@
 </div>
 
 <script src="data/latest.js"></script>
-<script src="data/story.js"></script>
+<script src="data/editorial.js"></script>
 <script src="lab.js"></script>
 <script>
 renderHeader('');
@@ -60,9 +60,9 @@ $('main').innerHTML=`
     </div>
   </div>
 
-  ${window.STORY&&STORY.lines[x.slug]?`<div class="prose reveal" id="whychanged" style="margin-bottom:26px">
+  ${window.EDITORIAL&&EDITORIAL.lines[x.slug]?`<div class="prose reveal" id="whychanged" style="margin-bottom:26px">
     <h2 style="margin-top:0">Why it changed this month</h2>
-    <p>${STORY.lines[x.slug]}</p>
+    <p>${EDITORIAL.lines[x.slug]}</p>
   </div>`:''}
   <div class="chart-panel reveal" id="history">
     <h2>20-Year Stress History — ${x.name} (illustrative)</h2>

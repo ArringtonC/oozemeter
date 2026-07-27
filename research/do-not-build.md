@@ -4,7 +4,8 @@ Feature freeze after the authority-phase sprints. Everything below is attractive
 and deliberately refused until the core (trust, discoverability, repeat visits,
 publishing efficiency) is compounding. Revisit only when a goal metric demands it.
 
-- AI chatbot — answers nothing the verdict line + story engine don't
+- Public OOZEBOT chatbot — OOZEBOT exists as the INTERNAL editorial engine + byline persona only; a conversational UI is a different product entirely
+- Forecasting / scenarios ("Future Ooze") — the facility measures, it does not prophesy; the forward surface is Specimen Progress (facts: collection status, release calendar) and nothing more
 - User accounts — nothing requires identity; localStorage covers streaks
 - Comments / community / forums — moved OUT of v4; needs traffic that doesn't exist (overrides earlier giscus plan)
 - Dark/light themes — the lab is dark; that's the brand

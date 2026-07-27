@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#070b06">
+<title>Specimen Progress — Next Monthly Seal | OOZEMeter</title>
+<meta name="description" content="Mission control for the next Ooze reading: collection progress, upcoming data releases, and the estimated publication window. Facts only — the facility measures, it does not prophesy.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800;900&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="lab.css">
+</head>
+<body>
+<div id="page">
+<main class="wrap-narrow">
+
+<section style="padding-top:34px">
+  <div class="crumbs" style="padding-bottom:18px"><a href="index.html">Facility</a> / Specimen Progress</div>
+  <div class="sec-label">Mission Control</div>
+  <h1 class="sec-title">Specimen Progress</h1>
+  <p class="sec-sub">The next reading is being collected right now. This page shows exactly what has arrived and what hasn't — <b style="color:var(--text)">the facility measures; it does not prophesy.</b> No forecasts live here.</p>
+
+  <div class="pc-overall">
+    <div>
+      <div class="s-kicker" style="font-size:.62rem;letter-spacing:.3em;color:var(--dim);text-transform:uppercase">Next Monthly Seal</div>
+      <div class="num" id="nextSeal" style="font-size:1.9rem">—</div>
+    </div>
+    <p id="sealWindow">Estimated publication window: —</p>
+  </div>
+
+  <div class="pc-group">
+    <div class="pc-head"><div><h3>Collection status</h3><div class="pc-ref" id="progLabel">— of — intake lines collected</div></div>
+      <div class="pc-avg" id="progPct">—%</div></div>
+    <div class="pc-bar" style="height:12px;margin-bottom:16px"><i id="progBar" style="width:0%;background:var(--ooze)"></i></div>
+    <div id="lineStatus"></div>
+  </div>
+
+  <div class="pc-group">
+    <div class="pc-head"><div><h3>Data Watch</h3><div class="pc-ref">Upcoming releases · approximate dates from published schedules</div></div></div>
+    <div id="dataWatch"></div>
+    <p style="font-size:.72rem;color:var(--dim);margin-top:12px">These releases have not yet been incorporated into the current specimen. What they contain is unknown until they publish — that's the point.</p>
+  </div>
+
+  <div class="prose" style="margin-top:8px">
+    <p style="font-size:.8rem;color:var(--dim)">Current sealed reading: <a href="index.html">the jar</a> · How the seal works: <a href="notes.html">Lab Notes</a> · The last report: <a href="oozeonomics.html">Oozeonomics</a></p>
+  </div>
+</section>
+
+</main>
+</div><!-- /page -->
+
+<script src="data/latest.js"></script>
+<script src="lab.js"></script>
+<script>
+renderHeader('');
+
+const NAMES={gas:'Gas Prices',housing:'Housing',credit:'Credit Cards',auto:'Auto Loans',jobs:'Unemployment',inflation:'Inflation',foreclosures:'Mortgage Distress',manufacturing:'Manufacturing'};
+if(LIVE){
+  /* target month = the month after the sealed one */
+  const [sy,sm]=LD.month.split('-').map(Number);
+  const target=new Date(sy,sm,1);                       /* first day of month after sealed */
+  const targetLabel=target.toLocaleString('en-US',{month:'long',year:'numeric'});
+  $('nextSeal').textContent=targetLabel;
+
+  /* publication window: the later of next jobs report (first Friday) and CPI
+     (~13th) of the FOLLOWING month, +2 days — schedule facts, not forecasts */
+  const pubMonth=new Date(target.getFullYear(),target.getMonth()+1,1);
+  const firstFri=new Date(pubMonth);firstFri.setDate(1+((5-pubMonth.getDay()+7)%7));
+  const cpi=new Date(pubMonth.getFullYear(),pubMonth.getMonth(),13);
+  const open_=new Date(Math.max(firstFri,cpi));
+  const close_=new Date(open_);close_.setDate(close_.getDate()+2);
+  const f=x=>x.toLocaleString('en-US',{month:'short',day:'numeric'});
+  $('sealWindow').innerHTML=`<b>Estimated publication window: ${f(open_)}–${f(close_)}</b> — the seal happens when the ${targetLabel.split(' ')[0]} jobs report and CPI have both landed. Until then, the jar shows the last sealed reading.`;
+
+  /* per-line collection: collected = its freshest observation falls in the target month or later */
+  const rows=Object.entries(LD.lines).map(([k,l])=>{
+    const got=new Date(l.asOf)>=target;
+    return {k,l,got};
+  });
+  const gotN=rows.filter(r=>r.got).length;
+  $('progLabel').textContent=`${gotN} of ${rows.length} intake lines collected for ${targetLabel}`;
+  $('progPct').textContent=Math.round(gotN/rows.length*100)+'%';
+  $('progBar').style.width=Math.round(gotN/rows.length*100)+'%';
+  $('lineStatus').innerHTML=rows.map(({k,l,got})=>`
+    <a class="pc-row" style="grid-template-columns:26px 1fr auto auto;color:inherit;text-decoration:none" href="indicator.html?i=${k}">
+      <span style="color:${got?'var(--ooze)':'var(--dim)'}">${got?'✔':'⏳'}</span>
+      <span class="pc-name">${NAMES[k]||k}</span>
+      <span style="font-size:.66rem;color:var(--muted)">${got?'collected':'pending'} · as of ${l.asOf}</span>
+      <span style="font-size:.62rem;color:var(--dim)">${l.cadence}</span>
+    </a>`).join('');
+
+  /* Data Watch — schedule facts */
+  const now=new Date();
+  const nextDow=dw=>{const d=new Date(now);d.setDate(d.getDate()+((dw-d.getDay()+7)%7||7));return d};
+  let jobs=new Date(now.getFullYear(),now.getMonth(),1);jobs.setDate(1+((5-jobs.getDay()+7)%7));
+  if(jobs<=now){jobs=new Date(now.getFullYear(),now.getMonth()+1,1);jobs.setDate(1+((5-jobs.getDay()+7)%7));}
+  let cpiN=new Date(now.getFullYear(),now.getMonth(),13);
+  if(cpiN<=now)cpiN=new Date(now.getFullYear(),now.getMonth()+1,13);
+  const q=new Date(now.getFullYear(),Math.floor(now.getMonth()/3)*3+5,15); /* delinquencies ~mid of quarter+2 */
+  const watch=[
+    ['Jobs report (BLS)',jobs,'monthly'],
+    ['CPI — inflation (BLS)',cpiN,'monthly'],
+    ['Gas price update (EIA)',nextDow(1),'weekly'],
+    ['Mortgage rates (Freddie Mac)',nextDow(4),'weekly'],
+    ['Household delinquencies (Fed/NY Fed)',q,'quarterly'],
+  ].sort((a,b)=>a[1]-b[1]);
+  const dd=x=>{const n=Math.ceil((x-now)/864e5);return n<=1?'tomorrow':`in ${n} days`};
+  $('dataWatch').innerHTML=watch.map(([n,x,c])=>`
+    <div class="pc-row" style="grid-template-columns:110px 1fr auto">
+      <span class="pc-name" style="color:var(--ooze)">${dd(x)}</span>
+      <span style="color:var(--text);font-size:.78rem">📅 ${n}</span>
+      <span style="font-size:.62rem;color:var(--dim)">≈ ${f(x)} · ${c}</span>
+    </div>`).join('');
+}else{
+  $('nextSeal').textContent='OFFLINE';
+  $('sealWindow').textContent='No live data connected.';
+}
+renderFooter();
+</script>
+</body>
+</html>
