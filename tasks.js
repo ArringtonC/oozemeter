@@ -81,6 +81,7 @@ v4 | Content    | OOZEBOT editorial engine: one dataset -> verdict, summary, sto
 v4 | Content    | Auto-published monthly Ooze Report (keyed by month, golden-master template, OOZEBOT byline) | done
 v4 | Website    | Specimen Progress page: collection status, publication window, Data Watch - facts only, no forecasts | done
 v4 | Content    | Newsletter + social + RSS variants generated per seal (sending still blocked on ESP) | done
+v4 | Content    | Editorial QA checklist (research/editorial-qa.md) - human counterpart to the integrity gate; voice pass #1 applied | done
 v4 | Content    | Golden-master report page (article.html template, live) | done
 v3 | Website    | OOZEONOMICS section: index + article template + 4 seed articles from real data | done
 v3 | Ads        | Sponsored-beaker ad module modeled (doctrine gap #4), articles only | done

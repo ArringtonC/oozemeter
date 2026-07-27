@@ -39,18 +39,22 @@ const verdict=per10>=5?`Calmer than ${per10} of every 10 months since 2003`
   :`More stressed than ${10-per10} of every 10 months since 2003`;
 
 /* ---- per-line narratives ---- */
-const lines={};
+const pts=n=>`${n} point${Math.abs(n)===1?'':'s'}`;
+const PLURAL=new Set(['gas','credit','auto']); /* 'gas prices','credit cards','auto loans' take plural verbs */
+const base={};    /* clean sentence, used inside the article */
+const lines={};   /* + aux/stale caveats, used on indicator pages */
 for(const [k,l] of Object.entries(d.lines)){
-  const n=NAMES[k]||k,dd=l.delta,ad=Math.abs(dd);
+  const n=NAMES[k]||k,dd=l.delta,ad=Math.abs(dd),clause=VALUE_CLAUSE[k]?.(l)||'';
   let s;
-  if(ad<3)s=`${cap(n)} held roughly steady this month (${dd>=0?'+':''}${dd} points)${VALUE_CLAUSE[k]?.(l)||''}.`;
-  else if(dd<=-8)s=`${cap(n)} pressure eased sharply — down ${ad} points${VALUE_CLAUSE[k]?.(l)||''}.`;
-  else if(dd<0)s=`${cap(n)} pressure eased ${ad} points${VALUE_CLAUSE[k]?.(l)||''}.`;
-  else if(dd>=8)s=`${cap(n)} pressure jumped ${ad} points${VALUE_CLAUSE[k]?.(l)||''}.`;
-  else s=`${cap(n)} pressure climbed ${ad} points${VALUE_CLAUSE[k]?.(l)||''}.`;
-  if(AUX.has(k))s+=' (Auxiliary sensor — observed, but carries no score weight.)';
+  if(ad===0)s=`${cap(n)} ${PLURAL.has(k)?'were':'was'} flat this month${clause}.`;
+  else if(ad<3)s=`${cap(n)} held roughly steady — ${dd>0?'up':'down'} ${pts(ad)}${clause}.`;
+  else if(dd<=-8)s=`Pressure from ${n} fell sharply, down ${pts(ad)}${clause}.`;
+  else if(dd<0)s=`Pressure from ${n} eased, down ${pts(ad)}${clause}.`;
+  else if(dd>=8)s=`Pressure from ${n} jumped ${pts(ad)}${clause}.`;
+  else s=`Pressure from ${n} climbed ${pts(ad)}${clause}.`;
   if(l.stale)s+=' Its source feed is overdue, so this reading may lag.';
-  lines[k]=s;
+  base[k]=s;
+  lines[k]=AUX.has(k)?s+' (Auxiliary sensor — observed, but carries no score weight.)':s;
 }
 
 /* ---- household story ---- */
@@ -69,7 +73,9 @@ else if(easers.length)
 else if(risers.length)
   s2=`The added pressure came from ${risers.map(([k,l])=>`${NAMES[k]} (up ${l.delta} points)`).join(' and ')}.`;
 else s2=`No intake line moved more than a point or two.`;
-const s3=`Altogether the jar ${delta<0?'drained':delta>0?'rose':'held at'} ${delta===0?'':Math.abs(delta)+' to '}${d.ooze}, keeping the national containment level in the ${band(d.ooze)} range.`;
+const s3=delta===0
+  ?`Altogether the jar held at ${d.ooze}, keeping the national containment level in the ${band(d.ooze)} range.`
+  :`Altogether the jar ${delta<0?'drained':'rose'} ${pts(Math.abs(delta))} to ${d.ooze}, keeping the national containment level in the ${band(d.ooze)} range.`;
 const story=`${s1} ${s2} ${s3}`;
 
 /* ---- executive summary ---- */
@@ -90,21 +96,22 @@ const dateStr=d.generated.slice(0,10);
 const article={
   slug:`ooze-report-${d.month}`,cat:'report',date:dateStr,auto:true,byline:BYLINE,
   title:`The ${d.monthLabel} Ooze Report: ${d.ooze}/100`,
-  dek:summary.split('. ').slice(0,1).join('. ')+'.',
+  dek:`${cap(NAMES[topK])} stayed the heaviest weight on household budgets${easers.length?`, while ${NAMES[easers[0][0]]}${easers[1]?` and ${NAMES[easers[1][0]]}`:''} supplied the month's relief`:''}.`,
   keyPoints:[
-    `${d.monthLabel} sealed at ${d.ooze} (${band(d.ooze)}), ${delta<0?'down':delta>0?'up':'flat'} ${Math.abs(delta)||''} vs ${d.prevMonthLabel}.`.replace('  ',' '),
+    delta===0?`${d.monthLabel} sealed at ${d.ooze} (${band(d.ooze)}), unchanged from ${d.prevMonthLabel}.`
+      :`${d.monthLabel} sealed at ${d.ooze} (${band(d.ooze)}), ${delta<0?'down':'up'} ${pts(Math.abs(delta))} from ${d.prevMonthLabel}.`,
     `${verdict}.`,
     `Largest pressure: ${NAMES[topK]} (${topL.contrib} oz)${easers.length?`; biggest relief: ${NAMES[easers[0][0]]} (${easers[0][1].delta} pts)`:''}.`,
   ],
   body:[
     story,
     '## Line by line',
-    ...weighted.map(([k])=>lines[k]),
-    '## Auxiliary sensors',
-    ...[...AUX].map(k=>lines[k]),
+    ...weighted.map(([k])=>base[k]),
+    '## The auxiliary sensors (observed, not scored)',
+    ...[...AUX].map(k=>base[k]),
     '## Confidence',
     confidence,
-    'The next specimen seals when the coming month\'s jobs report and CPI land. Watch collection progress on the Specimen Progress page.',
+    'The next specimen seals when the coming month\'s jobs report and CPI land. Watch the collection assemble on the <a href="specimen-progress.html">Specimen Progress</a> page.',
   ],
 };
 
@@ -118,7 +125,7 @@ ${verdict}.
 ${story}
 
 LINE BY LINE
-${weighted.map(([k])=>`· ${lines[k]}`).join('\n')}
+${weighted.map(([k])=>`· ${base[k]}`).join('\n')}
 
 CONFIDENCE
 ${confidence}
@@ -127,7 +134,7 @@ Read the full report: https://arringtonc.github.io/oozemeter/article.html?a=${ar
 The jar: https://arringtonc.github.io/oozemeter/
 ${BYLINE}`;
 
-const rssSummary=`${summary} ${s2} ${easers.length||risers.length?'':''}Every figure is computed from cited public data and passed the facility's integrity gate before publication.`.slice(0,700);
+const rssSummary=`${summary} ${s2} Every figure is computed from cited public data and passed the facility's integrity gate before publication.`.slice(0,700);
 
 const social=`🧪 ${d.monthLabel} Ooze Level: ${d.ooze}/100 (${band(d.ooze)}) — ${delta<0?'down':delta>0?'up':'flat'} ${Math.abs(delta)} from ${d.prevMonthLabel}. ${verdict}. Biggest pressure: ${NAMES[topK]}. Full report: arringtonc.github.io/oozemeter`;
 
