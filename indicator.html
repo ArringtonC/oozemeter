@@ -17,6 +17,7 @@
 </div>
 
 <script src="data/latest.js"></script>
+<script src="data/story.js"></script>
 <script src="lab.js"></script>
 <script>
 renderHeader('');
@@ -59,6 +60,10 @@ $('main').innerHTML=`
     </div>
   </div>
 
+  ${window.STORY&&STORY.lines[x.slug]?`<div class="prose reveal" id="whychanged" style="margin-bottom:26px">
+    <h2 style="margin-top:0">Why it changed this month</h2>
+    <p>${STORY.lines[x.slug]}</p>
+  </div>`:''}
   <div class="chart-panel reveal" id="history">
     <h2>20-Year Stress History — ${x.name} (illustrative)</h2>
     ${bigChart(x.stressHist)}
@@ -90,7 +95,7 @@ $('main').innerHTML=`
   </div>
 
   <div class="reveal">
-    <h2 style="font-family:var(--display);font-weight:800;font-size:1.25rem;margin:38px 0 12px">Personnel monitoring ${x.name.toLowerCase()} also observe</h2>
+    <h2 style="font-family:var(--display);font-weight:800;font-size:1.25rem;margin:38px 0 12px">Cross-References</h2>
     <div class="related">
       ${x.related.map(r=>{const y=indBySlug(r);return `<a href="indicator.html?i=${y.slug}"><span>${y.emoji}</span> ${y.name} <span class="r-oz">+${y.contrib}</span></a>`}).join('')}
       <a href="personal.html"><span>🧬</span> Your Personal Ooze <span class="r-oz">?</span></a>
@@ -99,6 +104,23 @@ $('main').innerHTML=`
 
   <div class="reveal" style="margin:56px 0" id="nlMount"></div>
 `;
+
+/* previous / next file — continue through the facility */
+const prevX=INDICATORS[(idx-2+INDICATORS.length)%INDICATORS.length];
+const nextX=INDICATORS[idx%INDICATORS.length];
+$('main').insertAdjacentHTML('beforeend',`
+  <div class="filenav">
+    <a href="indicator.html?i=${prevX.slug}"><span class="fn-k">◂ Previous file</span>${prevX.emoji} ${prevX.name}</a>
+    <a href="indicator.html?i=${nextX.slug}" style="text-align:right"><span class="fn-k">Next file ▸</span>${nextX.emoji} ${nextX.name}</a>
+  </div>`);
+
+/* FAQ structured data (AUDIT-7 completion) */
+const faqLd={'@context':'https://schema.org','@type':'FAQPage',
+  mainEntity:x.faqs.map(f=>({'@type':'Question',name:f.q,
+    acceptedAnswer:{'@type':'Answer',text:f.a}}))};
+const faqTag=document.createElement('script');
+faqTag.type='application/ld+json';faqTag.textContent=JSON.stringify(faqLd);
+document.head.appendChild(faqTag);
 
 $('nlMount').innerHTML=newsletterHTML();
 wireNewsletter();

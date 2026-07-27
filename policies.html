@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#070b06">
+<title>Policies — Editorial, Corrections, Data & Methodology History | OOZEMeter</title>
+<meta name="description" content="How OOZEMeter is written, corrected, and computed: editorial policy, correction policy, data policy, and the public methodology version history.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800;900&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="lab.css">
+</head>
+<body>
+<div id="page">
+<main class="wrap-narrow">
+
+<section style="padding-top:34px">
+  <div class="crumbs" style="padding-bottom:18px"><a href="index.html">Facility</a> / Policies</div>
+  <div class="sec-label">Facility Governance</div>
+  <h1 class="sec-title">Policies</h1>
+  <p class="sec-sub">The boring pages, published proudly. The Area 51 framing is fiction; everything on this page is not.</p>
+
+  <div class="prose">
+    <h2 id="editorial">Editorial policy</h2>
+    <p>OOZEMeter publishes two kinds of writing. <b>Facility-drafted pieces</b> (Specimen Reports, data summaries) are generated from the collected data by deterministic templates — every clause is driven by a number you can check in <a href="data/latest.json">data/latest.json</a>, and nothing is generated that the data doesn't support. <b>Operator dispatches</b> are written by a human and labeled as such. No piece of either kind may state a figure that doesn't trace to a cited public source.</p>
+
+    <h2 id="corrections">Correction policy</h2>
+    <p>When we get something wrong, the fix is visible, not silent. Corrections are noted on the affected page with what changed and when. Because the entire site lives in a public repository, every change to every page and every number is permanently inspectable in the commit history — our audit log is not a promise, it's <a href="https://github.com/ArringtonC/oozemeter/commits/main" target="_blank" rel="noopener">a link</a>.</p>
+
+    <h2 id="data">Data policy</h2>
+    <p>All inputs are public data from government and institutional sources (Federal Reserve, BLS via FRED, EIA, NY Fed), fetched by an automated collector that runs daily. The monthly headline score seals once per month when that month's jobs report and CPI land. Individual lines refresh on their own release schedules and carry their own as-of dates; a feed that goes quiet past its normal cadence is flagged STALE rather than silently reused. Historical scores are an ex-post reconstruction using the latest revised observations — when a source revision moves any published historical value by a point or more, the collector detects it and logs it publicly to <a href="data/revisions.json">data/revisions.json</a>.</p>
+    <p>Before anything publishes, an integrity gate checks every value against physical plausibility ranges and verifies the calibration anchors still hold. If any check fails, the site keeps the previous good reading and the pipeline stops until a human investigates.</p>
+
+    <h2 id="methodology">Methodology version history</h2>
+    <p>The recipe is public, and so are its changes. If we change how the score is computed, it's recorded here — never silently.</p>
+  </div>
+
+  <table class="tier-table" style="max-width:68ch">
+    <tr><td><b style="color:var(--ooze)">v2</b> · July 2026</td><td style="text-align:left;color:var(--muted)">Auto line switched from a broad consumer-loan proxy to the NY Fed's auto-specific 30+ delinquency transition series. Comparable history now begins 2003. Recalibrated on the same doctrine (calm = 10, GFC peak = 90). Effect: historical scores shifted; the change moved 244 monthly values by ≥1 point and is logged as entry #1 in the public revision record.</td></tr>
+    <tr><td><b style="color:var(--ooze)">v1</b> · July 2026</td><td style="text-align:left;color:var(--muted)">Initial formula: six weighted lines (employment 25, housing 20, credit 20, auto 15, gas 10, inflation 10), absolute published anchors, weekly-claims momentum term, two-point calibration. Backtested 2000→present.</td></tr>
+  </table>
+
+  <div class="prose" style="margin-top:26px">
+    <p style="font-size:.8rem;color:var(--dim)">See also: <a href="notes.html">Lab Notes</a> (the full formula) · <a href="what-is-ooze.html">What is Ooze?</a> · OOZEMeter is an educational visualization, not financial advice.</p>
+  </div>
+</section>
+
+</main>
+</div><!-- /page -->
+
+<script src="data/latest.js"></script>
+<script src="lab.js"></script>
+<script>
+renderHeader('');
+renderFooter();
+</script>
+</body>
+</html>

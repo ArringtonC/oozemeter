@@ -72,6 +72,16 @@ ldTag.type='application/ld+json';
 ldTag.textContent=JSON.stringify(ld);
 document.head.appendChild(ldTag);
 
+/* previous / next article */
+const sorted=[...ARTICLES].sort((x,y)=>y.date.localeCompare(x.date));
+const ai=sorted.findIndex(x=>x.slug===a.slug);
+const prevA=sorted[ai+1],nextA=sorted[ai-1];
+if(prevA||nextA)$('main').insertAdjacentHTML('beforeend',`
+  <div class="filenav">
+    ${prevA?`<a href="article.html?a=${prevA.slug}"><span class="fn-k">◂ Older</span>${prevA.title}</a>`:'<span></span>'}
+    ${nextA?`<a href="article.html?a=${nextA.slug}" style="text-align:right"><span class="fn-k">Newer ▸</span>${nextA.title}</a>`:'<span></span>'}
+  </div>`);
+
 renderFooter();
 wireReveals();
 </script>

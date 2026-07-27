@@ -56,13 +56,13 @@ v3 | Website    | Ooze event chart: XY curve with dated event flags (incl. BP sp
 v3 | Website    | Big-league navigation: Indicators/Tools dropdowns + mobile menu; homepage slimmed (cascade moved to what-is-ooze.html) | done
 v3 | Launch     | Custom domain purchase + setup | todo
 v3 | Brand      | 80/20 language audit: find lab-speak that repeats or obscures meaning; plain language beside branded terms | todo
-v3 | Website    | Data-release calendar: when CPI/jobs/delinquency data lands next (metric: +15% weekly returners in 60d of analytics) | todo
-v3 | Content    | "Why it changed this month" auto-section on each indicator page, generated from delta data | todo
-v3 | Trust      | Formula version history page: public changelog of the recipe (methodology v2 is the first entry) | todo
-v3 | Trust      | Editorial + correction policy pages (credibility + AdSense signal) | todo
-v3 | Growth     | Previous/next file controls: "continue through the facility" on indicator + article pages (metric: pages/session 2.3 -> 3.1 once measured) | todo
+v3 | Website    | Data-release calendar (metric: +15% weekly returners in 60d of analytics) | done
+v3 | Content    | "Why it changed this month" auto-section on each indicator page (story engine) | done
+v3 | Trust      | Formula version history page (policies.html#methodology, revisions.json evidence) | done
+v3 | Trust      | Editorial + correction + data policy (policies.html) | done
+v3 | Growth     | Prev/next "continue through the facility" (metric: pages/session 2.3 -> 3.1 once measured) | done
 v5 | Ads        | Ad-readiness checklist as an objective launch gate (page depth, content volume, legal, speed, brand safety) | todo
-v3 | Docs       | "Do Not Build Yet" list: written refusals to protect focus | todo
+v3 | Docs       | "Do Not Build Yet" list (research/do-not-build.md; forum moved out of v4) | done
 v3 | Docs       | House rule: measurement before expansion - every new section ships with its metric, target, and removal condition | todo
 v3 | Data       | AUDIT-1 Revision detector + calibration invariants (scripts/integrity.js, fail-closed; first log: v2 rewrote 244 months) | done
 v3 | Website    | AUDIT-2 Historical verdict line on hero, computed live + stamped static | done
@@ -70,8 +70,13 @@ v3 | Data       | AUDIT-3 Plausibility gate: per-line ranges + 30pt jump cap in 
 v3 | Website    | AUDIT-4 Stamp real score into static HTML (scripts/stamp.js) - wired into daily cron | done
 v3 | Growth     | AUDIT-5 RSS/Atom feed (feed.xml) - wired into daily cron | done
 v3 | Design     | AUDIT-6 Motion/type tokens: settle curve declared once (--ease), faux-bold fixed | done
-v3 | Growth     | AUDIT-7 JSON-LD: Dataset schema on homepage + Article schema on articles - done; FAQ schema on indicators pending | wip
+v3 | Growth     | AUDIT-7 JSON-LD complete: Dataset + Article + FAQPage schemas | done
 v3 | Design     | AUDIT-8 First-paint doctrine: static shell + preloaded fonts, LCP<2s, score visible before JS | todo
+v3 | Content    | Household Story Engine (scripts/story.js): monthly plain-English story + per-line why-it-changed, wired to homepage + indicator pages + cron | done
+v3 | Website    | Release calendar: next data drops with countdown in the latest rail | done
+v3 | Growth     | Previous/Next file controls on indicator + article pages | done
+v3 | Brand      | "Cross-References" rename (related sections, on-brand) | done
+v3 | Trust      | policies.html: editorial, correction, and data policy + methodology version history (v1/v2) | done
 v4 | Content    | Golden-master report page (article.html template, live) | done
 v3 | Website    | OOZEONOMICS section: index + article template + 4 seed articles from real data | done
 v3 | Ads        | Sponsored-beaker ad module modeled (doctrine gap #4), articles only | done
@@ -82,7 +87,7 @@ v4 | Content    | Fast indexing (IndexNow + Indexing API) on publish | todo
 v4 | Content    | Search Console gap miner loop | todo
 v4 | Agents     | Burry refutation gate automated pre-publish | todo
 v4 | Agents     | Operator control panel (agents propose, human approves) | todo
-v4 | Content    | Forum/comments (giscus) on daily readings | todo
+v4 | Content    | Forum/comments — MOVED to Do-Not-Build-Yet list (needs traffic first) | done
 v5 | Data       | Per-line historical backfill (replace illustrative indicator charts) | todo
 v5 | Data       | State-level live data (50 FRED series) → real rankings | todo
 v5 | Algorithm  | Incident severity ratings C1-C5 (peak × duration × recovery) | todo
