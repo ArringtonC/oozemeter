@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#070b06">
-<title>OOZEMeter — The Ooze Chart | 26 Years of Economic Stress</title>
-<meta name="description" content="The Ooze Chart: 26 years of measured U.S. economic stress with every major event pinned to the real curve — dot-com, Lehman, COVID, and more. Click any event to replay it.">
+<title>OOZEMeter — The Ooze Chart | 23 Years of Economic Stress</title>
+<meta name="description" content="The Ooze Chart: 23 years of comparable U.S. economic stress under methodology v2, with major events pinned to the measured curve. Click any event to replay it.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800;900&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
@@ -19,7 +19,7 @@
   <div class="wrap">
     <div class="crumbs" style="padding-bottom:18px"><a href="index.html">Facility</a> / The Ooze Chart</div>
     <h1 class="sec-title">The Ooze Chart</h1>
-    <p class="sec-sub" style="margin-bottom:22px">26 years of measured economic stress. The dots are events — <b style="color:var(--text)">click one</b>.</p>
+    <p class="sec-sub" style="margin-bottom:22px">23 years of measured U.S. economic stress under methodology v2. Comparable history begins with the NY Fed auto series in 2003. This is an ex-post reconstruction using the latest revised observations, not a release-time vintage. The dots are events — <b style="color:var(--text)">click one</b>.</p>
 
     <div class="echart-panel">
       <div id="echartMount"></div>
@@ -35,6 +35,7 @@
       </div>
     </div>
 
+    <div id="gapNote" style="font-size:.68rem;color:var(--amber);margin-top:10px"></div>
     <div class="etimeline" id="etimeline"></div>
   </div>
 </section>
@@ -56,8 +57,8 @@
         <div class="replay-status" id="replayStatus">STICKY</div>
         <div class="replay-tier" id="replayTier">🟡 OBSERVATION</div>
         <div class="replay-event" id="replayEvent"></div>
-        <input type="range" id="timeSlider" min="2000" max="2026" step="0.1" value="2026" aria-label="Scrub through economic history from 2000 to today">
-        <div class="range-labels"><span>2000</span><span>2008</span><span>2015</span><span>2020</span><span>TODAY</span></div>
+        <input type="range" id="timeSlider" min="2003" max="2026" step="any" value="2026" aria-label="Scrub through comparable economic history from 2003 to today">
+        <div class="range-labels"><span>2003</span><span>2008</span><span>2015</span><span>2020</span><span>TODAY</span></div>
       </div>
     </div>
   </div>
@@ -85,6 +86,8 @@ buildJar(replayJar);
 setJar(replayJar,replayTheme,TODAY_SCORE);
 
 const slider=$('timeSlider');
+slider.max=HISTORY[HISTORY.length-1][0];
+slider.value=slider.max;
 function renderReplay(){
   const yr=parseFloat(slider.value),s=Math.round(scoreAt(yr));
   $('replayYear').textContent=Math.floor(yr);
@@ -94,7 +97,8 @@ function renderReplay(){
   setJar(replayJar,replayTheme,s);
   setFacility(s);
   const ev=EVENTS.find(([y])=>Math.abs(y-yr)<0.3);
-  $('replayEvent').textContent=ev?ev[1]:'';
+  const nearGap=HISTORY.every(([t])=>Math.abs(t-yr)>0.09);
+  $('replayEvent').textContent=ev?ev[1]:(nearGap?'⚠ No data for this month — reading shown is interpolated across a gap.':'');
 }
 slider.addEventListener('input',renderReplay);
 renderReplay();
@@ -114,10 +118,6 @@ new IntersectionObserver(es=>es.forEach(e=>{
 
 /* ============ EVENT DATA — plain words, real dates ============ */
 const EV=[
- {t:2000.19,date:'Mar 10, 2000',title:'Dot-com bubble tops',
-  desc:'The Nasdaq peaks at 5,048 and goes on to lose 78% over two and a half years. The jar barely reaches 48 — a market crash isn\'t the same thing as household stress.'},
- {t:2001.70,date:'Sep 11, 2001',title:'9/11 — markets close four days',
-  desc:'The attacks close U.S. markets for four days. The economy was already in recession (NBER: March–November 2001), so the flag sits on a slope that was already rising.'},
  {t:2007.60,date:'Aug 9, 2007',title:'The credit crunch begins',
   desc:'BNP Paribas freezes three funds and banks stop trusting each other overnight. This is the quiet start of the chain reaction that becomes 2008.'},
  {t:2008.71,date:'Sep 15, 2008',title:'Lehman Brothers collapses',
@@ -127,7 +127,7 @@ const EV=[
  {t:2011.60,date:'Aug 5, 2011',title:'U.S. credit rating downgraded',
   desc:'S&P strips America\'s AAA rating for the first time ever. Markets convulsed; the household cascade mostly shrugged and kept slowly healing.'},
  {t:2020.20,date:'Mar–Apr 2020',title:'COVID crash — 22M jobs lost',
-  desc:'The fastest job loss in American history — and the jar only reaches 43, because stimulus checks and payment pauses held the household line. Containment held.'},
+  desc:'The fastest job loss in American history — and the jar only reaches {{peak:2020-01..2020-12}}, because stimulus checks and payment pauses held the household line. Containment held.'},
  {t:2022.45,date:'Jun 2022',title:'Inflation peaks at 9.1%',
   desc:'The fastest price growth since 1981. Everyone hated this economy — but jobs were plentiful and bills got paid, so the jar read just 27. The vibecession, measured.'},
  {t:2023.19,date:'Mar 2023',title:'SVB fails',
@@ -137,7 +137,7 @@ EV.forEach(e=>e.s=Math.round(scoreAt(e.t)));
 
 /* ============ THE CHART — terminal style, no on-chart labels ============ */
 const W=960,H=380,L=14,R=64,T=18,B=30;
-const x0=2000,x1=HISTORY[HISTORY.length-1][0]+.3;
+const x0=2003,x1=HISTORY[HISTORY.length-1][0]+.3;
 const X=t=>L+(t-x0)/(x1-x0)*(W-L-R);
 const Y=v=>T+(100-v)/100*(H-T-B);
 const BANDCOLORS=['#4dffa1','#8aff3c','#d8ff2e','#ffb02e','#ff4d3d'];
@@ -147,9 +147,29 @@ const bands=BANDCOLORS.map((c,i)=>{
 }).join('');
 const grid=[20,40,60,80].map(g=>`<line x1="${L}" y1="${Y(g)}" x2="${W-R}" y2="${Y(g)}" stroke="rgba(163,255,18,.06)"/>
   <text x="${W-R+8}" y="${Y(g)+3}" fill="#708363" font-size="9">${g}</text>`).join('');
-const years=[2000,2005,2010,2015,2020,2025].map(yr=>
+const years=[2003,2008,2013,2018,2023,2026].map(yr=>
   `<text x="${X(yr)}" y="${H-9}" fill="#708363" font-size="9" text-anchor="middle">${yr}</text>`).join('');
-const pts=HISTORY.map(([t,v])=>`${X(t).toFixed(1)},${Y(v).toFixed(1)}`).join(' ');
+/* Canonical Truth: a missing month renders as a visible break, never a
+   drawn-through line. Known gaps get a labeled marker. */
+const KNOWN_GAPS={'2025.750':'Oct 2025 — no data (federal shutdown interrupted the jobs release)'};
+const segs=[];let cur=[];
+for(let i=0;i<HISTORY.length;i++){
+  if(i>0&&HISTORY[i][0]-HISTORY[i-1][0]>0.12){segs.push(cur);cur=[]}
+  cur.push(HISTORY[i]);
+}
+segs.push(cur);
+const segPts=segs.map(seg=>seg.map(([t,v])=>`${X(t).toFixed(1)},${Y(v).toFixed(1)}`).join(' '));
+const pts=segPts.join(' ');
+const gapMarks=segs.slice(0,-1).map((seg,i)=>{
+  const a=seg[seg.length-1][0],b=segs[i+1][0][0],mid=(a+b)/2;
+  const label=KNOWN_GAPS[mid.toFixed(3)]||'no data';
+  return `<g><line x1="${X(mid)}" y1="${T}" x2="${X(mid)}" y2="${H-B}" stroke="rgba(255,176,46,.3)" stroke-dasharray="2 4"/>
+    <text x="${X(mid)}" y="${T+10}" fill="#ffb02e" font-size="8" text-anchor="middle">⚠</text></g>`;
+}).join('');
+const GAP_LIST=segs.slice(0,-1).map((seg,i)=>{
+  const mid=((seg[seg.length-1][0]+segs[i+1][0][0])/2).toFixed(3);
+  return KNOWN_GAPS[mid]||'gap at '+mid;
+});
 const [lastT,lastV]=HISTORY[HISTORY.length-1];
 const latestTag=`<g><rect x="${W-R+4}" y="${Y(lastV)-9}" width="34" height="18" rx="4" fill="#a3ff12"/>
   <text x="${W-R+21}" y="${Y(lastV)+4}" fill="#070b06" font-size="10" font-weight="700" text-anchor="middle">${Math.round(lastV)}</text></g>`;
@@ -166,10 +186,11 @@ const evDots=EV.map((e,i)=>{
     <rect x="${cx-16}" y="${by-18}" width="32" height="24" fill="transparent"/>
   </g>`}).join('');
 
-$('echartMount').innerHTML=`<svg id="echartSvg" viewBox="0 0 ${W} ${H}" role="img" aria-label="Ooze level, 2000 to today, with event markers">
+$('echartMount').innerHTML=`<svg id="echartSvg" viewBox="0 0 ${W} ${H}" role="img" aria-label="Comparable Ooze level, 2003 to today, with event markers">
   ${bands}${grid}
-  <polygon points="${L},${Y(0)} ${pts} ${X(lastT)},${Y(0)}" fill="rgba(163,255,18,.08)"/>
-  <polyline points="${pts}" fill="none" stroke="#a3ff12" stroke-width="1.7"/>
+  ${segs.map((seg,i)=>`<polygon points="${X(seg[0][0])},${Y(0)} ${segPts[i]} ${X(seg[seg.length-1][0])},${Y(0)}" fill="rgba(163,255,18,.08)"/>
+  <polyline points="${segPts[i]}" fill="none" stroke="#a3ff12" stroke-width="1.7"/>`).join('')}
+  ${gapMarks}
   <line id="chLine" x1="0" y1="${T}" x2="0" y2="${H-B}" stroke="rgba(230,242,218,.25)" stroke-dasharray="3 3" visibility="hidden"/>
   ${evDots}${latestTag}${years}</svg>`;
 
@@ -208,7 +229,7 @@ function openPop(i){
   $('epScore').style.color=BANDCOLORS[levelOf(e.s)-1];
   const [ntxt,ncol]=aftermath(e.t);
   $('epNext').textContent=ntxt;$('epNext').style.color=ncol;
-  $('epDesc').textContent=e.desc;
+  $('epDesc').textContent=resolveClaims(e.desc);
   const panel=epop.parentElement,pw=panel.offsetWidth,popW=Math.min(300,pw*.8);
   const px=X(e.t)/W*pw;
   epop.style.left=Math.max(12,Math.min(pw-popW-12,px-popW/2))+'px';
@@ -228,6 +249,7 @@ $('epGo').addEventListener('click',()=>{
 });
 document.querySelectorAll('#echartMount .evt').forEach(g=>
   g.addEventListener('click',()=>openPop(+g.dataset.i)));
+if(GAP_LIST.length)$('gapNote').textContent='⚠ '+GAP_LIST.join(' · ')+'. Missing months are shown as breaks, never interpolated.';
 
 /* ============ SCROLLABLE TIMELINE ============ */
 $('etimeline').innerHTML=EV.map((e,i)=>`
@@ -241,7 +263,7 @@ document.querySelectorAll('.ecard').forEach(c=>
 
 /* ============ CROSS-REF ============ */
 $('allLines').innerHTML=INDICATORS.map(y=>
-  `<a href="indicator.html?i=${y.slug}"><span>${y.emoji}</span> ${y.name} <span class="r-oz">+${y.contrib}</span></a>`).join('');
+  `<a href="indicator.html?i=${y.slug}"><span>${y.emoji}</span> ${y.name} <span class="r-oz">${y.contributesToOoze?`+${y.contrib}`:'AUX'}</span></a>`).join('');
 
 renderFooter();
 wireReveals();

@@ -7,11 +7,11 @@ window.ARTICLES = [
 {slug:'june-2026-seal',cat:'report',month:'2026-06',date:'2026-07-24',title:'June seals at 27: the jar drains 3 points',
  dek:'Gas and inflation eased at the same time — the biggest one-month relief since the winter.',
  keyPoints:[
-  'The June 2026 Ooze Level sealed at 27 (Sticky), down 3 points from May\'s 30.',
+  'The June 2026 Ooze Level sealed at {{s:2026-06}} (Sticky), down 3 points from May\'s {{s:2026-05}}.',
   'Gas pressure fell 11 points and inflation eased 9 — the two biggest movers.',
   'Employment remains the calmest line on the board at 14.'],
  body:[
-  'The monthly specimen sealed in mid-July, once the jobs report and CPI landed, and the reading is the friendliest since spring: 27 out of 100. That is Sticky territory — the band where normal economies live — and 3 points below May. June\'s reading is calmer than six of every ten months since 2003.',
+  'The monthly specimen sealed in mid-July, once the jobs report and CPI landed, and the reading is the friendliest since spring: {{s:2026-06}} out of 100. That is Sticky territory — the band where normal economies live — and 3 points below May. June\'s reading is calmer than six of every ten months since 2003.',
   'The relief came from the two lines everyone feels first. Gas pressure dropped 11 points as pump prices steadied around $4.00, and inflation eased 9 as the yearly price change cooled to 3.5%. When the first link of the cascade relaxes, the whole chain breathes.',
   '## What\'s still pressing',
   'Housing remains the heaviest weight on the board — mortgage rates at 6.58% keep affordability pressure in the mid-40s. Auto-loan delinquency, on the truer New York Fed measure the lab now uses, reads hotter than the old proxy suggested. Credit card delinquency sits at 2.9% — higher than the unusually calm pandemic years, but not historically exceptional.',
@@ -23,7 +23,7 @@ window.ARTICLES = [
   {slug:'oozemaxing-near-miss',cat:'incident',date:'2026-07-25',title:'2008 missed OOZEMAXING by exactly one line',
  dek:'The backtest found something nobody knew: even the Great Financial Crisis never tripped the everything-fails-at-once alarm.',
  keyPoints:[
-  'OOZEMAXING requires all six weighted lines to read 60+ simultaneously. It has never happened in 25 years of data.',
+  'OOZEMAXING requires all six weighted lines to read 60+ simultaneously. It has never happened in the comparable record since 2003.',
   'At the GFC\'s worst (June 2009), five of six lines crossed 60.',
   'The holdout was inflation — deflation held the line at 55 and kept the declaration off the board.'],
  body:[
@@ -34,18 +34,18 @@ window.ARTICLES = [
   'That is why the facility can say something no other economic dashboard can: OOZEMAXING has never been declared. Not in 2008. Not in 2020. If this facility ever declares it, it will not be hype — it will be a first in modern history.',
   'Every number in this file is reproducible from the public backtest. Check us.']},
 
-{slug:'vibecession-measured',cat:'explainer',date:'2026-07-25',title:'The vibecession, measured: why 2022 only scored 27',
+{slug:'vibecession-measured',cat:'explainer',date:'2026-07-25',title:'The vibecession, measured: why 2022 only scored {{peak:2022-01..2022-12}}',
  dek:'Everyone hated that economy. The cascade data says households mostly held. Both things are true.',
  keyPoints:[
   'The 2022 inflation surge peaked with CPI at 9.1% — the fastest since 1981.',
-  'The Ooze peaked at just 27 that year, barely above today\'s reading.',
+  'The Ooze peaked at just {{peak:2022-01..2022-12}} that year — within a few points of recent readings.',
   'The gap between feelings and cascade data is what "vibecession" actually means.'],
  body:[
-  'June 2022: inflation hits 9.1%, gas passes $5, consumer sentiment prints its worst reading ever recorded. And the Ooze Level reads... 27.',
+  'June 2022: inflation hits 9.1%, gas passes $5, consumer sentiment prints its worst reading ever recorded. And the Ooze Level reads... {{s:2022-06}}.',
   'That number offends people. It felt so much worse. But the meter doesn\'t measure feelings — it measures the cascade: are households missing payments, losing cars, losing jobs, losing homes? In 2022, mostly, they weren\'t. Unemployment sat under 4%. Delinquencies were near record lows, still suppressed by pandemic savings. The bills were infuriating, and they were getting paid.',
   '## What the gap teaches',
   'Economists later named the phenomenon a vibecession — sentiment collapsing while the real economy held. OOZEMeter\'s 2022 reading is that concept with a number on it. The anger was real; the cascade failure never came. Prices are a tax on happiness before they are a tax on solvency.',
-  'This is the meter\'s core discipline, and it cuts both ways: it refused to panic in 2022, and it refused to celebrate in April 2010, when the reading was still elevated at 74 while headlines had moved on. Feelings lead; the cascade lags; the jar reports the cascade.']},
+  'This is the meter\'s core discipline, and it cuts both ways: it refused to panic in 2022, and it refused to celebrate in April 2010, when the reading was still elevated at {{s:2010-04}} while headlines had moved on. Feelings lead; the cascade lags; the jar reports the cascade.']},
 
 {slug:'what-is-oozeonomics',cat:'manual',date:'2026-07-26',title:'What is Oozeonomics?',
  dek:'The study of economic slime: how stress actually moves through household budgets, measured instead of narrated.',

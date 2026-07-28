@@ -4,12 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#070b06">
-<title>OOZEMeter — Today's Economic Containment Level</title>
-<meta name="description" content="How stressed is the U.S. economy today? One score, one jar, trusted public data. Check today's Ooze Level at the Division of Economic Containment.">
+<title>OOZEMeter — Ooze Level 27/100 (Sticky) · June 2026</title>
+<meta name="description" content="The June 2026 Ooze Level is 27/100 (Sticky), down 3 from May 2026. One score for U.S. economic stress, computed from public data.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800;900&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="alternate" type="application/atom+xml" title="OOZEMeter — Oozeonomics" href="https://arringtonc.github.io/oozemeter/feed.xml">
 <link rel="stylesheet" href="lab.css">
+<script type="application/ld+json" id="datasetLD">{"@context":"https://schema.org","@type":"Dataset","name":"OOZEMeter Ooze Level","description":"Monthly U.S. economic stress score (0–100) computed from public data. June 2026: 27/100.","url":"https://arringtonc.github.io/oozemeter","creator":{"@type":"Organization","name":"OOZEMeter — Division of Economic Containment","url":"https://arringtonc.github.io/oozemeter"},"temporalCoverage":"2003-01/2026-06","license":"https://github.com/ArringtonC/oozemeter","distribution":[{"@type":"DataDownload","encodingFormat":"application/json","contentUrl":"https://arringtonc.github.io/oozemeter/data/latest.json"}]}</script>
 </head>
 <body>
 <div id="boot"><div id="bootLog"></div><div class="skip">CLICK TO SKIP CLEARANCE CHECK</div></div>
@@ -18,16 +20,17 @@
 
 <!-- ============ HERO: CONTAINMENT CHAMBER ============ -->
 <section class="hero" id="top">
-  <div class="wrap" id="heroTheme" data-level="4">
+  <div class="wrap" id="heroTheme" data-level="2">
 
     <div class="hero-head">
       <div class="kicker cine c2">Today's Containment Level</div>
-      <div class="big-score cine c3"><span id="heroScore">0</span><small>/100</small></div>
+      <div class="big-score cine c3"><span id="heroScore">27</span><small>/100</small></div>
       <div class="status-row cine c4">
-        <div class="status-chip" id="heroStatus">OOZING</div>
-        <div class="tier" id="heroTier">🟠 CONTAINMENT WARNING</div>
-        <div class="delta" id="heroDelta">▲ +3 SINCE LAST READING</div>
+        <div class="status-chip" id="heroStatus">STICKY</div>
+        <div class="tier" id="heroTier">🟡 OBSERVATION</div>
+        <div class="delta" id="heroDelta">▼ −3 VS MAY 2026</div>
       </div>
+      <div class="verdict cine c4" id="verdictLine">Calmer than 6 of every 10 months since 2003</div>
       <div class="inject-readout cine c5" id="injectReadout">HOVER A PRESSURE SOURCE · CLICK TO OPEN ITS FILE</div>
     </div>
 
@@ -39,18 +42,18 @@
           <span>SPECIMEN US-ECON-01</span>
           <span class="lamps"><span class="lamp"></span><span class="lamp"></span><span class="lamp"></span></span>
         </div>
-        <div class="jar" id="heroJar" role="img" aria-label="Containment jar, ooze level 67 of 100"></div>
+        <div class="jar" id="heroJar" role="img" aria-label="Containment jar, ooze level 27 of 100"></div>
         <div class="console">
-          <div class="inst">Pressure<div class="gauge"><i id="gaugeNeedle"></i></div><b id="instPressure">67 psi</b></div>
-          <div class="inst">Specimen Temp<b id="instTemp">98.6°F</b></div>
-          <div class="inst">Integrity<b id="instIntegrity">33%</b></div>
+          <div class="inst">Pressure<div class="gauge"><i id="gaugeNeedle"></i></div><b id="instPressure">27 psi</b></div>
+          <div class="inst">Method<b id="instMethod">v2</b></div>
+          <div class="inst">Integrity<b id="instIntegrity">73%</b></div>
         </div>
         <div class="chamber-label">⚠ Please do not tap the glass</div>
       </div>
       <div class="nodes right cine c5" id="nodesRight"></div>
     </div>
 
-    <div class="specimen-line cine c5">🧪 Fresh specimen collected — <b>Jul 23, 2026 · 08:00 ET</b> · next collection in 16h</div>
+    <div class="specimen-line cine c5">🧪 Monthly specimen sealed: <b>June 2026 = 27</b> · intake lines refresh as their data releases </div>
   </div>
 </section>
 
@@ -59,7 +62,7 @@
   <div class="wrap">
     <div class="sec-label reveal">File 01 — Pressure Sources</div>
     <h2 class="sec-title reveal">Today's top pressure sources</h2>
-    <p class="sec-sub reveal">The three intake lines pushing hardest on the specimen right now. Open a file for the full reading, history, and lab analysis.</p>
+    <p class="sec-sub reveal">The three intake lines pushing hardest on the specimen right now. Open a file for the full reading, history, and lab analysis. Ounce splits are rounded, so they can differ from the headline by a point.</p>
     <div class="cards" id="topCards"></div>
     <div class="chip-row reveal" id="restChips"></div>
   </div>
@@ -71,6 +74,7 @@
     <div class="sec-label reveal">File 02 — Surveillance</div>
     <h2 class="sec-title reveal">Fresh leaks detected</h2>
     <p class="sec-sub reveal">What moved this month — and every sensor's freshest reading.</p>
+    <p class="household-story reveal" id="householdStory"></p>
     <div class="dualflow reveal">
       <div class="movers" id="moversList"></div>
       <div class="latest-rail" id="latestRail">
@@ -137,9 +141,9 @@
       <div class="share-card">
         <div class="sc-alarm">🚨</div>
         <div class="sc-kicker">Ooze Level</div>
-        <div class="sc-score">67<span style="font-size:.4em;color:var(--dim)">/100</span></div>
-        <div class="sc-status">🟠 Containment Warning</div>
-        <div class="sc-line" id="scLine">Top pressure: Unemployment +15 · Housing +14 · Credit Cards +13</div>
+        <div class="sc-score">27<span style="font-size:.4em;color:var(--dim)">/100</span></div>
+        <div class="sc-status">🟡 OBSERVATION</div>
+        <div class="sc-line" id="scLine">June 2026: top pressure — Housing +7 · Credit Cards +6 · Gas Prices +5</div>
         <div class="sc-brand">OOZEMETER · Division of Economic Containment</div>
       </div>
       <div>
@@ -156,6 +160,7 @@
 </div><!-- /page -->
 
 <script src="data/latest.js"></script>
+<script src="data/editorial.js"></script>
 <script src="lab.js"></script>
 <script>
 renderHeader('pressure');
@@ -196,6 +201,7 @@ buildJar(heroJar);
 $('gaugeNeedle').style.transform=`rotate(${TODAY_SCORE/100*180-90}deg)`;
 $('instPressure').textContent=TODAY_SCORE+' psi';
 $('instIntegrity').textContent=(100-TODAY_SCORE)+'%';
+if(LIVE&&LD.methodologyVersion)$('instMethod').textContent='v'+String(LD.methodologyVersion).split('.')[0]+'.'+String(LD.methodologyVersion).split('.')[1];
 setFacility(TODAY_SCORE);
 heroJar.setAttribute('aria-label',`Containment jar, ooze level ${TODAY_SCORE} of 100`);
 if(LIVE){
@@ -204,8 +210,18 @@ if(LIVE){
   $('heroTier').textContent=tierOf(TODAY_SCORE);
   const d=TODAY_SCORE-YESTERDAY;
   $('heroDelta').textContent=`${d>=0?'▲ +':'▼ −'}${Math.abs(d)} VS ${LD.prevMonthLabel.toUpperCase()}`;
+  if(window.EDITORIAL&&EDITORIAL.verdict){$('verdictLine').textContent=EDITORIAL.verdict}
+  else{
+    const worse=HISTORY.filter(([,v])=>v>TODAY_SCORE).length,per10=Math.round(worse/HISTORY.length*10);
+    $('verdictLine').textContent=per10>=5
+      ?`Calmer than ${per10} of every 10 months since 2003`
+      :`More stressed than ${10-per10} of every 10 months since 2003`;
+  }
+  const staleCount=LD.collection?.staleLines?.length||0;
+  const freshnessNotice=FEED_STATE==='stale'?' · ⚠ COLLECTION PIPELINE STALE':
+    FEED_STATE==='degraded'?` · ⚠ ${staleCount} STALE INTAKE LINE${staleCount===1?'':'S'}`:'';
   document.querySelector('.specimen-line').innerHTML=
-    `🧪 Monthly specimen sealed: <b>${LD.monthLabel} = ${TODAY_SCORE}</b> · intake lines refresh as their data releases · collected ${LD.generated.slice(0,10)}`;
+    `🧪 Monthly specimen sealed: <b>${LD.monthLabel} = ${TODAY_SCORE}</b> · intake lines refresh as their data releases · collected ${LD.generated.slice(0,10)}${freshnessNotice}`;
 }else{
   $('heroStatus').textContent='OFFLINE';
   $('heroTier').textContent='⚪ AWAITING CALIBRATION';
@@ -229,11 +245,12 @@ function startCountUp(){
 /* pressure nodes: hover = flow demo, click = open indicator file */
 function nodeHTML(x){
   const drain=x.dir==='down';
-  return `<a class="node" href="indicator.html?i=${x.slug}" data-name="${x.name}" data-contrib="${x.contrib}" data-dir="${x.dir}"
-    aria-label="${x.name}: ${x.contrib} ooze. Open indicator page.">
+  const amount=x.contributesToOoze?(drain?'−':'+')+x.contrib:'AUX';
+  return `<a class="node" href="indicator.html?i=${x.slug}" data-name="${x.name}" data-contrib="${x.contrib}" data-dir="${x.dir}" data-aux="${!x.contributesToOoze}"
+    aria-label="${x.name}: ${x.contributesToOoze?`${x.contrib} ooze`:'auxiliary, zero score weight'}. Open indicator page.">
     <i class="pipe"></i><span>${x.emoji}</span>
     <span class="nname">${x.name}</span>
-    <span class="noz${drain?' drain':''}">${drain?'−':'+'}${x.contrib}</span>
+    <span class="noz${drain&&x.contributesToOoze?' drain':''}">${amount}</span>
   </a>`;
 }
 $('nodesLeft').innerHTML=INDICATORS.slice(0,4).map(nodeHTML).join('');
@@ -248,6 +265,11 @@ document.querySelectorAll('.node').forEach(n=>{
   const test=()=>{
     if(!LIVE){
       injectReadout.textContent=`${n.dataset.name.toUpperCase()} — SENSOR OFFLINE · OPEN FILE TO LEARN WHAT IT METERS`;
+      injectReadout.classList.add('hot');
+      return;
+    }
+    if(n.dataset.aux==='true'){
+      injectReadout.textContent=`${n.dataset.name.toUpperCase()} — PROVISIONAL AUXILIARY SENSOR · 0-WEIGHT · DOES NOT ALTER THE OOZE SCORE`;
       injectReadout.classList.add('hot');
       return;
     }
@@ -323,6 +345,25 @@ if(LIVE){
       </a>`}).join('');
 }else{
   $('latestRail').style.display='none';
+}
+/* the household story — from OOZEBOT's canonical editorial payload */
+if(window.EDITORIAL&&LIVE){$('householdStory').textContent=EDITORIAL.story}
+else{$('householdStory').style.display='none'}
+/* next data drops — release rules are fixed public knowledge (approximate) */
+if(LIVE){
+  const now=new Date();
+  function nextDow(dow){const d=new Date(now);d.setDate(d.getDate()+((dow-d.getDay()+7)%7||7));return d}
+  function firstFriday(y,m){const d=new Date(y,m,1);d.setDate(1+((5-d.getDay()+7)%7));return d}
+  let jobs=firstFriday(now.getFullYear(),now.getMonth());
+  if(jobs<=now)jobs=firstFriday(now.getFullYear(),now.getMonth()+1);
+  let cpi=new Date(now.getFullYear(),now.getMonth(),13);
+  if(cpi<=now)cpi=new Date(now.getFullYear(),now.getMonth()+1,13);
+  const drops=[['Jobs report',jobs],['CPI (inflation)',cpi],['Gas price update',nextDow(1)],['Mortgage rates',nextDow(4)]]
+    .sort((a,b)=>a[1]-b[1]);
+  const dd=x=>{const n=Math.ceil((x-now)/864e5);return n<=1?'tomorrow':`in ${n}d`};
+  $('lrList').insertAdjacentHTML('afterend',
+    `<div class="lr-h" style="border-top:1px solid var(--line)"><a href="specimen-progress.html" style="color:inherit">Next data drops ≈ · full progress →</a></div>`+
+    drops.map(([n,x])=>`<a><span class="lr-t">${dd(x)}</span><span>📅 ${n}</span><b></b><span></span></a>`).join(''));
 }
 
 /* ============ NEWSLETTER + SHARE ============ */

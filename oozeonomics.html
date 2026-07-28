@@ -46,7 +46,7 @@ $('newsGrid').innerHTML=[...(window.ARTICLES||[]),...(window.AUTO_ARTICLES||[])]
   return `<a class="news-card" href="article.html?a=${a.slug}">
     <div class="nc-top"><span class="nc-cat" style="color:${col};border-color:${col}">${label}</span>
     <span class="nc-date">${new Date(a.date+'T12:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}</span></div>
-    <h3>${a.title}</h3><p>${a.dek}</p>
+    <h3>${resolveClaims(a.title)}</h3><p>${resolveClaims(a.dek)}</p>
   </a>`}).join('');
 renderFooter();
 wireReveals();

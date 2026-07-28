@@ -138,6 +138,13 @@ const article={
   ],
 };
 
+/* hand-written coverage check (Canonical Truth: the permalink follows the
+   coverage — operator voice outranks the engine) */
+let handCovered=false,canonicalSlug=article.slug;
+try{const w3={};eval(fs.readFileSync('articles.js','utf8').replace('window.','w3.'));
+  const hand=(w3.ARTICLES||[]).find(a=>a.cat==='report'&&a.month===d.month);
+  if(hand){handCovered=true;canonicalSlug=hand.slug;}}catch{}
+
 /* ---- derived formats ---- */
 const newsletter=
 `OOZEMETER — THE ${d.monthLabel.toUpperCase()} OOZE REPORT
@@ -156,7 +163,7 @@ ${weighted.map(([k])=>`· ${base[k]}`).join('\n')}
 CONFIDENCE
 ${confidence}
 
-Read the full report: https://arringtonc.github.io/oozemeter/article.html?a=${article.slug}
+Read the full report: https://arringtonc.github.io/oozemeter/article.html?a=${canonicalSlug}
 The jar: https://arringtonc.github.io/oozemeter/
 ${BYLINE}`;
 
@@ -167,7 +174,7 @@ const social=`🧪 ${d.monthLabel} Ooze Level: ${d.ooze}/100 (${band(d.ooze)}) �
 /* ---- write outputs ---- */
 const editorial={month:d.month,monthLabel:d.monthLabel,generated:d.generated,
   byline:BYLINE,verdict,summary,story,lines,confidence,newsletter,rssSummary,social,
-  articleSlug:article.slug};
+  articleSlug:canonicalSlug};
 fs.writeFileSync('data/editorial.json',JSON.stringify(editorial,null,1));
 fs.writeFileSync('data/editorial.js','window.EDITORIAL='+JSON.stringify(editorial)+';');
 
@@ -176,9 +183,6 @@ fs.writeFileSync('data/editorial.js','window.EDITORIAL='+JSON.stringify(editoria
    this seal, OOZEBOT stands down: the operator's voice outranks the engine. */
 let autos=[];
 try{const w={};eval(fs.readFileSync('data/auto-articles.js','utf8').replace('window.','w.'));autos=w.AUTO_ARTICLES||[]}catch{}
-let handCovered=false;
-try{const w2={};eval(fs.readFileSync('articles.js','utf8').replace('window.','w2.'));
-  handCovered=(w2.ARTICLES||[]).some(a=>a.cat==='report'&&a.month===d.month)}catch{}
 autos=autos.filter(a=>a.slug!==article.slug);
 if(!handCovered)autos.push(article);
 else console.log('OOZEBOT stands down: hand-written report covers',d.monthLabel);

@@ -29,9 +29,10 @@ const CATS={report:['SPECIMEN REPORT','var(--ooze)'],incident:['INCIDENT FILE','
             explainer:['OOZEONOMICS 101','#5fd7ff'],manual:['FIELD MANUAL','var(--amber)']};
 const ALL_ARTICLES=(window.ARTICLES||[]).concat(window.AUTO_ARTICLES||[]);
 const slug=new URLSearchParams(location.search).get('a')||ALL_ARTICLES[0].slug;
-const a=ALL_ARTICLES.find(x=>x.slug===slug)||ALL_ARTICLES[0];
+const found=ALL_ARTICLES.find(x=>x.slug===slug);
+const a=found||ALL_ARTICLES[0];
 const [catLabel,catCol]=CATS[a.cat]||CATS.manual;
-document.title=`${a.title} — Oozeonomics | OOZEMeter`;
+document.title=`${resolveClaims(a.title)} — Oozeonomics | OOZEMeter`;
 
 const dateFmt=new Date(a.date+'T12:00').toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
 /* body: paragraphs; "## " lines become h3; the sponsor beaker lands after ¶2 */
@@ -41,19 +42,20 @@ const AD=`<div class="beaker-ad"><div class="ba-jar"><i></i></div>
   <span class="ba-tag">AD</span></div>`;
 let bodyHtml='',pCount=0;
 for(const line of a.body){
-  if(line.startsWith('## ')){bodyHtml+=`<h3>${line.slice(3)}</h3>`;continue}
-  bodyHtml+=`<p>${line}</p>`;
+  if(line.startsWith('## ')){bodyHtml+=`<h3>${resolveClaims(line.slice(3))}</h3>`;continue}
+  bodyHtml+=`<p>${resolveClaims(line)}</p>`;
   if(++pCount===2)bodyHtml+=AD;
 }
 
 const others=ALL_ARTICLES.filter(x=>x.slug!==a.slug).slice(0,3);
 $('main').innerHTML=`
+  ${found?'':'<div class="crumbs" style="color:var(--amber);padding-top:20px">⚠ FILE NOT FOUND — showing the most recent report instead.</div>'}
   <div class="crumbs" style="padding-bottom:20px"><a href="index.html">Facility</a> / <a href="oozeonomics.html">Oozeonomics</a> / ${a.title}</div>
   <div class="art-eyebrow" style="color:${catCol}">${catLabel}</div>
-  <h1 class="art-title">${a.title}</h1>
-  <p class="art-dek">${a.dek}</p>
+  <h1 class="art-title">${resolveClaims(a.title)}</h1>
+  <p class="art-dek">${resolveClaims(a.dek)}</p>
   <div class="art-dateline">${a.auto?a.byline:'Operator dispatch · Division of Economic Containment'} · ${dateFmt} · Jar at publication: ${LIVE?TODAY_SCORE+' ('+bandOf(TODAY_SCORE).name+')':'offline'}</div>
-  <div class="keypoints"><div class="kp-h">Key Points</div><ul>${a.keyPoints.map(k=>`<li>${k}</li>`).join('')}</ul></div>
+  <div class="keypoints"><div class="kp-h">Key Points</div><ul>${a.keyPoints.map(k=>`<li>${resolveClaims(k)}</li>`).join('')}</ul></div>
   <div class="art-body">${bodyHtml}</div>
   <div class="reveal" style="margin-top:44px">
     <div class="sec-label">More Oozeonomics</div>
@@ -61,12 +63,12 @@ $('main').innerHTML=`
       <a class="news-card" href="article.html?a=${o.slug}">
         <div class="nc-top"><span class="nc-cat" style="color:${c};border-color:${c}">${l}</span>
         <span class="nc-date">${new Date(o.date+'T12:00').toLocaleDateString('en-US',{month:'short',day:'numeric'})}</span></div>
-        <h3>${o.title}</h3><p>${o.dek}</p></a>`}).join('')}
+        <h3>${resolveClaims(o.title)}</h3><p>${resolveClaims(o.dek)}</p></a>`}).join('')}
     </div>
   </div>`;
 /* AUDIT-7: Article structured data so search + AI answer engines can cite us */
-const ld={'@context':'https://schema.org','@type':'Article',headline:a.title,
-  description:a.dek,datePublished:a.date,
+const ld={'@context':'https://schema.org','@type':'Article',headline:resolveClaims(a.title),
+  description:resolveClaims(a.dek),datePublished:a.date,
   author:{'@type':'Organization',name:'OOZEMeter'},
   publisher:{'@type':'Organization',name:'OOZEMeter — Division of Economic Containment',
     url:'https://arringtonc.github.io/oozemeter'}};
@@ -81,8 +83,8 @@ const ai=sorted.findIndex(x=>x.slug===a.slug);
 const prevA=sorted[ai+1],nextA=sorted[ai-1];
 if(prevA||nextA)$('main').insertAdjacentHTML('beforeend',`
   <div class="filenav">
-    ${prevA?`<a href="article.html?a=${prevA.slug}"><span class="fn-k">◂ Older</span>${prevA.title}</a>`:'<span></span>'}
-    ${nextA?`<a href="article.html?a=${nextA.slug}" style="text-align:right"><span class="fn-k">Newer ▸</span>${nextA.title}</a>`:'<span></span>'}
+    ${prevA?`<a href="article.html?a=${prevA.slug}"><span class="fn-k">◂ Older</span>${resolveClaims(prevA.title)}</a>`:'<span></span>'}
+    ${nextA?`<a href="article.html?a=${nextA.slug}" style="text-align:right"><span class="fn-k">Newer ▸</span>${resolveClaims(nextA.title)}</a>`:'<span></span>'}
   </div>`);
 
 renderFooter();

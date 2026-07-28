@@ -30,6 +30,8 @@ OOZEMeter aggregates trusted public economic data (FRED, BLS, AAA, Freddie Mac, 
 - Delight over density: fewer charts, more storytelling; interactions teach (hover a pipe, understand a driver).
 - Stillness is the default state; motion means something changed.
 - Playful without trivializing financial hardship.
+- The story earns attention. The evidence earns trust.
+- Canonical Truth: if a number exists anywhere, it originates from one canonical source. Nothing remembers numbers; everything reads from history.
 
 ## Accessibility & Inclusion
 

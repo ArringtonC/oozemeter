@@ -77,6 +77,13 @@ v3 | Website    | Release calendar: next data drops with countdown in the latest
 v3 | Growth     | Previous/Next file controls on indicator + article pages | done
 v3 | Brand      | "Cross-References" rename (related sections, on-brand) | done
 v3 | Trust      | policies.html: editorial, correction, and data policy + methodology version history (v1/v2) | done
+v4 | Trust      | CANONICAL TRUTH: prose tokens resolve from history at render; nothing remembers numbers | done
+v4 | Trust      | Narrative Integrity Check (scripts/narrative-check.js) - the gate reads the essays; wired into cron | done
+v4 | Trust      | Article contradictions fixed: 2022/COVID/2010 numbers now canonical tokens | done
+v4 | Website    | Oct 2025 gap rendered honestly: chart break + annotation + interpolation warning in replay | done
+v4 | Trust      | Flagship permalink follows coverage (hand report wins); visible file-not-found fallback | done
+v4 | Website    | Fake specimen thermometer retired - replaced with real methodology version | done
+v4 | Brand      | Year-count claims unified ("since 2003"); rounding footnote on ounce splits | done
 v4 | Content    | OOZEBOT editorial engine: one dataset -> verdict, summary, story, line narratives, article, newsletter, RSS, social, confidence | done
 v4 | Content    | Auto-published monthly Ooze Report (keyed by month, golden-master template, OOZEBOT byline) | done
 v4 | Website    | Specimen Progress page: collection status, publication window, Data Watch - facts only, no forecasts | done
