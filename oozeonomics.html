@@ -39,8 +39,8 @@
 <script src="lab.js"></script>
 <script>
 renderHeader('news');
-const CATS={report:['SPECIMEN REPORT','var(--ooze)'],incident:['INCIDENT FILE','var(--red)'],
-            explainer:['OOZEONOMICS 101','var(--cyan, #5fd7ff)'],manual:['FIELD MANUAL','var(--amber)']};
+const CATS={report:['OOZE MONTHLY REPORT','var(--ooze)'],incident:['OOZE ARCHIVES','var(--red)'],
+            explainer:['OOZEONOMICS','var(--cyan, #5fd7ff)'],manual:['OOZEONOMICS','var(--cyan, #5fd7ff)']};
 $('newsGrid').innerHTML=[...(window.ARTICLES||[]),...(window.AUTO_ARTICLES||[])].sort((a,b)=>b.date.localeCompare(a.date)).map(a=>{
   const [label,col]=CATS[a.cat]||CATS.manual;
   return `<a class="news-card" href="article.html?a=${a.slug}">

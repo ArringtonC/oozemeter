@@ -36,10 +36,8 @@ sub(/aria-label="Containment jar, ooze level \d+ of 100"/,
 sub(/id="heroTheme" data-level="\d"/,`id="heroTheme" data-level="${level(s)}"`,'hero level');
 sub(/id="heroScore">\d+</,`id="heroScore">${s}<`,'hero score');
 sub(/id="heroStatus">[^<]*</,`id="heroStatus">${band(s)}<`,'hero status');
-sub(/id="heroTier">[^<]*</,`id="heroTier">${tier(s)}<`,'hero tier');
 sub(/id="heroDelta">[^<]*</,`id="heroDelta">${deltaTxt}<`,'hero delta');
-sub(/id="instPressure">[^<]*</,`id="instPressure">${s} psi<`,'pressure');
-sub(/id="instIntegrity">[^<]*</,`id="instIntegrity">${100-s}%<`,'integrity');
+sub(/id="plcSealed">[^<]*</,`id="plcSealed">Integrity: ${100-s}%<`,'placard integrity');
 sub(/class="specimen-line cine c5">[^<]*<b>[^<]*<\/b>[^<]*</,
   `class="specimen-line cine c5">🧪 Monthly specimen sealed: <b>${d.monthLabel} = ${s}</b> · intake lines refresh as their data releases <`,'specimen line');
 sub(/class="sc-score">\d+<span/,`class="sc-score">${s}<span`,'share score');

@@ -317,13 +317,6 @@ function setFacility(score){
 }
 
 /* ============ CHARTS ============ */
-function sparkline(pts){
-  const w=100,h=34,max=Math.max(...pts),min=Math.min(...pts);
-  const xy=pts.map((p,i)=>`${(i/(pts.length-1)*w).toFixed(1)},${(h-4-((p-min)/(max-min||1))*(h-8)).toFixed(1)}`);
-  return `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" aria-hidden="true">
-    <polygon class="fillpath" points="0,${h} ${xy.join(' ')} ${w},${h}"/>
-    <polyline points="${xy.join(' ')}"/></svg>`;
-}
 /* 20-year stress chart with recession shading (2008-09, 2020) */
 function bigChart(hist){
   const w=640,h=200,pad=18,y0=2006,y1=2026;

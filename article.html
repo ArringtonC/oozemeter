@@ -25,8 +25,8 @@
 renderHeader('news');
 /* golden-master article template: every generated or hand-written piece renders
    through this exact layout. ?a=slug selects from articles.js */
-const CATS={report:['SPECIMEN REPORT','var(--ooze)'],incident:['INCIDENT FILE','var(--red)'],
-            explainer:['OOZEONOMICS 101','#5fd7ff'],manual:['FIELD MANUAL','var(--amber)']};
+const CATS={report:['OOZE MONTHLY REPORT','var(--ooze)'],incident:['OOZE ARCHIVES','var(--red)'],
+            explainer:['OOZEONOMICS','#5fd7ff'],manual:['OOZEONOMICS','#5fd7ff']};
 const ALL_ARTICLES=(window.ARTICLES||[]).concat(window.AUTO_ARTICLES||[]);
 const slug=new URLSearchParams(location.search).get('a')||ALL_ARTICLES[0].slug;
 const found=ALL_ARTICLES.find(x=>x.slug===slug);

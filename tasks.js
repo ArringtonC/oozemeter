@@ -79,6 +79,8 @@ v3 | Brand      | "Cross-References" rename (related sections, on-brand) | done
 v3 | Trust      | policies.html: editorial, correction, and data policy + methodology version history (v1/v2) | done
 v4 | Website    | Front-page prototype verdict: original hero wins (8 variants tested); per-line mini jars adopted as the enhancement | done
 v4 | Website    | Mini line-jars: every intake node + chip panel row carries its own jar filled to that line's stress | done
+v4 | Website    | Variant J folded into index.html: Mission Control × Research Library (jar + placard, intake canisters, 8-line ledger w/ AUX disclosure, verify row, file rail) | done
+v4 | Brand      | Tag taxonomy renamed site-wide: OOZE MONTHLY REPORT / OOZE ARCHIVES / OOZEONOMICS | done
 v4 | Trust      | CANONICAL TRUTH: prose tokens resolve from history at render; nothing remembers numbers | done
 v4 | Trust      | Narrative Integrity Check (scripts/narrative-check.js) - the gate reads the essays; wired into cron | done
 v4 | Trust      | Article contradictions fixed: 2022/COVID/2010 numbers now canonical tokens | done
