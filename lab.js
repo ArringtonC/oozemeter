@@ -256,7 +256,12 @@ const indBySlug=slug=>INDICATORS.find(x=>x.slug===slug);
 function scoreAt(year){
   for(let i=0;i<HISTORY.length-1;i++){
     const [y1,s1]=HISTORY[i],[y2,s2]=HISTORY[i+1];
-    if(year>=y1&&year<=y2)return s1+(s2-s1)*(year-y1)/(y2-y1||1);
+    if(Math.abs(year-y1)<0.001)return s1;
+    if(Math.abs(year-y2)<0.001)return s2;
+    if(year>=y1&&year<=y2){
+      if(y2-y1>0.12)return null;
+      return s1+(s2-s1)*(year-y1)/(y2-y1||1);
+    }
   }
   return TODAY_SCORE;
 }
@@ -537,7 +542,7 @@ if(GA_ID&&typeof document!=='undefined'){
 }
 
 /* self-checks */
-console.assert(Math.abs(INDICATORS.reduce((a,x)=>a+x.contrib,0)-TODAY_SCORE)<=3,'contributions drifted from headline score');
+console.assert(INDICATORS.reduce((a,x)=>a+x.contrib,0)===TODAY_SCORE,'contributions drifted from headline score');
 console.assert(WEIGHTS.reduce((a,x)=>a+x.w,0)===100,'weights ≠ 100%');
 console.assert(STATES.length===50,'need 50 states');
 console.assert(INDICATORS.every(x=>x.stressHist.length===21),'stressHist must span 2006–2026');

@@ -32,9 +32,12 @@ if(prevHistory){
   }
   if(changes.length){
     const log=fs.existsSync('data/revisions.json')?JSON.parse(fs.readFileSync('data/revisions.json','utf8')):[];
-    log.push({detected:latest.generated,changes});
-    fs.writeFileSync('data/revisions.json',JSON.stringify(log,null,1));
-    warn.push(`revision: ${changes.length} past month(s) moved >=1pt (logged to data/revisions.json)`);
+    const duplicate=log.some(entry=>JSON.stringify(entry.changes)===JSON.stringify(changes));
+    if(!duplicate){
+      log.push({detected:latest.generated,changes});
+      fs.writeFileSync('data/revisions.json',JSON.stringify(log,null,1));
+    }
+    warn.push(`revision: ${changes.length} past month(s) moved >=1pt (${duplicate?'already logged':'logged'} in data/revisions.json)`);
   }
 }
 

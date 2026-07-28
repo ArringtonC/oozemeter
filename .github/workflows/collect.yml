@@ -5,6 +5,10 @@ on:
   workflow_dispatch: {}      # manual "collect now" button
 permissions:
   contents: write
+  issues: write
+concurrency:
+  group: daily-collection
+  cancel-in-progress: false
 jobs:
   collect:
     runs-on: ubuntu-latest
@@ -12,13 +16,51 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
-      - run: node scripts/collect.js
+          node-version: 22
+      - name: verify collector contracts
+        run: |
+          command -v unzip
+          node --test --test-concurrency=1 tests/backtest.integration.test.js tests/methodology.test.js tests/fetch.test.js tests/fingerprint.test.js tests/fred.test.js tests/integrity.test.js tests/nyfed.integration.test.js tests/collector.integration.test.js tests/collector-reliability.integration.test.js tests/public-labels.test.js tests/release-gate.test.js tests/workflow.test.js
+      - name: collect release-aware specimen
+        run: node scripts/collect.js
+      - name: integrity gate + public stamping
+        run: |
+          node scripts/integrity.js
+          node scripts/story.js
+          node scripts/narrative-check.js
+          node scripts/stamp.js
+          node scripts/rss.js
+          node scripts/release-gate.js --inspect-only
       - name: commit fresh specimen
         run: |
           git config user.name "oozebot"
           git config user.email "oozebot@users.noreply.github.com"
-          git add data/
+          git add data/ index.html feed.xml
           git diff --cached --quiet && echo "no new data" && exit 0
-          git commit -m "specimen collected $(date -u +%F)"
+          changed=$(node -e "const d=require('./data/latest.json');process.stdout.write(d.collection.changed?'new release':'freshness check')")
+          git commit -m "specimen ${changed} $(date -u +%F)"
           git push
+      - name: alert on collection failure
+        if: ${{ failure() }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          title='[OOZEMeter] Daily collection failure'
+          run_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          issue=$(gh issue list --state open --search '"[OOZEMeter] Daily collection failure" in:title' --json number --jq '.[0].number // empty')
+          body="The daily collection workflow failed. Inspect the run before publishing another specimen: ${run_url}"
+          if [[ -n "$issue" ]]; then
+            gh issue comment "$issue" --body "$body"
+          else
+            gh issue create --title "$title" --body "$body"
+          fi
+      - name: close recovered collection alert
+        if: ${{ success() }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          issue=$(gh issue list --state open --search '"[OOZEMeter] Daily collection failure" in:title' --json number --jq '.[0].number // empty')
+          if [[ -n "$issue" ]]; then
+            run_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+            gh issue close "$issue" --comment "Collection recovered successfully: ${run_url}"
+          fi

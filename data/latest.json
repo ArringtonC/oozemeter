@@ -1,70 +1,200 @@
 {
- "generated": "2026-07-26T01:01:21.394Z",
+ "generated": "2026-07-28T10:56:06.378Z",
+ "methodologyVersion": "2.0.0",
  "month": "2026-06",
  "monthLabel": "June 2026",
  "prevMonth": "2026-05",
  "prevMonthLabel": "May 2026",
- "ooze": 25,
- "prevOoze": 28,
- "updatedLabel": "June 2026 reading · collected 2026-07-26",
+ "ooze": 27,
+ "prevOoze": 30,
+ "updatedLabel": "June 2026 reading · collected 2026-07-28",
+ "collection": {
+  "status": "ok",
+  "changed": false,
+  "inputFingerprint": "52bb55cae17509e53caadd7be9a9811638a9403c28587f7102ac05ecf82969a2",
+  "fingerprintSchemaVersion": 2,
+  "vintageRetentionPolicy": "retain-all-unique-schema-v2-manifests",
+  "freshnessStatus": "current",
+  "staleLines": []
+ },
  "calibration": {
-  "a": 1.4828,
-  "b": -27.4883
+  "a": 1.4209110232483089,
+  "b": -24.62145011353958
  },
  "lines": {
   "gas": {
    "value": "$4.00",
    "asOf": "2026-07-20",
    "cadence": "weekly",
+   "source": {
+    "publisher": "U.S. Energy Information Administration",
+    "transport": "FRED",
+    "seriesId": "GASREGW",
+    "metric": "U.S. regular gasoline retail price",
+    "url": "https://fred.stlouisfed.org/series/GASREGW",
+    "proxy": false
+   },
    "stress": 61,
-   "contrib": 4,
+   "contrib": 5,
    "delta": -11,
-   "stale": false
+   "stale": false,
+   "updateStatus": "no-new-release"
   },
   "housing": {
    "value": "6.58%",
    "asOf": "2026-07-23",
    "cadence": "weekly",
+   "source": {
+    "publisher": "Freddie Mac",
+    "transport": "FRED",
+    "seriesId": "MORTGAGE30US",
+    "metric": "30-year fixed mortgage rate",
+    "url": "https://fred.stlouisfed.org/series/MORTGAGE30US",
+    "proxy": true
+   },
+   "secondary": {
+    "publisher": "Federal Reserve Board",
+    "seriesId": "DRSFRMACBS",
+    "metric": "Residential mortgage delinquency at commercial banks",
+    "asOf": "2026-01-01",
+    "proxy": true
+   },
    "stress": 44,
    "contrib": 6,
    "delta": 1,
-   "stale": false
+   "stale": false,
+   "updateStatus": "no-new-release"
   },
   "credit": {
    "value": "2.9%",
    "asOf": "2026-01-01",
    "cadence": "quarterly",
+   "source": {
+    "publisher": "Federal Reserve Board",
+    "transport": "FRED",
+    "seriesId": "DRCCLACBS",
+    "metric": "Credit-card loan delinquency at commercial banks",
+    "url": "https://fred.stlouisfed.org/series/DRCCLACBS",
+    "proxy": false
+   },
    "stress": 38,
-   "contrib": 5,
+   "contrib": 6,
    "delta": 0,
-   "stale": false
+   "stale": false,
+   "updateStatus": "no-new-release"
   },
   "auto": {
-   "value": "2.6%",
+   "value": "7.7%",
    "asOf": "2026-01-01",
    "cadence": "quarterly",
-   "stress": 39,
-   "contrib": 4,
+   "source": {
+    "publisher": "Federal Reserve Bank of New York",
+    "transport": "NY Fed HHDC workbook",
+    "seriesId": "Page 13 Data / AUTO",
+    "metric": "Previously current auto balance entering 30+ delinquency",
+    "url": "https://www.newyorkfed.org/medialibrary/interactives/householdcredit/data/xls/HHD_C_Report_2026Q1",
+    "proxy": false
+   },
+   "stress": 44,
+   "contrib": 5,
    "delta": 0,
-   "stale": false
+   "stale": false,
+   "updateStatus": "no-new-release"
   },
   "jobs": {
    "value": "4.2%",
    "asOf": "2026-06-01",
    "cadence": "monthly",
+   "source": {
+    "publisher": "U.S. Bureau of Labor Statistics",
+    "transport": "FRED",
+    "seriesId": "UNRATE",
+    "metric": "Civilian unemployment rate",
+    "url": "https://fred.stlouisfed.org/series/UNRATE",
+    "proxy": false
+   },
+   "secondary": {
+    "publisher": "U.S. Department of Labor",
+    "seriesId": "ICSA",
+    "value": 207500,
+    "asOf": "2026-07-18",
+    "transform": "trailing four-week mean"
+   },
    "stress": 14,
    "contrib": 3,
    "delta": -2,
-   "stale": false
+   "stale": false,
+   "updateStatus": "no-new-release"
   },
   "inflation": {
    "value": "3.5%",
    "asOf": "2026-06-01",
    "cadence": "monthly",
-   "stress": 32,
+   "source": {
+    "publisher": "U.S. Bureau of Labor Statistics",
+    "transport": "FRED",
+    "seriesId": "CPIAUCNS",
+    "metric": "CPI-U all items",
+    "url": "https://fred.stlouisfed.org/series/CPIAUCNS",
+    "proxy": false,
+    "seasonalAdjustment": "not seasonally adjusted",
+    "transform": "same-month year-over-year percent change"
+   },
+   "stress": 33,
    "contrib": 2,
-   "delta": -10,
-   "stale": false
+   "delta": -9,
+   "stale": false,
+   "updateStatus": "no-new-release"
+  },
+  "foreclosures": {
+   "value": "1.9%",
+   "asOf": "2026-01-01",
+   "cadence": "quarterly",
+   "stress": 23,
+   "delta": 2,
+   "contributesToOoze": false,
+   "scoreWeight": 0,
+   "calibrationStatus": "provisional-auxiliary",
+   "source": {
+    "publisher": "Federal Reserve Board",
+    "transport": "FRED",
+    "seriesId": "DRSFRMACBS",
+    "metric": "Residential mortgage delinquency at commercial banks",
+    "url": "https://fred.stlouisfed.org/series/DRSFRMACBS",
+    "proxy": true
+   },
+   "contrib": 0,
+   "stale": false,
+   "updateStatus": "no-new-release"
+  },
+  "manufacturing": {
+   "value": "1.1% YoY",
+   "asOf": "2026-06-01",
+   "cadence": "monthly",
+   "stress": 27,
+   "delta": 3,
+   "contributesToOoze": false,
+   "scoreWeight": 0,
+   "calibrationStatus": "provisional-auxiliary",
+   "source": {
+    "publisher": "Federal Reserve Board",
+    "transport": "FRED",
+    "seriesId": "INDPRO",
+    "metric": "Total industrial production year-over-year change",
+    "url": "https://fred.stlouisfed.org/series/INDPRO",
+    "proxy": true,
+    "transform": "same-month year-over-year percent change; auxiliary manufacturing proxy only"
+   },
+   "secondary": {
+    "publisher": "U.S. Census Bureau",
+    "seriesId": "AMTMNO",
+    "value": 2.3096090006271996,
+    "asOf": "2026-05-01",
+    "transform": "same-month year-over-year percent change"
+   },
+   "contrib": 0,
+   "stale": false,
+   "updateStatus": "no-new-release"
   }
  },
  "movers": [
@@ -74,12 +204,1138 @@
   },
   {
    "slug": "inflation",
-   "delta": -10
+   "delta": -9
   },
   {
    "slug": "jobs",
    "delta": -2
   }
+ ],
+ "history": [
+  [
+   2003,
+   45
+  ],
+  [
+   2003.083,
+   47
+  ],
+  [
+   2003.167,
+   48
+  ],
+  [
+   2003.25,
+   45
+  ],
+  [
+   2003.333,
+   43
+  ],
+  [
+   2003.417,
+   42
+  ],
+  [
+   2003.5,
+   40
+  ],
+  [
+   2003.583,
+   43
+  ],
+  [
+   2003.667,
+   42
+  ],
+  [
+   2003.75,
+   39
+  ],
+  [
+   2003.833,
+   37
+  ],
+  [
+   2003.917,
+   35
+  ],
+  [
+   2004,
+   33
+  ],
+  [
+   2004.083,
+   34
+  ],
+  [
+   2004.167,
+   32
+  ],
+  [
+   2004.25,
+   33
+  ],
+  [
+   2004.333,
+   37
+  ],
+  [
+   2004.417,
+   38
+  ],
+  [
+   2004.5,
+   35
+  ],
+  [
+   2004.583,
+   33
+  ],
+  [
+   2004.667,
+   32
+  ],
+  [
+   2004.75,
+   33
+  ],
+  [
+   2004.833,
+   33
+  ],
+  [
+   2004.917,
+   31
+  ],
+  [
+   2005,
+   30
+  ],
+  [
+   2005.083,
+   27
+  ],
+  [
+   2005.167,
+   31
+  ],
+  [
+   2005.25,
+   31
+  ],
+  [
+   2005.333,
+   29
+  ],
+  [
+   2005.417,
+   28
+  ],
+  [
+   2005.5,
+   33
+  ],
+  [
+   2005.583,
+   35
+  ],
+  [
+   2005.667,
+   46
+  ],
+  [
+   2005.75,
+   41
+  ],
+  [
+   2005.833,
+   34
+  ],
+  [
+   2005.917,
+   33
+  ],
+  [
+   2006,
+   35
+  ],
+  [
+   2006.083,
+   34
+  ],
+  [
+   2006.167,
+   36
+  ],
+  [
+   2006.25,
+   43
+  ],
+  [
+   2006.333,
+   48
+  ],
+  [
+   2006.417,
+   45
+  ],
+  [
+   2006.5,
+   48
+  ],
+  [
+   2006.583,
+   45
+  ],
+  [
+   2006.667,
+   39
+  ],
+  [
+   2006.75,
+   40
+  ],
+  [
+   2006.833,
+   39
+  ],
+  [
+   2006.917,
+   40
+  ],
+  [
+   2007,
+   38
+  ],
+  [
+   2007.083,
+   40
+  ],
+  [
+   2007.167,
+   40
+  ],
+  [
+   2007.25,
+   43
+  ],
+  [
+   2007.333,
+   44
+  ],
+  [
+   2007.417,
+   46
+  ],
+  [
+   2007.5,
+   47
+  ],
+  [
+   2007.583,
+   46
+  ],
+  [
+   2007.667,
+   46
+  ],
+  [
+   2007.75,
+   52
+  ],
+  [
+   2007.833,
+   55
+  ],
+  [
+   2007.917,
+   56
+  ],
+  [
+   2008,
+   59
+  ],
+  [
+   2008.083,
+   59
+  ],
+  [
+   2008.167,
+   62
+  ],
+  [
+   2008.25,
+   65
+  ],
+  [
+   2008.333,
+   66
+  ],
+  [
+   2008.417,
+   70
+  ],
+  [
+   2008.5,
+   75
+  ],
+  [
+   2008.583,
+   75
+  ],
+  [
+   2008.667,
+   76
+  ],
+  [
+   2008.75,
+   78
+  ],
+  [
+   2008.833,
+   73
+  ],
+  [
+   2008.917,
+   75
+  ],
+  [
+   2009,
+   82
+  ],
+  [
+   2009.083,
+   83
+  ],
+  [
+   2009.167,
+   85
+  ],
+  [
+   2009.25,
+   87
+  ],
+  [
+   2009.333,
+   88
+  ],
+  [
+   2009.417,
+   90
+  ],
+  [
+   2009.5,
+   89
+  ],
+  [
+   2009.583,
+   89
+  ],
+  [
+   2009.667,
+   89
+  ],
+  [
+   2009.75,
+   87
+  ],
+  [
+   2009.833,
+   83
+  ],
+  [
+   2009.917,
+   84
+  ],
+  [
+   2010,
+   82
+  ],
+  [
+   2010.083,
+   81
+  ],
+  [
+   2010.167,
+   82
+  ],
+  [
+   2010.25,
+   78
+  ],
+  [
+   2010.333,
+   77
+  ],
+  [
+   2010.417,
+   78
+  ],
+  [
+   2010.5,
+   72
+  ],
+  [
+   2010.583,
+   72
+  ],
+  [
+   2010.667,
+   72
+  ],
+  [
+   2010.75,
+   68
+  ],
+  [
+   2010.833,
+   70
+  ],
+  [
+   2010.917,
+   68
+  ],
+  [
+   2011,
+   64
+  ],
+  [
+   2011.083,
+   64
+  ],
+  [
+   2011.167,
+   66
+  ],
+  [
+   2011.25,
+   65
+  ],
+  [
+   2011.333,
+   66
+  ],
+  [
+   2011.417,
+   66
+  ],
+  [
+   2011.5,
+   64
+  ],
+  [
+   2011.583,
+   65
+  ],
+  [
+   2011.667,
+   65
+  ],
+  [
+   2011.75,
+   61
+  ],
+  [
+   2011.833,
+   60
+  ],
+  [
+   2011.917,
+   58
+  ],
+  [
+   2012,
+   57
+  ],
+  [
+   2012.083,
+   57
+  ],
+  [
+   2012.167,
+   57
+  ],
+  [
+   2012.25,
+   56
+  ],
+  [
+   2012.333,
+   55
+  ],
+  [
+   2012.417,
+   55
+  ],
+  [
+   2012.5,
+   54
+  ],
+  [
+   2012.583,
+   53
+  ],
+  [
+   2012.667,
+   52
+  ],
+  [
+   2012.75,
+   51
+  ],
+  [
+   2012.833,
+   51
+  ],
+  [
+   2012.917,
+   50
+  ],
+  [
+   2013,
+   51
+  ],
+  [
+   2013.083,
+   50
+  ],
+  [
+   2013.167,
+   51
+  ],
+  [
+   2013.25,
+   51
+  ],
+  [
+   2013.333,
+   50
+  ],
+  [
+   2013.417,
+   49
+  ],
+  [
+   2013.5,
+   47
+  ],
+  [
+   2013.583,
+   47
+  ],
+  [
+   2013.667,
+   48
+  ],
+  [
+   2013.75,
+   47
+  ],
+  [
+   2013.833,
+   45
+  ],
+  [
+   2013.917,
+   44
+  ],
+  [
+   2014,
+   42
+  ],
+  [
+   2014.083,
+   44
+  ],
+  [
+   2014.167,
+   44
+  ],
+  [
+   2014.25,
+   40
+  ],
+  [
+   2014.333,
+   41
+  ],
+  [
+   2014.417,
+   40
+  ],
+  [
+   2014.5,
+   40
+  ],
+  [
+   2014.583,
+   39
+  ],
+  [
+   2014.667,
+   38
+  ],
+  [
+   2014.75,
+   35
+  ],
+  [
+   2014.833,
+   35
+  ],
+  [
+   2014.917,
+   33
+  ],
+  [
+   2015,
+   32
+  ],
+  [
+   2015.083,
+   32
+  ],
+  [
+   2015.167,
+   33
+  ],
+  [
+   2015.25,
+   33
+  ],
+  [
+   2015.333,
+   35
+  ],
+  [
+   2015.417,
+   33
+  ],
+  [
+   2015.5,
+   32
+  ],
+  [
+   2015.583,
+   30
+  ],
+  [
+   2015.667,
+   29
+  ],
+  [
+   2015.75,
+   28
+  ],
+  [
+   2015.833,
+   27
+  ],
+  [
+   2015.917,
+   25
+  ],
+  [
+   2016,
+   23
+  ],
+  [
+   2016.083,
+   22
+  ],
+  [
+   2016.167,
+   24
+  ],
+  [
+   2016.25,
+   25
+  ],
+  [
+   2016.333,
+   25
+  ],
+  [
+   2016.417,
+   25
+  ],
+  [
+   2016.5,
+   25
+  ],
+  [
+   2016.583,
+   24
+  ],
+  [
+   2016.667,
+   24
+  ],
+  [
+   2016.75,
+   24
+  ],
+  [
+   2016.833,
+   22
+  ],
+  [
+   2016.917,
+   22
+  ],
+  [
+   2017,
+   22
+  ],
+  [
+   2017.083,
+   22
+  ],
+  [
+   2017.167,
+   20
+  ],
+  [
+   2017.25,
+   21
+  ],
+  [
+   2017.333,
+   21
+  ],
+  [
+   2017.417,
+   21
+  ],
+  [
+   2017.5,
+   20
+  ],
+  [
+   2017.583,
+   20
+  ],
+  [
+   2017.667,
+   23
+  ],
+  [
+   2017.75,
+   19
+  ],
+  [
+   2017.833,
+   20
+  ],
+  [
+   2017.917,
+   19
+  ],
+  [
+   2018,
+   19
+  ],
+  [
+   2018.083,
+   19
+  ],
+  [
+   2018.167,
+   19
+  ],
+  [
+   2018.25,
+   18
+  ],
+  [
+   2018.333,
+   19
+  ],
+  [
+   2018.417,
+   20
+  ],
+  [
+   2018.5,
+   18
+  ],
+  [
+   2018.583,
+   17
+  ],
+  [
+   2018.667,
+   16
+  ],
+  [
+   2018.75,
+   16
+  ],
+  [
+   2018.833,
+   15
+  ],
+  [
+   2018.917,
+   14
+  ],
+  [
+   2019,
+   13
+  ],
+  [
+   2019.083,
+   13
+  ],
+  [
+   2019.167,
+   13
+  ],
+  [
+   2019.25,
+   13
+  ],
+  [
+   2019.333,
+   14
+  ],
+  [
+   2019.417,
+   14
+  ],
+  [
+   2019.5,
+   12
+  ],
+  [
+   2019.583,
+   12
+  ],
+  [
+   2019.667,
+   11
+  ],
+  [
+   2019.75,
+   11
+  ],
+  [
+   2019.833,
+   12
+  ],
+  [
+   2019.917,
+   13
+  ],
+  [
+   2020,
+   12
+  ],
+  [
+   2020.083,
+   11
+  ],
+  [
+   2020.167,
+   41
+  ],
+  [
+   2020.25,
+   41
+  ],
+  [
+   2020.333,
+   41
+  ],
+  [
+   2020.417,
+   40
+  ],
+  [
+   2020.5,
+   37
+  ],
+  [
+   2020.583,
+   35
+  ],
+  [
+   2020.667,
+   35
+  ],
+  [
+   2020.75,
+   34
+  ],
+  [
+   2020.833,
+   33
+  ],
+  [
+   2020.917,
+   34
+  ],
+  [
+   2021,
+   32
+  ],
+  [
+   2021.083,
+   31
+  ],
+  [
+   2021.167,
+   32
+  ],
+  [
+   2021.25,
+   30
+  ],
+  [
+   2021.333,
+   28
+  ],
+  [
+   2021.417,
+   27
+  ],
+  [
+   2021.5,
+   22
+  ],
+  [
+   2021.583,
+   21
+  ],
+  [
+   2021.667,
+   20
+  ],
+  [
+   2021.75,
+   14
+  ],
+  [
+   2021.833,
+   12
+  ],
+  [
+   2021.917,
+   10
+  ],
+  [
+   2022,
+   12
+  ],
+  [
+   2022.083,
+   11
+  ],
+  [
+   2022.167,
+   14
+  ],
+  [
+   2022.25,
+   14
+  ],
+  [
+   2022.333,
+   16
+  ],
+  [
+   2022.417,
+   19
+  ],
+  [
+   2022.5,
+   20
+  ],
+  [
+   2022.583,
+   17
+  ],
+  [
+   2022.667,
+   18
+  ],
+  [
+   2022.75,
+   24
+  ],
+  [
+   2022.833,
+   23
+  ],
+  [
+   2022.917,
+   18
+  ],
+  [
+   2023,
+   20
+  ],
+  [
+   2023.083,
+   21
+  ],
+  [
+   2023.167,
+   22
+  ],
+  [
+   2023.25,
+   23
+  ],
+  [
+   2023.333,
+   23
+  ],
+  [
+   2023.417,
+   24
+  ],
+  [
+   2023.5,
+   25
+  ],
+  [
+   2023.583,
+   29
+  ],
+  [
+   2023.667,
+   26
+  ],
+  [
+   2023.75,
+   28
+  ],
+  [
+   2023.833,
+   26
+  ],
+  [
+   2023.917,
+   24
+  ],
+  [
+   2024,
+   24
+  ],
+  [
+   2024.083,
+   26
+  ],
+  [
+   2024.167,
+   27
+  ],
+  [
+   2024.25,
+   29
+  ],
+  [
+   2024.333,
+   29
+  ],
+  [
+   2024.417,
+   28
+  ],
+  [
+   2024.5,
+   29
+  ],
+  [
+   2024.583,
+   26
+  ],
+  [
+   2024.667,
+   24
+  ],
+  [
+   2024.75,
+   24
+  ],
+  [
+   2024.833,
+   26
+  ],
+  [
+   2024.917,
+   25
+  ],
+  [
+   2025,
+   25
+  ],
+  [
+   2025.083,
+   26
+  ],
+  [
+   2025.167,
+   24
+  ],
+  [
+   2025.25,
+   24
+  ],
+  [
+   2025.333,
+   25
+  ],
+  [
+   2025.417,
+   25
+  ],
+  [
+   2025.5,
+   24
+  ],
+  [
+   2025.583,
+   24
+  ],
+  [
+   2025.667,
+   24
+  ],
+  [
+   2025.833,
+   22
+  ],
+  [
+   2025.917,
+   21
+  ],
+  [
+   2026,
+   19
+  ],
+  [
+   2026.083,
+   20
+  ],
+  [
+   2026.167,
+   24
+  ],
+  [
+   2026.25,
+   27
+  ],
+  [
+   2026.333,
+   30
+  ],
+  [
+   2026.417,
+   27
+  ]
  ],
  "oozemaxing": false
 }

@@ -11,6 +11,7 @@ const {
   trailingFourWeekByMonth,
   yearOverYear,
 } = require('./lib/methodology');
+const {fetchWithRetry} = require('./lib/fetch');
 
 const SERIES = {
   UNRATE:      'Unemployment rate',
@@ -52,7 +53,8 @@ function interp(anchors,x){
 }
 
 async function fetchSeries(id){
-  const res=await fetch(`https://fred.stlouisfed.org/graph/fredgraph.csv?id=${id}`);
+  const url=`https://fred.stlouisfed.org/graph/fredgraph.csv?id=${id}`;
+  const res=await fetchWithRetry(url);
   if(!res.ok)throw new Error(`${id}: HTTP ${res.status}`);
   const rows=(await res.text()).trim().split('\n').slice(1);
   const out={};                                     // 'YYYY-MM' -> avg value
@@ -136,7 +138,7 @@ function ffill(series,months){
   const rawGfc=Math.max(...win.filter(x=>x.month>='2007-01'&&x.month<='2010-12').map(x=>x.ooze));
   const a=(90-10)/(rawGfc-rawCalm), b=10-a*rawCalm;
   console.log(`\ncalibration: raw calm ${rawCalm.toFixed(1)} → 10 · raw GFC peak ${rawGfc.toFixed(1)} → 90 · a=${a.toFixed(4)} b=${b.toFixed(4)}`);
-  for(const r of results)r.ooze=Math.round(Math.max(0,Math.min(100,a*r.ooze+b))*10)/10;
+  for(const r of results)r.ooze=Math.round(Math.max(0,Math.min(100,a*r.ooze+b)));
 
   const peak=(from,to)=>{
     const r=results.filter(x=>x.month>=from&&x.month<=to);
@@ -170,7 +172,8 @@ function ffill(series,months){
   const jun09=results.find(x=>x.month==='2009-06');
   if(jun09)console.log('\n2009-06 line stresses:',Object.entries(jun09.stresses).map(([k,v])=>`${k} ${Math.round(v)}`).join(' · '));
 
-  require('fs').writeFileSync('research/backtest-results.json',
+  const outputPath=process.env.OOZEMETER_BACKTEST_OUTPUT||'research/backtest-results.json';
+  require('fs').writeFileSync(outputPath,
     JSON.stringify({generated:new Date().toISOString(),anchors:ANCHORS,weights:WEIGHTS,
       methodology:{
         auto:{
@@ -192,12 +195,19 @@ function ffill(series,months){
           transform:'Same-month year-over-year percent change',
           seasonalAdjustment:'not seasonally adjusted',
         },
+        historicalTiming:{
+          realTimeCompatible:false,
+          revisionBasis:'Latest available revised observations',
+          quarterlyAlignment:'Forward-filled from observation quarter, not release date',
+          disclosure:'Ex-post historical reconstruction; do not interpret as a release-time vintage score',
+        },
       },
       calibration:{rawCalm,rawGfc,a,b,rule:'calm 2003-2025 → 10, GFC peak → 90'},monthly:results},null,1));
   console.log('wrote research/backtest-results.json');
 
   /* emit the site's HISTORY array (monthly, calibrated) for lab.js */
   const hist=results.map(r=>{const [y,mo]=r.month.split('-');return `[${(+y+(+mo-1)/12).toFixed(3)},${Math.round(r.ooze)}]`});
-  require('fs').writeFileSync('research/history-array.txt',hist.join(','));
+  const historyOutputPath=process.env.OOZEMETER_BACKTEST_HISTORY_OUTPUT||'research/history-array.txt';
+  require('fs').writeFileSync(historyOutputPath,hist.join(','));
   console.log('wrote research/history-array.txt (paste target: lab.js HISTORY)');
 })();

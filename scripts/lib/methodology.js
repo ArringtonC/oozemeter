@@ -2,6 +2,7 @@ const fs = require('fs');
 const os = require('os');
 const path = require('path');
 const {execFileSync} = require('child_process');
+const {fetchWithRetry} = require('./fetch');
 
 const NY_FED_IFRAME = 'https://www.newyorkfed.org/householdcredit/hhdc-iframe';
 const NY_FED_ORIGIN = 'https://www.newyorkfed.org';
@@ -137,10 +138,10 @@ function parseNyFedAutoWorkbook(workbookPath) {
 }
 
 async function fetchNyFedAutoSeries() {
-  const landingResponse = await fetch(NY_FED_IFRAME, {headers: {'user-agent': 'OOZEMeter/0.2'}});
+  const landingResponse = await fetchWithRetry(NY_FED_IFRAME, {headers: {'user-agent': 'OOZEMeter/0.2'}});
   if (!landingResponse.ok) throw new Error(`NY Fed HHDC iframe: HTTP ${landingResponse.status}`);
   const sourceUrl = discoverNyFedWorkbookUrl(await landingResponse.text());
-  const workbookResponse = await fetch(sourceUrl, {headers: {'user-agent': 'OOZEMeter/0.2'}});
+  const workbookResponse = await fetchWithRetry(sourceUrl, {headers: {'user-agent': 'OOZEMeter/0.2'}});
   if (!workbookResponse.ok) throw new Error(`NY Fed HHDC workbook: HTTP ${workbookResponse.status}`);
 
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'oozemeter-nyfed-'));

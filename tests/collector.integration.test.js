@@ -1,21 +1,29 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
+const os = require('node:os');
 const path = require('node:path');
 const {spawnSync} = require('node:child_process');
 
 const repo = path.resolve(__dirname, '..');
 
 test('collector emits methodology v2 values with traceable sources', {timeout: 60000}, () => {
+  const dataDir = fs.mkdtempSync(path.join(os.tmpdir(), 'oozemeter-collector-'));
+  const canonicalPath = path.join(repo, 'data/latest.json');
+  const canonicalBefore = fs.readFileSync(canonicalPath, 'utf8');
   const run = spawnSync(process.execPath, ['scripts/collect.js'], {
     cwd: repo,
     encoding: 'utf8',
     timeout: 55000,
+    env: {...process.env, OOZEMETER_DATA_DIR:dataDir},
   });
   assert.equal(run.status, 0, run.stderr || run.stdout);
-  const payload = JSON.parse(fs.readFileSync(path.join(repo, 'data/latest.json'), 'utf8'));
+  const payload = JSON.parse(fs.readFileSync(path.join(dataDir, 'latest.json'), 'utf8'));
 
   assert.equal(payload.methodologyVersion, '2.0.0');
+  const staleLines = Object.entries(payload.lines).filter(([, line]) => line.stale).map(([slug]) => slug);
+  assert.deepEqual(payload.collection.staleLines, staleLines);
+  assert.equal(payload.collection.freshnessStatus, staleLines.length ? 'degraded' : 'current');
   assert.equal(payload.lines.auto.source.publisher, 'Federal Reserve Bank of New York');
   assert.equal(payload.lines.auto.source.metric, 'Previously current auto balance entering 30+ delinquency');
   assert.match(payload.lines.auto.source.url, /HHD_C_Report_\d{4}Q[1-4](?:\.xlsx)?$/);
@@ -32,4 +40,25 @@ test('collector emits methodology v2 values with traceable sources', {timeout: 6
   assert.equal(payload.lines.gas.source.publisher, 'U.S. Energy Information Administration');
   assert.equal(payload.lines.gas.source.transport, 'FRED');
   assert.equal(payload.lines.gas.source.seriesId, 'GASREGW');
+  assert.ok(Array.isArray(payload.history));
+  assert.ok(payload.history.length > 250);
+  assert.ok(payload.history[0][0] >= 2003);
+  const contributionTotal = Object.values(payload.lines)
+    .filter(line => line.contributesToOoze !== false)
+    .reduce((sum,line) => sum + line.contrib, 0);
+  assert.equal(contributionTotal, payload.ooze, 'rounded line contributions must reconcile to the headline');
+
+  assert.equal(payload.lines.foreclosures.source.seriesId, 'DRSFRMACBS');
+  assert.equal(payload.lines.foreclosures.source.proxy, true);
+  assert.equal(payload.lines.foreclosures.contributesToOoze, false);
+  assert.equal(payload.lines.foreclosures.scoreWeight, 0);
+  assert.equal(payload.lines.foreclosures.calibrationStatus, 'provisional-auxiliary');
+  assert.equal(payload.lines.manufacturing.source.seriesId, 'INDPRO');
+  assert.equal(payload.lines.manufacturing.source.proxy, true);
+  assert.equal(payload.lines.manufacturing.secondary.seriesId, 'AMTMNO');
+  assert.equal(payload.lines.manufacturing.contributesToOoze, false);
+  assert.equal(payload.lines.manufacturing.scoreWeight, 0);
+  assert.equal(payload.lines.manufacturing.calibrationStatus, 'provisional-auxiliary');
+  assert.equal(fs.readFileSync(canonicalPath, 'utf8'), canonicalBefore);
+  fs.rmSync(dataDir, {recursive:true,force:true});
 });

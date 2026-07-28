@@ -246,15 +246,56 @@ No canonical repository test/lint/build command existed, so these are targeted c
 
 The research artifacts and `tasks.js` changes are uncommitted. Do not overwrite concurrent work without checking the latest diff.
 
-## Next implementation sequence
+## Implementation update completed after handoff creation
 
-1. Build a focused test harness around source parsing and score-input transformations.
-2. Add a reproducible New York Fed HHDC workbook parser and replace `DRCLACBS` only after a failing regression test proves the current mismatch.
-3. Implement and test trailing four-week ICSA smoothing, then compare it with current monthly aggregation in the historical backtest.
-4. Implement/test the NSA CPI path and compare historical outputs with current `CPIAUCSL` behavior before selecting the production basis.
-5. Reconcile source owner, series ID, date, units, and proxy labels in the public website.
-6. Rerun the collector and backtest; inspect score changes at calm periods, the GFC, COVID, and the inflation shock.
-7. Update `tasks.js`, documentation, and generated data only after the behavior is verified.
+The source-correct automation phase was subsequently implemented:
+
+- Added `scripts/lib/methodology.js` with NY Fed workbook discovery/parsing, trailing four-week claims smoothing, NSA CPI year-over-year calculation, and auto-specific scoring.
+- Added focused unit and live integration tests under `tests/`.
+- Removed `DRCLACBS` from `scripts/collect.js` and `scripts/backtest.js`.
+- Replaced it with the NY Fed `Page 13 Data` / `AUTO` 30-plus-day delinquency transition series.
+- Froze inflation as non-seasonally-adjusted CPI-U year-over-year using `CPIAUCNS`.
+- Froze claims as the trailing mean of the latest four weekly `ICSA` observations available in each month.
+- Recalibrated methodology v2 over the comparable 2003-2025 period: `a=1.4209110232483089`, `b=-24.62145011353958`.
+- Added per-line publisher, transport, series ID, metric, URL, observation date, cadence, proxy status, and transform metadata to live output.
+- Added zero-weight auxiliary feeds for mortgage distress (`DRSFRMACBS`) and manufacturing (`INDPRO` with `AMTMNO` context); both are explicitly disclosed as proxies.
+- Added atomic writes, SHA-256 input fingerprints, `new-observation` versus `no-new-release` status, and compact vintage manifests under `data/vintages/`.
+- Updated `lab.js` to consume collector provenance, disclose mortgage distress as a proxy, remove ISM/AAA mismatches, and use live methodology-v2 history.
+- Strengthened `.github/workflows/collect.yml` with pre-collection tests, `unzip` verification, concurrency control, and release-aware commit messages.
+- Marked the six source/methodology/trust automation rows complete in `tasks.js`.
+
+### Independent-review closure
+
+An independent pre-commit review identified two blocking concerns. Both were resolved:
+
+1. The reported public-label failure was caused by the checkout changing during review. The final auxiliary-label implementation was reread and the exact workflow contract now passes.
+2. The original fingerprint covered only rounded display values. Fingerprint schema v2 now hashes a canonical snapshot containing methodology version, calibration, weights, anchors, transforms, and every raw dated observation from all FRED and NY Fed inputs. Compact vintage manifests preserve per-source hashes, observation ranges/counts, methodology configuration, and a history-output hash.
+
+Additional hardening from that review:
+
+- FRED CSV parsing now fails closed on malformed numeric values or an empty observation set.
+- Backtest output and the archive disclose that history is an ex-post reconstruction using latest revised observations, not a release-time vintage.
+- `INDPRO` is explicitly marked as a manufacturing proxy because it is total industrial production, including mining and utilities.
+- The daily workflow now runs fingerprint, FRED parser, live NY Fed, collector, collector-reliability, methodology, and public-label contracts serially before publication.
+- Final local verification: **22 tests passed, 0 failed**, all relevant JavaScript syntax checks passed, and `git diff --check` passed.
+
+Follow-on reliability work then closed the remaining operational decisions:
+
+- Vintage policy is now explicit and machine-readable: retain every unique schema-v2 manifest. Existing manifests are immutable except for metadata-schema migration.
+- GitHub Actions opens or updates a single `[OOZEMeter] Daily collection failure` issue with the failed run URL, then closes that standing issue after a successful recovery run.
+- Mortgage Distress and Manufacturing now publish `scoreWeight: 0` and `calibrationStatus: provisional-auxiliary`; homepage hover copy states that they do not alter the Ooze score.
+- Collector output now publishes `freshnessStatus` and `staleLines`. The public header independently marks the feed `STALE` after 48 hours without a successful collection, marks current collections with stale inputs `DEGRADED`, and otherwise shows `LIVE` or `OFFLINE` honestly.
+- Controlled-release work added `scripts/release-gate.js`, a tested canonical-artifact inspector, exact public version `v2.0.0`, and `docs/ROLLBACK.md`. The gate verifies the fingerprint/vintage pair, archive disclosures, homepage/report/newsletter/RSS agreement, public permalinks, workflow permissions, alert/recovery contracts, and rollback prerequisites.
+- The release gate exposed duplicate revision-log entries during repeated local runs. `scripts/integrity.js` now deduplicates identical revision sets, with a regression test proving repeated runs preserve one event.
+- Independent release review found and resolved test artifact mutation, rounded-contribution drift, collector/backtest history divergence, and a rollback verification circularity. Collector and backtest tests now use isolated output directories; contributions sum exactly to the headline; canonical histories match month-for-month; and initial-v2 rollback verification does not depend on a gate removed by the revert.
+- The prior hosted failure was a FRED `ETIMEDOUT`, not a methodology failure. Official-source fetches now use bounded retries for transient network and HTTP failures.
+- Latest complete local gate: **37 tests passed, 0 failed**; live source collection, numerical integrity, narrative integrity, OOZEBOT outputs, static stamping, RSS, syntax, link, browser-console, and Git whitespace checks passed. See `research/METHODOLOGY-V2-LAUNCH-GATE.md`.
+
+### Remaining review decisions
+
+1. Keep manufacturing zero-weight unless its provisional visualization anchors receive a dedicated backtest and methodology review.
+2. Treat pre-2003 scores as a separate fidelity tier; do not splice the old broad auto proxy into methodology v2.
+3. Run the controlled hosted release and production-parity checks before beginning calibration or additional feature work.
 
 ## Shell note
 

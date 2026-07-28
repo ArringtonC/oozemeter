@@ -1,5 +1,5 @@
 {
- "generated": "2026-07-26T01:00:18.857Z",
+ "generated": "2026-07-28T10:46:22.990Z",
  "anchors": {
   "unemployment": [
    [
@@ -269,6 +269,12 @@
    "seriesId": "CPIAUCNS",
    "transform": "Same-month year-over-year percent change",
    "seasonalAdjustment": "not seasonally adjusted"
+  },
+  "historicalTiming": {
+   "realTimeCompatible": false,
+   "revisionBasis": "Latest available revised observations",
+   "quarterlyAlignment": "Forward-filled from observation quarter, not release date",
+   "disclosure": "Ex-post historical reconstruction; do not interpret as a release-time vintage score"
   }
  },
  "calibration": {
@@ -281,7 +287,7 @@
  "monthly": [
   {
    "month": "2003-01",
-   "ooze": 44.8,
+   "ooze": 45,
    "stresses": {
     "employment": 58.5,
     "inflation": 18.961038961038973,
@@ -293,7 +299,7 @@
   },
   {
    "month": "2003-02",
-   "ooze": 47.2,
+   "ooze": 47,
    "stresses": {
     "employment": 61.1,
     "inflation": 24.713160854892962,
@@ -305,7 +311,7 @@
   },
   {
    "month": "2003-03",
-   "ooze": 47.9,
+   "ooze": 48,
    "stresses": {
     "employment": 62.525,
     "inflation": 25.302013422818476,
@@ -317,7 +323,7 @@
   },
   {
    "month": "2003-04",
-   "ooze": 45.3,
+   "ooze": 45,
    "stresses": {
     "employment": 63.625,
     "inflation": 13.370411568409475,
@@ -329,7 +335,7 @@
   },
   {
    "month": "2003-05",
-   "ooze": 42.8,
+   "ooze": 43,
    "stresses": {
     "employment": 62.3,
     "inflation": 10.86763070077858,
@@ -341,7 +347,7 @@
   },
   {
    "month": "2003-06",
-   "ooze": 41.9,
+   "ooze": 42,
    "stresses": {
     "employment": 62.175,
     "inflation": 11.684269038354529,
@@ -365,7 +371,7 @@
   },
   {
    "month": "2003-08",
-   "ooze": 42.6,
+   "ooze": 43,
    "stresses": {
     "employment": 60,
     "inflation": 12.374100719424593,
@@ -377,7 +383,7 @@
   },
   {
    "month": "2003-09",
-   "ooze": 42.4,
+   "ooze": 42,
    "stresses": {
     "employment": 58.65,
     "inflation": 14.806629834254089,
@@ -389,7 +395,7 @@
   },
   {
    "month": "2003-10",
-   "ooze": 38.6,
+   "ooze": 39,
    "stresses": {
     "employment": 54.6,
     "inflation": 10.612244897959219,
@@ -401,7 +407,7 @@
   },
   {
    "month": "2003-11",
-   "ooze": 36.6,
+   "ooze": 37,
    "stresses": {
     "employment": 48.9,
     "inflation": 13.524544953116578,
@@ -413,7 +419,7 @@
   },
   {
    "month": "2003-12",
-   "ooze": 35.5,
+   "ooze": 35,
    "stresses": {
     "employment": 47.475,
     "inflation": 11.80762852404623,
@@ -425,7 +431,7 @@
   },
   {
    "month": "2004-01",
-   "ooze": 33.2,
+   "ooze": 33,
    "stresses": {
     "employment": 48.375,
     "inflation": 11.106219042377594,
@@ -437,7 +443,7 @@
   },
   {
    "month": "2004-02",
-   "ooze": 33.8,
+   "ooze": 34,
    "stresses": {
     "employment": 48.225,
     "inflation": 14.604041507373232,
@@ -449,7 +455,7 @@
   },
   {
    "month": "2004-03",
-   "ooze": 31.6,
+   "ooze": 32,
    "stresses": {
     "employment": 42.6,
     "inflation": 13.941368078175884,
@@ -461,7 +467,7 @@
   },
   {
    "month": "2004-04",
-   "ooze": 33.2,
+   "ooze": 33,
    "stresses": {
     "employment": 44.475,
     "inflation": 14.276387377584205,
@@ -473,7 +479,7 @@
   },
   {
    "month": "2004-05",
-   "ooze": 36.6,
+   "ooze": 37,
    "stresses": {
     "employment": 41.775,
     "inflation": 25.7765667574932,
@@ -497,7 +503,7 @@
   },
   {
    "month": "2004-07",
-   "ooze": 35.3,
+   "ooze": 35,
    "stresses": {
     "employment": 44.175,
     "inflation": 24.86133768352374,
@@ -521,7 +527,7 @@
   },
   {
    "month": "2004-09",
-   "ooze": 31.9,
+   "ooze": 32,
    "stresses": {
     "employment": 41.175,
     "inflation": 18.066954643628527,
@@ -533,7 +539,7 @@
   },
   {
    "month": "2004-10",
-   "ooze": 32.5,
+   "ooze": 33,
    "stresses": {
     "employment": 40.125,
     "inflation": 27.837837837838016,
@@ -545,7 +551,7 @@
   },
   {
    "month": "2004-11",
-   "ooze": 32.6,
+   "ooze": 33,
    "stresses": {
     "employment": 38.625,
     "inflation": 32.84552845528467,
@@ -557,7 +563,7 @@
   },
   {
    "month": "2004-12",
-   "ooze": 30.9,
+   "ooze": 31,
    "stresses": {
     "employment": 37.575,
     "inflation": 28.833423765599516,
@@ -569,7 +575,7 @@
   },
   {
    "month": "2005-01",
-   "ooze": 29.8,
+   "ooze": 30,
    "stresses": {
     "employment": 42.075,
     "inflation": 24.546436285097247,
@@ -593,7 +599,7 @@
   },
   {
    "month": "2005-03",
-   "ooze": 31.4,
+   "ooze": 31,
    "stresses": {
     "employment": 39.6,
     "inflation": 27.225186766275407,
@@ -605,7 +611,7 @@
   },
   {
    "month": "2005-04",
-   "ooze": 31.2,
+   "ooze": 31,
    "stresses": {
     "employment": 36.075,
     "inflation": 32.659574468085225,
@@ -617,7 +623,7 @@
   },
   {
    "month": "2005-05",
-   "ooze": 29.5,
+   "ooze": 29,
    "stresses": {
     "employment": 38.1,
     "inflation": 22.041248016922438,
@@ -629,7 +635,7 @@
   },
   {
    "month": "2005-06",
-   "ooze": 28.2,
+   "ooze": 28,
    "stresses": {
     "employment": 37.725,
     "inflation": 17.95466526093838,
@@ -641,7 +647,7 @@
   },
   {
    "month": "2005-07",
-   "ooze": 32.9,
+   "ooze": 33,
    "stresses": {
     "employment": 37.125,
     "inflation": 27.518479408659054,
@@ -653,7 +659,7 @@
   },
   {
    "month": "2005-08",
-   "ooze": 34.7,
+   "ooze": 35,
    "stresses": {
     "employment": 34.725,
     "inflation": 34.61741424802125,
@@ -665,7 +671,7 @@
   },
   {
    "month": "2005-09",
-   "ooze": 45.7,
+   "ooze": 46,
    "stresses": {
     "employment": 54.825,
     "inflation": 46.866771985255355,
@@ -677,7 +683,7 @@
   },
   {
    "month": "2005-10",
-   "ooze": 40.5,
+   "ooze": 41,
    "stresses": {
     "employment": 43.275,
     "inflation": 43.47826086956519,
@@ -689,7 +695,7 @@
   },
   {
    "month": "2005-11",
-   "ooze": 34.3,
+   "ooze": 34,
    "stresses": {
     "employment": 35.175,
     "inflation": 31.8324607329842,
@@ -701,7 +707,7 @@
   },
   {
    "month": "2005-12",
-   "ooze": 33.4,
+   "ooze": 33,
    "stresses": {
     "employment": 34.575,
     "inflation": 31.234892275354717,
@@ -713,7 +719,7 @@
   },
   {
    "month": "2006-01",
-   "ooze": 35.4,
+   "ooze": 35,
    "stresses": {
     "employment": 28.9375,
     "inflation": 39.77975878342956,
@@ -725,7 +731,7 @@
   },
   {
    "month": "2006-02",
-   "ooze": 34.3,
+   "ooze": 34,
    "stresses": {
     "employment": 27.6875,
     "inflation": 33.962460896767155,
@@ -737,7 +743,7 @@
   },
   {
    "month": "2006-03",
-   "ooze": 35.8,
+   "ooze": 36,
    "stresses": {
     "employment": 30.525,
     "inflation": 30.43973098810128,
@@ -749,7 +755,7 @@
   },
   {
    "month": "2006-04",
-   "ooze": 42.5,
+   "ooze": 43,
    "stresses": {
     "employment": 32.025,
     "inflation": 33.18602261048299,
@@ -761,7 +767,7 @@
   },
   {
    "month": "2006-05",
-   "ooze": 47.7,
+   "ooze": 48,
    "stresses": {
     "employment": 39.825,
     "inflation": 41.66666666666674,
@@ -773,7 +779,7 @@
   },
   {
    "month": "2006-06",
-   "ooze": 45.2,
+   "ooze": 45,
    "stresses": {
     "employment": 31.65,
     "inflation": 43.18766066838053,
@@ -785,7 +791,7 @@
   },
   {
    "month": "2006-07",
-   "ooze": 47.6,
+   "ooze": 48,
    "stresses": {
     "employment": 35.85,
     "inflation": 41.45342886386905,
@@ -797,7 +803,7 @@
   },
   {
    "month": "2006-08",
-   "ooze": 45.4,
+   "ooze": 45,
    "stresses": {
     "employment": 34.275,
     "inflation": 37.28105906313641,
@@ -809,7 +815,7 @@
   },
   {
    "month": "2006-09",
-   "ooze": 39.3,
+   "ooze": 39,
    "stresses": {
     "employment": 34.95,
     "inflation": 10.935613682092633,
@@ -821,7 +827,7 @@
   },
   {
    "month": "2006-10",
-   "ooze": 39.5,
+   "ooze": 40,
    "stresses": {
     "employment": 34.65,
     "inflation": 20.42168674698771,
@@ -833,7 +839,7 @@
   },
   {
    "month": "2006-11",
-   "ooze": 38.8,
+   "ooze": 39,
    "stresses": {
     "employment": 37.875,
     "inflation": 10.394736842105088,
@@ -845,7 +851,7 @@
   },
   {
    "month": "2006-12",
-   "ooze": 39.6,
+   "ooze": 40,
    "stresses": {
     "employment": 36.975,
     "inflation": 18.109756097560954,
@@ -857,7 +863,7 @@
   },
   {
    "month": "2007-01",
-   "ooze": 38.3,
+   "ooze": 38,
    "stresses": {
     "employment": 35.175,
     "inflation": 11.134644478063578,
@@ -881,7 +887,7 @@
   },
   {
    "month": "2007-03",
-   "ooze": 40.1,
+   "ooze": 40,
    "stresses": {
     "employment": 32.025,
     "inflation": 21.681681681681514,
@@ -893,7 +899,7 @@
   },
   {
    "month": "2007-04",
-   "ooze": 43.2,
+   "ooze": 43,
    "stresses": {
     "employment": 36.075,
     "inflation": 18.60545905707213,
@@ -905,7 +911,7 @@
   },
   {
    "month": "2007-05",
-   "ooze": 43.5,
+   "ooze": 44,
    "stresses": {
     "employment": 31.275,
     "inflation": 20.362962962962932,
@@ -917,7 +923,7 @@
   },
   {
    "month": "2007-06",
-   "ooze": 45.7,
+   "ooze": 46,
    "stresses": {
     "employment": 34.725,
     "inflation": 20.30556924593398,
@@ -941,7 +947,7 @@
   },
   {
    "month": "2007-08",
-   "ooze": 45.5,
+   "ooze": 46,
    "stresses": {
     "employment": 36,
     "inflation": 10.448749386954468,
@@ -953,7 +959,7 @@
   },
   {
    "month": "2007-09",
-   "ooze": 45.8,
+   "ooze": 46,
    "stresses": {
     "employment": 33.975,
     "inflation": 21.325776244455326,
@@ -965,7 +971,7 @@
   },
   {
    "month": "2007-10",
-   "ooze": 51.7,
+   "ooze": 52,
    "stresses": {
     "employment": 38.475,
     "inflation": 33.04261645193253,
@@ -977,7 +983,7 @@
   },
   {
    "month": "2007-11",
-   "ooze": 55.4,
+   "ooze": 55,
    "stresses": {
     "employment": 40.8,
     "inflation": 43.062034739454134,
@@ -989,7 +995,7 @@
   },
   {
    "month": "2007-12",
-   "ooze": 56.1,
+   "ooze": 56,
    "stresses": {
     "employment": 44.775,
     "inflation": 40.81268582755193,
@@ -1001,7 +1007,7 @@
   },
   {
    "month": "2008-01",
-   "ooze": 58.6,
+   "ooze": 59,
    "stresses": {
     "employment": 41.625,
     "inflation": 42.802940479013564,
@@ -1025,7 +1031,7 @@
   },
   {
    "month": "2008-03",
-   "ooze": 62.1,
+   "ooze": 62,
    "stresses": {
     "employment": 50.4,
     "inflation": 39.72184346877552,
@@ -1037,7 +1043,7 @@
   },
   {
    "month": "2008-04",
-   "ooze": 64.6,
+   "ooze": 65,
    "stresses": {
     "employment": 47.85,
     "inflation": 39.05334662241268,
@@ -1049,7 +1055,7 @@
   },
   {
    "month": "2008-05",
-   "ooze": 66.3,
+   "ooze": 66,
    "stresses": {
     "employment": 49.8,
     "inflation": 41.7554304180352,
@@ -1061,7 +1067,7 @@
   },
   {
    "month": "2008-06",
-   "ooze": 69.9,
+   "ooze": 70,
    "stresses": {
     "employment": 54.975,
     "inflation": 50.21790047611741,
@@ -1073,7 +1079,7 @@
   },
   {
    "month": "2008-07",
-   "ooze": 74.8,
+   "ooze": 75,
    "stresses": {
     "employment": 59.4,
     "inflation": 56.00122900253957,
@@ -1085,7 +1091,7 @@
   },
   {
    "month": "2008-08",
-   "ooze": 75.1,
+   "ooze": 75,
    "stresses": {
     "employment": 62.925,
     "inflation": 53.718551152623476,
@@ -1097,7 +1103,7 @@
   },
   {
    "month": "2008-09",
-   "ooze": 75.6,
+   "ooze": 76,
    "stresses": {
     "employment": 66.4,
     "inflation": 49.36927430572191,
@@ -1109,7 +1115,7 @@
   },
   {
    "month": "2008-10",
-   "ooze": 77.9,
+   "ooze": 78,
    "stresses": {
     "employment": 67.525,
     "inflation": 34.82779415706251,
@@ -1121,7 +1127,7 @@
   },
   {
    "month": "2008-11",
-   "ooze": 73.4,
+   "ooze": 73,
    "stresses": {
     "employment": 72.725,
     "inflation": 23.956379622889067,
@@ -1133,7 +1139,7 @@
   },
   {
    "month": "2008-12",
-   "ooze": 74.8,
+   "ooze": 75,
    "stresses": {
     "employment": 75.93333333333334,
     "inflation": 43.17174198708791,
@@ -1145,7 +1151,7 @@
   },
   {
    "month": "2009-01",
-   "ooze": 81.9,
+   "ooze": 82,
    "stresses": {
     "employment": 77.61666666666666,
     "inflation": 44.40306992609429,
@@ -1157,7 +1163,7 @@
   },
   {
    "month": "2009-02",
-   "ooze": 83.3,
+   "ooze": 83,
    "stresses": {
     "employment": 81.26666666666667,
     "inflation": 40.276178239242526,
@@ -1169,7 +1175,7 @@
   },
   {
    "month": "2009-03",
-   "ooze": 84.9,
+   "ooze": 85,
    "stresses": {
     "employment": 82.28333333333333,
     "inflation": 48.06845003933907,
@@ -1181,7 +1187,7 @@
   },
   {
    "month": "2009-04",
-   "ooze": 86.8,
+   "ooze": 87,
    "stresses": {
     "employment": 80.18333333333334,
     "inflation": 50.895085721733736,
@@ -1193,7 +1199,7 @@
   },
   {
    "month": "2009-05",
-   "ooze": 88.3,
+   "ooze": 88,
    "stresses": {
     "employment": 79.3,
     "inflation": 55.25148639166886,
@@ -1217,7 +1223,7 @@
   },
   {
    "month": "2009-07",
-   "ooze": 89.2,
+   "ooze": 89,
    "stresses": {
     "employment": 76.1,
     "inflation": 61.777290829408464,
@@ -1229,7 +1235,7 @@
   },
   {
    "month": "2009-08",
-   "ooze": 88.8,
+   "ooze": 89,
    "stresses": {
     "employment": 75.68333333333334,
     "inflation": 56.87478889568485,
@@ -1241,7 +1247,7 @@
   },
   {
    "month": "2009-09",
-   "ooze": 88.5,
+   "ooze": 89,
    "stresses": {
     "employment": 76.4,
     "inflation": 55.28964773314191,
@@ -1253,7 +1259,7 @@
   },
   {
    "month": "2009-10",
-   "ooze": 87.3,
+   "ooze": 87,
    "stresses": {
     "employment": 78,
     "inflation": 46.462786219889,
@@ -1265,7 +1271,7 @@
   },
   {
    "month": "2009-11",
-   "ooze": 82.7,
+   "ooze": 83,
    "stresses": {
     "employment": 77.2,
     "inflation": 12.425561963045638,
@@ -1277,7 +1283,7 @@
   },
   {
    "month": "2009-12",
-   "ooze": 83.7,
+   "ooze": 84,
    "stresses": {
     "employment": 77.2,
     "inflation": 20.81996689308742,
@@ -1289,7 +1295,7 @@
   },
   {
    "month": "2010-01",
-   "ooze": 82.4,
+   "ooze": 82,
    "stresses": {
     "employment": 76.4,
     "inflation": 19.385629644364208,
@@ -1313,7 +1319,7 @@
   },
   {
    "month": "2010-03",
-   "ooze": 82.2,
+   "ooze": 82,
    "stresses": {
     "employment": 77.2,
     "inflation": 14.70939170415921,
@@ -1325,7 +1331,7 @@
   },
   {
    "month": "2010-04",
-   "ooze": 78.1,
+   "ooze": 78,
    "stresses": {
     "employment": 77.2,
     "inflation": 13.546707934721255,
@@ -1337,7 +1343,7 @@
   },
   {
    "month": "2010-05",
-   "ooze": 76.7,
+   "ooze": 77,
    "stresses": {
     "employment": 74.8,
     "inflation": 10.31479126140968,
@@ -1349,7 +1355,7 @@
   },
   {
    "month": "2010-06",
-   "ooze": 77.5,
+   "ooze": 78,
    "stresses": {
     "employment": 73.2,
     "inflation": 24.19976540731513,
@@ -1373,7 +1379,7 @@
   },
   {
    "month": "2010-08",
-   "ooze": 72.5,
+   "ooze": 72,
    "stresses": {
     "employment": 74,
     "inflation": 22.77843157241196,
@@ -1385,7 +1391,7 @@
   },
   {
    "month": "2010-09",
-   "ooze": 72.3,
+   "ooze": 72,
    "stresses": {
     "employment": 74,
     "inflation": 22.844760127610904,
@@ -1397,7 +1403,7 @@
   },
   {
    "month": "2010-10",
-   "ooze": 68.3,
+   "ooze": 68,
    "stresses": {
     "employment": 73.2,
     "inflation": 22.417185917095704,
@@ -1409,7 +1415,7 @@
   },
   {
    "month": "2010-11",
-   "ooze": 69.8,
+   "ooze": 70,
    "stresses": {
     "employment": 76.4,
     "inflation": 22.8525863264459,
@@ -1421,7 +1427,7 @@
   },
   {
    "month": "2010-12",
-   "ooze": 68.3,
+   "ooze": 68,
    "stresses": {
     "employment": 72.4,
     "inflation": 17.564147090285385,
@@ -1433,7 +1439,7 @@
   },
   {
    "month": "2011-01",
-   "ooze": 64.3,
+   "ooze": 64,
    "stresses": {
     "employment": 70.8,
     "inflation": 15.522297138268435,
@@ -1457,7 +1463,7 @@
   },
   {
    "month": "2011-03",
-   "ooze": 66.2,
+   "ooze": 66,
    "stresses": {
     "employment": 70,
     "inflation": 20.22404896361276,
@@ -1481,7 +1487,7 @@
   },
   {
    "month": "2011-05",
-   "ooze": 65.8,
+   "ooze": 66,
    "stresses": {
     "employment": 70,
     "inflation": 33.52968676951841,
@@ -1493,7 +1499,7 @@
   },
   {
    "month": "2011-06",
-   "ooze": 65.6,
+   "ooze": 66,
    "stresses": {
     "employment": 70.8,
     "inflation": 33.38242378363511,
@@ -1505,7 +1511,7 @@
   },
   {
    "month": "2011-07",
-   "ooze": 64.4,
+   "ooze": 64,
    "stresses": {
     "employment": 70,
     "inflation": 34.43073973331614,
@@ -1517,7 +1523,7 @@
   },
   {
    "month": "2011-08",
-   "ooze": 64.7,
+   "ooze": 65,
    "stresses": {
     "employment": 70,
     "inflation": 36.56812268679667,
@@ -1529,7 +1535,7 @@
   },
   {
    "month": "2011-09",
-   "ooze": 64.8,
+   "ooze": 65,
    "stresses": {
     "employment": 70,
     "inflation": 38.02535261560449,
@@ -1565,7 +1571,7 @@
   },
   {
    "month": "2011-12",
-   "ooze": 58.2,
+   "ooze": 58,
    "stresses": {
     "employment": 66,
     "inflation": 24.43628267306643,
@@ -1577,7 +1583,7 @@
   },
   {
    "month": "2012-01",
-   "ooze": 56.7,
+   "ooze": 57,
    "stresses": {
     "employment": 64.4,
     "inflation": 23.8782506822627,
@@ -1589,7 +1595,7 @@
   },
   {
    "month": "2012-02",
-   "ooze": 57.1,
+   "ooze": 57,
    "stresses": {
     "employment": 64.4,
     "inflation": 23.06648170657312,
@@ -1601,7 +1607,7 @@
   },
   {
    "month": "2012-03",
-   "ooze": 56.8,
+   "ooze": 57,
    "stresses": {
     "employment": 63.599999999999994,
     "inflation": 19.770972895326718,
@@ -1613,7 +1619,7 @@
   },
   {
    "month": "2012-04",
-   "ooze": 55.6,
+   "ooze": 56,
    "stresses": {
     "employment": 63.599999999999994,
     "inflation": 14.541097169484058,
@@ -1625,7 +1631,7 @@
   },
   {
    "month": "2012-05",
-   "ooze": 55.3,
+   "ooze": 55,
    "stresses": {
     "employment": 63.599999999999994,
     "inflation": 14.43619337593612,
@@ -1649,7 +1655,7 @@
   },
   {
    "month": "2012-07",
-   "ooze": 53.8,
+   "ooze": 54,
    "stresses": {
     "employment": 63.599999999999994,
     "inflation": 18.87323943661975,
@@ -1661,7 +1667,7 @@
   },
   {
    "month": "2012-08",
-   "ooze": 53.4,
+   "ooze": 53,
    "stresses": {
     "employment": 62.8,
     "inflation": 14.61431503674778,
@@ -1673,7 +1679,7 @@
   },
   {
    "month": "2012-09",
-   "ooze": 51.9,
+   "ooze": 52,
    "stresses": {
     "employment": 59.733333333333334,
     "inflation": 10.130768790025133,
@@ -1697,7 +1703,7 @@
   },
   {
    "month": "2012-11",
-   "ooze": 50.7,
+   "ooze": 51,
    "stresses": {
     "employment": 60.125,
     "inflation": 13.537992308712298,
@@ -1709,7 +1715,7 @@
   },
   {
    "month": "2012-12",
-   "ooze": 50.3,
+   "ooze": 50,
    "stresses": {
     "employment": 60.86666666666667,
     "inflation": 13.884664468786632,
@@ -1721,7 +1727,7 @@
   },
   {
    "month": "2013-01",
-   "ooze": 51.2,
+   "ooze": 51,
    "stresses": {
     "employment": 62,
     "inflation": 16.077029978161704,
@@ -1733,7 +1739,7 @@
   },
   {
    "month": "2013-02",
-   "ooze": 50.2,
+   "ooze": 50,
    "stresses": {
     "employment": 58.6,
     "inflation": 10.331147353764134,
@@ -1745,7 +1751,7 @@
   },
   {
    "month": "2013-03",
-   "ooze": 50.5,
+   "ooze": 51,
    "stresses": {
     "employment": 56.333333333333336,
     "inflation": 17.891556811048446,
@@ -1757,7 +1763,7 @@
   },
   {
    "month": "2013-04",
-   "ooze": 50.7,
+   "ooze": 51,
    "stresses": {
     "employment": 57.46666666666666,
     "inflation": 24.053719277658278,
@@ -1769,7 +1775,7 @@
   },
   {
    "month": "2013-05",
-   "ooze": 49.7,
+   "ooze": 50,
    "stresses": {
     "employment": 56.333333333333336,
     "inflation": 19.57052411722467,
@@ -1781,7 +1787,7 @@
   },
   {
    "month": "2013-06",
-   "ooze": 48.9,
+   "ooze": 49,
    "stresses": {
     "employment": 56.333333333333336,
     "inflation": 13.683751819346632,
@@ -1805,7 +1811,7 @@
   },
   {
    "month": "2013-08",
-   "ooze": 47.5,
+   "ooze": 47,
    "stresses": {
     "employment": 52.93333333333334,
     "inflation": 17.224486606852018,
@@ -1817,7 +1823,7 @@
   },
   {
    "month": "2013-09",
-   "ooze": 48.1,
+   "ooze": 48,
    "stresses": {
     "employment": 52.93333333333334,
     "inflation": 22.226121076717583,
@@ -1829,7 +1835,7 @@
   },
   {
    "month": "2013-10",
-   "ooze": 47.3,
+   "ooze": 47,
    "stresses": {
     "employment": 52.93333333333334,
     "inflation": 25.727745907131965,
@@ -1853,7 +1859,7 @@
   },
   {
    "month": "2013-12",
-   "ooze": 43.8,
+   "ooze": 44,
    "stresses": {
     "employment": 47.266666666666666,
     "inflation": 17.47396570572409,
@@ -1865,7 +1871,7 @@
   },
   {
    "month": "2014-01",
-   "ooze": 42.4,
+   "ooze": 42,
    "stresses": {
     "employment": 46.133333333333326,
     "inflation": 16.315789473684138,
@@ -1877,7 +1883,7 @@
   },
   {
    "month": "2014-02",
-   "ooze": 43.9,
+   "ooze": 44,
    "stresses": {
     "employment": 47.266666666666666,
     "inflation": 23.10476124841706,
@@ -1889,7 +1895,7 @@
   },
   {
    "month": "2014-03",
-   "ooze": 43.9,
+   "ooze": 44,
    "stresses": {
     "employment": 47.266666666666666,
     "inflation": 17.3169568635538,
@@ -1901,7 +1907,7 @@
   },
   {
    "month": "2014-04",
-   "ooze": 40.1,
+   "ooze": 40,
    "stresses": {
     "employment": 41,
     "inflation": 10.707131522248634,
@@ -1913,7 +1919,7 @@
   },
   {
    "month": "2014-05",
-   "ooze": 40.8,
+   "ooze": 41,
    "stresses": {
     "employment": 42.33333333333333,
     "inflation": 11.906673249050165,
@@ -1925,7 +1931,7 @@
   },
   {
    "month": "2014-06",
-   "ooze": 39.7,
+   "ooze": 40,
    "stresses": {
     "employment": 39.666666666666664,
     "inflation": 11.085120597505789,
@@ -1937,7 +1943,7 @@
   },
   {
    "month": "2014-07",
-   "ooze": 39.5,
+   "ooze": 40,
    "stresses": {
     "employment": 41,
     "inflation": 10.1150704635354,
@@ -1949,7 +1955,7 @@
   },
   {
    "month": "2014-08",
-   "ooze": 39.2,
+   "ooze": 39,
    "stresses": {
     "employment": 39.666666666666664,
     "inflation": 14.505829987557526,
@@ -1973,7 +1979,7 @@
   },
   {
    "month": "2014-10",
-   "ooze": 34.8,
+   "ooze": 35,
    "stresses": {
     "employment": 34.333333333333336,
     "inflation": 15.034896765519354,
@@ -1985,7 +1991,7 @@
   },
   {
    "month": "2014-11",
-   "ooze": 34.8,
+   "ooze": 35,
    "stresses": {
     "employment": 35.666666666666664,
     "inflation": 20.164672264436597,
@@ -1997,7 +2003,7 @@
   },
   {
    "month": "2014-12",
-   "ooze": 33.4,
+   "ooze": 33,
    "stresses": {
     "employment": 32.99999999999999,
     "inflation": 29.870134606885106,
@@ -2009,7 +2015,7 @@
   },
   {
    "month": "2015-01",
-   "ooze": 32.4,
+   "ooze": 32,
    "stresses": {
     "employment": 34.333333333333336,
     "inflation": 45.71478650455718,
@@ -2021,7 +2027,7 @@
   },
   {
    "month": "2015-02",
-   "ooze": 31.8,
+   "ooze": 32,
    "stresses": {
     "employment": 31.666666666666668,
     "inflation": 45.201038414522436,
@@ -2033,7 +2039,7 @@
   },
   {
    "month": "2015-03",
-   "ooze": 32.6,
+   "ooze": 33,
    "stresses": {
     "employment": 30.33333333333334,
     "inflation": 45.58909912693146,
@@ -2045,7 +2051,7 @@
   },
   {
    "month": "2015-04",
-   "ooze": 32.7,
+   "ooze": 33,
    "stresses": {
     "employment": 30.33333333333334,
     "inflation": 46.59613956941351,
@@ -2057,7 +2063,7 @@
   },
   {
    "month": "2015-05",
-   "ooze": 34.7,
+   "ooze": 35,
    "stresses": {
     "employment": 32.99999999999999,
     "inflation": 45.31946195880623,
@@ -2069,7 +2075,7 @@
   },
   {
    "month": "2015-06",
-   "ooze": 33.2,
+   "ooze": 33,
    "stresses": {
     "employment": 28.999999999999996,
     "inflation": 42.52457592629096,
@@ -2081,7 +2087,7 @@
   },
   {
    "month": "2015-07",
-   "ooze": 31.7,
+   "ooze": 32,
    "stresses": {
     "employment": 27.666666666666668,
     "inflation": 41.608604407135616,
@@ -2093,7 +2099,7 @@
   },
   {
    "month": "2015-08",
-   "ooze": 30.4,
+   "ooze": 30,
    "stresses": {
     "employment": 26.33333333333333,
     "inflation": 41.09841413988542,
@@ -2105,7 +2111,7 @@
   },
   {
    "month": "2015-09",
-   "ooze": 29.2,
+   "ooze": 29,
    "stresses": {
     "employment": 25,
     "inflation": 45.28903798244775,
@@ -2117,7 +2123,7 @@
   },
   {
    "month": "2015-10",
-   "ooze": 28.1,
+   "ooze": 28,
    "stresses": {
     "employment": 25,
     "inflation": 41.5885112852888,
@@ -2141,7 +2147,7 @@
   },
   {
    "month": "2015-12",
-   "ooze": 25.4,
+   "ooze": 25,
    "stresses": {
     "employment": 25,
     "inflation": 30.40960427916824,
@@ -2153,7 +2159,7 @@
   },
   {
    "month": "2016-01",
-   "ooze": 23.1,
+   "ooze": 23,
    "stresses": {
     "employment": 25.3125,
     "inflation": 19.403697792535112,
@@ -2165,7 +2171,7 @@
   },
   {
    "month": "2016-02",
-   "ooze": 22.4,
+   "ooze": 22,
    "stresses": {
     "employment": 23.66666666666667,
     "inflation": 24.733003297517897,
@@ -2177,7 +2183,7 @@
   },
   {
    "month": "2016-03",
-   "ooze": 24.3,
+   "ooze": 24,
    "stresses": {
     "employment": 25,
     "inflation": 27.949275577145176,
@@ -2189,7 +2195,7 @@
   },
   {
    "month": "2016-04",
-   "ooze": 24.6,
+   "ooze": 25,
    "stresses": {
     "employment": 26.33333333333333,
     "inflation": 23.12334371658361,
@@ -2201,7 +2207,7 @@
   },
   {
    "month": "2016-05",
-   "ooze": 24.5,
+   "ooze": 25,
    "stresses": {
     "employment": 23.625,
     "inflation": 24.710161687096463,
@@ -2225,7 +2231,7 @@
   },
   {
    "month": "2016-07",
-   "ooze": 24.6,
+   "ooze": 25,
    "stresses": {
     "employment": 22.333333333333332,
     "inflation": 28.457222590025992,
@@ -2237,7 +2243,7 @@
   },
   {
    "month": "2016-08",
-   "ooze": 24.2,
+   "ooze": 24,
    "stresses": {
     "employment": 23.66666666666667,
     "inflation": 24.056882458584468,
@@ -2261,7 +2267,7 @@
   },
   {
    "month": "2016-10",
-   "ooze": 23.5,
+   "ooze": 24,
    "stresses": {
     "employment": 23.66666666666667,
     "inflation": 15.460187186235949,
@@ -2273,7 +2279,7 @@
   },
   {
    "month": "2016-11",
-   "ooze": 22.1,
+   "ooze": 22,
    "stresses": {
     "employment": 21.000000000000004,
     "inflation": 14.611942562443101,
@@ -2297,7 +2303,7 @@
   },
   {
    "month": "2017-01",
-   "ooze": 22.3,
+   "ooze": 22,
    "stresses": {
     "employment": 21.000000000000004,
     "inflation": 17.500633135794992,
@@ -2309,7 +2315,7 @@
   },
   {
    "month": "2017-02",
-   "ooze": 22.1,
+   "ooze": 22,
    "stresses": {
     "employment": 19.666666666666664,
     "inflation": 21.06937257233978,
@@ -2321,7 +2327,7 @@
   },
   {
    "month": "2017-03",
-   "ooze": 20.5,
+   "ooze": 20,
    "stresses": {
     "employment": 17.000000000000007,
     "inflation": 15.709186501604151,
@@ -2333,7 +2339,7 @@
   },
   {
    "month": "2017-04",
-   "ooze": 20.8,
+   "ooze": 21,
    "stresses": {
     "employment": 17.000000000000007,
     "inflation": 12.995348176259487,
@@ -2345,7 +2351,7 @@
   },
   {
    "month": "2017-05",
-   "ooze": 20.5,
+   "ooze": 21,
    "stresses": {
     "employment": 17.000000000000007,
     "inflation": 11.876834187379579,
@@ -2357,7 +2363,7 @@
   },
   {
    "month": "2017-06",
-   "ooze": 20.8,
+   "ooze": 21,
    "stresses": {
     "employment": 17,
     "inflation": 15.497680671153056,
@@ -2369,7 +2375,7 @@
   },
   {
    "month": "2017-07",
-   "ooze": 20.4,
+   "ooze": 20,
    "stresses": {
     "employment": 17.375,
     "inflation": 14.08032315441262,
@@ -2381,7 +2387,7 @@
   },
   {
    "month": "2017-08",
-   "ooze": 20.2,
+   "ooze": 20,
    "stresses": {
     "employment": 17.000000000000007,
     "inflation": 10.915386819127368,
@@ -2393,7 +2399,7 @@
   },
   {
    "month": "2017-09",
-   "ooze": 23.4,
+   "ooze": 23,
    "stresses": {
     "employment": 21.5625,
     "inflation": 13.494457975048352,
@@ -2405,7 +2411,7 @@
   },
   {
    "month": "2017-10",
-   "ooze": 18.9,
+   "ooze": 19,
    "stresses": {
     "employment": 15.5625,
     "inflation": 10.616930529642538,
@@ -2441,7 +2447,7 @@
   },
   {
    "month": "2018-01",
-   "ooze": 18.7,
+   "ooze": 19,
    "stresses": {
     "employment": 13.8125,
     "inflation": 11.057614304127457,
@@ -2453,7 +2459,7 @@
   },
   {
    "month": "2018-02",
-   "ooze": 18.8,
+   "ooze": 19,
    "stresses": {
     "employment": 12.999999999999996,
     "inflation": 13.176931318579905,
@@ -2465,7 +2471,7 @@
   },
   {
    "month": "2018-03",
-   "ooze": 18.6,
+   "ooze": 19,
    "stresses": {
     "employment": 11.666666666666668,
     "inflation": 15.395671059593624,
@@ -2477,7 +2483,7 @@
   },
   {
    "month": "2018-04",
-   "ooze": 18.3,
+   "ooze": 18,
    "stresses": {
     "employment": 11.666666666666668,
     "inflation": 16.941159150022163,
@@ -2489,7 +2495,7 @@
   },
   {
    "month": "2018-05",
-   "ooze": 19.1,
+   "ooze": 19,
    "stresses": {
     "employment": 10.3125,
     "inflation": 22.01517572211333,
@@ -2501,7 +2507,7 @@
   },
   {
    "month": "2018-06",
-   "ooze": 19.7,
+   "ooze": 20,
    "stresses": {
     "employment": 11.666666666666668,
     "inflation": 23.07321752975035,
@@ -2513,7 +2519,7 @@
   },
   {
    "month": "2018-07",
-   "ooze": 17.7,
+   "ooze": 18,
    "stresses": {
     "employment": 8.999999999999998,
     "inflation": 24.242726299706714,
@@ -2525,7 +2531,7 @@
   },
   {
    "month": "2018-08",
-   "ooze": 17.1,
+   "ooze": 17,
    "stresses": {
     "employment": 8.999999999999998,
     "inflation": 20.487701562811562,
@@ -2537,7 +2543,7 @@
   },
   {
    "month": "2018-09",
-   "ooze": 15.7,
+   "ooze": 16,
    "stresses": {
     "employment": 7.66666666666667,
     "inflation": 14.15458291298501,
@@ -2549,7 +2555,7 @@
   },
   {
    "month": "2018-10",
-   "ooze": 16.2,
+   "ooze": 16,
    "stresses": {
     "employment": 8.999999999999998,
     "inflation": 17.837048929105443,
@@ -2561,7 +2567,7 @@
   },
   {
    "month": "2018-11",
-   "ooze": 15.3,
+   "ooze": 15,
    "stresses": {
     "employment": 11.3125,
     "inflation": 12.649015482286048,
@@ -2573,7 +2579,7 @@
   },
   {
    "month": "2018-12",
-   "ooze": 13.6,
+   "ooze": 14,
    "stresses": {
     "employment": 10.6875,
     "inflation": 11.34761727052943,
@@ -2585,7 +2591,7 @@
   },
   {
    "month": "2019-01",
-   "ooze": 13.3,
+   "ooze": 13,
    "stresses": {
     "employment": 11.666666666666668,
     "inflation": 16.731472927013122,
@@ -2597,7 +2603,7 @@
   },
   {
    "month": "2019-02",
-   "ooze": 13.2,
+   "ooze": 13,
    "stresses": {
     "employment": 10.625,
     "inflation": 17.197971011000366,
@@ -2609,7 +2615,7 @@
   },
   {
    "month": "2019-03",
-   "ooze": 12.8,
+   "ooze": 13,
    "stresses": {
     "employment": 8.999999999999998,
     "inflation": 12.062158891462413,
@@ -2621,7 +2627,7 @@
   },
   {
    "month": "2019-04",
-   "ooze": 12.6,
+   "ooze": 13,
    "stresses": {
     "employment": 7.66666666666667,
     "inflation": 10.053403367046151,
@@ -2633,7 +2639,7 @@
   },
   {
    "month": "2019-05",
-   "ooze": 13.9,
+   "ooze": 14,
    "stresses": {
     "employment": 9.625,
     "inflation": 13.146572968504042,
@@ -2645,7 +2651,7 @@
   },
   {
    "month": "2019-06",
-   "ooze": 14.2,
+   "ooze": 14,
    "stresses": {
     "employment": 11.4375,
     "inflation": 15.272730158856183,
@@ -2657,7 +2663,7 @@
   },
   {
    "month": "2019-07",
-   "ooze": 11.9,
+   "ooze": 12,
    "stresses": {
     "employment": 7.66666666666667,
     "inflation": 12.828027904097281,
@@ -2669,7 +2675,7 @@
   },
   {
    "month": "2019-08",
-   "ooze": 11.6,
+   "ooze": 12,
    "stresses": {
     "employment": 7.9375,
     "inflation": 13.753301658562776,
@@ -2681,7 +2687,7 @@
   },
   {
    "month": "2019-09",
-   "ooze": 11.3,
+   "ooze": 11,
    "stresses": {
     "employment": 7.375,
     "inflation": 14.330432302457194,
@@ -2693,7 +2699,7 @@
   },
   {
    "month": "2019-10",
-   "ooze": 10.9,
+   "ooze": 11,
    "stresses": {
     "employment": 8.0625,
     "inflation": 13.539355833679231,
@@ -2705,7 +2711,7 @@
   },
   {
    "month": "2019-11",
-   "ooze": 11.7,
+   "ooze": 12,
    "stresses": {
     "employment": 11.75,
     "inflation": 10.76916972837429,
@@ -2717,7 +2723,7 @@
   },
   {
    "month": "2019-12",
-   "ooze": 12.8,
+   "ooze": 13,
    "stresses": {
     "employment": 14,
     "inflation": 14.276946101825745,
@@ -2729,7 +2735,7 @@
   },
   {
    "month": "2020-01",
-   "ooze": 11.8,
+   "ooze": 12,
    "stresses": {
     "employment": 8.875,
     "inflation": 17.298579328756908,
@@ -2741,7 +2747,7 @@
   },
   {
    "month": "2020-02",
-   "ooze": 10.5,
+   "ooze": 11,
    "stresses": {
     "employment": 7.75,
     "inflation": 15.023103459189242,
@@ -2753,7 +2759,7 @@
   },
   {
    "month": "2020-03",
-   "ooze": 41.3,
+   "ooze": 41,
    "stresses": {
     "employment": 96.33525,
     "inflation": 16.910095121202858,
@@ -2765,7 +2771,7 @@
   },
   {
    "month": "2020-04",
-   "ooze": 41.3,
+   "ooze": 41,
    "stresses": {
     "employment": 98.66325,
     "inflation": 38.418066273263456,
@@ -2777,7 +2783,7 @@
   },
   {
    "month": "2020-05",
-   "ooze": 41.1,
+   "ooze": 41,
    "stresses": {
     "employment": 96.01775,
     "inflation": 42.64147259578584,
@@ -2789,7 +2795,7 @@
   },
   {
    "month": "2020-06",
-   "ooze": 40.3,
+   "ooze": 40,
    "stresses": {
     "employment": 95.49025,
     "inflation": 32.08533904889029,
@@ -2801,7 +2807,7 @@
   },
   {
    "month": "2020-07",
-   "ooze": 37.4,
+   "ooze": 37,
    "stresses": {
     "employment": 95.3835,
     "inflation": 25.27836349392583,
@@ -2813,7 +2819,7 @@
   },
   {
    "month": "2020-08",
-   "ooze": 35.2,
+   "ooze": 35,
    "stresses": {
     "employment": 91.4,
     "inflation": 20.35531926503927,
@@ -2825,7 +2831,7 @@
   },
   {
    "month": "2020-09",
-   "ooze": 34.6,
+   "ooze": 35,
    "stresses": {
     "employment": 90.05833333333334,
     "inflation": 19.430127084153,
@@ -2837,7 +2843,7 @@
   },
   {
    "month": "2020-10",
-   "ooze": 33.7,
+   "ooze": 34,
    "stresses": {
     "employment": 88.26666666666667,
     "inflation": 22.26900748408763,
@@ -2849,7 +2855,7 @@
   },
   {
    "month": "2020-11",
-   "ooze": 32.9,
+   "ooze": 33,
    "stresses": {
     "employment": 86.70833333333333,
     "inflation": 22.381963235980592,
@@ -2861,7 +2867,7 @@
   },
   {
    "month": "2020-12",
-   "ooze": 33.9,
+   "ooze": 34,
    "stresses": {
     "employment": 89.55833333333334,
     "inflation": 19.56991757921019,
@@ -2873,7 +2879,7 @@
   },
   {
    "month": "2021-01",
-   "ooze": 32.1,
+   "ooze": 32,
    "stresses": {
     "employment": 89.46666666666667,
     "inflation": 19.003453876598705,
@@ -2885,7 +2891,7 @@
   },
   {
    "month": "2021-02",
-   "ooze": 31.3,
+   "ooze": 31,
    "stresses": {
     "employment": 86.83333333333333,
     "inflation": 14.856771739382344,
@@ -2897,7 +2903,7 @@
   },
   {
    "month": "2021-03",
-   "ooze": 31.9,
+   "ooze": 32,
    "stresses": {
     "employment": 82.95,
     "inflation": 19.296437634387836,
@@ -2909,7 +2915,7 @@
   },
   {
    "month": "2021-04",
-   "ooze": 30.2,
+   "ooze": 30,
    "stresses": {
     "employment": 77.6,
     "inflation": 41.5969483870211,
@@ -2921,7 +2927,7 @@
   },
   {
    "month": "2021-05",
-   "ooze": 27.7,
+   "ooze": 28,
    "stresses": {
     "employment": 65.725,
     "inflation": 49.927065375944714,
@@ -2933,7 +2939,7 @@
   },
   {
    "month": "2021-06",
-   "ooze": 26.7,
+   "ooze": 27,
    "stresses": {
     "employment": 60.95,
     "inflation": 53.91451413321335,
@@ -2945,7 +2951,7 @@
   },
   {
    "month": "2021-07",
-   "ooze": 21.9,
+   "ooze": 22,
    "stresses": {
     "employment": 50.925,
     "inflation": 53.654752393853975,
@@ -2957,7 +2963,7 @@
   },
   {
    "month": "2021-08",
-   "ooze": 20.8,
+   "ooze": 21,
    "stresses": {
     "employment": 47.925,
     "inflation": 52.512715548749924,
@@ -2969,7 +2975,7 @@
   },
   {
    "month": "2021-09",
-   "ooze": 20.5,
+   "ooze": 20,
    "stresses": {
     "employment": 46.425,
     "inflation": 53.903488550791636,
@@ -2981,7 +2987,7 @@
   },
   {
    "month": "2021-10",
-   "ooze": 14.3,
+   "ooze": 14,
    "stresses": {
     "employment": 24.375,
     "inflation": 61.47912602219265,
@@ -2993,7 +2999,7 @@
   },
   {
    "month": "2021-11",
-   "ooze": 11.6,
+   "ooze": 12,
    "stresses": {
     "employment": 14.125,
     "inflation": 65.39335226537652,
@@ -3017,7 +3023,7 @@
   },
   {
    "month": "2022-01",
-   "ooze": 11.9,
+   "ooze": 12,
    "stresses": {
     "employment": 15.4375,
     "inflation": 69.86581645526078,
@@ -3029,7 +3035,7 @@
   },
   {
    "month": "2022-02",
-   "ooze": 11.2,
+   "ooze": 11,
    "stresses": {
     "employment": 10.333333333333332,
     "inflation": 72.47375931826188,
@@ -3053,7 +3059,7 @@
   },
   {
    "month": "2022-04",
-   "ooze": 14.3,
+   "ooze": 14,
    "stresses": {
     "employment": 8.1875,
     "inflation": 75.05752893921581,
@@ -3065,7 +3071,7 @@
   },
   {
    "month": "2022-05",
-   "ooze": 16.2,
+   "ooze": 16,
    "stresses": {
     "employment": 7.4375,
     "inflation": 77.21007695784348,
@@ -3077,7 +3083,7 @@
   },
   {
    "month": "2022-06",
-   "ooze": 18.6,
+   "ooze": 19,
    "stresses": {
     "employment": 8.125,
     "inflation": 80.11951592956831,
@@ -3089,7 +3095,7 @@
   },
   {
    "month": "2022-07",
-   "ooze": 20.5,
+   "ooze": 20,
    "stresses": {
     "employment": 9.8125,
     "inflation": 76.83209830417013,
@@ -3101,7 +3107,7 @@
   },
   {
    "month": "2022-08",
-   "ooze": 17.3,
+   "ooze": 17,
    "stresses": {
     "employment": 9.125,
     "inflation": 75.08461668744161,
@@ -3113,7 +3119,7 @@
   },
   {
    "month": "2022-09",
-   "ooze": 17.8,
+   "ooze": 18,
    "stresses": {
     "employment": 5,
     "inflation": 74.67779762555747,
@@ -3125,7 +3131,7 @@
   },
   {
    "month": "2022-10",
-   "ooze": 23.6,
+   "ooze": 24,
    "stresses": {
     "employment": 6.333333333333335,
     "inflation": 71.63618220536614,
@@ -3137,7 +3143,7 @@
   },
   {
    "month": "2022-11",
-   "ooze": 22.6,
+   "ooze": 23,
    "stresses": {
     "employment": 7.6875,
     "inflation": 67.40215196127818,
@@ -3149,7 +3155,7 @@
   },
   {
    "month": "2022-12",
-   "ooze": 18.3,
+   "ooze": 18,
    "stresses": {
     "employment": 7,
     "inflation": 63.02934220940546,
@@ -3173,7 +3179,7 @@
   },
   {
    "month": "2023-02",
-   "ooze": 20.6,
+   "ooze": 21,
    "stresses": {
     "employment": 8.6875,
     "inflation": 60.23742051911065,
@@ -3185,7 +3191,7 @@
   },
   {
    "month": "2023-03",
-   "ooze": 21.5,
+   "ooze": 22,
    "stresses": {
     "employment": 12.25,
     "inflation": 49.84974122099173,
@@ -3197,7 +3203,7 @@
   },
   {
    "month": "2023-04",
-   "ooze": 23.4,
+   "ooze": 23,
    "stresses": {
     "employment": 9.0625,
     "inflation": 49.303203981889254,
@@ -3209,7 +3215,7 @@
   },
   {
    "month": "2023-05",
-   "ooze": 23.1,
+   "ooze": 23,
    "stresses": {
     "employment": 11.5,
     "inflation": 40.47609272791974,
@@ -3221,7 +3227,7 @@
   },
   {
    "month": "2023-06",
-   "ooze": 24.1,
+   "ooze": 24,
    "stresses": {
     "employment": 17.6875,
     "inflation": 24.537664818383284,
@@ -3233,7 +3239,7 @@
   },
   {
    "month": "2023-07",
-   "ooze": 24.9,
+   "ooze": 25,
    "stresses": {
     "employment": 13,
     "inflation": 27.666702669132533,
@@ -3245,7 +3251,7 @@
   },
   {
    "month": "2023-08",
-   "ooze": 28.7,
+   "ooze": 29,
    "stresses": {
     "employment": 16.25,
     "inflation": 34.97668576599324,
@@ -3257,7 +3263,7 @@
   },
   {
    "month": "2023-09",
-   "ooze": 26.5,
+   "ooze": 26,
    "stresses": {
     "employment": 9.25,
     "inflation": 35.49547182016646,
@@ -3281,7 +3287,7 @@
   },
   {
    "month": "2023-11",
-   "ooze": 26.1,
+   "ooze": 26,
    "stresses": {
     "employment": 9.5,
     "inflation": 27.05906063262666,
@@ -3293,7 +3299,7 @@
   },
   {
    "month": "2023-12",
-   "ooze": 24.1,
+   "ooze": 24,
    "stresses": {
     "employment": 8.999999999999998,
     "inflation": 30.2818424714534,
@@ -3305,7 +3311,7 @@
   },
   {
    "month": "2024-01",
-   "ooze": 23.7,
+   "ooze": 24,
    "stresses": {
     "employment": 7.875,
     "inflation": 26.363271718420805,
@@ -3317,7 +3323,7 @@
   },
   {
    "month": "2024-02",
-   "ooze": 25.7,
+   "ooze": 26,
    "stresses": {
     "employment": 10.333333333333332,
     "inflation": 27.297566812923964,
@@ -3329,7 +3335,7 @@
   },
   {
    "month": "2024-03",
-   "ooze": 27.3,
+   "ooze": 27,
    "stresses": {
     "employment": 10.333333333333332,
     "inflation": 32.160776050570455,
@@ -3341,7 +3347,7 @@
   },
   {
    "month": "2024-04",
-   "ooze": 28.6,
+   "ooze": 29,
    "stresses": {
     "employment": 10.333333333333332,
     "inflation": 30.360459251787447,
@@ -3353,7 +3359,7 @@
   },
   {
    "month": "2024-05",
-   "ooze": 28.5,
+   "ooze": 29,
    "stresses": {
     "employment": 10.5,
     "inflation": 29.035435854100307,
@@ -3365,7 +3371,7 @@
   },
   {
    "month": "2024-06",
-   "ooze": 28.2,
+   "ooze": 28,
    "stresses": {
     "employment": 14.1875,
     "inflation": 24.570956608949608,
@@ -3377,7 +3383,7 @@
   },
   {
    "month": "2024-07",
-   "ooze": 28.6,
+   "ooze": 29,
    "stresses": {
     "employment": 14.333333333333336,
     "inflation": 23.421297977369598,
@@ -3389,7 +3395,7 @@
   },
   {
    "month": "2024-08",
-   "ooze": 26.2,
+   "ooze": 26,
    "stresses": {
     "employment": 14.333333333333336,
     "inflation": 17.960954446854434,
@@ -3401,7 +3407,7 @@
   },
   {
    "month": "2024-09",
-   "ooze": 23.7,
+   "ooze": 24,
    "stresses": {
     "employment": 12.999999999999996,
     "inflation": 16.609495466049747,
@@ -3413,7 +3419,7 @@
   },
   {
    "month": "2024-10",
-   "ooze": 24.2,
+   "ooze": 24,
    "stresses": {
     "employment": 14.0625,
     "inflation": 18.96857357372008,
@@ -3425,7 +3431,7 @@
   },
   {
    "month": "2024-11",
-   "ooze": 25.6,
+   "ooze": 26,
    "stresses": {
     "employment": 14.333333333333336,
     "inflation": 21.240705941358424,
@@ -3449,7 +3455,7 @@
   },
   {
    "month": "2025-01",
-   "ooze": 25.3,
+   "ooze": 25,
    "stresses": {
     "employment": 11.666666666666668,
     "inflation": 25.007246682251644,
@@ -3461,7 +3467,7 @@
   },
   {
    "month": "2025-02",
-   "ooze": 25.5,
+   "ooze": 26,
    "stresses": {
     "employment": 14.333333333333336,
     "inflation": 22.323234276212652,
@@ -3473,7 +3479,7 @@
   },
   {
    "month": "2025-03",
-   "ooze": 23.8,
+   "ooze": 24,
    "stresses": {
     "employment": 14.333333333333336,
     "inflation": 15.86087880844746,
@@ -3485,7 +3491,7 @@
   },
   {
    "month": "2025-04",
-   "ooze": 23.9,
+   "ooze": 24,
    "stresses": {
     "employment": 14.333333333333336,
     "inflation": 14.669332925102324,
@@ -3497,7 +3503,7 @@
   },
   {
    "month": "2025-05",
-   "ooze": 24.7,
+   "ooze": 25,
    "stresses": {
     "employment": 15.666666666666664,
     "inflation": 15.323448032120064,
@@ -3521,7 +3527,7 @@
   },
   {
    "month": "2025-07",
-   "ooze": 23.9,
+   "ooze": 24,
    "stresses": {
     "employment": 15.666666666666664,
     "inflation": 20.573535957270977,
@@ -3533,7 +3539,7 @@
   },
   {
    "month": "2025-08",
-   "ooze": 23.9,
+   "ooze": 24,
    "stresses": {
     "employment": 15.666666666666664,
     "inflation": 23.74261426447601,
@@ -3545,7 +3551,7 @@
   },
   {
    "month": "2025-09",
-   "ooze": 23.8,
+   "ooze": 24,
    "stresses": {
     "employment": 17.000000000000007,
     "inflation": 25.190151632884202,
@@ -3557,7 +3563,7 @@
   },
   {
    "month": "2025-11",
-   "ooze": 22.3,
+   "ooze": 22,
    "stresses": {
     "employment": 18.333333333333336,
     "inflation": 21.026266826839407,
@@ -3569,7 +3575,7 @@
   },
   {
    "month": "2025-12",
-   "ooze": 20.9,
+   "ooze": 21,
    "stresses": {
     "employment": 17.000000000000007,
     "inflation": 20.15620791812513,
@@ -3581,7 +3587,7 @@
   },
   {
    "month": "2026-01",
-   "ooze": 19.1,
+   "ooze": 19,
    "stresses": {
     "employment": 15.666666666666664,
     "inflation": 15.796468673564785,
@@ -3593,7 +3599,7 @@
   },
   {
    "month": "2026-02",
-   "ooze": 19.8,
+   "ooze": 20,
    "stresses": {
     "employment": 17.000000000000007,
     "inflation": 16.211694799456183,
@@ -3605,7 +3611,7 @@
   },
   {
    "month": "2026-03",
-   "ooze": 24.1,
+   "ooze": 24,
    "stresses": {
     "employment": 15.666666666666664,
     "inflation": 28.846306586324715,
@@ -3617,7 +3623,7 @@
   },
   {
    "month": "2026-04",
-   "ooze": 27.4,
+   "ooze": 27,
    "stresses": {
     "employment": 15.666666666666664,
     "inflation": 37.162673981826394,
@@ -3629,7 +3635,7 @@
   },
   {
    "month": "2026-05",
-   "ooze": 29.8,
+   "ooze": 30,
    "stresses": {
     "employment": 15.666666666666664,
     "inflation": 42.48674039164446,
@@ -3641,7 +3647,7 @@
   },
   {
    "month": "2026-06",
-   "ooze": 26.6,
+   "ooze": 27,
    "stresses": {
     "employment": 14.333333333333336,
     "inflation": 32.9713759567958,

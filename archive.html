@@ -98,16 +98,15 @@ const slider=$('timeSlider');
 slider.max=HISTORY[HISTORY.length-1][0];
 slider.value=slider.max;
 function renderReplay(){
-  const yr=parseFloat(slider.value),s=Math.round(scoreAt(yr));
+  const yr=parseFloat(slider.value),raw=scoreAt(yr),missing=raw==null,s=missing?null:Math.round(raw);
   $('replayYear').textContent=Math.floor(yr);
-  $('replayScore').textContent=s;
-  $('replayStatus').textContent=bandOf(s).name;
-  $('replayTier').textContent=tierOf(s);
-  setJar(replayJar,replayTheme,s);
-  setFacility(s);
+  $('replayScore').textContent=missing?'—':s;
+  $('replayStatus').textContent=missing?'NO OBSERVATION':bandOf(s).name;
+  $('replayTier').textContent=missing?'OFFICIAL RELEASE GAP':tierOf(s);
+  setJar(replayJar,replayTheme,missing?0:s);
+  setFacility(missing?0:s);
   const ev=EVENTS.find(([y])=>Math.abs(y-yr)<0.3);
-  const nearGap=HISTORY.every(([t])=>Math.abs(t-yr)>0.09);
-  $('replayEvent').textContent=ev?ev[1]:(nearGap?'⚠ No data for this month — reading shown is interpolated across a gap.':'');
+  $('replayEvent').textContent=missing?'⚠ No canonical observation for this month — the official source release is absent.':(ev?ev[1]:'');
 }
 slider.addEventListener('input',renderReplay);
 renderReplay();

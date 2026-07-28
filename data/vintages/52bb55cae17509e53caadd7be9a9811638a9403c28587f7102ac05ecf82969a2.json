@@ -1,0 +1,405 @@
+{
+ "generated": "2026-07-26T13:48:56.678Z",
+ "fingerprintSchemaVersion": 2,
+ "retentionPolicy": "retain-all-unique-schema-v2-manifests",
+ "methodology": {
+  "version": "2.0.0",
+  "calibration": {
+   "a": 1.4209110232483089,
+   "b": -24.62145011353958
+  },
+  "weights": {
+   "jobs": 25,
+   "housing": 20,
+   "credit": 20,
+   "auto": 15,
+   "gas": 10,
+   "inflation": 10
+  },
+  "anchors": {
+   "unemployment": [
+    [
+     3.5,
+     5
+    ],
+    [
+     5,
+     25
+    ],
+    [
+     6.5,
+     45
+    ],
+    [
+     8,
+     62
+    ],
+    [
+     10,
+     78
+    ],
+    [
+     15,
+     90
+    ],
+    [
+     25,
+     100
+    ]
+   ],
+   "claimsK": [
+    [
+     200,
+     5
+    ],
+    [
+     300,
+     30
+    ],
+    [
+     400,
+     60
+    ],
+    [
+     550,
+     75
+    ],
+    [
+     700,
+     85
+    ],
+    [
+     1000,
+     95
+    ],
+    [
+     6000,
+     100
+    ]
+   ],
+   "inflationYoY": [
+    [
+     -10,
+     95
+    ],
+    [
+     -5,
+     85
+    ],
+    [
+     0,
+     45
+    ],
+    [
+     1,
+     25
+    ],
+    [
+     2,
+     10
+    ],
+    [
+     3,
+     25
+    ],
+    [
+     4,
+     40
+    ],
+    [
+     6,
+     60
+    ],
+    [
+     9,
+     80
+    ],
+    [
+     14,
+     90
+    ],
+    [
+     20,
+     100
+    ]
+   ],
+   "mortgageRate": [
+    [
+     3,
+     10
+    ],
+    [
+     5,
+     25
+    ],
+    [
+     7,
+     50
+    ],
+    [
+     10,
+     70
+    ],
+    [
+     15,
+     90
+    ],
+    [
+     18.6,
+     100
+    ]
+   ],
+   "mortgageDelinq": [
+    [
+     1,
+     5
+    ],
+    [
+     2,
+     25
+    ],
+    [
+     3,
+     45
+    ],
+    [
+     5,
+     65
+    ],
+    [
+     8,
+     85
+    ],
+    [
+     11.5,
+     95
+    ]
+   ],
+   "cardDelinq": [
+    [
+     1.5,
+     10
+    ],
+    [
+     2.5,
+     30
+    ],
+    [
+     3.5,
+     50
+    ],
+    [
+     5,
+     70
+    ],
+    [
+     6.8,
+     90
+    ],
+    [
+     9,
+     100
+    ]
+   ],
+   "auto30Plus": [
+    [
+     5,
+     5
+    ],
+    [
+     6,
+     15
+    ],
+    [
+     7,
+     30
+    ],
+    [
+     8,
+     50
+    ],
+    [
+     9,
+     70
+    ],
+    [
+     10,
+     85
+    ],
+    [
+     11,
+     95
+    ],
+    [
+     12,
+     100
+    ]
+   ],
+   "gasReal": [
+    [
+     2,
+     10
+    ],
+    [
+     3,
+     35
+    ],
+    [
+     4,
+     60
+    ],
+    [
+     5,
+     85
+    ],
+    [
+     6.5,
+     100
+    ]
+   ]
+  },
+  "manufacturingYoYAnchors": [
+   [
+    -20,
+    100
+   ],
+   [
+    -10,
+    85
+   ],
+   [
+    -5,
+    65
+   ],
+   [
+    0,
+    35
+   ],
+   [
+    3,
+    15
+   ],
+   [
+    6,
+    5
+   ]
+  ],
+  "transforms": {
+   "claims": "Trailing mean of the latest four weekly observations available at each month end",
+   "inflation": "Same-month year-over-year percent change of non-seasonally-adjusted CPI-U",
+   "quarterly": "Forward-filled from observation quarter for ex-post historical reconstruction"
+  }
+ },
+ "inputFingerprint": "52bb55cae17509e53caadd7be9a9811638a9403c28587f7102ac05ecf82969a2",
+ "sources": {
+  "UNRATE": {
+   "fingerprint": "8c861e18952a15bda511a9c4b0f466efce694ae858a8b2364902e460a5594824",
+   "observationCount": 941,
+   "firstObservation": "1948-01-01",
+   "lastObservation": "2026-06-01"
+  },
+  "ICSA": {
+   "fingerprint": "e771892e1c73dd0d3b61e460dea705e19a21a2f45f8cfad43ecc697e0e5e0a09",
+   "observationCount": 3107,
+   "firstObservation": "1967-01-07",
+   "lastObservation": "2026-07-18"
+  },
+  "CPIAUCNS": {
+   "fingerprint": "b7b2a865d9f9076f311f539e223b7e3b5035ee09f7ce198e0cd59afcddaec8b5",
+   "observationCount": 1361,
+   "firstObservation": "1913-01-01",
+   "lastObservation": "2026-06-01"
+  },
+  "MORTGAGE30US": {
+   "fingerprint": "d99088f2c3b5d9f3cdee30c137333fb60e36b39feeb0dfd3b2c2f4bce95df30e",
+   "observationCount": 2887,
+   "firstObservation": "1971-04-02",
+   "lastObservation": "2026-07-23"
+  },
+  "DRSFRMACBS": {
+   "fingerprint": "37db57c3456708ba6c54339ddfcc98b7e60cea3a01e4c46e59e2443d58f3bb0a",
+   "observationCount": 141,
+   "firstObservation": "1991-01-01",
+   "lastObservation": "2026-01-01"
+  },
+  "DRCCLACBS": {
+   "fingerprint": "3f0bd4afbd35eed6f27be27d64e55a399083b818c636ff2412bd10de83ea6f13",
+   "observationCount": 141,
+   "firstObservation": "1991-01-01",
+   "lastObservation": "2026-01-01"
+  },
+  "GASREGW": {
+   "fingerprint": "c64ab6d186b9be11ba87e960cabcee9202399672435e2cd59dc1ad231ea9b468",
+   "observationCount": 1869,
+   "firstObservation": "1990-08-20",
+   "lastObservation": "2026-07-20"
+  },
+  "INDPRO": {
+   "fingerprint": "1d70e3e18808e6eb533e83e58bae29905af36bc6e2913acc16c1526ff2fc67bb",
+   "observationCount": 1290,
+   "firstObservation": "1919-01-01",
+   "lastObservation": "2026-06-01"
+  },
+  "AMTMNO": {
+   "fingerprint": "6f414d2bb6ac5db0114998ccd86a3c2622370c5d1b2c0d233f76ef03f1133bcf",
+   "observationCount": 412,
+   "firstObservation": "1992-02-01",
+   "lastObservation": "2026-05-01"
+  },
+  "NYFED_AUTO_30PLUS": {
+   "fingerprint": "044bc63430a700bbd409886c6c545ba13a3a3384ade07e6df7d32b599f16c8fb",
+   "observationCount": 93,
+   "firstObservation": "2003-01-01",
+   "lastObservation": "2026-01-01",
+   "sourceUrl": "https://www.newyorkfed.org/medialibrary/interactives/householdcredit/data/xls/HHD_C_Report_2026Q1"
+  }
+ },
+ "inputs": {
+  "gas": {
+   "value": "$4.00",
+   "asOf": "2026-07-20",
+   "seriesId": "GASREGW"
+  },
+  "housing": {
+   "value": "6.58%",
+   "asOf": "2026-07-23",
+   "seriesId": "MORTGAGE30US"
+  },
+  "credit": {
+   "value": "2.9%",
+   "asOf": "2026-01-01",
+   "seriesId": "DRCCLACBS"
+  },
+  "auto": {
+   "value": "7.7%",
+   "asOf": "2026-01-01",
+   "seriesId": "Page 13 Data / AUTO"
+  },
+  "jobs": {
+   "value": "4.2%",
+   "asOf": "2026-06-01",
+   "seriesId": "UNRATE"
+  },
+  "inflation": {
+   "value": "3.5%",
+   "asOf": "2026-06-01",
+   "seriesId": "CPIAUCNS"
+  },
+  "foreclosures": {
+   "value": "1.9%",
+   "asOf": "2026-01-01",
+   "seriesId": "DRSFRMACBS"
+  },
+  "manufacturing": {
+   "value": "1.1% YoY",
+   "asOf": "2026-06-01",
+   "seriesId": "INDPRO"
+  }
+ },
+ "output": {
+  "month": "2026-06",
+  "ooze": 27,
+  "prevOoze": 30,
+  "historyFingerprint": "2b92acb34dfa208c474e07c6d0d9c5873471975acda0f0ff02f85032d6ee7e6d"
+ }
+}
