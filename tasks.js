@@ -110,6 +110,7 @@ v5 | Algorithm  | OOZEMAXING breadth status displayed on site | todo
 v5 | Research   | Pre-2000 extension (1929-1999, fidelity tiers) | todo
 v5 | Growth     | Embeddable "Today's Ooze" widget | todo
 v5 | Growth     | Threshold alerts (notify me above 70) | todo
+v5 | Content    | Ooze Audio: monthly briefing read aloud (from newsletter text) - idea from design mock, not yet built | todo
 v5 | Fun        | Lab anthem: original funky groove ("This Is How We Ooze It" licensed later) | todo
 v5 | Fun        | More easter eggs: konami confetti, 10-tap incident report, April 1 fl-oz | todo
 v5 | Ads        | AdSense application after legal + content volume | todo
