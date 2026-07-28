@@ -572,3 +572,8 @@ footer a:hover{color:var(--ooze)}
   .reveal,.cine{opacity:1;transform:none}
   #boot{display:none}
 }
+
+/* ============ MINI LINE-JARS (each pressure source carries its own jar) ============ */
+.njar{display:inline-block;width:15px;height:20px;border:1px solid var(--line-hard);border-top:none;border-radius:0 0 5px 5px;position:relative;flex:none;overflow:hidden;vertical-align:middle}
+.njar::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:#1c2617;border-bottom:1px solid var(--line-hard)}
+.njar i{position:absolute;bottom:0;left:0;right:0;border-radius:0 0 4px 4px}
