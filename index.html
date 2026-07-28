@@ -248,7 +248,7 @@ function nodeHTML(x){
   const amount=x.contributesToOoze?(drain?'−':'+')+x.contrib:'AUX';
   return `<a class="node" href="indicator.html?i=${x.slug}" data-name="${x.name}" data-contrib="${x.contrib}" data-dir="${x.dir}" data-aux="${!x.contributesToOoze}"
     aria-label="${x.name}: ${x.contributesToOoze?`${x.contrib} ooze`:'auxiliary, zero score weight'}. Open indicator page.">
-    <i class="pipe"></i><span>${x.emoji}</span>
+    <i class="pipe"></i><span class="njar" title="${x.name} stress: ${x.stress||0}/100"><i style="height:${x.stress||0}%;background:${LEVELCOLORS[levelOf(x.stress||0)-1]}"></i></span>
     <span class="nname">${x.name}</span>
     <span class="noz${drain&&x.contributesToOoze?' drain':''}">${amount}</span>
   </a>`;

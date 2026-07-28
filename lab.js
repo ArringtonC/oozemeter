@@ -202,6 +202,7 @@ if(LD){
     if(!l){x.val='—';x.trend='auxiliary sensor — feed pending';x.dir='down';x.contrib=0;continue;}
     x.val=l.value;
     x.contrib=l.contrib;
+    x.stress=l.stress||0;
     x.contributesToOoze=l.contributesToOoze!==false;
     x.dir=l.delta>=0?'up':'down';
     x.trend=`${l.delta>=0?'▲ +':'▼ −'}${Math.abs(l.delta)} pts vs ${LD.prevMonthLabel.split(' ')[0]}`
@@ -379,7 +380,7 @@ function renderHeader(active){
         ${LIVE?`<div class="score-pop">
           ${Object.entries(LD.lines).map(([slug,l])=>{
             const y=INDICATORS.find(i=>i.slug===slug);
-            return `<a href="indicator.html?i=${slug}"><span>${y.emoji} ${y.name}</span><b>${l.value}</b><span class="sp-d ${l.delta>=0?'up':'down'}">${l.delta>=0?'▲':'▼'}${Math.abs(l.delta)}</span></a>`}).join('')}
+            return `<a href="indicator.html?i=${slug}"><span style="display:flex;align-items:center;gap:8px"><span class="njar"><i style="height:${l.stress||0}%;background:${LEVELCOLORS[levelOf(l.stress||0)-1]}"></i></span>${y.name}</span><b>${l.value}</b><span class="sp-d ${l.delta>=0?'up':'down'}">${l.delta>=0?'▲':'▼'}${Math.abs(l.delta)}</span></a>`}).join('')}
           <span class="sp-foot">${LD.monthLabel} reading · ${TODAY_SCORE}/100</span>
         </div>`:''}
         </div>
