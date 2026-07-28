@@ -24,4 +24,14 @@ The integrity gate checks the numbers; this checklist checks the writing.
 - Never predict; never sensationalize hardship; the meter measures
 - The jar is the subject when the whole economy moves; the line is the subject when one thing moves
 - Aux sensors always marked observed-not-scored; stale feeds always disclosed
-- One idea per sentence in line-by-line sections
+- One idea per sentence in line-by-line sections; never make a reader process unemployment + claims + formula + score in one breath
+- Vocabulary hierarchy: **pressure** in prose ("gas pressure fell"); "stress reading" only in methodology contexts; never mix within a piece
+- Every report contains one "What a household would notice" paragraph — pure translation of numbers already established, nothing new claimed
+- OOZEBOT stands down when the operator hand-writes a month's report; the engine never competes with the human voice
+
+## Protected signature phrases (use them; never mangle them)
+- "The relief came from the two lines everyone feels first."
+- "When the first link of the cascade relaxes, the whole chain breathes."
+- "Recessions are employment events."
+- "The jar updates itself; you just check it."
+- "Never on the Jar."

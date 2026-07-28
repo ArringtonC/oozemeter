@@ -4,21 +4,23 @@
    Fields: slug, cat (report|incident|explainer|manual), date, title, dek,
    keyPoints[], body[] (paragraphs; lines starting "## " render as h3). */
 window.ARTICLES = [
-{slug:'june-2026-seal',cat:'report',date:'2026-07-24',title:'June seals at 25: the jar drains three',
+{slug:'june-2026-seal',cat:'report',month:'2026-06',date:'2026-07-24',title:'June seals at 27: the jar drains 3 points',
  dek:'Gas and inflation eased at the same time — the biggest one-month relief since the winter.',
  keyPoints:[
-  'The June 2026 Ooze Level sealed at 25 (Sticky), down 3 from May\'s 28.',
-  'Gas pressure fell 11 points and inflation eased 10 — the two biggest movers.',
-  'Employment remains the calmest line on the board at stress 14.'],
+  'The June 2026 Ooze Level sealed at 27 (Sticky), down 3 points from May\'s 30.',
+  'Gas pressure fell 11 points and inflation eased 9 — the two biggest movers.',
+  'Employment remains the calmest line on the board at 14.'],
  body:[
-  'The monthly specimen sealed in mid-July, once the jobs report and CPI landed, and the reading is the friendliest since spring: 25 out of 100. That is Sticky territory — the band where normal economies live — and three points below May.',
-  'The relief came from the two lines everyone feels first. Gasoline\'s stress reading dropped 11 points as pump prices steadied around $4.00, and inflation eased 10 as the yearly price change cooled to 3.5%. When the first link of the cascade relaxes, the whole chain breathes.',
+  'The monthly specimen sealed in mid-July, once the jobs report and CPI landed, and the reading is the friendliest since spring: 27 out of 100. That is Sticky territory — the band where normal economies live — and 3 points below May. June\'s reading is calmer than six of every ten months since 2003.',
+  'The relief came from the two lines everyone feels first. Gas pressure dropped 11 points as pump prices steadied around $4.00, and inflation eased 9 as the yearly price change cooled to 3.5%. When the first link of the cascade relaxes, the whole chain breathes.',
   '## What\'s still pressing',
-  'Housing remains the heaviest line — mortgage rates at 6.58% keep affordability stress in the mid-40s. Auto-loan delinquency, on the truer New York Fed measure the lab is adopting, reads hotter than the old proxy suggested. Credit cards sit at 2.9% delinquency: elevated against the pandemic lows, unremarkable against history.',
-  'Employment is the reason the jar stays calm. At 4.2% unemployment with quiet weekly claims, the line that carries a quarter of the formula reads just 14. As the Lab Notes put it: recessions are employment events, and there isn\'t one in this data.',
+  'Housing remains the heaviest weight on the board — mortgage rates at 6.58% keep affordability pressure in the mid-40s. Auto-loan delinquency, on the truer New York Fed measure the lab now uses, reads hotter than the old proxy suggested. Credit card delinquency sits at 2.9% — higher than the unusually calm pandemic years, but not historically exceptional.',
+  'Employment is the reason the jar stays calm. Unemployment held at 4.2%, and weekly jobless claims stayed quiet. Together they kept the employment line at just 14 — the calmest reading on the board. As the Lab Notes put it: recessions are employment events, and there isn\'t one in this data.',
+  '## What a household would notice',
+  'For most households, June probably felt a little easier than May. Filling the tank hurt less, grocery prices weren\'t rising as quickly, and steady employment kept paychecks coming. Housing remained the biggest source of strain, but for many families the month ended with a little more breathing room than it began.',
   'The next specimen seals in mid-August, when July\'s jobs report and CPI complete the month. The jar updates itself; you just check it.']},
 
-{slug:'oozemaxing-near-miss',cat:'incident',date:'2026-07-25',title:'2008 missed OOZEMAXING by exactly one line',
+  {slug:'oozemaxing-near-miss',cat:'incident',date:'2026-07-25',title:'2008 missed OOZEMAXING by exactly one line',
  dek:'The backtest found something nobody knew: even the Great Financial Crisis never tripped the everything-fails-at-once alarm.',
  keyPoints:[
   'OOZEMAXING requires all six weighted lines to read 60+ simultaneously. It has never happened in 25 years of data.',

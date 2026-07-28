@@ -68,6 +68,8 @@ const s1=`For the average household, ${NAMES[topK]} was the largest source of fi
 let s2;
 if(easers.length&&risers.length)
   s2=`${cap(easers.map(([k,l])=>`${NAMES[k]} eased ${Math.abs(l.delta)} points`).join(' and '))}, while ${risers.map(([k,l])=>`${NAMES[k]} climbed ${l.delta}`).join(' and ')}.`;
+else if(easers.length&&easers.every(([k])=>k==='gas'||k==='inflation')&&easers.length>=2)
+  s2=`The relief came from the two lines everyone feels first: ${easers.map(([k,l])=>`${NAMES[k]} (down ${Math.abs(l.delta)} points)`).join(' and ')}.`;
 else if(easers.length)
   s2=`The relief came from ${easers.map(([k,l])=>`${NAMES[k]} (down ${Math.abs(l.delta)} points)`).join(' and ')}.`;
 else if(risers.length)
@@ -91,6 +93,25 @@ const confidence=[
   'Every figure traces to a cited public series; the integrity gate verified plausibility bounds and calibration anchors before publication.',
 ].join(' ');
 
+/* ---- "what a household would notice" — the bridge paragraph. Every clause
+   translates a number already established above; nothing new is claimed. ---- */
+const feels=delta<=-2?'a little easier':delta>=2?'a little tighter':'about the same as';
+const noticeClauses=[];
+const L=d.lines;
+if(L.gas.delta<=-3)noticeClauses.push('filling the tank hurt less');
+else if(L.gas.delta>=3)noticeClauses.push('filling the tank hurt more');
+if(L.inflation.delta<=-3)noticeClauses.push("grocery prices weren't rising as quickly");
+else if(L.inflation.delta>=3)noticeClauses.push('prices climbed faster at the register');
+if(L.jobs.stress<=25)noticeClauses.push('steady employment kept paychecks coming');
+else if(L.jobs.delta>=5)noticeClauses.push('job worries crept up');
+const noticeBody=noticeClauses.length
+  ?cap(noticeClauses.length>1?noticeClauses.slice(0,-1).join(', ')+', and '+noticeClauses.at(-1):noticeClauses[0])+'. '
+  :'';
+const noticeClose=delta<0?'but for many families the month ended with a little more breathing room than it began.'
+  :delta>0?'and for many families the month ended a little tighter than it began.'
+  :'and for most families the month ended much the way it began.';
+const noticed=`For most households, ${d.monthLabel.split(' ')[0]} probably felt ${feels}${feels.includes('same')?'':' than'} ${d.prevMonthLabel.split(' ')[0]}. ${noticeBody}${cap(NAMES[topK])} remained the biggest source of strain, ${noticeClose}`;
+
 /* ---- the monthly Ooze Report (auto article, golden-master shape) ---- */
 const dateStr=d.generated.slice(0,10);
 const article={
@@ -104,7 +125,9 @@ const article={
     `Largest pressure: ${NAMES[topK]} (${topL.contrib} oz)${easers.length?`; biggest relief: ${NAMES[easers[0][0]]} (${easers[0][1].delta} pts)`:''}.`,
   ],
   body:[
-    story,
+    story+` ${verdict.replace('Calmer','This reading is calmer').replace('More stressed','This reading is more stressed')} — inside the range where normal economies tend to live.`,
+    '## What a household would notice',
+    noticed,
     '## Line by line',
     ...weighted.map(([k])=>base[k]),
     '## The auxiliary sensors (observed, not scored)',
@@ -123,6 +146,9 @@ OOZE LEVEL: ${d.ooze}/100 (${band(d.ooze).toUpperCase()}) · ${delta>=0?'+':''}$
 ${verdict}.
 
 ${story}
+
+WHAT A HOUSEHOLD WOULD NOTICE
+${noticed}
 
 LINE BY LINE
 ${weighted.map(([k])=>`· ${base[k]}`).join('\n')}
@@ -145,11 +171,17 @@ const editorial={month:d.month,monthLabel:d.monthLabel,generated:d.generated,
 fs.writeFileSync('data/editorial.json',JSON.stringify(editorial,null,1));
 fs.writeFileSync('data/editorial.js','window.EDITORIAL='+JSON.stringify(editorial)+';');
 
-/* auto-articles: keyed by month — re-runs replace, never duplicate */
+/* auto-articles: keyed by month — re-runs replace, never duplicate.
+   If a hand-written report (articles.js, cat report + month) already covers
+   this seal, OOZEBOT stands down: the operator's voice outranks the engine. */
 let autos=[];
 try{const w={};eval(fs.readFileSync('data/auto-articles.js','utf8').replace('window.','w.'));autos=w.AUTO_ARTICLES||[]}catch{}
+let handCovered=false;
+try{const w2={};eval(fs.readFileSync('articles.js','utf8').replace('window.','w2.'));
+  handCovered=(w2.ARTICLES||[]).some(a=>a.cat==='report'&&a.month===d.month)}catch{}
 autos=autos.filter(a=>a.slug!==article.slug);
-autos.push(article);
+if(!handCovered)autos.push(article);
+else console.log('OOZEBOT stands down: hand-written report covers',d.monthLabel);
 autos.sort((a,b)=>b.date.localeCompare(a.date));
 fs.writeFileSync('data/auto-articles.js','window.AUTO_ARTICLES='+JSON.stringify(autos)+';');
 
