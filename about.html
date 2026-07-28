@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#070b06">
+<title>About — Who Runs This Facility | OOZEMeter</title>
+<meta name="description" content="Who makes OOZEMeter, why it exists, and the rules it refuses to break. One person, one robot, public data, no forecasts.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800;900&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="OOZEMeter">
+<meta property="og:title" content="About — Who Runs This Facility | OOZEMeter">
+<meta property="og:description" content="Who makes OOZEMeter, why it exists, and the rules it refuses to break. One person, one robot, public data, no forecasts.">
+<meta property="og:image" content="https://arringtonc.github.io/oozemeter/og-card.png">
+<meta property="og:url" content="https://arringtonc.github.io/oozemeter/about.html">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="lab.css">
+</head>
+<body>
+<div id="page">
+
+<section style="padding-top:34px">
+  <div class="wrap-narrow">
+    <div class="crumbs" style="padding-bottom:18px"><a href="index.html">Facility</a> / About</div>
+    <div class="sec-label">Personnel File — the whole staff</div>
+    <h1 class="sec-title" style="font-size:clamp(1.6rem,4vw,2.4rem)">One person. One robot. One jar.</h1>
+
+    <div class="prose">
+      <p>OOZEMeter is run by one person — the Operator — who wanted a single honest answer to a question the news never answers plainly: <strong>how bad is it, actually?</strong> Every outlet has a take. Nobody has a number you can check.</p>
+      <p>So this facility computes one. The Ooze Level is a 0–100 score of U.S. economic stress, built from public data anyone can pull: gas prices from the EIA, mortgage rates from Freddie Mac, unemployment from the BLS, card and auto delinquencies from the New York Fed, inflation from the CPI. The recipe is <a href="notes.html">published</a>, the scale is pegged to history — the calmest month since 2003 reads 10, the worst of the financial crisis reads 90 — and the <a href="data/latest.json">raw output</a> sits one click away, always.</p>
+
+      <h2>The staff</h2>
+      <p><strong>The Operator</strong> decides what gets built, reads every report before you do, and outranks everyone on exactly one question: is it still fun?</p>
+      <p><strong>OOZEBOT</strong> is the facility's editorial engine — a deterministic script, not a chatbot. Every clause it writes is driven by a number in the data, and an integrity gate blocks anything that isn't. Its pieces carry its byline; anything written by a human is labeled an operator dispatch. The full rules live in the <a href="policies.html">editorial policy</a>.</p>
+      <p>A <strong>collection robot</strong> fetches fresh government data daily and refuses to publish anything implausible. When a feed goes stale, the site says so on the reading itself instead of quietly serving yesterday as today.</p>
+
+      <h2>The rules this site refuses to break</h2>
+      <p><strong>No fake numbers, ever.</strong> If data isn't connected, the jar reads zero and says OFFLINE. Simulated figures (the state rankings, for now) keep their labels until real feeds ship.</p>
+      <p><strong>No forecasts.</strong> The facility measures; it does not prophesy. You will never read a prediction here dressed up as a reading.</p>
+      <p><strong>No black boxes.</strong> Weights, formula, methodology changes — all published, with a <a href="policies.html">version history</a>. When the formula changes, the change is logged, not hidden.</p>
+      <p>OOZEMeter is an educational instrument, not financial advice. It exists to make one confusing thing legible — and to be a small joy to check, the way a weather app is. If the jar ever stops being fun, the Operator has failed at the only job the board can't veto.</p>
+
+      <h2>Say hello</h2>
+      <p>The facility lives in the open at <a href="https://github.com/ArringtonC/oozemeter" target="_blank" rel="noopener">github.com/ArringtonC/oozemeter</a> — the code, the data, and every sealed reading. Found a number that looks wrong? Open an issue. Corrections are logged publicly per the <a href="policies.html">correction policy</a>.</p>
+    </div>
+  </div>
+</section>
+
+</div><!-- /page -->
+
+<script src="data/latest.js"></script>
+<script src="lab.js"></script>
+<script>
+renderHeader('');
+renderFooter();
+wireReveals();
+</script>
+</body>
+</html>

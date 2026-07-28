@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#070b06">
+<title>404 — Specimen Not Found | OOZEMeter</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="https://arringtonc.github.io/oozemeter/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@800;900&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<!-- self-contained on purpose: GitHub Pages serves this page from ANY bad path,
+     so relative assets would break — everything it needs is inline or absolute -->
+<style>
+:root{--bg:#070b06;--panel:#0e150c;--line:rgba(163,255,18,.14);--line-hard:rgba(163,255,18,.32);
+  --text:#e6f2da;--muted:#8ba07c;--dim:#708363;--ooze:#a3ff12;--red:#ff4d3d}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'IBM Plex Mono',ui-monospace,monospace;
+  min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;text-align:center}
+a{color:var(--ooze);text-decoration:none}
+a:hover{text-decoration:underline}
+.jar{width:92px;margin:0 auto 26px;opacity:.9;transform:rotate(8deg)}
+h1{font-family:'Unbounded',sans-serif;font-weight:900;font-size:clamp(2rem,7vw,3.4rem);line-height:1.1}
+.code{font-size:.66rem;letter-spacing:.34em;color:var(--dim);text-transform:uppercase;margin-bottom:14px}
+.report{max-width:480px;margin:26px auto;border:1px solid var(--line-hard);border-radius:14px;
+  background:var(--panel);padding:22px 26px;text-align:left;position:relative}
+.report .stamp{position:absolute;top:14px;right:-6px;transform:rotate(8deg);font-size:.56rem;
+  letter-spacing:.18em;padding:4px 10px;border:1.5px solid var(--red);color:var(--red);text-transform:uppercase}
+.report p{font-size:.8rem;color:var(--muted);line-height:1.8;margin-bottom:10px}
+.report b{color:var(--text)}
+.links{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:26px}
+.links a{border:1px solid var(--line);border-radius:10px;padding:13px 18px;color:var(--muted);
+  font-size:.7rem;letter-spacing:.14em;text-transform:uppercase}
+.links a:hover{border-color:var(--ooze);color:var(--ooze);text-decoration:none}
+</style>
+</head>
+<body>
+<main>
+  <svg class="jar" viewBox="0 0 64 64" aria-hidden="true">
+    <rect x="12" y="4" width="40" height="10" rx="3" fill="#2a3524" stroke="#6d8a45" stroke-width="1.5" transform="translate(9,-3) rotate(9 32 9)"/>
+    <rect x="17" y="14" width="30" height="5" fill="#141b10" stroke="#6d8a45" stroke-width="1"/>
+    <path d="M15 19 h34 v27 a13 13 0 0 1 -13 13 h-8 a13 13 0 0 1 -13 -13 z" fill="#0e150c" stroke="#6d8a45" stroke-width="1.5"/>
+    <path d="M17 52 h30 v-6 l-8 3 -10 -4 -12 5 z" fill="#a3ff12" opacity=".5"/>
+  </svg>
+  <div class="code">Incident Report · Form DEC-404</div>
+  <h1>SPECIMEN<br>NOT FOUND</h1>
+  <div class="report">
+    <span class="stamp">Unaccounted</span>
+    <p><b>Subject:</b> a page that is not where you left it.</p>
+    <p><b>Finding:</b> the requested containment unit does not exist in this facility. The lid may have been mislabeled, the shelf renumbered, or the specimen was never collected.</p>
+    <p><b>Recommendation:</b> return to a monitored area. The Jar itself remains sealed and accounted for.</p>
+  </div>
+  <div class="links">
+    <a href="https://arringtonc.github.io/oozemeter/">🫙 Today's Reading</a>
+    <a href="https://arringtonc.github.io/oozemeter/archive.html">📈 The Ooze Chart</a>
+    <a href="https://arringtonc.github.io/oozemeter/oozeonomics.html">📰 Oozeonomics</a>
+  </div>
+</main>
+</body>
+</html>

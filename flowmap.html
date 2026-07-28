@@ -182,6 +182,7 @@ footer{padding:36px 0 64px;font-size:.66rem;letter-spacing:.16em;text-transform:
 @media print{body::before{display:none}body{background:#fff;color:#111}.panel{display:block}.tabs{display:none}}
 </style>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 </head>
 <body>
 
@@ -567,7 +568,7 @@ const BOARD=[
    ['Personal ooze calculator',75,'Works, honest caveats · state baselines simulated'],
    ['State rankings',30,'Page built · data simulated, awaiting regional feeds'],
    ['Daily report / articles section',0,'Gate 4 — not started'],
-   ['404, about, favicon, share images',50,'Favicon + OG link previews shipped · 404 + about still open'],
+   ['404, about, favicon, share images',100,'All four shipped — favicon, OG card, DEC-404, about.html'],
  ]},
  {name:'Automation (the video system, adapted)',ref:'improvements.md §5 · flowmap Lane B',weight:1.5,rows:[
    ['Daily data collection cron',85,'collect.js + Actions workflow written · activates on push'],
@@ -646,12 +647,12 @@ document.getElementById('taskBoard').innerHTML=Object.keys(byV).map(v=>{
 
 /* ---- goals board ---- */
 const GOALS=[
- {g:'★ NORTH STAR — People check the jar daily, like the weather',t:'Daily returning visitors: 100 → 1,000 → 10,000',c:'Not measured yet — analytics is Gate 3',m:'Analytics: 7-day returning visitors',a:'Everything feeds this: the number (v2) gets them, content (v4) brings them back'},
+ {g:'★ NORTH STAR — People check the jar daily, like the weather',t:'Daily returning visitors: 100 → 1,000 → 10,000',c:'Not measured yet — tracker shipped in lab.js, waiting on the GA4 property ID',m:'Analytics: 7-day returning visitors',a:'Everything feeds this: the number (v2) gets them, content (v4) brings them back'},
  {g:'Understanding — the five-second promise',t:'Score, direction, top driver understood in <5s on a phone',c:'Designed for it; unverified with real users',m:'Session recordings / bounce on hero',a:'HOME-1 · homepage 95% complete'},
- {g:'Reach — search finds the facility',t:'100k monthly visitors (PRD phase 1)',c:'0 — site not yet pushed with real data',m:'Analytics + Search Console',a:'Static URLs (v3) → content engine (v4) → gap miner'},
- {g:'Depth — visitors go deeper',t:'2+ pages per session',c:'Not measured yet',m:'Analytics pages/session',a:'GROW-1 · cascade links, related-links loop, archive'},
+ {g:'Reach — search finds the facility',t:'100k monthly visitors (PRD phase 1)',c:'Live since 2026-07-25 · static /gas/ + article URLs and sitemap.xml ready; Search Console sign-in pending',m:'Analytics + Search Console',a:'Static URLs (v3) → content engine (v4) → gap miner'},
+ {g:'Depth — visitors go deeper',t:'2+ pages per session',c:'Not measured yet — pages/session events ship with the GA4 ID',m:'Analytics pages/session',a:'GROW-1 · cascade links, related-links loop, archive'},
  {g:'Capture — a channel we own',t:'1,000 newsletter subscribers',c:'0 — form not connected to a real ESP yet',m:'ESP dashboard',a:'v3 Buttondown task · Morning Specimen automation (v4)'},
- {g:'Freshness — the robot never sleeps',t:'Data collected within 24h, every day',c:'Collector works locally; cron activates on push',m:'Actions run history + asOf dates on site',a:'DATA-2/3/4 · v3 launch task'},
+ {g:'Freshness — the robot never sleeps',t:'Data collected within 24h, every day',c:'\u2713 MET \u2014 cloud robot self-commits daily since 2026-07-25; STALE badges + freshness monitor guard it',m:'Actions run history + asOf dates on site',a:'DATA-2/3/4 · v3 launch task'},
  {g:'Trust — the differentiator',t:'Unlabeled simulated numbers on the site: zero, forever',c:'✓ MET — verified at board review',m:'Burry refutation audit each release',a:'TRUTH-1/2/3 · the house rule'},
  {g:'Fun — still a joy to check',t:'Every release passes "is it still fun?"',c:'✓ Holding — protected inventory intact',m:'Operator review (you outrank the board here)',a:'FUN-1/2/3 · Department of Fun'},
  {g:'Revenue — earns its keep',t:'Phase 1: AdSense approved · first $100/mo',c:'0 — blocked on domain + legal + content volume',m:'AdSense dashboard',a:'v3 trust pages → v5 AdSense task · ads weighted last on purpose'},
@@ -662,7 +663,7 @@ const AGENT_GOALS=[
  {owner:'JOBS · PRODUCT',color:'var(--ooze)',goals:[
   {g:'The five-second promise holds for the millionth visitor, not just for us',
    t:'A first-time visitor on a phone gets score, direction, and top driver in under 5s — surviving every entry point: the shared link\'s OG image shows the number before the page even loads; 90%+ of first mobile sessions reach the score without a tap',
-   c:'Holds in our own browsers only — never tested on a stranger, no analytics to prove it, shared links arrive naked (no OG images). The promise is a hypothesis',
+   c:'Link previews now ship (jar card + a title carrying the live number); still never tested on a stranger, and no analytics to prove it — the promise is still a hypothesis',
    m:'v3 analytics: time-to-score-visible, bounce-before-score · quarterly hallway test: five strangers, one phone, five seconds, zero explanations',
    a:'HOME-1 · GROW-2 · v3 analytics, OG images, static pages, push'},
   {g:'One number a journalist can\'t break',
@@ -678,7 +679,7 @@ const AGENT_GOALS=[
  {owner:'IVE · DESIGN',color:'var(--cyan)',goals:[
   {g:'One Jar, unmistakable at every size — the object survives its own fame',
    t:'A single canonical rendering that reads instantly at 16px (favicon), 40px (widget), and 1200px (OG image), band color carrying the state when detail cannot. Seen once, recognized anywhere',
-   c:'The Jar exists only at hero size on our own homepage. Screenshot it today and you get a crop, not an object',
+   c:'One SVG master now renders the favicon (16px), home-screen icon (180px), and OG card (1200px). The 40px widget rendering remains',
    m:'Same score rendered at all three sizes side by side — fill still visibly equals the number at 40px · shown the favicon alone, do people name it?',
    a:'HOME-2 · v3 OG images + favicon · v4 widget art direction'},
   {g:'Coherence without a hand on every page — a thousand generated reports, one voice',
@@ -694,12 +695,12 @@ const AGENT_GOALS=[
  {owner:'ZUCKERBERG · GROWTH',color:'var(--amber)',goals:[
   {g:'The number lives on other people\'s sites — 1,000 domains carrying the Ooze',
    t:'1,000 live widget embeds + static /gas/ pages earning 5,000 referring backlinks, driving 100k of the 1M monthly visits from surfaces we don\'t own',
-   c:'Zero. The site isn\'t pushed, the URLs are query strings nobody links to, and the widget is a v5 line item. The number exists on exactly one machine: ours',
+   c:'The site is live and real /gas/ pages now exist to link to — but the widget is still a v5 line item and embeds are zero',
    m:'Embed-load events + referrer domains · Search Console backlinks · unique embedding domains/month — instrumented before the widget ships (GROW-3)',
    a:'v3 static pages + analytics · v5 widget · GROW-1/3'},
   {g:'Own the query — when America googles "is the economy bad," the Jar answers',
    t:'200k monthly organic visits; daily report pages indexed within 1 hour of publish; top-3 for 50 "how bad is it" economic queries',
-   c:'Zero organic visitors, zero indexed pages, no domain. We built a working seismograph and buried it in the basement',
+   c:'sitemap.xml + robots.txt live, clean URLs indexable — but no domain, Search Console unverified, organic still zero',
    m:'Search Console position/clicks weekly · time-to-indexed via IndexNow logs · gap-miner surfacing queries we should own',
    a:'v3 launch + domain + sitemap · v4 reports + fast indexing + gap miner · GROW-1'},
   {g:'The self-feeding loop — every reading recruits its next reader',
@@ -763,7 +764,7 @@ const OBJECTIVES=[
   ['Improve mobile experience',false],
   ['Increase page speed',false],
   ['Launch historical charts',false],
-  ['Build a better About page',false]]],
+  ['Build a better About page',true]]],
  ['CONTENT',[
   ['Publish 100 economy reports',false],
   ['Publish 250 searchable articles',false],
@@ -846,15 +847,15 @@ const CHAPTERS=[
   sub:'My rule: no money stuff yet. Just make it fun, and make it something I actually check from my phone every day.',nodes:[
   ['⭐','Put it online','Pushed 2026-07-25. The real number is on the internet; the robot ran its first cloud collection the same day.','done'],
   ['🎛','New front page','Mission Control × Research Library (Variant J, 10 designs tested): jar + placard, intake canisters, the full 8-line ledger, and a file rail of reports.','done'],
-  ['📱','Put it on my phone','An icon on my home screen — one tap to see the jar.','current'],
+  ['📱','Put it on my phone','Home-screen jar icon shipped — now it\'s one Add-to-Home-Screen tap on my phone.','current'],
   ['🧪','Hook up stat #7: foreclosures','The data is already being downloaded — it just needs to show on the site.','todo'],
   ['🏭','Hook up stat #8: manufacturing','One more government feed, and all 8 stats I listed are real.','todo'],
   ['🧹','Remove the empty ad boxes','No ads exist yet, so the placeholders just looked broken. Gone.','done'],
   ['🎁','Fun: the lab song','An original funky track behind the sound button.','todo'],
-  ['📖','Make the About page','Says who made this and why.','todo'],
-  ['🚫','Fix the missing-page screen','A funny "SPECIMEN NOT FOUND" page instead of a boring browser error.','todo'],
+  ['📖','Make the About page','about.html — one person, one robot, the rules the site refuses to break.','done'],
+  ['🚫','Fix the missing-page screen','404 = incident report Form DEC-404: SPECIMEN NOT FOUND, specimen unaccounted for.','done'],
   ['⭐','Watch the first auto-update','Mid-August: the site updates itself with July\'s number while I do nothing. Proof the robot works.','todo'],
-  ['🏋️','Streak counter','"You\'ve checked the jar 5 days in a row."','todo'],
+  ['🏋️','Streak counter','Live on the front page — consecutive days checking the jar, counted in your browser.','done'],
   ['🎁','Fun: hidden surprises','Secret code = confetti bubbles. Tap the glass 10 times = the site files a complaint about you.','todo'],
   ['🧬','My own score','Run my own budget through the calculator and compare against the national jar.','todo'],
   ['🗣','The verdict line','One computed sentence under the score. The number grades itself now.','done'],

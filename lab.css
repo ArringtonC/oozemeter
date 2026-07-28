@@ -230,6 +230,7 @@ section{padding:74px 0;border-bottom:1px solid var(--line)}
 
 .specimen-line{text-align:center;margin-top:44px;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--dim)}
 .specimen-line b{color:var(--muted);font-weight:500}
+.streak-line{text-align:center;margin-top:10px;font-size:.64rem;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);min-height:1em}
 
 /* ============ FRONT PAGE — MISSION CONTROL × RESEARCH LIBRARY ============ */
 .pvJ{display:grid;grid-template-columns:2.3fr 1fr;gap:0;padding:10px 0 40px}

@@ -11,6 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800;900&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 <link rel="alternate" type="application/atom+xml" title="OOZEMeter — Oozeonomics" href="https://arringtonc.github.io/oozemeter/feed.xml">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OOZEMeter">
 <meta property="og:title" content="OOZEMeter — Ooze Level 27/100 (Sticky) · June 2026">
@@ -67,6 +68,7 @@
       </div>
 
       <div class="specimen-line cine c5">🧪 Monthly specimen sealed: <b>June 2026 = 27</b> · intake lines refresh as their data releases </div>
+      <div class="streak-line cine c5" id="streakLine"></div>
     </div>
 
     <aside class="pvJ-rail cine c5">
@@ -218,6 +220,16 @@ if(LIVE){
   $('canCards').innerHTML='<span style="grid-column:1/-1;color:var(--dim);font-size:.7rem;letter-spacing:.2em">SENSORS OFFLINE — CANISTERS EMPTY</span>';
   document.querySelector('.specimen-line').innerHTML='🧪 Sensors offline — <b>no live data connected yet</b>. The jar reads 0 until the first specimen is collected.';
 }
+
+/* streak — consecutive days checking the jar; lives in this browser only */
+try{
+  const today=new Date().toLocaleDateString('en-CA');
+  const yest=new Date(Date.now()-864e5).toLocaleDateString('en-CA');
+  const st=JSON.parse(localStorage.getItem('oozestreak')||'{}');
+  const n=st.last===today?(st.n||1):st.last===yest?(st.n||0)+1:1;
+  localStorage.setItem('oozestreak',JSON.stringify({last:today,n}));
+  if(n>=2)$('streakLine').textContent=`🏋️ You've checked the jar ${n} days in a row`;
+}catch{}
 
 let countStarted=false;
 function startCountUp(){

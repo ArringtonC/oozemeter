@@ -110,6 +110,10 @@ v5 | Algorithm  | Incident severity ratings C1-C5 (peak × duration × recovery)
 v5 | Algorithm  | Unit tests + golden-day fixtures | todo
 v5 | Algorithm  | OOZEMAXING breadth status displayed on site | todo
 v5 | Research   | Pre-2000 extension (1929-1999, fidelity tiers) | todo
+v5 | Website    | About page (about.html): one person, one robot, the rules — linked from footer + mobile nav | done
+v5 | Website    | 404 incident report (Form DEC-404, SPECIMEN NOT FOUND) — self-contained so GH Pages can serve it from any bad path | done
+v5 | Website    | Home-screen ready: apple-touch-icon (Jar SVG master) on every page | done
+v5 | Fun        | Streak counter on the front page — consecutive days checking the jar, counted locally | done
 v5 | Growth     | GA4 event auto-tracker ported from Tryst into lab.js (indicator/article/verify clicks, jar taps, report copies — activates when operator pastes the measurement ID) | done
 v5 | Growth     | Static per-slug pages: /gas/…/manufacturing/ + /files/<article>/ via scripts/static-pages.js — clean URLs, canonical, per-page meta (rerun after publish; cron wiring awaits data session) | done
 v5 | Growth     | sitemap.xml + robots.txt shipped (Search Console verification still needs operator Google account) | done

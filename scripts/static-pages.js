@@ -73,7 +73,7 @@ for(const a of ARTICLES){
 /* --- sitemap --- */
 /* the ?i= / ?a= template pages stay out — their static /slug/ twins are canonical */
 const ROOT=['','what-is-ooze.html','oozeonomics.html','archive.html','notes.html',
-  'personal.html','states.html','specimen-progress.html','policies.html'];
+  'personal.html','states.html','specimen-progress.html','policies.html','about.html'];
 const entry=u=>{const[loc,mod]=u.split('|');return `  <url><loc>${loc}</loc>${mod?`<lastmod>${mod}</lastmod>`:''}</url>`};
 fs.writeFileSync('sitemap.xml',`<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

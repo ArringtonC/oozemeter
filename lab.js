@@ -393,6 +393,7 @@ function renderHeader(active){
             <a href="states.html"><span>🗺</span>State Rankings</a>
             <a href="specimen-progress.html"><span>⏳</span>Specimen Progress</a>
             <a href="notes.html"><span>📋</span>Lab Notes</a>
+            <a href="about.html"><span>🪪</span>About</a>
           </div>
         </details>
       </div>
@@ -444,6 +445,7 @@ function renderFooter(){
             <li><a href="personal.html">Personal Ooze</a></li>
             <li><a href="states.html">State Rankings</a></li>
             <li><a href="notes.html">Lab Notes</a></li>
+            <li><a href="about.html">About the Facility</a></li>
             <li><a href="policies.html">Policies & Methodology History</a></li>
           </ul>
         </div>
