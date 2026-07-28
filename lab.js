@@ -474,13 +474,22 @@ function adSlot(){
   return `<div class="ad-wrap"><div class="ad-slot">Advertisement — sponsor's beaker here</div></div>`;
 }
 
+/* The Morning Specimen — Buttondown behind the form. To open signups:
+   create the Buttondown account, paste its username here, done. Until then
+   the form stays honestly closed — no fake clearance, no lost addresses. */
+const NL_USER='';
 function newsletterHTML(){
+  if(!NL_USER)return `
+  <div class="newsletter">
+    <h3>🧪 The Morning Specimen</h3>
+    <p>The Ooze Report by email, when each specimen seals. The facility's mail line isn't connected yet — until it is, the <a href="feed.xml">RSS feed</a> carries every report.</p>
+  </div>`;
   return `
   <div class="newsletter">
     <h3>🧪 The Morning Specimen</h3>
-    <p>Today's ooze level, the biggest leaks, and one thing worth knowing — collected daily at 08:00 ET. Free clearance.</p>
+    <p>The Ooze Report in your inbox when each specimen seals. Free clearance; leave anytime.</p>
     <form class="nl-form" id="nlForm">
-      <input type="email" required placeholder="your@email.gov" aria-label="Email address">
+      <input type="email" name="email" required placeholder="your@email.gov" aria-label="Email address">
       <button class="btn primary" type="submit">Request Clearance</button>
     </form>
     <div class="nl-ok" id="nlOk"></div>
@@ -489,13 +498,17 @@ function newsletterHTML(){
 function wireNewsletter(){
   const f=$('nlForm');
   if(!f)return;
-  f.addEventListener('submit',e=>{
+  f.addEventListener('submit',async e=>{
     e.preventDefault();
-    /* ponytail: no backend yet — stores locally; swap for a real ESP later */
-    localStorage.setItem('oozeletter',f.querySelector('input').value);
-    f.style.display='none';
-    $('nlOk').textContent='✓ Clearance granted — first specimen arrives tomorrow, 08:00 ET.';
-    bloop(300,.1);
+    try{
+      await fetch(`https://buttondown.com/api/emails/embed-subscribe/${NL_USER}`,
+        {method:'POST',mode:'no-cors',body:new FormData(f)});
+      f.style.display='none';
+      $('nlOk').textContent='✓ Clearance requested — check your inbox to confirm.';
+      bloop(300,.1);
+    }catch{
+      $('nlOk').textContent='⚠ Mail line jammed — try again in a moment.';
+    }
   });
 }
 

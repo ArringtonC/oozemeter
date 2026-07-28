@@ -40,7 +40,9 @@ v3 | Trust      | Reconcile UI source labels with original publishers and proxy 
 v3 | Launch     | Push live: real number + cron running in the cloud | done
 v3 | Data       | Wire mortgage-distress proxy feed (DRSFRMACBS, zero-weight auxiliary) | done
 v3 | Data       | Wire manufacturing feeds (INDPRO + AMTMNO, zero-weight auxiliary) | done
-v3 | Growth     | Real newsletter ESP behind the signup form (Buttondown) | todo
+v3 | Growth     | Real newsletter ESP behind the signup form (Buttondown) — plumbing done: honest closed-state until account exists, embed-subscribe on paste of NL_USER, double opt-in | wip
+v3 | Growth     | Fake signup promise removed: form no longer claims clearance it can't grant (was localStorage-only) | done
+v3 | Content    | scripts/send-newsletter.js: OOZEBOT newsletter -> Buttondown draft per seal (BUTTONDOWN_API_KEY; autosend flag; once-per-month guard; cron wiring awaits data session) | done
 v3 | Growth     | Analytics + events on share, subscribe, session depth | todo
 v3 | Growth     | Static per-slug pages (/gas/ not ?i=gas) + canonicals + sitemap | todo
 v3 | Design     | OG share images per band + favicon (the Jar as an object) | todo
