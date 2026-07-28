@@ -110,6 +110,10 @@ v5 | Algorithm  | Incident severity ratings C1-C5 (peak × duration × recovery)
 v5 | Algorithm  | Unit tests + golden-day fixtures | todo
 v5 | Algorithm  | OOZEMAXING breadth status displayed on site | todo
 v5 | Research   | Pre-2000 extension (1929-1999, fidelity tiers) | todo
+v5 | Growth     | GA4 event auto-tracker ported from Tryst into lab.js (indicator/article/verify clicks, jar taps, report copies — activates when operator pastes the measurement ID) | done
+v5 | Growth     | Static per-slug pages: /gas/…/manufacturing/ + /files/<article>/ via scripts/static-pages.js — clean URLs, canonical, per-page meta (rerun after publish; cron wiring awaits data session) | done
+v5 | Growth     | sitemap.xml + robots.txt shipped (Search Console verification still needs operator Google account) | done
+v5 | Brand      | Jar SVG master: favicon.svg + og-card.png on every page; index OG tags stamped fresh by the daily cron | done
 v5 | Growth     | Embeddable "Today's Ooze" widget | todo
 v5 | Growth     | Threshold alerts (notify me above 70) | todo
 v5 | Content    | Ooze Audio: monthly briefing read aloud (from newsletter text) - idea from design mock, not yet built | todo

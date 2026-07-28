@@ -502,6 +502,38 @@ function wireReveals(){
   document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 }
 
+/* ============ ANALYTICS (GA4, ported from the Tryst playbook) ============ */
+/* Inert until GA_ID is set. To activate: create a GA4 property for the site,
+   paste the measurement ID (G-XXXXXXXXXX) here, done — loads on every page. */
+const GA_ID='';
+if(GA_ID&&typeof document!=='undefined'){
+  const gs=document.createElement('script');
+  gs.async=true;gs.src='https://www.googletagmanager.com/gtag/js?id='+GA_ID;
+  document.head.appendChild(gs);
+  window.dataLayer=window.dataLayer||[];
+  window.gtag=function(){dataLayer.push(arguments)};
+  gtag('js',new Date());gtag('config',GA_ID);
+  const ev=(name,params)=>gtag('event',name,params||{});
+  const page=location.pathname;
+  /* named events by what the visitor clicks — no PII */
+  document.addEventListener('click',e=>{
+    const a=e.target.closest('a');
+    if(a){
+      const href=a.getAttribute('href')||'';
+      if(/^indicator\.html\?i=/.test(href))ev('indicator_click',{page,line:href.split('=')[1]});
+      else if(/^article\.html\?a=/.test(href))ev('article_click',{page,file:href.split('=')[1]});
+      else if(/latest\.json/.test(href))ev('raw_data_click',{page});
+      else if(/^(notes|archive|specimen-progress)\.html/.test(href))ev('verify_click',{page,to:href.split('.')[0]});
+      return;
+    }
+    if(e.target.closest('#copyBtn'))ev('report_copy',{page});
+    if(e.target.closest('.jar'))ev('jar_tap',{page});
+  },{passive:true});
+  document.addEventListener('submit',e=>{
+    if(e.target&&e.target.id==='nlForm')ev('email_signup',{page});
+  },true);
+}
+
 /* self-checks */
 console.assert(Math.abs(INDICATORS.reduce((a,x)=>a+x.contrib,0)-TODAY_SCORE)<=3,'contributions drifted from headline score');
 console.assert(WEIGHTS.reduce((a,x)=>a+x.w,0)===100,'weights ≠ 100%');

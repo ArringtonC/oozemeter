@@ -31,6 +31,10 @@ sub(/<title>[^<]*<\/title>/,
   `<title>OOZEMeter — Ooze Level ${s}/100 (${cap(band(s))}) · ${d.monthLabel}</title>`,'title');
 sub(/<meta name="description" content="[^"]*">/,
   `<meta name="description" content="The ${d.monthLabel} Ooze Level is ${s}/100 (${cap(band(s))}), ${delta>=0?'up':'down'} ${Math.abs(delta)} from ${d.prevMonthLabel}. One score for U.S. economic stress, computed from public data.">`,'meta description');
+sub(/<meta property="og:title" content="[^"]*">/,
+  `<meta property="og:title" content="OOZEMeter — Ooze Level ${s}/100 (${cap(band(s))}) · ${d.monthLabel}">`,'og title');
+sub(/<meta property="og:description" content="[^"]*">/,
+  `<meta property="og:description" content="The ${d.monthLabel} Ooze Level is ${s}/100 (${cap(band(s))}), ${delta>=0?'up':'down'} ${Math.abs(delta)} from ${d.prevMonthLabel}. One score for U.S. economic stress, computed from public data.">`,'og description');
 sub(/aria-label="Containment jar, ooze level \d+ of 100"/,
   `aria-label="Containment jar, ooze level ${s} of 100"`,'jar aria-label');
 sub(/id="heroTheme" data-level="\d"/,`id="heroTheme" data-level="${level(s)}"`,'hero level');

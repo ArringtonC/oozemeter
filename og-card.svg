@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630">
+  <rect width="1200" height="630" fill="#070b06"/>
+  <!-- faint lab grid -->
+  <g stroke="#a3ff12" stroke-opacity=".05">
+    <path d="M0 105h1200M0 210h1200M0 315h1200M0 420h1200M0 525h1200"/>
+    <path d="M120 0v630M240 0v630M360 0v630M480 0v630M600 0v630M720 0v630M840 0v630M960 0v630M1080 0v630"/>
+  </g>
+  <!-- the Jar -->
+  <g transform="translate(120,95) scale(7)">
+    <rect x="12" y="4" width="40" height="10" rx="3" fill="#2a3524" stroke="#6d8a45" stroke-width="1.5"/>
+    <rect x="17" y="14" width="30" height="5" fill="#141b10" stroke="#6d8a45" stroke-width="1"/>
+    <path d="M15 19 h34 v27 a13 13 0 0 1 -13 13 h-8 a13 13 0 0 1 -13 -13 z" fill="#0e150c" stroke="#6d8a45" stroke-width="1.5"/>
+    <path d="M17 36 h30 v10 a11 11 0 0 1 -11 11 h-8 a11 11 0 0 1 -11 -11 z" fill="#a3ff12"/>
+    <circle cx="26" cy="46" r="2.2" fill="#e6ffc0" opacity=".75"/>
+    <circle cx="37" cy="52" r="1.5" fill="#e6ffc0" opacity=".6"/>
+    <rect x="19" y="22" width="4" height="24" rx="2" fill="#ffffff" opacity=".12"/>
+  </g>
+  <g font-family="Helvetica Neue, Helvetica, Arial, sans-serif">
+    <text x="560" y="262" font-size="76" font-weight="900" fill="#e6f2da" letter-spacing="1">OOZE<tspan fill="#a3ff12">METER</tspan></text>
+    <text x="562" y="308" font-size="19" fill="#708363" letter-spacing="5">DIVISION OF ECONOMIC CONTAINMENT</text>
+    <text x="562" y="392" font-size="34" fill="#8ba07c">One score for U.S. economic stress,</text>
+    <text x="562" y="438" font-size="34" fill="#8ba07c">computed from public data.</text>
+    <text x="562" y="524" font-size="22" fill="#708363" letter-spacing="3">⚠ PLEASE DO NOT TAP THE GLASS</text>
+  </g>
+</svg>

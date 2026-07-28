@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- the Jar, master glyph — lid, neck, glass, ooze at today's brand level -->
+  <rect x="12" y="4" width="40" height="10" rx="3" fill="#2a3524" stroke="#6d8a45" stroke-width="1.5"/>
+  <rect x="17" y="14" width="30" height="5" fill="#141b10" stroke="#6d8a45" stroke-width="1"/>
+  <path d="M15 19 h34 v27 a13 13 0 0 1 -13 13 h-8 a13 13 0 0 1 -13 -13 z"
+        fill="#0e150c" stroke="#6d8a45" stroke-width="1.5"/>
+  <path d="M17 36 h30 v10 a11 11 0 0 1 -11 11 h-8 a11 11 0 0 1 -11 -11 z" fill="#a3ff12"/>
+  <circle cx="26" cy="46" r="2.2" fill="#e6ffc0" opacity=".75"/>
+  <circle cx="37" cy="52" r="1.5" fill="#e6ffc0" opacity=".6"/>
+  <rect x="19" y="22" width="4" height="24" rx="2" fill="#ffffff" opacity=".12"/>
+</svg>
