@@ -38,17 +38,19 @@ node scripts/release-gate.js --prepare
 
 ## Hosted release criteria
 
-These remain pending until the release candidate is pushed and exercised on GitHub:
+Hosted verification began on July 28, 2026. Release commit `894e9c9` and the
+subsequent hosted freshness commit `73de860` are the verified production chain.
 
-- [ ] GitHub Actions accepts the workflow and permissions
-- [ ] Manual `workflow_dispatch` completes successfully
-- [ ] OOZEBOT either commits one internally consistent specimen or reports no new data
-- [ ] GitHub Pages serves the same score, month, fingerprint, report, newsletter, RSS, and methodology version as localhost
-- [ ] Production header reports `LIVE`
-- [ ] Production permalinks and feed links resolve
+- [x] GitHub Actions accepts the workflow and requested permissions
+- [x] Manual `workflow_dispatch` run `30353102637` completed successfully
+- [x] OOZEBOT committed one internally consistent freshness specimen as `73de860`
+- [x] GitHub Pages deployment `30353128217` completed successfully
+- [x] Production serves June 2026 at 27/100 with methodology v2.0.0 and the canonical schema-v2 fingerprint
+- [x] Production header reports `LIVE`
+- [x] Production report permalink, feed, methodology page, archive, and raw specimen resolve
 - [ ] Failure alert can open or update one issue without duplication
 - [ ] A subsequent successful run closes the standing failure issue
-- [ ] Rollback command path is available to the operator
+- [x] Rollback command path is available to the operator
 
 ## Release rule
 
