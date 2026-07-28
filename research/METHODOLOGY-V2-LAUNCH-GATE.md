@@ -13,7 +13,7 @@ node scripts/release-gate.js --prepare
 
 ## Local release criteria
 
-- [x] All focused tests green: **37 passed, 0 failed**
+- [x] All focused tests green: **39 passed, 0 failed**
 - [x] Live official-source collection completed
 - [x] Numerical integrity gate passed: GFC peak 90; calm floor 10; headline 27
 - [x] Historical revision set recorded once; repeat runs do not duplicate the event

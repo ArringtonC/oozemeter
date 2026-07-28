@@ -22,7 +22,7 @@ function fixture(){
     methodology:{version:'2.0.0'},sources:{ICSA:{fingerprint:'b'.repeat(64)}},
     output:{historyFingerprint:collectionFingerprint(history)}}));
   write('data/editorial.json',JSON.stringify({month:'2026-06',generated:latest.generated,newsletter:'OOZE LEVEL: 27/100',articleSlug:'ooze-report-2026-06'}));
-  write('index.html','<a href="policies.html">Policies</a><span id="heroScore">27</span><script src="data/latest.js"></script>');
+  write('index.html','<title>OOZEMeter — Ooze Level 27/100 (Sticky) · June 2026</title><a href="policies.html">Policies</a><span id="heroScore">27</span><script src="data/latest.js"></script>');
   write('policies.html','<b>v2.0.0</b><a href="index.html">Home</a>');
   write('archive.html','Comparable methodology-v2 history begins in 2003. Ex-post reconstruction using latest revised observations.');
   write('feed.xml','<title>Ooze Level June 2026: 27/100</title><link href="https://arringtonc.github.io/oozemeter/article.html?a=ooze-report-2026-06"/>');
@@ -46,6 +46,24 @@ test('release inspector rejects editorial and homepage score drift',()=>{
     const failures=inspectRelease(root).join('\n');
     assert.match(failures,/newsletter.*27\/100/i);
     assert.match(failures,/homepage.*27/i);
+  }finally{fs.rmSync(root,{recursive:true,force:true})}
+});
+
+test('release inspector rejects homepage month drift',()=>{
+  const root=fixture();
+  try{
+    const indexPath=path.join(root,'index.html');
+    fs.writeFileSync(indexPath,fs.readFileSync(indexPath,'utf8').replace('June 2026','May 2026'));
+    assert.match(inspectRelease(root).join('\n'),/homepage month.*June 2026/i);
+  }finally{fs.rmSync(root,{recursive:true,force:true})}
+});
+
+test('release inspector rejects feed month drift',()=>{
+  const root=fixture();
+  try{
+    const feedPath=path.join(root,'feed.xml');
+    fs.writeFileSync(feedPath,fs.readFileSync(feedPath,'utf8').replace('June 2026','May 2026'));
+    assert.match(inspectRelease(root).join('\n'),/feed month.*June 2026/i);
   }finally{fs.rmSync(root,{recursive:true,force:true})}
 });
 

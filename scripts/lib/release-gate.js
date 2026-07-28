@@ -4,6 +4,7 @@ const {collectionFingerprint}=require('./fingerprint');
 
 function inspectRelease(root){
   const failures=[];
+  const escapeRegExp=value=>String(value).replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
   const read=file=>{
     try{return fs.readFileSync(path.join(root,file),'utf8')}
     catch{return null}
@@ -58,12 +59,16 @@ function inspectRelease(root){
 
   const index=read('index.html');
   if(index==null)failures.push('homepage is missing');
-  else if(!new RegExp(`id=["']heroScore["'][^>]*>${score}<`).test(index))failures.push(`homepage does not contain canonical score ${score}`);
+  else{
+    if(!new RegExp(`id=["']heroScore["'][^>]*>${score}<`).test(index))failures.push(`homepage does not contain canonical score ${score}`);
+    if(!new RegExp(`<title>[^<]*${escapeRegExp(latest.monthLabel)}</title>`).test(index))failures.push(`homepage month does not match current specimen ${latest.monthLabel}`);
+  }
 
   const feed=read('feed.xml');
   if(feed==null)failures.push('RSS/Atom feed is missing');
   else{
     if(!feed.includes(`${score}/100`))failures.push(`RSS/Atom feed does not contain canonical score ${score}/100`);
+    if(!feed.includes(`<title>Ooze Level ${latest.monthLabel}: ${score}/100`))failures.push(`feed month does not match current specimen ${latest.monthLabel}`);
     if(editorial?.articleSlug&&!feed.includes(`article.html?a=${editorial.articleSlug}`))failures.push('RSS/Atom feed does not contain the flagship report permalink');
   }
 
