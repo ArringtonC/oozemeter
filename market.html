@@ -37,7 +37,8 @@
         <div class="big-score" style="font-size:clamp(2.6rem,7vw,3.8rem)"><span id="mktScore">—</span><small>/100</small></div>
         <div class="status-row" style="justify-content:flex-start"><div class="status-chip" id="mktBand">OFFLINE</div></div>
         <div class="verdict" id="mktCompare" style="max-width:44ch"></div>
-        <div class="ward-note">⚠ Experimental instrument · provisional calibration · <b>does not fill the household jar</b></div>
+        <div class="ward-note">⚠ Experimental instrument · <b>does not fill the household jar</b></div>
+        <div class="ward-hist" id="wardHist"></div>
       </div>
     </div>
 
@@ -56,7 +57,7 @@
     <h2 style="margin-top:0">What this ward is — and is not</h2>
     <p>Ward M is an <strong>experimental market-stress instrument</strong>, opened after the facility's market-signal review. It exists because financial conditions have historically <em>led</em> household pressure by months — the plumbing breaks before the kitchen sink stops working — but it also cries wolf: markets have panicked plenty of times while households stayed fine. So the ward is kept in a separate wing, on its own scale, with its own seal. <strong>Nothing here changes the Ooze Score.</strong></p>
     <p>The sensors were chosen by translating a market watchlist — sector funds, homebuilder stocks, industrial names, treasury yields — into their <strong>official public-data equivalents</strong>. Ticker and index prices can't be republished by a free public site (exchange and index licensing), and a government-measured series usually tells the same sector's story with cleaner provenance: the homebuilder stocks become Census building permits; the transports fund becomes the DOT freight index; the industrial names become Federal Reserve industrial production.</p>
-    <p>The composite is the plain average of the eight weighted sensors, and the calibration is <strong>provisional</strong> — anchors are published in <a href="data/market.json">data/market.json</a> and the collector source, and they will be re-anchored once the ward has lived through a real tightening episode. The Speculative sensor (bitcoin drawdown) is auxiliary: watched, zero weight.</p>
+    <p>The composite is the average of the eight weighted sensors, <strong>calibrated to the ward's own 2007–present history on the same doctrine as the jar</strong>: the ward's calmest month reads 10, its 2009 crisis peak reads 90. The two instruments share no data and genuinely disagree when history disagrees — the ward screamed through 2020 and late 2022 while the household jar stayed comparatively calm, which is the divergence this wing exists to show. Sensor anchors remain <strong>provisional</strong> (published in <a href="data/market.json">data/market.json</a> and the collector source) and will be revisited after the ward's first live tightening episode. The Speculative sensor (bitcoin drawdown) is auxiliary: watched, zero weight.</p>
     <p>The full decision record — why the market is displayed beside the jar rather than blended into it, four backtested studies included — is public in the <a href="https://github.com/ArringtonC/oozemeter/blob/main/research/market-signal-review-2026-07-28.md" target="_blank" rel="noopener">market-signal review</a>. The Credit &amp; Funding sensor (Chicago Fed NFCI) is the designated bridge for methodology v3, which will add it to the flagship at 3% under the disclosures recorded there.</p>
   </div>
 </section>
@@ -90,6 +91,15 @@ if(MD){
       !hb&&mb?`Markets are calm while households carry ${TODAY_SCORE} oz of pressure — the divergence this facility exists to show.`:
       hb&&!mb?`Market stress at ${MD.score} while households hold at ${TODAY_SCORE}. Financial tightening has historically preceded household pressure — but not always.`:
       `Both wings under pressure: households ${TODAY_SCORE}, markets ${MD.score}.`;
+  }
+
+  /* same months, two instruments — ward side from frozen backtest constants,
+     jar side looked up live from HISTORY (no hand-written numbers) */
+  if(MD.calibration&&MD.calibration.episodes){
+    const jarAt=m=>{const[y,mo]=m.split('-').map(Number);const t=y+(mo-1)/12;
+      const hit=HISTORY.find(([tt])=>Math.abs(tt-t)<0.001);return hit?hit[1]:'—'};
+    $('wardHist').innerHTML='<b>Same month, two instruments:</b> '+
+      MD.calibration.episodes.map(e=>`${e.name} — ward <b>${e.score}</b> / jar <b>${jarAt(e.month)}</b>`).join(' · ');
   }
 
   $('wardGrid').innerHTML=Object.entries(MD.sensors).map(([slug,s])=>`

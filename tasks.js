@@ -123,6 +123,7 @@ v5 | Website    | MARKET OOZE (Ward M, market.html): 9 official-series sensors m
 v5 | Data       | scripts/collect-market.js: standalone Ward M collector -> data/market.js|.json (cron wiring awaits data session; rerun manually meanwhile) | done
 v5 | Website    | Sector Watch on Ward M: operator's 11-ETF dashboard (SPY QQQ DIA IWM XLF XLI IYT XLY XLP SMH XLV) grouped by economic role — weekly states + %% moves only, newsroom-style, user-verifiable by ticker, no price data republished | done
 v5 | Data       | scripts/collect-sectors.js: weekly Sector Watch collector -> data/sectors.js|.json (published state rule; breadth = steady/softening/stressed counts) | done
+v5 | Algorithm  | Ward M calibrated to its own history (scripts/backtest-market.js, 2007-present): calm=10, GFC peak=90, a/b frozen into the collector; episode peaks (COVID 74 vs jar 41, 2022 59 vs 24) rendered on-page from data | done
 v5 | Algorithm  | METHODOLOGY v3 (SEQUENCED AFTER Ward M live experience): Financial Conditions (NFCI) enters the flagship at 3% — spec in research/METHODOLOGY-V3-SPEC.md, implementation = data session | todo
 v5 | Trust      | v3 disclosure copy (notes + policies + revision record #2): GFC-calibrated bet stated plainly, studies linked — BLOCKS first v3 publish | todo
 v5 | Website    | lab.js WEIGHTS + INDICATORS entry for the financial line; notes.html formula update (after data session ships v3) | todo

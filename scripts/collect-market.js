@@ -104,6 +104,19 @@ const SENSORS=[
   read:'Risk appetite\'s canary. Auxiliary: watched, zero weight in the composite.'},
 ];
 
+/* frozen from scripts/backtest-market.js (2007-present window):
+   ward calm -> 10, ward GFC peak (2009-03) -> 90. Episode peaks below are
+   backtest constants for the on-page history check; jar-side values are
+   looked up live from lab.js HISTORY. Re-run the backtest to re-freeze. */
+const CAL={a:1.3497,b:-8.7775,rule:'ward calm 2007-present = 10, ward GFC peak = 90',
+  episodes:[
+    {name:'GFC peak',month:'2009-03',score:90},
+    {name:'COVID',month:'2020-04',score:74},
+    {name:'2022 tightening',month:'2022-11',score:59},
+    {name:'Bank stress',month:'2023-03',score:58},
+    {name:'Calmest',month:'2017-10',score:10},
+  ]};
+
 (async()=>{
   const sensors={};const weighted=[];
   for(const s of SENSORS){
@@ -125,9 +138,11 @@ const SENSORS=[
     if(!s.aux)weighted.push(stress);
     console.log(`${s.name.padEnd(16)} ${s.fmt(val).padStart(8)}  stress ${String(stress).padStart(3)}  (${k})${s.aux?'  AUX':''}`);
   }
-  const score=Math.round(weighted.reduce((a,b)=>a+b,0)/weighted.length);
-  const payload={generated:new Date().toISOString(),score,
-    calibrationStatus:'experimental-provisional',
+  const raw=weighted.reduce((a,b)=>a+b,0)/weighted.length;
+  const score=Math.round(Math.max(0,Math.min(100,CAL.a*raw+CAL.b)));
+  const payload={generated:new Date().toISOString(),score,raw:+raw.toFixed(2),
+    calibration:CAL,
+    calibrationStatus:'calibrated-to-own-history; anchors provisional',
     note:'Ward M measures market/financial-system stress from official public series. It is not household pressure and does not affect the Ooze Score.',
     sensors};
   fs.writeFileSync('data/market.js','window.MARKET_DATA='+JSON.stringify(payload)+';\n');
