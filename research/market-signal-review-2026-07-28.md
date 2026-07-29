@@ -198,3 +198,12 @@ data; it is a calibrated bet that the next household crisis is credit-driven lik
 call: (a) ship 3% as methodology v3 with that disclosure stated plainly, or
 (b) run the zero-weight auxiliary line first — 12+ months of live observation is
 the only way to obtain the out-of-sample evidence the backtest cannot provide.
+
+**Decision (operator + advisor, 2026-07-28): Path B adopted.** Ship the prominent
+zero-weight Financial Conditions panel; flagship weights untouched.
+**Reserved candidate — 3% NFCI:** in historical testing, the lowest weight that
+materially advanced escalation during the 2007-2009 credit crisis without producing
+unexplained score movements; benefit did not persist outside that episode, so it
+remains unweighted pending live evidence. **Revisit criterion (event-based):** at
+least 12 months of live aux observation AND one meaningful tightening cycle or
+sustained divergence episode — calm months alone teach nothing.
