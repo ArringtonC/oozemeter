@@ -84,3 +84,21 @@ Reference: the AI-SEO daily-content system (trending topics → grounded article
 - ✅ Historical research with NBER dates (`research/HISTORY.md`)
 - ✅ Real FRED backtest, 2000→present, published anchors (`scripts/backtest.js`) — real current reading ≈ 35
 - ✅ The Cascade definition + OOZEMAXING breadth condition, data-verified
+
+## Ward M — parked sensors (2026-07-28, operator: "too much data right now")
+
+Removed from the Market Ooze composite to keep the ward readable. Anchors
+preserved here to resurrect without re-research; each was live and working
+in commit b1f1279.
+
+| Sensor | Series | Transform | Anchors (value → stress) |
+|---|---|---|---|
+| Builders | PERMIT (Census/HUD) | permits YoY % | -55→100, -40→90, -25→75, -10→55, 0→30, +10→10 |
+| Industry | INDPRO (Fed Board) | industrial production YoY % | -15→100, -10→90, -5→75, -2→55, 0→35, +2→20, +4→10 |
+| Freight | TSIFRGHT (DOT BTS) | freight index YoY % | -15→100, -10→90, -5→70, -2→50, 0→35, +2→22, +5→10 |
+| Speculative (aux) | CBBTCUSD (Coinbase) | BTC drawdown from peak % | 0→5, 20→20, 40→45, 60→70, 80→90, 95→100 |
+
+Re-add condition: when the ward earns a deeper "all gauges" view (or the
+composite proves too narrow in a live episode), restore into both
+scripts/collect-market.js and scripts/backtest-market.js, then re-freeze
+calibration.

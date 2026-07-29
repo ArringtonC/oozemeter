@@ -336,6 +336,12 @@ section{padding:74px 0;border-bottom:1px solid var(--line)}
 .sw-pct{font-family:var(--display);font-weight:700;font-size:.74rem;text-align:right}
 .sw-pct small{color:var(--dim);font-weight:400;font-family:var(--mono)}
 .sw-note{font-size:.68rem;color:var(--dim);line-height:1.7;margin-top:16px;max-width:76ch}
+.ward-under{margin-top:34px;border:1px solid var(--line);border-radius:12px;background:var(--panel);padding:4px 18px 14px}
+.ward-under summary{cursor:pointer;list-style:none;padding:12px 0;font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.ward-under summary::-webkit-details-marker{display:none}
+.ward-under summary::before{content:"▸ ";color:var(--ooze)}
+.ward-under[open] summary::before{content:"▾ "}
+.ward-under summary:hover{color:var(--ooze)}
 
 
 .cine{opacity:0;transform:translateY(14px);animation:cineIn .9s var(--ease) forwards;animation-play-state:paused}

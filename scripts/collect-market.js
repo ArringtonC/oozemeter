@@ -1,28 +1,24 @@
 #!/usr/bin/env node
-/* WARD M — Market Ooze collector (standalone; touches no household pipeline).
-   Nine market/financial-system sensors, every one an official public series,
-   mapped from the operator's sector watchlist to licensing-clean equivalents:
+/* WARD M — Market Ooze collector v2 (standalone; touches no household pipeline).
+   Slimmed per operator (2026-07-28): six gauges.
 
-     watchlist intent          sensor        series      (publisher via FRED)
-     US02Y/US10Y/US30Y      →  rates         T10Y3M      Treasury/Board
-     VIX                    →  volatility    VIXCLS      Cboe (citation)
-     XLF / credit           →  credit        NFCI        Chicago Fed
-     USO/CL1!/XLE           →  energy        DCOILWTICO  EIA
-     ITB/XHB/LEN/DHI/NVR    →  builders      PERMIT      Census/HUD
-     ###MANUFACTURING block →  industry      INDPRO      Fed Board
-     IYT                    →  freight       TSIFRGHT    DOT BTS
-     UUP                    →  dollar        DTWEXBGS    Fed Board
-     GBTC                   →  speculative   CBBTCUSD    Coinbase (aux, 0-weight)
+     rates       T10Y3M      Treasury/Board    yield-curve inversion
+     volatility  VIXCLS      Cboe via FRED     option-market fear
+     credit      NFCI        Chicago Fed       the methodology-v3 bridge
+     energy      DCOILWTICO  EIA               WTI crude
+     dollar      DTWEXBGS    Fed Board         broad dollar YoY
+     breadth     Sector Watch (data/sectors.json) — share of the 11 quoted
+                 sectors weakening; the gauge that lets a -13% sector week
+                 move this score
 
-   Raw ticker/ETF prices (SPY, CAT, LEN…) are NOT used: index and exchange data
-   can't be republished by a free public site (see market-signal review).
+   Parked (anchors preserved in improvements.md): builders PERMIT,
+   industry INDPRO, freight TSIFRGHT, speculative CBBTCUSD.
 
-   Composite = mean of the eight weighted sensors (equal weights, PROVISIONAL).
-   Ward M is an experimental instrument: separate from the Ooze Score, measures
-   market/financial-system stress, NOT household pressure.
+   Calibration frozen from scripts/backtest-market.js (2007-present):
+   ward calm → 10, ward GFC peak → 90. Re-run the backtest to re-freeze.
 
-   Run: node scripts/collect-market.js   → data/market.js + data/market.json
-   Daily cron wiring belongs to the data session's workflow batch. */
+   Run order (weekly): node scripts/collect-sectors.js  (breadth input)
+                       node scripts/collect-market.js   → data/market.js|.json */
 const fs=require('fs');
 
 const fred=id=>`https://fred.stlouisfed.org/series/${id}`;
@@ -55,7 +51,17 @@ const last=m=>Object.keys(m).sort().pop();
 const prevKey=k=>{const[y,mo]=k.split('-').map(Number);return `${mo===1?y-1:y}-${String(mo===1?12:mo-1).padStart(2,'0')}`};
 const yoy=(m,k)=>{const p=m[`${+k.slice(0,4)-1}${k.slice(4)}`];return p?((m[k]-p)/p*100):null};
 
-/* provisional anchors — every sensor 0-100, direction = market stress */
+/* frozen from scripts/backtest-market.js (6-gauge composite, 2007-present) */
+const CAL={a:1.4025,b:-7.0116,rule:'ward calm 2007-present = 10, ward GFC peak = 90',
+  episodes:[
+    {name:'GFC peak',month:'2008-11',score:90},
+    {name:'Euro stress',month:'2011-09',score:61},
+    {name:'COVID',month:'2020-03',score:71},
+    {name:'2022 tightening',month:'2022-09',score:76},
+    {name:'Bank stress',month:'2023-02',score:60},
+    {name:'Calmest',month:'2017-09',score:10},
+  ]};
+
 const SENSORS=[
  {slug:'rates',name:'Rates',emoji:'🏛',seriesId:'T10Y3M',publisher:'U.S. Treasury via Federal Reserve Board',
   metric:'10-year minus 3-month Treasury spread, monthly mean (pp)',
@@ -77,75 +83,52 @@ const SENSORS=[
   anchors:[[40,10],[60,25],[80,50],[100,75],[130,95],[160,100]],
   value:(m,k)=>m[k],fmt:v=>`$${v.toFixed(0)}`,
   read:'Expensive oil squeezes everything that moves. The upstream cousin of the gas-price line.'},
- {slug:'builders',name:'Builders',emoji:'🏗',seriesId:'PERMIT',publisher:'U.S. Census Bureau / HUD',
-  metric:'Building permits, year-over-year %',
-  anchors:[[-55,100],[-40,90],[-25,75],[-10,55],[0,30],[10,10]],
-  value:yoy,fmt:v=>`${v>=0?'+':''}${v.toFixed(1)}%`,
-  read:'Permits fall before construction jobs do. The homebuilder tickers\' public-data twin.'},
- {slug:'industry',name:'Industry',emoji:'🏭',seriesId:'INDPRO',publisher:'Federal Reserve Board',
-  metric:'Industrial production, year-over-year %',
-  anchors:[[-15,100],[-10,90],[-5,75],[-2,55],[0,35],[2,20],[4,10]],
-  value:yoy,fmt:v=>`${v>=0?'+':''}${v.toFixed(1)}%`,
-  read:'Realized factory output — the industrial watchlist block without the tickers.'},
- {slug:'freight',name:'Freight',emoji:'🚚',seriesId:'TSIFRGHT',publisher:'U.S. DOT Bureau of Transportation Statistics',
-  metric:'Freight Transportation Services Index, year-over-year %',
-  anchors:[[-15,100],[-10,90],[-5,70],[-2,50],[0,35],[2,22],[5,10]],
-  value:yoy,fmt:v=>`${v>=0?'+':''}${v.toFixed(1)}%`,
-  read:'If the economy moves, it moves on a truck first. The transports ETF, measured by the government.'},
  {slug:'dollar',name:'Dollar',emoji:'💵',seriesId:'DTWEXBGS',publisher:'Federal Reserve Board',
   metric:'Broad dollar index, year-over-year %',
   anchors:[[-5,10],[0,25],[4,45],[8,65],[12,85],[16,100]],
   value:yoy,fmt:v=>`${v>=0?'+':''}${v.toFixed(1)}%`,
   read:'A surging dollar means global funding stress and pressure on everyone who borrowed in it.'},
- {slug:'speculative',name:'Speculative',emoji:'🧪',seriesId:'CBBTCUSD',publisher:'Coinbase',
-  metric:'Bitcoin drawdown from running peak, %',aux:true,
-  anchors:[[0,5],[20,20],[40,45],[60,70],[80,90],[95,100]],
-  value:'drawdown',fmt:v=>`−${v.toFixed(0)}%`,
-  read:'Risk appetite\'s canary. Auxiliary: watched, zero weight in the composite.'},
 ];
-
-/* frozen from scripts/backtest-market.js (2007-present window):
-   ward calm -> 10, ward GFC peak (2009-03) -> 90. Episode peaks below are
-   backtest constants for the on-page history check; jar-side values are
-   looked up live from lab.js HISTORY. Re-run the backtest to re-freeze. */
-const CAL={a:1.3497,b:-8.7775,rule:'ward calm 2007-present = 10, ward GFC peak = 90',
-  episodes:[
-    {name:'GFC peak',month:'2009-03',score:90},
-    {name:'COVID',month:'2020-04',score:74},
-    {name:'2022 tightening',month:'2022-11',score:59},
-    {name:'Bank stress',month:'2023-03',score:58},
-    {name:'Calmest',month:'2017-10',score:10},
-  ]};
+const BREADTH_ANCHORS=[[0,5],[10,22],[20,40],[35,60],[55,80],[80,100]];
 
 (async()=>{
   const sensors={};const weighted=[];
   for(const s of SENSORS){
     const m=await series(s.seriesId);
-    let k=last(m),val,prevVal;
-    if(s.value==='drawdown'){
-      let peak=0;const ddm={};
-      for(const key of Object.keys(m).sort()){peak=Math.max(peak,m[key]);ddm[key]=(peak-m[key])/peak*100;}
-      val=ddm[k];prevVal=ddm[prevKey(k)];
-    }else{
-      val=s.value(m,k);prevVal=s.value(m,prevKey(k));
-      if(val==null){k=prevKey(k);val=s.value(m,k);prevVal=s.value(m,prevKey(k));}
-    }
+    let k=last(m),val=s.value(m,k),prevVal=s.value(m,prevKey(k));
+    if(val==null){k=prevKey(k);val=s.value(m,k);prevVal=s.value(m,prevKey(k));}
     const stress=Math.round(interp(s.anchors,val));
     const prevStress=prevVal==null?stress:Math.round(interp(s.anchors,prevVal));
     sensors[s.slug]={name:s.name,emoji:s.emoji,value:s.fmt(val),stress,delta:stress-prevStress,
-      asOf:k,aux:!!s.aux,read:s.read,
+      asOf:k,read:s.read,
       source:{publisher:s.publisher,transport:'FRED',seriesId:s.seriesId,metric:s.metric,url:fred(s.seriesId)}};
-    if(!s.aux)weighted.push(stress);
-    console.log(`${s.name.padEnd(16)} ${s.fmt(val).padStart(8)}  stress ${String(stress).padStart(3)}  (${k})${s.aux?'  AUX':''}`);
+    weighted.push(stress);
+    console.log(`${s.name.padEnd(16)} ${s.fmt(val).padStart(8)}  stress ${String(stress).padStart(3)}  (${k})`);
+  }
+  /* breadth — from the Sector Watch weekly collection */
+  let sd=null;try{sd=JSON.parse(fs.readFileSync('data/sectors.json','utf8'))}catch{}
+  if(sd){
+    const b=sd.breadth;
+    const weakness=(0.5*b.softening+b.stressed)/b.total*100;
+    const stress=Math.round(interp(BREADTH_ANCHORS,weakness));
+    sensors.breadth={name:'Breadth',emoji:'📊',value:`${b.total-b.softening-b.stressed}/${b.total} steady`,
+      stress,delta:0,asOf:sd.generated.slice(0,10),
+      read:'How many of the eleven Sector Watch tickers are weakening. One bleeding sector moves this; a broad selloff maxes it.',
+      source:{publisher:'Quoted markets (Sector Watch, weekly)',transport:'derived',seriesId:'SECTOR-BREADTH',
+        metric:`Weakness share: half-weight softening + full-weight stressed over ${b.total} tickers`,url:'market.html'}};
+    weighted.push(stress);
+    console.log(`${'Breadth'.padEnd(16)} ${sensors.breadth.value.padStart(8)}  stress ${String(stress).padStart(3)}  (${sensors.breadth.asOf})`);
+  }else{
+    console.warn('breadth: data/sectors.json missing — run collect-sectors.js first; scoring without it');
   }
   const raw=weighted.reduce((a,b)=>a+b,0)/weighted.length;
   const score=Math.round(Math.max(0,Math.min(100,CAL.a*raw+CAL.b)));
   const payload={generated:new Date().toISOString(),score,raw:+raw.toFixed(2),
     calibration:CAL,
     calibrationStatus:'calibrated-to-own-history; anchors provisional',
-    note:'Ward M measures market/financial-system stress from official public series. It is not household pressure and does not affect the Ooze Score.',
+    note:'Ward M measures market/financial-system stress. It is not household pressure and does not affect the Ooze Score.',
     sensors};
   fs.writeFileSync('data/market.js','window.MARKET_DATA='+JSON.stringify(payload)+';\n');
   fs.writeFileSync('data/market.json',JSON.stringify(payload,null,1)+'\n');
-  console.log(`\nMARKET OOZE (provisional): ${score}/100 · wrote data/market.js + data/market.json`);
+  console.log(`\nMARKET OOZE: ${score}/100 · wrote data/market.js + data/market.json`);
 })();
