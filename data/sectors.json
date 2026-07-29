@@ -1,0 +1,139 @@
+{
+ "generated": "2026-07-29T02:03:29.976Z",
+ "cadence": "weekly",
+ "overall": "SOFTENING",
+ "breadth": {
+  "steady": 8,
+  "softening": 2,
+  "stressed": 1,
+  "total": 11
+ },
+ "note": "Weekly journalistic report of quoted-market changes. Derived states only; no price data archived or republished. Not part of any score. Verify any row against a public quote for its ticker.",
+ "stateRule": "1-month change: >= -2% steady, -2% to -7% softening, below -7% stressed",
+ "groups": [
+  {
+   "name": "Market Indexes",
+   "rows": [
+    {
+     "sym": "SPY",
+     "role": "Broad U.S. market",
+     "state": "steady",
+     "dot": "🟢",
+     "m1": 1.6,
+     "m3": 3.6,
+     "asOf": "2026-07-28"
+    },
+    {
+     "sym": "QQQ",
+     "role": "Technology / growth",
+     "state": "softening",
+     "dot": "🟡",
+     "m1": -4.4,
+     "m3": 1.7,
+     "asOf": "2026-07-28"
+    },
+    {
+     "sym": "DIA",
+     "role": "Blue-chip industrials",
+     "state": "steady",
+     "dot": "🟢",
+     "m1": 1.8,
+     "m3": 7.1,
+     "asOf": "2026-07-28"
+    },
+    {
+     "sym": "IWM",
+     "role": "Small caps — the Main Street proxy",
+     "state": "softening",
+     "dot": "🟡",
+     "m1": -2.2,
+     "m3": 5.9,
+     "asOf": "2026-07-28"
+    }
+   ]
+  },
+  {
+   "name": "Financial System",
+   "rows": [
+    {
+     "sym": "XLF",
+     "role": "Banks, lending, credit",
+     "state": "steady",
+     "dot": "🟢",
+     "m1": 7.5,
+     "m3": 11.2,
+     "asOf": "2026-07-28"
+    },
+    {
+     "sym": "XLI",
+     "role": "Industrials & business investment",
+     "state": "steady",
+     "dot": "🟢",
+     "m1": 0.7,
+     "m3": 5.8,
+     "asOf": "2026-07-28"
+    },
+    {
+     "sym": "IYT",
+     "role": "Transportation & logistics",
+     "state": "steady",
+     "dot": "🟢",
+     "m1": -0.2,
+     "m3": 6.6,
+     "asOf": "2026-07-28"
+    }
+   ]
+  },
+  {
+   "name": "Consumer",
+   "rows": [
+    {
+     "sym": "XLY",
+     "role": "Discretionary — willingness to spend",
+     "state": "steady",
+     "dot": "🟢",
+     "m1": -1.7,
+     "m3": -4.5,
+     "asOf": "2026-07-28"
+    },
+    {
+     "sym": "XLP",
+     "role": "Staples — defensive spending",
+     "state": "steady",
+     "dot": "🟢",
+     "m1": 2.8,
+     "m3": 5.7,
+     "asOf": "2026-07-28"
+    }
+   ]
+  },
+  {
+   "name": "Innovation",
+   "rows": [
+    {
+     "sym": "SMH",
+     "role": "Semiconductors — capex & AI demand",
+     "state": "stressed",
+     "dot": "🔴",
+     "m1": -13.4,
+     "m3": 4.6,
+     "asOf": "2026-07-28"
+    }
+   ]
+  },
+  {
+   "name": "Defensive",
+   "rows": [
+    {
+     "sym": "XLV",
+     "role": "Healthcare",
+     "state": "steady",
+     "dot": "🟢",
+     "m1": 4.3,
+     "m3": 16.6,
+     "asOf": "2026-07-28"
+    }
+   ]
+  }
+ ]
+}

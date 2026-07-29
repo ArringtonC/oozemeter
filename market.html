@@ -41,7 +41,12 @@
       </div>
     </div>
 
-    <div class="pvJ-label wide" style="margin-top:40px">The Nine Sensors</div>
+    <div class="pvJ-label wide" style="margin-top:40px">Sector Watch — quoted markets, weekly</div>
+    <div class="sw-head" id="swHead"></div>
+    <div class="sw-groups" id="swGroups"></div>
+    <p class="sw-note">Weekly report of quoted-market changes, newsroom-style: states and percent moves only, no price data archived. Every row is verifiable in seconds — look up the ticker anywhere. State rule: 1-month change ≥ −2% 🟢 steady · −2% to −7% 🟡 softening · below −7% 🔴 stressed. Zero weight in any score.</p>
+
+    <div class="pvJ-label wide" style="margin-top:44px">The Nine Sensors</div>
     <div class="ward-grid" id="wardGrid"></div>
   </div>
 </section>
@@ -60,6 +65,7 @@
 
 <script src="data/latest.js"></script>
 <script src="data/market.js"></script>
+<script src="data/sectors.js"></script>
 <script src="lab.js"></script>
 <script>
 renderHeader('');
@@ -102,6 +108,25 @@ if(MD){
     </div>`).join('');
 }else{
   $('mktCompare').textContent='Ward M sensors offline — no market collection yet.';
+}
+
+/* Sector Watch — the operator's ETF dashboard, states + moves only */
+const SD=window.SECTOR_DATA||null;
+if(SD){
+  const b=SD.breadth;
+  $('swHead').innerHTML=`<b>Overall: ${SD.overall}</b> — ${b.steady} steady · ${b.softening} softening · ${b.stressed} stressed <span class="sw-asof">· week of ${SD.generated.slice(0,10)}</span>`;
+  $('swGroups').innerHTML=SD.groups.map(g=>`
+    <div class="sw-group">
+      <div class="sw-gname">${g.name}</div>
+      ${g.rows.map(r=>`
+      <div class="sw-row" title="${r.role} — as of ${r.asOf}">
+        <span class="sw-dot">${r.dot}</span><b class="sw-sym">${r.sym}</b>
+        <span class="sw-role">${r.role}</span>
+        <span class="sw-pct" style="color:${r.m1>=0?'var(--green)':r.m1>=-7?'var(--amber)':'var(--red)'}">${r.m1>=0?'+':''}${r.m1}%<small>/1mo</small></span>
+      </div>`).join('')}
+    </div>`).join('');
+}else{
+  $('swHead').textContent='Sector Watch offline — no weekly collection yet.';
 }
 wireReveals();
 </script>
