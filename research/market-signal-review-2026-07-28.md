@@ -167,3 +167,34 @@ Weighted path (rejected): would require explaining to a reader why the jar moved
 3. Should production collection move from `fredgraph.csv` to the keyed FRED API per FRED's ToU? (Data session's call; flagged.)
 4. Lead-lag study result — does NFCI actually lead *our* household composite? (Determines whether Phase 4 is ever worth revisiting.)
 5. The 58% SCF stock-participation figure and two other minor items are verified only via secondary sources (flagged in the research brief) — re-verify before any public copy cites them.
+
+---
+
+## Addendum (2026-07-28, same day): constrained weight study + GFC-exclusion sensitivity
+
+Operator directed a constrained study: assume a forward-looking Financial Conditions
+component enters the flagship; find the best weight in 1-10%. Results
+(`weight-optimization-study.py`, `gfc-sensitivity-study.py`):
+
+- **Among tested weights and evaluation criteria, 3% (NFCI-only) produced the best
+  tradeoff** — detection benefit (GFC cross-60 one month earlier, six visibly boosted
+  ramp months) turns on at 3%; interpretation holds perfectly (zero confusion months)
+  through 3%; benefit saturates entirely by 5%.
+- **Component design dominates weight choice:** blending VIX ("FC-fast") multiplies
+  false positives ~3-5x (22 vs 8 months at 5%) for marginal detection gain. If anything
+  ships, it is NFCI-only.
+- **COVID early warning is unobtainable at any weight ≤10%** (Feb 2020: +0 everywhere).
+- **GFC-exclusion sensitivity (the advisor's falsifier): FAILED.** Evaluated only on
+  months outside 2007-2010, the component produces ZERO earlier band crossings at 1-5%,
+  +0/+1 at COVID, a slightly NEGATIVE mean contribution during the 2022 tightening year
+  (dilution outweighs signal), and only costs (60% churn, 7 band flips, 2 FPs at 3%).
+  The single ex-GFC "benefit" (one month at the SMOOTH/STICKY line, June 2022) appears
+  only at 7.5-10% and is likely recalibration artifact.
+
+**Conclusion:** the entire measurable benefit of a weighted Financial Conditions
+component lives inside 2007-2009. "3%" is therefore not a general property of the
+data; it is a calibrated bet that the next household crisis is credit-driven like
+2008 rather than exogenous like 2020. The decision is now explicitly a judgment
+call: (a) ship 3% as methodology v3 with that disclosure stated plainly, or
+(b) run the zero-weight auxiliary line first — 12+ months of live observation is
+the only way to obtain the out-of-sample evidence the backtest cannot provide.
