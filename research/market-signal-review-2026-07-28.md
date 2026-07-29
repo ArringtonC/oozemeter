@@ -207,3 +207,11 @@ unexplained score movements; benefit did not persist outside that episode, so it
 remains unweighted pending live evidence. **Revisit criterion (event-based):** at
 least 12 months of live aux observation AND one meaningful tightening cycle or
 sustained divergence episode — calm months alone teach nothing.
+
+**FINAL DECISION (operator, 2026-07-28, supersedes the Path B note above): Path A.**
+Methodology v3 — Financial Conditions (NFCI) enters the flagship at 3%, incumbents
+scaled ×0.97, recalibrated per doctrine, shipped as an explicitly labeled bet on
+credit-driven crises with the full disclosure copy required before first publish.
+Implementation spec: `research/METHODOLOGY-V3-SPEC.md` (data session owns the
+pipeline changes; front-end owns weights display, indicator page, disclosures,
+and editorial).
