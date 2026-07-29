@@ -125,6 +125,16 @@ v5 | Website    | Sector Watch on Ward M: operator's 11-ETF dashboard (SPY QQQ D
 v5 | Data       | scripts/collect-sectors.js: weekly Sector Watch collector -> data/sectors.js|.json (published state rule; breadth = steady/softening/stressed counts) | done
 v5 | Algorithm  | Ward M v2 (operator cut): six gauges — rates, volatility, credit, energy, dollar + BREADTH from Sector Watch (a bleeding sector now moves the score); recalibrated 2007-present (GFC 90, 2022 76, COVID 71, calm 10); builders/industry/freight/BTC parked in improvements.md | done
 v5 | Website    | Ward M page reordered: Sector Watch leads, composite second, gauges collapsed under the hood | done
+v5 | Research   | /teach Rates: what the 10y-3m spread measures, inversion history, false-signal record, reproducible data path | todo
+v5 | Research   | /teach Volatility: what VIX actually prices, spike-vs-follow-through record, complacency reads | todo
+v5 | Research   | /teach Credit & Funding: NFCI's 105 components, revision behavior, why it bridges to methodology v3 | todo
+v5 | Research   | /teach Energy: WTI-to-pump-price transmission, real vs nominal anchoring | todo
+v5 | Research   | /teach Dollar: broad index vs DXY, why a surging dollar equals global funding stress | todo
+v5 | Research   | /teach Sector Watch: what each of the 11 tickers represents, the state-rule thresholds, breadth math | todo
+v5 | Research   | Ward M anchor validation: percentile-check every gauge's provisional anchors against its full history | todo
+v5 | Website    | Gauge files: per-gauge pages for the six ward gauges (why it matters / vs 2008 / FAQ), like the intake lines have | todo
+v5 | Website    | Divergence chart: ward-vs-jar overlay 2007-present from the two backtest histories | todo
+v5 | Content    | OOZEBOT weekly market note: one measured-fact paragraph per Sector Watch collection | todo
 v5 | Algorithm  | METHODOLOGY v3 (SEQUENCED AFTER Ward M live experience): Financial Conditions (NFCI) enters the flagship at 3% — spec in research/METHODOLOGY-V3-SPEC.md, implementation = data session | todo
 v5 | Trust      | v3 disclosure copy (notes + policies + revision record #2): GFC-calibrated bet stated plainly, studies linked — BLOCKS first v3 publish | todo
 v5 | Website    | lab.js WEIGHTS + INDICATORS entry for the financial line; notes.html formula update (after data session ships v3) | todo

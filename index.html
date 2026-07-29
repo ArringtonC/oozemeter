@@ -80,6 +80,9 @@
       <div id="recentFiles"></div>
       <a class="pk-more" href="oozeonomics.html">ALL FILES →</a>
 
+      <div class="file-h">Ward M — Market Wing</div>
+      <div id="wardCard"></div>
+
       <div class="pvJ-railhead" style="margin-top:40px">LEARN MORE ABOUT OOZE</div>
       <div class="rail-accent"></div>
       <div class="pk-learn">
@@ -123,6 +126,8 @@
 
 <script src="data/latest.js"></script>
 <script src="data/editorial.js"></script>
+<script src="data/market.js"></script>
+<script src="data/sectors.js"></script>
 <script src="articles.js"></script>
 <script src="data/auto-articles.js"></script>
 <script src="lab.js"></script>
@@ -275,6 +280,18 @@ $('recentFiles').innerHTML=others.map(a=>{const[cl,cc]=CATL[a.cat]||CATL.manual;
     <div class="fi-meta"><span class="fi-dot" style="background:${cc}"></span>${cl} · ${fdate(a.date)}</div>
     <div class="fi-t">${resolveClaims(a.title)}</div>
   </a>`}).join('');
+
+/* Ward M entry card — live market reading in the rail */
+if(window.MARKET_DATA){
+  const M=window.MARKET_DATA,SW=window.SECTOR_DATA;
+  $('wardCard').innerHTML=`<a class="pk-file" href="market.html">
+    <span class="fico">📊</span>
+    <div class="fi-meta"><span class="fi-dot" style="background:#5fd7ff"></span>MARKET OOZE · EXPERIMENTAL</div>
+    <div class="fi-t">Markets read ${M.score} — ${bandOf(M.score).name}</div>
+    ${SW?`<div class="fi-tease">Sector Watch: ${SW.overall.toLowerCase()} — ${SW.breadth.steady} of ${SW.breadth.total} sectors steady.</div>`:''}
+    <span class="pk-more" style="display:inline-block;margin-top:10px">OPEN THE WARD →</span>
+  </a>`;
+}else{document.querySelectorAll('.file-h')[2].style.display='none'}
 
 /* ============ SHARE ============ */
 const top3=[...INDICATORS].sort((a,b)=>b.contrib-a.contrib).slice(0,3);

@@ -360,6 +360,7 @@ function renderHeader(active){
         <a href="what-is-ooze.html"${act('what')}>What is Ooze?</a>
         <details class="nav-dd"><summary>Indicators</summary><div class="dd-panel">${indLinks}</div></details>
         <a href="oozeonomics.html"${act('news')}>Oozeonomics</a>
+        <a href="market.html"${act('market')}>Markets</a>
         <a href="archive.html"${act('archive')}>Archive</a>
         <details class="nav-dd"><summary>Tools</summary><div class="dd-panel">
           <a href="market.html"><span>📊</span>Market Ooze (Ward M)</a>
@@ -425,6 +426,7 @@ function renderHeader(active){
     ['index.html','🫙','Jar'],
     ['archive.html','📈','Chart'],
     ['what-is-ooze.html','🌊','Ooze?'],
+    ['market.html','📊','Markets'],
     ['personal.html','🧬','My Ooze'],
   ];
   document.body.insertAdjacentHTML('beforeend',`<nav class="tabbar" aria-label="Quick navigation">
