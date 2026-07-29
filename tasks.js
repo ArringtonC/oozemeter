@@ -119,7 +119,9 @@ v5 | Growth     | GA4 event auto-tracker ported from Tryst into lab.js (indicato
 v5 | Growth     | Static per-slug pages: /gas/…/manufacturing/ + /files/<article>/ via scripts/static-pages.js — clean URLs, canonical, per-page meta (rerun after publish; cron wiring awaits data session) | done
 v5 | Growth     | sitemap.xml + robots.txt shipped (Search Console verification still needs operator Google account) | done
 v5 | Brand      | Jar SVG master: favicon.svg + og-card.png on every page; index OG tags stamped fresh by the daily cron | done
-v5 | Algorithm  | METHODOLOGY v3: Financial Conditions (NFCI) enters the flagship at 3%, incumbents x0.97, recalibrated — spec in research/METHODOLOGY-V3-SPEC.md, implementation = data session | todo
+v5 | Website    | MARKET OOZE (Ward M, market.html): 9 official-series sensors mapped from the operator's watchlist (tickers -> licensing-clean twins), provisional composite, divergence line vs the jar, experimental labeling | done
+v5 | Data       | scripts/collect-market.js: standalone Ward M collector -> data/market.js|.json (cron wiring awaits data session; rerun manually meanwhile) | done
+v5 | Algorithm  | METHODOLOGY v3 (SEQUENCED AFTER Ward M live experience): Financial Conditions (NFCI) enters the flagship at 3% — spec in research/METHODOLOGY-V3-SPEC.md, implementation = data session | todo
 v5 | Trust      | v3 disclosure copy (notes + policies + revision record #2): GFC-calibrated bet stated plainly, studies linked — BLOCKS first v3 publish | todo
 v5 | Website    | lab.js WEIGHTS + INDICATORS entry for the financial line; notes.html formula update (after data session ships v3) | todo
 v5 | Content    | OOZEBOT: financial line narrative + divergence sentence (measured-fact language, never forecast) | todo

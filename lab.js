@@ -362,6 +362,7 @@ function renderHeader(active){
         <a href="oozeonomics.html"${act('news')}>Oozeonomics</a>
         <a href="archive.html"${act('archive')}>Archive</a>
         <details class="nav-dd"><summary>Tools</summary><div class="dd-panel">
+          <a href="market.html"><span>📊</span>Market Ooze (Ward M)</a>
           <a href="personal.html"><span>🧬</span>Your Personal Ooze</a>
           <a href="states.html"><span>🗺</span>State Rankings</a>
           <a href="specimen-progress.html"><span>⏳</span>Specimen Progress</a>
@@ -393,6 +394,7 @@ function renderHeader(active){
             ${indLinks}
             <div class="mnav-h">Facility</div>
             <a href="oozeonomics.html"><span>📰</span>Oozeonomics</a>
+            <a href="market.html"><span>📊</span>Market Ooze (Ward M)</a>
             <a href="archive.html"><span>🗄</span>Incident Archive</a>
             <a href="personal.html"><span>🧬</span>Your Personal Ooze</a>
             <a href="states.html"><span>🗺</span>State Rankings</a>
@@ -447,6 +449,7 @@ function renderFooter(){
           <h4>Facility Map</h4>
           <ul>
             <li><a href="archive.html">Incident Archive</a></li>
+            <li><a href="market.html">Market Ooze (Ward M)</a></li>
             <li><a href="personal.html">Personal Ooze</a></li>
             <li><a href="states.html">State Rankings</a></li>
             <li><a href="notes.html">Lab Notes</a></li>

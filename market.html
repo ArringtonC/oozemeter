@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#070b06">
+<title>Market Ooze — Ward M | OOZEMeter</title>
+<meta name="description" content="Ward M: nine market and financial-system sensors — rates, volatility, credit, energy, builders, industry, freight, the dollar — from official public data. Experimental instrument, separate from the Ooze Score.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800;900&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="OOZEMeter">
+<meta property="og:title" content="Market Ooze — Ward M | OOZEMeter">
+<meta property="og:description" content="Ward M: nine market and financial-system sensors from official public data. Experimental instrument, separate from the Ooze Score.">
+<meta property="og:image" content="https://arringtonc.github.io/oozemeter/og-card.png">
+<meta property="og:url" content="https://arringtonc.github.io/oozemeter/market.html">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="lab.css">
+</head>
+<body>
+<div id="page">
+
+<section style="padding-top:34px" id="ward" data-level="2">
+  <div class="wrap">
+    <div class="crumbs" style="padding-bottom:18px"><a href="index.html">Facility</a> / Ward M</div>
+    <div class="sec-label">Ward M — Market Containment Wing <span class="exp-badge">EXPERIMENTAL</span></div>
+    <h1 class="sec-title">Market Ooze</h1>
+    <p class="sec-sub">The main jar measures pressure households feel <em>now</em>. This ward watches the systems that pressure usually travels through first — rates, credit, volatility, energy, builders, freight. Every sensor is an official public series; none of it touches the Ooze Score.</p>
+
+    <div class="ward-hero">
+      <div class="ward-jarbox"><div class="jar mini" id="mktJar" role="img" aria-label="Market containment jar"></div></div>
+      <div class="ward-readout">
+        <div class="kicker" id="mktKicker">Market Stress — Provisional</div>
+        <div class="big-score" style="font-size:clamp(2.6rem,7vw,3.8rem)"><span id="mktScore">—</span><small>/100</small></div>
+        <div class="status-row" style="justify-content:flex-start"><div class="status-chip" id="mktBand">OFFLINE</div></div>
+        <div class="verdict" id="mktCompare" style="max-width:44ch"></div>
+        <div class="ward-note">⚠ Experimental instrument · provisional calibration · <b>does not fill the household jar</b></div>
+      </div>
+    </div>
+
+    <div class="pvJ-label wide" style="margin-top:40px">The Nine Sensors</div>
+    <div class="ward-grid" id="wardGrid"></div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap-narrow prose">
+    <h2 style="margin-top:0">What this ward is — and is not</h2>
+    <p>Ward M is an <strong>experimental market-stress instrument</strong>, opened after the facility's market-signal review. It exists because financial conditions have historically <em>led</em> household pressure by months — the plumbing breaks before the kitchen sink stops working — but it also cries wolf: markets have panicked plenty of times while households stayed fine. So the ward is kept in a separate wing, on its own scale, with its own seal. <strong>Nothing here changes the Ooze Score.</strong></p>
+    <p>The sensors were chosen by translating a market watchlist — sector funds, homebuilder stocks, industrial names, treasury yields — into their <strong>official public-data equivalents</strong>. Ticker and index prices can't be republished by a free public site (exchange and index licensing), and a government-measured series usually tells the same sector's story with cleaner provenance: the homebuilder stocks become Census building permits; the transports fund becomes the DOT freight index; the industrial names become Federal Reserve industrial production.</p>
+    <p>The composite is the plain average of the eight weighted sensors, and the calibration is <strong>provisional</strong> — anchors are published in <a href="data/market.json">data/market.json</a> and the collector source, and they will be re-anchored once the ward has lived through a real tightening episode. The Speculative sensor (bitcoin drawdown) is auxiliary: watched, zero weight.</p>
+    <p>The full decision record — why the market is displayed beside the jar rather than blended into it, four backtested studies included — is public in the <a href="https://github.com/ArringtonC/oozemeter/blob/main/research/market-signal-review-2026-07-28.md" target="_blank" rel="noopener">market-signal review</a>. The Credit &amp; Funding sensor (Chicago Fed NFCI) is the designated bridge for methodology v3, which will add it to the flagship at 3% under the disclosures recorded there.</p>
+  </div>
+</section>
+
+</div><!-- /page -->
+
+<script src="data/latest.js"></script>
+<script src="data/market.js"></script>
+<script src="lab.js"></script>
+<script>
+renderHeader('');
+renderFooter();
+
+const MD=window.MARKET_DATA||null;
+const ward=document.getElementById('ward');
+const mktJar=$('mktJar');
+buildJar(mktJar);
+if(MD){
+  $('mktScore').textContent=MD.score;
+  $('mktBand').textContent=bandOf(MD.score).name;
+  $('mktKicker').textContent=`Market Stress — Provisional · collected ${MD.generated.slice(0,10)}`;
+  mktJar.setAttribute('aria-label',`Market containment jar, level ${MD.score} of 100`);
+  setJar(mktJar,ward,MD.score);
+
+  /* the divergence line — both gauges, measured facts only, no prophecy */
+  if(LIVE){
+    const hb=TODAY_SCORE<=40,mb=MD.score<=40;
+    $('mktCompare').textContent=
+      hb&&mb?`Household jar ${TODAY_SCORE}, market ward ${MD.score} — both wings quiet.`:
+      !hb&&mb?`Markets are calm while households carry ${TODAY_SCORE} oz of pressure — the divergence this facility exists to show.`:
+      hb&&!mb?`Market stress at ${MD.score} while households hold at ${TODAY_SCORE}. Financial tightening has historically preceded household pressure — but not always.`:
+      `Both wings under pressure: households ${TODAY_SCORE}, markets ${MD.score}.`;
+  }
+
+  $('wardGrid').innerHTML=Object.entries(MD.sensors).map(([slug,s])=>`
+    <div class="ward-can${s.aux?' aux':''}">
+      <div class="wc-top"><span class="wc-name">${s.emoji} ${s.name}</span>${s.aux?'<span class="wc-aux" title="Auxiliary — zero weight in the composite">AUX</span>':''}</div>
+      <div class="wc-mid">
+        <span class="can-glass"><i style="height:${s.stress}%;background:linear-gradient(180deg,${LEVELCOLORS[levelOf(s.stress)-1]},rgba(0,0,0,.25) 240%)"></i></span>
+        <div>
+          <div class="wc-val">${s.value}</div>
+          <div class="wc-stress">stress <b>${s.stress}</b> <span style="color:${s.delta>=0?'var(--amber)':'var(--green)'}">${s.delta>=0?'▲':'▼'}${Math.abs(s.delta)}</span></div>
+          <div class="wc-asof">as of ${s.asOf}</div>
+        </div>
+      </div>
+      <p class="wc-read">${s.read}</p>
+      <a class="wc-src" href="${s.source.url}" target="_blank" rel="noopener">${s.source.publisher} · ${s.source.seriesId}</a>
+    </div>`).join('');
+}else{
+  $('mktCompare').textContent='Ward M sensors offline — no market collection yet.';
+}
+wireReveals();
+</script>
+</body>
+</html>
