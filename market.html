@@ -30,12 +30,7 @@
     <h1 class="sec-title">Market Ooze</h1>
     <p class="sec-sub">The main jar measures pressure households feel <em>now</em>. This ward watches the markets first — sector by sector, verifiable ticker by ticker — and distills them into one calibrated score. None of it touches the Ooze Score.</p>
 
-    <div class="pvJ-label wide" style="margin-top:40px">Sector Watch — quoted markets, weekly</div>
-    <div class="sw-head" id="swHead"></div>
-    <div class="sw-groups" id="swGroups"></div>
-    <p class="sw-note">Weekly report of quoted-market changes, newsroom-style: states and percent moves only, no price data archived. Every row is verifiable in seconds — look up the ticker anywhere. State rule: 1-month change ≥ −2% 🟢 steady · −2% to −7% 🟡 softening · below −7% 🔴 stressed. Zero weight in any score.</p>
-
-    <div class="pvJ-label wide" style="margin-top:44px">The Composite — Market Ooze</div>
+    <div class="pvJ-label wide" style="margin-top:40px">The Composite — Market Ooze</div>
     <div class="ward-hero">
       <div class="ward-jarbox"><div class="jar mini" id="mktJar" role="img" aria-label="Market containment jar"></div></div>
       <div class="ward-readout">
@@ -52,6 +47,11 @@
       <summary>Under the hood — the six gauges behind the composite</summary>
       <div class="ward-grid" id="wardGrid" style="margin-top:16px"></div>
     </details>
+
+    <div class="pvJ-label wide" style="margin-top:44px">Sector Watch — quoted markets, weekly</div>
+    <div class="sw-head" id="swHead"></div>
+    <div class="sw-groups" id="swGroups"></div>
+    <p class="sw-note">Weekly report of quoted-market changes, newsroom-style: states and percent moves only, no price data archived. Every row is verifiable in seconds — look up the ticker anywhere. State rule: 1-month change ≥ −2% 🟢 steady · −2% to −7% 🟡 softening · below −7% 🔴 stressed. Zero weight in any score.</p>
   </div>
 </section>
 
@@ -59,7 +59,7 @@
   <div class="wrap-narrow prose">
     <h2 style="margin-top:0">What this ward is — and is not</h2>
     <p>Ward M is an <strong>experimental market-stress instrument</strong>, opened after the facility's market-signal review. It exists because financial conditions have historically <em>led</em> household pressure by months — the plumbing breaks before the kitchen sink stops working — but it also cries wolf: markets have panicked plenty of times while households stayed fine. So the ward is kept in a separate wing, on its own scale, with its own seal. <strong>Nothing here changes the Ooze Score.</strong></p>
-    <p><strong>Sector Watch leads the ward</strong> because it is the part anyone can check: eleven tickers, grouped by what they represent, reported newsroom-style — states and percent moves, never archived price data (exchange and index licensing forbids republishing the prices themselves). The composite's official gauges come from government and Federal Reserve series, so every weighted number still traces to a public publisher.</p>
+    <p><strong>Sector Watch sits under the composite</strong> because it is the part anyone can check: eleven tickers, grouped by what they represent, reported newsroom-style — states and percent moves, never archived price data (exchange and index licensing forbids republishing the prices themselves). The composite's official gauges come from government and Federal Reserve series, so every weighted number still traces to a public publisher.</p>
     <p>The composite is the average of six gauges — rates, volatility, credit &amp; funding, energy, the dollar, and <strong>market breadth from Sector Watch</strong> (so a bleeding sector moves this score) — <strong>calibrated to the ward's own 2007–present history on the same doctrine as the jar</strong>: the ward's calmest month reads 10, its 2009 crisis peak reads 90. The two instruments share no data and genuinely disagree when history disagrees — the ward screamed through 2020 and late 2022 while the household jar stayed comparatively calm, which is the divergence this wing exists to show. Gauge anchors remain <strong>provisional</strong> (published in <a href="data/market.json">data/market.json</a> and the collector source) and will be revisited after the ward's first live tightening episode. Four earlier sensors — builders, industry, freight, and the bitcoin canary — are parked in the improvements ledger to keep the ward readable; their anchors are preserved for when more data earns its place.</p>
     <p>The full decision record — why the market is displayed beside the jar rather than blended into it, four backtested studies included — is public in the <a href="https://github.com/ArringtonC/oozemeter/blob/main/research/market-signal-review-2026-07-28.md" target="_blank" rel="noopener">market-signal review</a>. The Credit &amp; Funding sensor (Chicago Fed NFCI) is the designated bridge for methodology v3, which will add it to the flagship at 3% under the disclosures recorded there.</p>
   </div>
@@ -133,7 +133,7 @@ if(SD){
       <div class="sw-gname">${g.name}</div>
       ${g.rows.map(r=>`
       <div class="sw-row" title="${r.role} — as of ${r.asOf}">
-        <span class="sw-dot">${r.dot}</span><b class="sw-sym">${r.sym}</b>
+        <span class="sw-jar ${r.state}" role="img" aria-label="${r.state}"></span><b class="sw-sym">${r.sym}</b>
         <span class="sw-role">${r.role}</span>
         <span class="sw-pct" style="color:${r.m1>=0?'var(--green)':r.m1>=-7?'var(--amber)':'var(--red)'}">${r.m1>=0?'+':''}${r.m1}%<small>/1mo</small></span>
       </div>`).join('')}
