@@ -1,5 +1,5 @@
 {
- "generated": "2026-07-29T15:33:27.935Z",
+ "generated": "2026-07-30T15:34:48.167Z",
  "methodologyVersion": "2.0.0",
  "month": "2026-06",
  "monthLabel": "June 2026",
@@ -7,11 +7,11 @@
  "prevMonthLabel": "May 2026",
  "ooze": 27,
  "prevOoze": 30,
- "updatedLabel": "June 2026 reading · collected 2026-07-29",
+ "updatedLabel": "June 2026 reading · collected 2026-07-30",
  "collection": {
   "status": "ok",
-  "changed": false,
-  "inputFingerprint": "9defade5dced898634b6f636f318785c18d019805685fcb721d8cfb121695a45",
+  "changed": true,
+  "inputFingerprint": "8b6da2f62bb05d1701223a0cdff16512f553bbb56146b3a366dc6a3052169619",
   "fingerprintSchemaVersion": 2,
   "vintageRetentionPolicy": "retain-all-unique-schema-v2-manifests",
   "freshnessStatus": "current",
@@ -116,8 +116,8 @@
    "secondary": {
     "publisher": "U.S. Department of Labor",
     "seriesId": "ICSA",
-    "value": 207500,
-    "asOf": "2026-07-18",
+    "value": 202750,
+    "asOf": "2026-07-25",
     "transform": "trailing four-week mean"
    },
    "stress": 14,
