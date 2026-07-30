@@ -1,7 +1,7 @@
 {
- "generated": "2026-07-29T02:16:08.392Z",
- "score": 32,
- "raw": 28.17,
+ "generated": "2026-07-30T21:46:46.334Z",
+ "score": 38,
+ "raw": 32.17,
  "calibration": {
   "a": 1.4025,
   "b": -7.0116,
@@ -45,13 +45,13 @@
   "rates": {
    "name": "Rates",
    "emoji": "🏛",
-   "value": "0.71pp",
+   "value": "0.72pp",
    "stress": 27,
    "delta": -1,
    "asOf": "2026-07",
    "read": "An inverted curve — short rates above long — has preceded most modern recessions.",
    "source": {
-    "publisher": "U.S. Treasury via Federal Reserve Board",
+    "publisher": "Federal Reserve Board yield inputs via FRED",
     "transport": "FRED",
     "seriesId": "T10Y3M",
     "metric": "10-year minus 3-month Treasury spread, monthly mean (pp)",
@@ -61,11 +61,11 @@
   "volatility": {
    "name": "Volatility",
    "emoji": "🌪",
-   "value": "16.9",
-   "stress": 23,
-   "delta": -4,
+   "value": "17.1",
+   "stress": 24,
+   "delta": -3,
    "asOf": "2026-07",
-   "read": "The option market's 30-day fear gauge. Spikes mark panic; calm can mark complacency.",
+   "read": "The option market's 30-day implied-volatility gauge. Spikes show repricing; low readings alone do not prove complacency.",
    "source": {
     "publisher": "Cboe",
     "transport": "FRED",
@@ -93,9 +93,9 @@
   "energy": {
    "name": "Energy",
    "emoji": "🛢",
-   "value": "$76",
-   "stress": 45,
-   "delta": -11,
+   "value": "$80",
+   "stress": 49,
+   "delta": -7,
    "asOf": "2026-07",
    "read": "Expensive oil squeezes everything that moves. The upstream cousin of the gas-price line.",
    "source": {
@@ -113,7 +113,7 @@
    "stress": 27,
    "delta": 3,
    "asOf": "2026-07",
-   "read": "A surging dollar means global funding stress and pressure on everyone who borrowed in it.",
+   "read": "Rapid broad-dollar appreciation can accompany global funding stress, but is not itself a funding-stress measure.",
    "source": {
     "publisher": "Federal Reserve Board",
     "transport": "FRED",
@@ -125,14 +125,14 @@
   "breadth": {
    "name": "Breadth",
    "emoji": "📊",
-   "value": "8/11 steady",
-   "stress": 37,
+   "value": "5/11 steady",
+   "stress": 56,
    "delta": 0,
-   "asOf": "2026-07-29",
-   "read": "How many of the eleven Sector Watch tickers are weakening. One bleeding sector moves this; a broad selloff maxes it.",
+   "asOf": "2026-07-30",
+   "read": "How many of the eleven Sector Watch tickers are weakening. One weakening ticker proxy moves this; a broad selloff maxes it.",
    "source": {
-    "publisher": "Quoted markets (Sector Watch, weekly)",
-    "transport": "derived",
+    "publisher": "Sector Watch manual proxy panel",
+    "transport": "derived from disclosed quote.close source",
     "seriesId": "SECTOR-BREADTH",
     "metric": "Weakness share: half-weight softening + full-weight stressed over 11 tickers",
     "url": "market.html"

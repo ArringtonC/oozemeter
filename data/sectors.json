@@ -1,139 +1,155 @@
 {
- "generated": "2026-07-29T02:03:29.976Z",
- "cadence": "weekly",
+ "generated": "2026-07-30T21:46:41.687Z",
+ "cadence": "manual; weekly schedule proposed but disabled pending quote-rights clearance",
  "overall": "SOFTENING",
  "breadth": {
-  "steady": 8,
-  "softening": 2,
+  "steady": 5,
+  "softening": 5,
   "stressed": 1,
   "total": 11
  },
- "note": "Weekly journalistic report of quoted-market changes. Derived states only; no price data archived or republished. Not part of any score. Verify any row against a public quote for its ticker.",
- "stateRule": "1-month change: >= -2% steady, -2% to -7% softening, below -7% stressed",
+ "source": {
+  "transport": "Yahoo Finance chart endpoint",
+  "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/{ticker}",
+  "field": "quote.close",
+  "returnBasis": "price return; distributions not reinvested",
+  "windows": "22- and 64-session intervals requiring 23 and 65 valid closes",
+  "timezone": "America/New_York from response metadata",
+  "corporateActions": "provider close-field behavior; split adjustment remains a source risk",
+  "rightsStatus": "unresolved; scheduled publishing disabled pending licensed or explicitly permitted quote source"
+ },
+ "note": "Manual report of derived ETF price-return states. This 11-ticker proxy panel is not direct economic activity or independent sector breadth. No price history is published, but quote rights remain unresolved. Not part of the household score.",
+ "stateRule": "22-session change: >= -2% steady; >= -7% and < -2% softening; < -7% stressed",
  "groups": [
   {
    "name": "Market Indexes",
    "rows": [
     {
      "sym": "SPY",
-     "role": "Broad U.S. market",
+     "role": "U.S. large-cap equities",
      "state": "steady",
      "dot": "🟢",
-     "m1": 1.6,
-     "m3": 3.6,
-     "asOf": "2026-07-28"
+     "m1": 0.1,
+     "m3": 4.2,
+     "asOf": "2026-07-30"
     },
     {
      "sym": "QQQ",
-     "role": "Technology / growth",
+     "role": "Nasdaq-100 non-financial equities",
      "state": "softening",
      "dot": "🟡",
-     "m1": -4.4,
-     "m3": 1.7,
-     "asOf": "2026-07-28"
+     "m1": -5.6,
+     "m3": 4,
+     "asOf": "2026-07-30"
     },
     {
      "sym": "DIA",
-     "role": "Blue-chip industrials",
+     "role": "Thirty price-weighted blue chips",
      "state": "steady",
      "dot": "🟢",
-     "m1": 1.8,
-     "m3": 7.1,
-     "asOf": "2026-07-28"
+     "m1": 0,
+     "m3": 6.1,
+     "asOf": "2026-07-30"
     },
     {
      "sym": "IWM",
-     "role": "Small caps — the Main Street proxy",
+     "role": "U.S. small-cap equities",
      "state": "softening",
      "dot": "🟡",
-     "m1": -2.2,
-     "m3": 5.9,
-     "asOf": "2026-07-28"
+     "m1": -2.1,
+     "m3": 6.8,
+     "asOf": "2026-07-30"
     }
    ]
   },
   {
-   "name": "Financial System",
+   "name": "Financial & Cyclical Equities",
    "rows": [
     {
      "sym": "XLF",
-     "role": "Banks, lending, credit",
+     "role": "S&P 500 financial equities",
      "state": "steady",
      "dot": "🟢",
-     "m1": 7.5,
-     "m3": 11.2,
-     "asOf": "2026-07-28"
+     "m1": 6.1,
+     "m3": 9.9,
+     "asOf": "2026-07-30"
     },
     {
      "sym": "XLI",
-     "role": "Industrials & business investment",
-     "state": "steady",
-     "dot": "🟢",
-     "m1": 0.7,
-     "m3": 5.8,
-     "asOf": "2026-07-28"
+     "role": "S&P 500 industrial equities",
+     "state": "softening",
+     "dot": "🟡",
+     "m1": -2.4,
+     "m3": 4.3,
+     "asOf": "2026-07-30"
     },
     {
      "sym": "IYT",
-     "role": "Transportation & logistics",
-     "state": "steady",
-     "dot": "🟢",
-     "m1": -0.2,
-     "m3": 6.6,
-     "asOf": "2026-07-28"
+     "role": "Listed transportation equities",
+     "state": "softening",
+     "dot": "🟡",
+     "m1": -3.1,
+     "m3": 4.9,
+     "asOf": "2026-07-30"
     }
    ]
   },
   {
-   "name": "Consumer",
+   "name": "Consumer Equities",
    "rows": [
     {
      "sym": "XLY",
-     "role": "Discretionary — willingness to spend",
-     "state": "steady",
-     "dot": "🟢",
-     "m1": -1.7,
-     "m3": -4.5,
-     "asOf": "2026-07-28"
+     "role": "S&P 500 consumer-discretionary equities",
+     "state": "softening",
+     "dot": "🟡",
+     "m1": -4,
+     "m3": -3.9,
+     "asOf": "2026-07-30"
     },
     {
      "sym": "XLP",
-     "role": "Staples — defensive spending",
+     "role": "S&P 500 consumer-staples equities",
      "state": "steady",
      "dot": "🟢",
-     "m1": 2.8,
-     "m3": 5.7,
-     "asOf": "2026-07-28"
+     "m1": 1.3,
+     "m3": 2.9,
+     "asOf": "2026-07-30"
     }
    ]
   },
   {
-   "name": "Innovation",
+   "name": "Industry",
    "rows": [
     {
      "sym": "SMH",
-     "role": "Semiconductors — capex & AI demand",
+     "role": "U.S.-listed semiconductor equities",
      "state": "stressed",
      "dot": "🔴",
-     "m1": -13.4,
-     "m3": 4.6,
-     "asOf": "2026-07-28"
+     "m1": -14.7,
+     "m3": 9.7,
+     "asOf": "2026-07-30"
     }
    ]
   },
   {
-   "name": "Defensive",
+   "name": "Defensive Equities",
    "rows": [
     {
      "sym": "XLV",
-     "role": "Healthcare",
+     "role": "S&P 500 health-care equities",
      "state": "steady",
      "dot": "🟢",
-     "m1": 4.3,
-     "m3": 16.6,
-     "asOf": "2026-07-28"
+     "m1": 1.7,
+     "m3": 13.7,
+     "asOf": "2026-07-30"
     }
    ]
   }
- ]
+ ],
+ "oozebot": {
+  "byline": "OOZEBOT",
+  "cadence": "manual",
+  "asOf": "2026-07-30",
+  "paragraph": "Sector Watch is SOFTENING: 5 of 11 tickers are steady, 5 softening, and 1 stressed. SMH has the weakest 22-session price change at −14.7%; XLF is strongest at +6.1%. These measured states use the published 22-session thresholds and do not affect the household Ooze Score."
+ }
 }
