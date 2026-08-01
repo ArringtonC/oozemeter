@@ -427,8 +427,14 @@ function renderHeader(active){
       if(!d.contains(e.target))d.removeAttribute('open');
     });
   });
-  /* mobile bottom tab bar — app-like reach on every page */
-  const here=location.pathname.split('/').pop()||'index.html';
+  /* mobile bottom tab bar — app-like reach on every page.
+     Active tab follows the renderHeader section key where one maps (so Ward M
+     gauge pages light Markets); otherwise a page belongs to NO tab. Directory
+     pages ship a <base> tag, root pages never do — without that check an empty
+     path tail fell back to index.html and lit the Jar tab falsely. */
+  const TAB_BY_KEY={market:'market.html',what:'what-is-ooze.html',archive:'archive.html',personal:'personal.html'};
+  const tail=location.pathname.split('/').pop();
+  const here=TAB_BY_KEY[active]||(document.querySelector('base')?'':(tail&&tail.endsWith('.html')?tail:'index.html'));
   const tabs=[
     ['index.html','🫙','Jar'],
     ['archive.html','📈','Chart'],
@@ -469,6 +475,7 @@ function renderFooter(){
             <li><a href="notes.html">Lab Notes</a></li>
             <li><a href="about.html">About the Facility</a></li>
             <li><a href="policies.html">Policies & Methodology History</a></li>
+            <li><a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a></li>
           </ul>
         </div>
         <div>

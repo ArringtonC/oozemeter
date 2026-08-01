@@ -39,7 +39,7 @@
         <div class="big-score" style="font-size:clamp(2.6rem,7vw,3.8rem)"><span id="mktScore">37</span><small>/100</small></div>
         <div class="status-row" style="justify-content:flex-start"><div class="status-chip" id="mktBand">STICKY</div></div>
         <div class="verdict" id="mktCompare" style="max-width:44ch"></div>
-        <div class="ward-note">⚠ Experimental instrument · <b>does not fill the household jar</b></div>
+        <div class="ward-note">⚠ Experimental instrument · <b>does not fill the household jar</b> · gauges are monthly means — this score cannot contain today's intraday move</div>
         <div class="ward-hist" id="wardHist"></div>
       </div>
     </div>
@@ -52,7 +52,7 @@
     <div class="pvJ-label wide" style="margin-top:44px">Sector Watch — manual quoted-market specimen</div>
     <div class="sw-head" id="swHead"></div>
     <div class="sw-groups" id="swGroups"></div>
-    <p class="sw-note">Eleven familiar tickers, one question: is weakness narrow or broad? The rule is published and checkable: a fund down less than 2% over ~a month is 🟢 steady, down 2–7% is 🟡 softening, down more than 7% is 🔴 stressed. States and percent moves only — no prices are archived, and this panel is updated manually while data-licensing is being cleared. Zero weight in the household score. <a href="notes.html#ward">Full fine print →</a></p>
+    <p class="sw-note">Eleven familiar tickers, one question: is weakness narrow or broad? The rule is published and checkable, boundaries exact: −2.0% or better over 22 trading sessions is 🟢 steady · below −2.0% through −7.0% is 🟡 softening · below −7.0% is 🔴 stressed. States and percent moves only — no prices are archived, and this panel is updated manually while data-licensing is being cleared, so it refreshes when the operator runs a collection (typically weekly), not on a clock. Zero weight in the household score. <a href="notes.html#ward">Full fine print →</a></p>
     <aside class="market-note" id="marketNote" hidden>
       <div class="market-note-label">OOZEBOT · measured market note</div>
       <p id="marketNoteText"></p>
@@ -61,7 +61,7 @@
     <div class="market-divergence" aria-labelledby="divergenceTitle">
       <div class="pvJ-label wide">Two instruments, one timeline</div>
       <h2 id="divergenceTitle">Ward M vs. the household jar</h2>
-      <p>Exact shared monthly observations from 2007 onward. Missing months remain gaps; neither line is interpolated.</p>
+      <p>Exact shared monthly observations from 2007 onward. Missing months remain gaps; neither line is interpolated. The chart ends at the latest month <em>both</em> instruments have sealed — the hero score above can run a month or two ahead of it.</p>
       <div class="echart-panel divergence-panel">
         <div class="divergence-key" aria-hidden="true"><span class="market-line">Ward M</span><span class="household-line">Household jar</span></div>
         <svg id="divergenceChart" viewBox="0 0 960 340" role="img" aria-label="Monthly Ward M and household Ooze scores from 2007 to the latest exact shared month"></svg>

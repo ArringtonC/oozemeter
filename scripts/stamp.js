@@ -18,7 +18,7 @@ const cap=w=>w[0]+w.slice(1).toLowerCase();
 const s=d.ooze,delta=s-d.prevOoze;
 const deltaTxt=`${delta>=0?'▲ +':'▼ −'}${Math.abs(delta)} VS ${d.prevMonthLabel.toUpperCase()}`;
 const top3=Object.entries(d.lines).sort((a,b)=>b[1].contrib-a[1].contrib).slice(0,3)
-  .map(([k,l])=>`${NAMES[k]||k} +${l.contrib}`).join(' · ');
+  .map(([k,l])=>`${NAMES[k]||k} ${l.contrib} oz`).join(' · ');
 
 let h=fs.readFileSync('index.html','utf8');
 let missing=0;
@@ -45,8 +45,8 @@ sub(/id="plcSealed">[^<]*</,`id="plcSealed">Integrity gate: PASS · fails closed
 sub(/class="specimen-line cine c5">[^<]*<b>[^<]*<\/b>[^<]*</,
   `class="specimen-line cine c5">🧪 Monthly specimen sealed: <b>${d.monthLabel} = ${s}</b> · intake lines refresh as their data releases <`,'specimen line');
 sub(/class="sc-score">\d+<span/,`class="sc-score">${s}<span`,'share score');
-sub(/class="sc-status">[^<]*</,`class="sc-status">${tier(s)}<`,'share status');
-sub(/id="scLine">[^<]*</,`id="scLine">${d.monthLabel}: top pressure — ${top3}<`,'share line');
+sub(/class="sc-status">[^<]*</,`class="sc-status">${band(s)} · ${tier(s)}<`,'share status');
+sub(/id="scLine">[^<]*</,`id="scLine">${d.monthLabel}: biggest pressure sources — ${top3}<`,'share line');
 
 /* ensure feed link + Dataset JSON-LD exist (idempotent inserts) */
 const SITE=require('./lib/site-url');

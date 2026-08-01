@@ -109,8 +109,8 @@
         <div class="sc-alarm">🚨</div>
         <div class="sc-kicker">Ooze Level</div>
         <div class="sc-score">26<span style="font-size:.4em;color:var(--dim)">/100</span></div>
-        <div class="sc-status">🟡 OBSERVATION</div>
-        <div class="sc-line" id="scLine">June 2026: top pressure — Housing +6 · Credit Cards +6 · Auto Loans +5</div>
+        <div class="sc-status">STICKY · 🟡 OBSERVATION</div>
+        <div class="sc-line" id="scLine">June 2026: biggest pressure sources — Housing 6 oz · Credit Cards 6 oz · Auto Loans 5 oz</div>
         <div class="sc-brand">OOZEMETER · Division of Economic Containment</div>
       </div>
       <div>
@@ -303,8 +303,8 @@ if(window.MARKET_DATA){
 const top3=[...INDICATORS].sort((a,b)=>b.contrib-a.contrib).slice(0,3);
 document.querySelector('.sc-score').innerHTML=`${TODAY_SCORE}<span style="font-size:.4em;color:var(--dim)">/100</span>`;
 if(LIVE){
-  document.querySelector('.sc-status').textContent=tierOf(TODAY_SCORE);
-  $('scLine').textContent=`${LD.monthLabel}: top pressure — ${top3.map(x=>`${x.name} +${x.contrib}`).join(' · ')}`;
+  document.querySelector('.sc-status').textContent=`${bandOf(TODAY_SCORE).name} · ${tierOf(TODAY_SCORE)}`;
+  $('scLine').textContent=`${LD.monthLabel}: biggest pressure sources — ${top3.map(x=>`${x.name} ${x.contrib} oz`).join(' · ')}`;
 }else{
   document.querySelector('.sc-status').textContent='⚪ Sensors Offline';
   $('scLine').textContent='The jar is empty until live feeds connect. Watch this space.';
@@ -312,7 +312,7 @@ if(LIVE){
 const reportText=LIVE?
 `🧪 OOZE LEVEL — ${LD.monthLabel.toUpperCase()}: ${TODAY_SCORE}/100 (${bandOf(TODAY_SCORE).name})
 ${TODAY_SCORE-YESTERDAY>=0?'▲ up':'▼ down'} ${Math.abs(TODAY_SCORE-YESTERDAY)} vs ${LD.prevMonthLabel}
-Top pressure: ${top3.map(x=>`${x.name} +${x.contrib}`).join(' · ')}
+Biggest pressure sources: ${top3.map(x=>`${x.name} ${x.contrib} oz`).join(' · ')}
 — OOZEMeter · Division of Economic Containment`:
 `🧪 OOZE LEVEL 0/100 — SENSORS OFFLINE
 The Division of Economic Containment is calibrating its instruments.

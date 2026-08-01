@@ -79,7 +79,8 @@ for(const a of ARTICLES){
 /* --- sitemap --- */
 /* the ?i= / ?a= template pages stay out — their static /slug/ twins are canonical */
 const ROOT=['','what-is-ooze.html','oozeonomics.html','archive.html','notes.html',
-  'personal.html','states.html','specimen-progress.html','policies.html','about.html','market.html'];
+  'personal.html','states.html','specimen-progress.html','policies.html','about.html','market.html',
+  'privacy.html','terms.html'];
 /* Ward M gauge files + academy lessons (public, linked from gauge pages) */
 try{
   for(const g of require('./lib/market-gauge-content')){

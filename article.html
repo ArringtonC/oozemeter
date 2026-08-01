@@ -44,16 +44,13 @@ const [catLabel,catCol]=CATS[a.cat]||CATS.manual;
 document.title=`${resolveClaims(a.title)} — Oozeonomics | OOZEMeter`;
 
 const dateFmt=new Date(a.date+'T12:00').toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
-/* body: paragraphs; "## " lines become h3; the sponsor beaker lands after ¶2 */
-const AD=`<div class="beaker-ad"><div class="ba-jar"><i></i></div>
-  <div><b>Sponsored specimen — slot available</b>
-  <p>One sponsor per article, logo on the beaker. Never on the Jar. Modeled placeholder.</p></div>
-  <span class="ba-tag">AD</span></div>`;
-let bodyHtml='',pCount=0;
+/* body: paragraphs; "## " lines become h3. No ad markup until a real sponsor
+   exists — a fake ad unit on a trust-first site is a lie (board, 2026-08-02);
+   the after-¶2 placement doctrine lives in the ledger for when one does. */
+let bodyHtml='';
 for(const line of a.body){
   if(line.startsWith('## ')){bodyHtml+=`<h3>${resolveClaims(line.slice(3))}</h3>`;continue}
   bodyHtml+=`<p>${resolveClaims(line)}</p>`;
-  if(++pCount===2)bodyHtml+=AD;
 }
 
 const others=ALL_ARTICLES.filter(x=>x.slug!==a.slug).slice(0,3);

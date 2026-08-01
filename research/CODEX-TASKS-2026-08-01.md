@@ -34,6 +34,14 @@ Your call to gate scheduled Yahoo collection was correct. Now resolve it:
 
 `research/market-anchor-validation.md` is a point-in-time report. Add a lightweight way to re-run it (it already exists as `scripts/validate-market-anchors.js`) as part of the monthly cycle, so the "provisional anchors" claim stays backed by a current report. No auto-tuning of anchors — the report is descriptive only (its own preamble says so; keep it that way).
 
+## 5. Breadth delta (small — board catch 2026-08-02)
+
+`sensors.breadth.delta` is hardcoded to 0 in collect-market.js. Compute it against the previous collection's breadth stress (data/market.json before overwrite) so the gauge card's ▲/▼ is real. Guard the first-run case.
+
+## 6. OG-card regeneration in the cron (small)
+
+`scripts/og-cards.js` renders per-page OG cards with the live number via headless Chrome (zero npm deps; ubuntu runners ship Chrome — set CHROME_BIN). Wire it into the daily workflow after stamp.js so link previews never carry a stale score. Currently rerun manually.
+
 ## Not yet — do not start
 
 - **Froth panel** (margin debt / Buffett Z.1 / household equity allocation): triaged and queued in `improvements.md`, sequenced LAST — after v3 and a live episode. Design constraint already recorded: froth ≠ stress, separate panel, never averaged into the composite.

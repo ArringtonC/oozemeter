@@ -38,6 +38,7 @@ const idx=INDICATORS.indexOf(x)+1;
 document.title=`OOZEMeter — ${x.name} | Today's Reading & Stress History`;
 
 const drain=x.dir==='down';
+const LESSONS={gas:'0001-gas-prices.html',housing:'0002-housing.html',credit:'0003-credit-cards.html',auto:'0004-auto-loans.html',jobs:'0005-unemployment.html',inflation:'0006-inflation.html',foreclosures:'0007-foreclosures.html',manufacturing:'0008-manufacturing.html'};
 const lineLive=LIVE&&x.val!=='—'; /* foreclosures/manufacturing stay pending even in LIVE */
 $('main').innerHTML=`
   <div class="localnav">
@@ -75,12 +76,13 @@ $('main').innerHTML=`
   </div>`:''}
   <div class="chart-panel reveal" id="history">
     <h2>Stress History — ${x.name}</h2>
-    <div class="src" style="padding:22px 0 6px">📼 <b>HISTORY FEED — PENDING.</b> This line's real per-line history has not been published yet, so no chart renders here — the facility does not display sketches where data belongs. When the per-line backfill lands (milestone M2), a real chart will draw from the same archive that powers the <a href="archive.html">incident files</a>. Until then, the raw series is public at the source: <a href="${x.source.url}" target="_blank" rel="noopener">${x.source.name}</a>.</div>
+    <div class="src" style="padding:22px 0 6px">📼 <b>HISTORY FEED — PENDING.</b> This line's own multi-decade history hasn't been published here yet, so no chart renders — the facility does not display sketches where data belongs. When the real per-line history is ready, a chart will draw from the same verified archive that powers the <a href="archive.html">incident files</a>. Until then, the raw series is public at the source: <a href="${x.source.url}" target="_blank" rel="noopener">${x.source.name}</a>.</div>
   </div>
 
   <div class="prose reveal" id="why">
     <h2>Why this line matters</h2>
     <p>${x.why}</p>
+    ${LESSONS[x.slug]?`<p><a href="research/lessons/${LESSONS[x.slug]}">🎓 OOZE ACADEMY field training: how this line is measured →</a></p>`:''}
   </div>
 
   <div class="prose reveal" id="vs2008">

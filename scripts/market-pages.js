@@ -47,6 +47,7 @@ function lessonPage(gauge, index) {
   const roster = gauge.roster ? `<h2>4 · Know the eleven proxies</h2><table><thead><tr><th>Ticker</th><th>Role</th></tr></thead><tbody>${gauge.roster.map(([ticker, role]) => `<tr><td><strong>${ticker}</strong></td><td>${escapeHtml(role)}</td></tr>`).join('')}</tbody></table>` : '';
   return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Lesson ${number} — ${escapeHtml(gauge.name)} · OOZEMeter</title><meta name="description" content="Learn the ${escapeHtml(gauge.name)} Ward M gauge, its limits, and reproducible data path."><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"><link rel="stylesheet" href="../assets/course.css"></head><body>
 <header><div class="nav"><div><div class="brand">OOZE<em>ACADEMY</em></div><div class="lesson-id">Ward M field training</div></div><a href="../reference/intake-data-map.html">Data map</a></div></header><main>
+<div class="crumbs"><a href="../../index.html">Facility</a> / <a href="../reference/intake-data-map.html">Academy</a> / Lesson ${number}</div>
 <section class="hero"><div class="eyebrow">Lesson ${number} · ${escapeHtml(gauge.seriesId)}</div><h1>${gauge.emoji} ${escapeHtml(gauge.name)}</h1><p class="lede">${escapeHtml(gauge.lede)}</p><div class="goal"><strong>Tangible win:</strong> Explain what this gauge measures, what it cannot prove, and reproduce the exact Ward M input.</div></section>
 <h2>1 · Know the measurement</h2><div class="grid"><div class="card"><div class="label">Published input</div><div class="metric">${escapeHtml(gauge.seriesId)}</div><p>${escapeHtml(gauge.measurement)}</p></div><div class="card"><div class="label">Release clock</div><div class="metric">${escapeHtml(gauge.release.split(';')[0])}</div><p>Ward M retains the observation period and collection time.</p></div></div>
 <h2>2 · Interpret it without overclaiming</h2><div class="card"><p>${escapeHtml(gauge.interpretation)}</p></div><div class="card warning"><strong>Limits:</strong><p>${escapeHtml(gauge.limits)}</p></div>
@@ -54,7 +55,7 @@ function lessonPage(gauge, index) {
 ${roster}
 <h2>${gauge.roster ? '5' : '4'} · Compare with 2008</h2><div class="card warning"><strong>Historical basis:</strong><p>${escapeHtml(historicalBasis)}</p></div><div class="card"><p>${escapeHtml(gauge.vs2008)}</p></div>
 <h2>${gauge.roster ? '6' : '5'} · Source desk</h2><div class="source-card">${sourceList(gauge.sources)}</div>
-<h2>Course map</h2><div class="course-map">${gauges.map(item => `<a href="${item.lesson}"${item.slug === gauge.slug ? ' aria-current="page"' : ''}>${item.emoji} ${escapeHtml(item.name)}</a>`).join('')}</div>
+<h2>Course map</h2><div class="course-map">${gauges.map(item => `<a href="${item.lesson}"${item.slug === gauge.slug ? ' aria-current="page"' : ''}>${item.emoji} ${escapeHtml(item.name)}</a>`).join('')}<a href="0001-gas-prices.html">🫙 Intake lessons →</a></div>
 <div class="next"><a href="../../market/${gauge.slug}/">Open the public gauge file →</a></div>
 </main><script src="../assets/course.js"></script></body></html>`;
 }
