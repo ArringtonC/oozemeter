@@ -43,10 +43,3 @@ test('daily collection rebuilds divergence after the household history is sealed
   assert.match(workflow, /node scripts\/collect\.js[\s\S]*node scripts\/build-market-divergence\.js[\s\S]*node scripts\/market-integrity\.js/);
   assert.ok(workflow.indexOf('node scripts/build-market-divergence.js') < workflow.indexOf('git commit'));
 });
-
-test('household cycle refreshes and stages descriptive Ward M anchor evidence', () => {
-  assert.match(workflow, /tests\/market-validation\.test\.js/);
-  assert.match(workflow, /node scripts\/build-market-divergence\.js[\s\S]*node scripts\/validate-market-anchors\.js[\s\S]*node scripts\/market-integrity\.js/);
-  assert.doesNotMatch(workflow, /node scripts\/backtest-market\.js/);
-  assert.match(workflow, /git add[^\n]*research\/market-anchor-validation\.json research\/market-anchor-validation\.md/);
-});

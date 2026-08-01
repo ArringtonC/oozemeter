@@ -23,7 +23,6 @@ jobs:
           node --check scripts/collect-sectors.js
           node --check scripts/collect-market.js
           node --check scripts/build-market-divergence.js
-          node --check scripts/validate-market-anchors.js
           node --check scripts/market-integrity.js
       - name: collect complete Ward M specimen
         run: |
@@ -32,14 +31,12 @@ jobs:
       - name: refresh and validate complete Ward M specimen
         run: |
           node scripts/build-market-divergence.js
-          # Descriptive only: reads the committed backtest and never tunes anchors.
-          node scripts/validate-market-anchors.js
           node scripts/market-integrity.js
       - name: commit complete Ward M specimen
         run: |
           git config user.name "oozebot"
           git config user.email "oozebot@users.noreply.github.com"
-          git add data/market.json data/market.js data/sectors.json data/sectors.js data/market-history.json data/market-history.js research/market-anchor-validation.json research/market-anchor-validation.md
+          git add data/market.json data/market.js data/sectors.json data/sectors.js data/market-history.json data/market-history.js
           git diff --cached --quiet && echo "no new market data" && exit 0
           git commit -m "market specimen $(date -u +%F)"
           git push
