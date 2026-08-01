@@ -7,6 +7,33 @@ const {fetchWithRetry} = require('./fetch');
 const NY_FED_IFRAME = 'https://www.newyorkfed.org/householdcredit/hhdc-iframe';
 const NY_FED_ORIGIN = 'https://www.newyorkfed.org';
 const AUTO_30_PLUS_ANCHORS = [[5,5],[6,15],[7,30],[8,50],[9,70],[10,85],[11,95],[12,100]];
+const FINANCIAL_CONDITIONS_ANCHORS = [[-0.7,5],[-0.4,15],[-0.15,30],[0,40],[0.3,55],[0.8,70],[1.5,85],[3,100]];
+const METHODOLOGY_V3_WEIGHTS = Object.freeze({
+  employment: 24.25,
+  housing: 19.40,
+  credit: 19.40,
+  auto: 14.55,
+  gas: 9.70,
+  inflation: 9.70,
+  financial: 3.00,
+});
+
+function interpolateAnchors(anchors, value) {
+  if (!Number.isFinite(value)) throw new Error(`Cannot interpolate non-finite value: ${value}`);
+  if (value <= anchors[0][0]) return anchors[0][1];
+  const last = anchors[anchors.length - 1];
+  if (value >= last[0]) return last[1];
+  for (let index = 0; index < anchors.length - 1; index += 1) {
+    const [x1, y1] = anchors[index];
+    const [x2, y2] = anchors[index + 1];
+    if (value >= x1 && value <= x2) return y1 + (y2 - y1) * (value - x1) / (x2 - x1);
+  }
+  throw new Error(`Unable to interpolate value: ${value}`);
+}
+
+function financialConditionsStress(value) {
+  return interpolateAnchors(FINANCIAL_CONDITIONS_ANCHORS, value);
+}
 
 function decodeXml(value) {
   return String(value)
@@ -188,9 +215,13 @@ function yearOverYear(monthly, month) {
 
 module.exports = {
   AUTO_30_PLUS_ANCHORS,
+  FINANCIAL_CONDITIONS_ANCHORS,
+  METHODOLOGY_V3_WEIGHTS,
   auto30PlusStress,
   discoverNyFedWorkbookUrl,
   fetchNyFedAutoSeries,
+  financialConditionsStress,
+  interpolateAnchors,
   parseNyFedAutoWorkbook,
   parseNyFedAutoWorkbookParts,
   trailingFourWeekByMonth,

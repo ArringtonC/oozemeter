@@ -2,12 +2,30 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 
 const {
+  FINANCIAL_CONDITIONS_ANCHORS,
+  METHODOLOGY_V3_WEIGHTS,
   auto30PlusStress,
   discoverNyFedWorkbookUrl,
   parseNyFedAutoWorkbookParts,
+  financialConditionsStress,
   trailingFourWeekByMonth,
   yearOverYear,
 } = require('../scripts/lib/methodology');
+
+test('methodology v3 weights sum to 100 with Financial Conditions at 3%', () => {
+  assert.equal(Object.values(METHODOLOGY_V3_WEIGHTS).reduce((sum, weight) => sum + weight, 0), 100);
+  assert.equal(METHODOLOGY_V3_WEIGHTS.financial, 3);
+});
+
+test('maps NFCI monthly means through the approved Financial Conditions anchors', () => {
+  assert.deepEqual(FINANCIAL_CONDITIONS_ANCHORS, [
+    [-0.7,5],[-0.4,15],[-0.15,30],[0,40],[0.3,55],[0.8,70],[1.5,85],[3,100],
+  ]);
+  assert.equal(financialConditionsStress(-0.7), 5);
+  assert.equal(financialConditionsStress(0), 40);
+  assert.equal(financialConditionsStress(0.15), 47.5);
+  assert.equal(financialConditionsStress(3), 100);
+});
 
 test('discovers the current NY Fed household-debt data workbook', () => {
   const html = `

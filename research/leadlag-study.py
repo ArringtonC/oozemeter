@@ -7,7 +7,7 @@ stock market is a leading indicator."
 
 Market candidates: SPX drawdown stress (Yahoo, research-only) and NFCI
 stress (Chicago Fed via FRED).  Household composite: the raw weighted
-score from research/backtest-results.json.
+score reconstructed from the canonical v3 backtest and revision record.
 
 corr(market_t, household_{t+k}) for k in -12..+12 months.
 k > 0  →  market today correlates with household stress k months LATER
@@ -16,9 +16,10 @@ Also: 6-month differences (removes the slow GFC hump), an event check on
 every major drawdown episode, and the 0.5-5% weight grid.
 """
 import json,datetime,math,os,urllib.request
+from household_v2_baseline import load_household_v2_baseline
 
 HERE=os.path.dirname(os.path.abspath(__file__))
-bt=json.load(open(os.path.join(HERE,'backtest-results.json')))
+bt=load_household_v2_baseline()
 W=bt['weights'];CAL=bt['calibration']
 months=[r['month'] for r in bt['monthly']]
 house={r['month']:sum(W[k]*r['stresses'][k] for k in W)/100 for r in bt['monthly']}

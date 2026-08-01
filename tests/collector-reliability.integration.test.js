@@ -24,15 +24,15 @@ test('collector reports release state and fingerprints an atomic snapshot', {tim
   collect();
   const second = collect();
   assert.equal(second.collection.status, 'ok');
-  assert.equal(second.collection.fingerprintSchemaVersion, 2);
-  assert.equal(second.collection.vintageRetentionPolicy, 'retain-all-unique-schema-v2-manifests');
+  assert.equal(second.collection.fingerprintSchemaVersion, 3);
+  assert.equal(second.collection.vintageRetentionPolicy, 'retain-all-unique-schema-v3-manifests');
   assert.match(second.collection.inputFingerprint, /^[a-f0-9]{64}$/);
   assert.equal(second.collection.changed, false);
   assert.ok(Object.values(second.lines).every(line => line.updateStatus === 'no-new-release'));
   const vintagePath = path.join(dataDir, 'vintages', `${second.collection.inputFingerprint}.json`);
   assert.ok(fs.existsSync(vintagePath));
   const vintage = JSON.parse(fs.readFileSync(vintagePath, 'utf8'));
-  assert.equal(vintage.fingerprintSchemaVersion, 2);
+  assert.equal(vintage.fingerprintSchemaVersion, 3);
   assert.equal(vintage.retentionPolicy, second.collection.vintageRetentionPolicy);
   assert.equal(vintage.methodology.version, second.methodologyVersion);
   assert.deepEqual(vintage.methodology.calibration, second.calibration);
@@ -40,6 +40,13 @@ test('collector reports release state and fingerprints an atomic snapshot', {tim
   assert.ok(vintage.sources.ICSA.observationCount > 1000);
   assert.match(vintage.sources.NYFED_AUTO_30PLUS.fingerprint, /^[a-f0-9]{64}$/);
   assert.ok(vintage.sources.NYFED_AUTO_30PLUS.observationCount > 90);
+  assert.match(vintage.sources.NFCI.fingerprint, /^[a-f0-9]{64}$/);
+  assert.ok(vintage.sources.NFCI.observationCount > 2500);
+  assert.equal(vintage.sources.NFCI.revisionBaseline.transform, 'calendar-month mean');
+  assert.equal(vintage.sources.NFCI.revisionBaseline.expectedAbsoluteTolerance, 0.02);
+  assert.ok(vintage.sources.NFCI.revisionBaseline.monthlyMeans.length > 600);
+  assert.equal(second.lines.financial.value,
+    vintage.sources.NFCI.revisionBaseline.monthlyMeans.at(-1).value.toFixed(2));
   assert.match(vintage.output.historyFingerprint, /^[a-f0-9]{64}$/);
   assert.equal(fs.readFileSync(canonicalLatestPath, 'utf8'), canonicalBefore);
   fs.rmSync(dataDir, {recursive:true,force:true});

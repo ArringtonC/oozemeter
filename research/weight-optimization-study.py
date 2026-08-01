@@ -30,9 +30,10 @@ Metrics per (design, weight):
       baseline| <= 0 -- the score moved and no household line explains it
 """
 import json,datetime,os,urllib.request
+from household_v2_baseline import load_household_v2_baseline
 
 HERE=os.path.dirname(os.path.abspath(__file__))
-bt=json.load(open(os.path.join(HERE,'backtest-results.json')))
+bt=load_household_v2_baseline()
 W=bt['weights'];CAL=bt['calibration']
 months=[r['month'] for r in bt['monthly']]
 house={r['month']:sum(W[k]*r['stresses'][k] for k in W)/100 for r in bt['monthly']}

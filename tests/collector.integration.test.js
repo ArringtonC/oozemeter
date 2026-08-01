@@ -7,7 +7,7 @@ const {spawnSync} = require('node:child_process');
 
 const repo = path.resolve(__dirname, '..');
 
-test('collector emits methodology v2 values with traceable sources', {timeout: 60000}, () => {
+test('collector emits methodology v3 values with traceable sources', {timeout: 60000}, () => {
   const dataDir = fs.mkdtempSync(path.join(os.tmpdir(), 'oozemeter-collector-'));
   const canonicalPath = path.join(repo, 'data/latest.json');
   const canonicalBefore = fs.readFileSync(canonicalPath, 'utf8');
@@ -20,7 +20,8 @@ test('collector emits methodology v2 values with traceable sources', {timeout: 6
   assert.equal(run.status, 0, run.stderr || run.stdout);
   const payload = JSON.parse(fs.readFileSync(path.join(dataDir, 'latest.json'), 'utf8'));
 
-  assert.equal(payload.methodologyVersion, '2.0.0');
+  assert.equal(payload.methodologyVersion, '3.0.0');
+  assert.equal(payload.collection.fingerprintSchemaVersion, 3);
   const staleLines = Object.entries(payload.lines).filter(([, line]) => line.stale).map(([slug]) => slug);
   assert.deepEqual(payload.collection.staleLines, staleLines);
   assert.equal(payload.collection.freshnessStatus, staleLines.length ? 'degraded' : 'current');
@@ -40,6 +41,13 @@ test('collector emits methodology v2 values with traceable sources', {timeout: 6
   assert.equal(payload.lines.gas.source.publisher, 'U.S. Energy Information Administration');
   assert.equal(payload.lines.gas.source.transport, 'FRED');
   assert.equal(payload.lines.gas.source.seriesId, 'GASREGW');
+  assert.equal(payload.lines.financial.source.publisher, 'Federal Reserve Bank of Chicago');
+  assert.equal(payload.lines.financial.source.transport, 'FRED');
+  assert.equal(payload.lines.financial.source.seriesId, 'NFCI');
+  assert.equal(payload.lines.financial.source.transform, 'calendar-month mean');
+  assert.equal(payload.lines.financial.cadence, 'weekly');
+  assert.equal(payload.lines.financial.contributesToOoze, true);
+  assert.notEqual(payload.lines.financial.calibrationStatus, 'provisional-auxiliary');
   assert.ok(Array.isArray(payload.history));
   assert.ok(payload.history.length > 250);
   assert.ok(payload.history[0][0] >= 2003);

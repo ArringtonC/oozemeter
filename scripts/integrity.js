@@ -7,17 +7,24 @@
       committed version (git show HEAD). Any past-month change >= 1 point is
       logged to data/revisions.json — the site must catch its own number
       changing before a reader does.
-   2. Calibration invariants: GFC peak (mid-2009) must still read 90±2 and the
+   2. Calibration invariants: GFC-window peak must still read 90±2 and the
       calm floor must still sit near 10 — if a source revision breaks the
       ruler, we stop publishing until a human re-certifies it.
    3. Plausibility gate: per-line physical ranges + headline jump limit. A
       shifted spreadsheet column must never publish a confident wrong number. */
 const fs=require('fs');
-const {execSync}=require('child_process');
+const {execFileSync,execSync}=require('child_process');
+
+const NFCI_MONTHLY_REVISION_TOLERANCE=0.02;
 
 const fail=[],warn=[];
 const latest=JSON.parse(fs.readFileSync('data/latest.json','utf8'));
 const history=JSON.parse(fs.readFileSync('data/history.json','utf8'));
+const currentFingerprint=latest.collection?.inputFingerprint;
+let currentVintage=null;
+if(latest.methodologyVersion==='3.0.0'&&/^[a-f0-9]{64}$/.test(currentFingerprint||'')){
+  try{currentVintage=JSON.parse(fs.readFileSync(`data/vintages/${currentFingerprint}.json`,'utf8'))}catch{}
+}
 
 /* ---- 1. revision detector ---- */
 let prevHistory=null,prevLatest=null;
@@ -34,15 +41,58 @@ if(prevHistory){
     const log=fs.existsSync('data/revisions.json')?JSON.parse(fs.readFileSync('data/revisions.json','utf8')):[];
     const duplicate=log.some(entry=>JSON.stringify(entry.changes)===JSON.stringify(changes));
     if(!duplicate){
-      log.push({detected:latest.generated,changes});
+      const record={detected:latest.generated,changes};
+      if(prevLatest?.methodologyVersion&&prevLatest.methodologyVersion!==latest.methodologyVersion){
+        const compared=history.filter(([t])=>prevMap.has(t.toFixed(3))).length;
+        const band=value=>value<=20?1:value<=40?2:value<=60?3:value<=80?4:5;
+        record.type='methodology-recalibration';
+        record.fromMethodologyVersion=prevLatest.methodologyVersion;
+        record.toMethodologyVersion=latest.methodologyVersion;
+        record.summary={
+          monthsCompared:compared,
+          monthsMovedAtLeastOne:changes.length,
+          shareMovedPercent:Number((changes.length/compared*100).toFixed(1)),
+          maxAbsoluteMove:Math.max(...changes.map(change=>Math.abs(change.new-change.old))),
+          bandLabelFlips:changes.filter(change=>band(change.old)!==band(change.new)).length,
+        };
+        record.calibration={from:prevLatest.calibration,to:latest.calibration};
+      }
+      log.push(record);
       fs.writeFileSync('data/revisions.json',JSON.stringify(log,null,1));
     }
     warn.push(`revision: ${changes.length} past month(s) moved >=1pt (${duplicate?'already logged':'logged'} in data/revisions.json)`);
   }
 }
 
+/* NFCI is re-estimated across its entire history each week. Compare the stored
+   monthly-mean baselines between v3 vintages, but ignore either vintage's
+   newest (possibly partial) calendar month. Routine drift at or below 0.02 is
+   expected churn. */
+if(prevLatest?.methodologyVersion==='3.0.0'&&latest.methodologyVersion==='3.0.0'){
+  const previousFingerprint=prevLatest.collection?.inputFingerprint;
+  let previousVintage=null;
+  if(/^[a-f0-9]{64}$/.test(previousFingerprint||'')){
+    try{previousVintage=JSON.parse(execFileSync('git',['show',`HEAD:data/vintages/${previousFingerprint}.json`],{encoding:'utf8'}))}catch{}
+  }
+  const priorMeans=previousVintage?.sources?.NFCI?.revisionBaseline?.monthlyMeans;
+  const nextMeans=currentVintage?.sources?.NFCI?.revisionBaseline?.monthlyMeans;
+  if(Array.isArray(priorMeans)&&Array.isArray(nextMeans)){
+    const priorMap=new Map(priorMeans.map(({month,value})=>[month,value]));
+    const priorNewestMonth=priorMeans.at(-1)?.month;
+    const newestMonth=nextMeans.at(-1)?.month;
+    const outliers=nextMeans.filter(({month,value})=>month!==newestMonth&&month!==priorNewestMonth&&priorMap.has(month)&&
+      Math.abs(value-priorMap.get(month))>NFCI_MONTHLY_REVISION_TOLERANCE+1e-12)
+      .map(({month,value})=>({month,old:priorMap.get(month),new:value,
+        absoluteChange:Math.abs(value-priorMap.get(month))}));
+    if(outliers.length){
+      const largest=Math.max(...outliers.map(item=>item.absoluteChange));
+      warn.push(`NFCI historical revision exceeded ${NFCI_MONTHLY_REVISION_TOLERANCE.toFixed(2)} in ${outliers.length} month(s); max |Δ|=${largest.toFixed(4)}`);
+    }
+  }else warn.push('NFCI historical revision check unavailable: monthly-mean vintage baseline missing');
+}
+
 /* ---- 2. calibration invariants ---- */
-const gfcWin=history.filter(([t])=>t>=2008.5&&t<=2010);
+const gfcWin=history.filter(([t])=>t>=2007&&t<2011);
 const gfcPeak=Math.max(...gfcWin.map(([,v])=>v));
 if(Math.abs(gfcPeak-90)>2)fail.push(`calibration broken: GFC peak reads ${gfcPeak}, expected 90±2`);
 const calmWin=history.filter(([t])=>t>=2003&&t<=2025.99);
@@ -53,12 +103,29 @@ if(Math.abs(calmMin-10)>2)fail.push(`calibration broken: calm floor reads ${calm
 /* physical ranges per line's display value; a value outside these is a parse
    or unit error, not economics */
 const RANGES={gas:[1,8],housing:[1,20],credit:[0,15],auto:[0,15],jobs:[0,30],inflation:[-15,25]};
+if(latest.methodologyVersion==='3.0.0')RANGES.financial=[-1.5,4];
 for(const [k,[lo,hi]] of Object.entries(RANGES)){
   const l=latest.lines[k];
   if(!l){fail.push(`line missing: ${k}`);continue}
   const v=parseFloat(String(l.value).replace(/[^0-9.-]/g,''));
   if(!Number.isFinite(v)||v<lo||v>hi)fail.push(`implausible ${k}: "${l.value}" outside [${lo},${hi}]`);
   if(!(l.stress>=0&&l.stress<=100))fail.push(`stress out of range: ${k}=${l.stress}`);
+}
+if(latest.methodologyVersion==='3.0.0'&&latest.lines.financial){
+  if(latest.lines.financial.contributesToOoze!==true)fail.push('financial line must be weighted in methodology v3');
+  if(!Number.isFinite(latest.lines.financial.delta))fail.push('financial stress delta is missing or non-finite');
+  else if(Math.abs(latest.lines.financial.delta)>30)
+    fail.push(`financial stress jumped ${latest.lines.financial.delta} points — exceeds the 30pt sanity cap`);
+  if(/^[a-f0-9]{64}$/.test(currentFingerprint||'')){
+    const monthlyMeans=currentVintage?.sources?.NFCI?.revisionBaseline?.monthlyMeans;
+    if(!Array.isArray(monthlyMeans))fail.push('financial monthly-mean vintage baseline is missing');
+    else{
+      const invalid=monthlyMeans.find(({month,value})=>month>='2003-01'&&month<=latest.month&&
+        (!Number.isFinite(value)||value<RANGES.financial[0]||value>RANGES.financial[1]));
+      if(invalid)fail.push(`implausible financial monthly mean: ${invalid.month}=${invalid.value} outside [-1.5,4]`);
+      if(!monthlyMeans.some(({month})=>month===latest.month))fail.push(`financial monthly mean for score month ${latest.month} is missing`);
+    }
+  }
 }
 if(!(latest.ooze>=0&&latest.ooze<=100))fail.push(`headline out of range: ${latest.ooze}`);
 /* monthly jump cap: largest genuine jump on record is ~+23 (COVID). 30 means

@@ -7,6 +7,7 @@ const repo = path.resolve(__dirname, '..');
 const lab = fs.readFileSync(path.join(repo, 'lab.js'), 'utf8');
 const archive = fs.readFileSync(path.join(repo, 'archive.html'), 'utf8');
 const index = fs.readFileSync(path.join(repo, 'index.html'), 'utf8');
+const latest = JSON.parse(fs.readFileSync(path.join(repo, 'data/latest.json'), 'utf8'));
 
 test('public labels disclose auxiliary proxies and public manufacturing inputs', () => {
   assert.doesNotMatch(lab, /Demo build: all figures illustrative/);
@@ -45,6 +46,15 @@ test('zero-weight auxiliary sensors are labeled instead of shown as zero pressur
   assert.match(index, /PROVISIONAL AUXILIARY SENSOR.*0-WEIGHT.*DOES NOT ALTER THE OOZE SCORE/);
   assert.match(archive, /y\.contributesToOoze\?`\+\$\{y\.contrib\}`:'AUX'/);
   assert.match(lab, /INDICATORS\.reduce\(\(a,x\)=>a\+x\.contrib,0\)===TODAY_SCORE/);
+});
+
+test('Financial Conditions is a weighted v3 line rather than an auxiliary sensor', () => {
+  assert.equal(latest.methodologyVersion, '3.0.0');
+  const weighted = Object.entries(latest.lines).filter(([, line]) => line.contributesToOoze !== false).map(([slug]) => slug);
+  const auxiliary = Object.entries(latest.lines).filter(([, line]) => line.contributesToOoze === false).map(([slug]) => slug);
+  assert.equal(latest.lines.financial.contributesToOoze, true);
+  assert.ok(weighted.includes('financial'));
+  assert.ok(!auxiliary.includes('financial'));
 });
 
 test('public chrome distinguishes current, degraded, stale, and offline feeds', () => {

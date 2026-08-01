@@ -12,22 +12,25 @@
 const fs=require('fs');
 const path=require('path');
 const {collectionFingerprint}=require('./lib/fingerprint');
-const {fetchWithRetry}=require('./lib/fetch');
-const {parseFredCsv}=require('./lib/fred');
+const {fetchFredSeries}=require('./lib/fred');
 const {
   AUTO_30_PLUS_ANCHORS,
+  FINANCIAL_CONDITIONS_ANCHORS,
+  METHODOLOGY_V3_WEIGHTS,
   auto30PlusStress,
   fetchNyFedAutoSeries,
+  financialConditionsStress,
+  interpolateAnchors,
   trailingFourWeekByMonth,
   yearOverYear,
 }=require('./lib/methodology');
 
 /* frozen calibration — derived once on the 2003-2025 window (backtest.js),
    calm month → 10, GFC peak Jun 2009 → 90. Do not re-derive daily. */
-const CAL={a:1.4209110232483089,b:-24.62145011353958};
-const METHODOLOGY_VERSION='2.0.0';
-const FINGERPRINT_SCHEMA_VERSION=2;
-const VINTAGE_RETENTION_POLICY='retain-all-unique-schema-v2-manifests';
+const CAL={a:1.418684348943213,b:-23.96514845099034};
+const METHODOLOGY_VERSION='3.0.0';
+const FINGERPRINT_SCHEMA_VERSION=3;
+const VINTAGE_RETENTION_POLICY='retain-all-unique-schema-v3-manifests';
 const DATA_DIR=process.env.OOZEMETER_DATA_DIR||'data';
 const dataPath=(...parts)=>path.join(DATA_DIR,...parts);
 
@@ -40,25 +43,26 @@ const ANCHORS={
   cardDelinq:[[1.5,10],[2.5,30],[3.5,50],[5,70],[6.8,90],[9,100]],
   auto30Plus:AUTO_30_PLUS_ANCHORS,
   gasReal:[[2,10],[3,35],[4,60],[5,85],[6.5,100]],
+  financialConditions:FINANCIAL_CONDITIONS_ANCHORS,
 };
 const MANUFACTURING_YOY_ANCHORS=[[-20,100],[-10,85],[-5,65],[0,35],[3,15],[6,5]];
-const WEIGHTS={jobs:25,housing:20,credit:20,auto:15,gas:10,inflation:10};
+const WEIGHTS={
+  jobs:METHODOLOGY_V3_WEIGHTS.employment,
+  housing:METHODOLOGY_V3_WEIGHTS.housing,
+  credit:METHODOLOGY_V3_WEIGHTS.credit,
+  auto:METHODOLOGY_V3_WEIGHTS.auto,
+  gas:METHODOLOGY_V3_WEIGHTS.gas,
+  inflation:METHODOLOGY_V3_WEIGHTS.inflation,
+  financial:METHODOLOGY_V3_WEIGHTS.financial,
+};
 /* quarterly obs are dated at quarter START and publish ~5mo later — a healthy
    feed's oldest normal age is ~240d, so the alarm line sits at 250 */
 const STALE_DAYS={weekly:21,monthly:75,quarterly:250};
 
-function interp(an,x){
-  if(x<=an[0][0])return an[0][1];
-  const l=an[an.length-1];if(x>=l[0])return l[1];
-  for(let i=0;i<an.length-1;i++){const[x1,y1]=an[i],[x2,y2]=an[i+1];
-    if(x>=x1&&x<=x2)return y1+(y2-y1)*(x-x1)/(x2-x1);}
-  return 0;
-}
+const interp=interpolateAnchors;
 
 async function fetchSeries(id){
-  const res=await fetchWithRetry(`https://fred.stlouisfed.org/graph/fredgraph.csv?id=${id}`);
-  if(!res.ok)throw new Error(`${id}: HTTP ${res.status}`);
-  return parseFredCsv(await res.text(),id);
+  return fetchFredSeries(id);
 }
 const ffill=(s,months)=>{const o={};let l=null;for(const m of months){if(s[m]!=null)l=s[m];o[m]=l}return o};
 const writeAtomic=(file,content)=>{
@@ -73,7 +77,7 @@ const writeAtomic=(file,content)=>{
   try{previous=JSON.parse(fs.readFileSync(dataPath('latest.json'),'utf8'))}catch(error){
     if(error.code!=='ENOENT')console.warn(`previous snapshot ignored: ${error.message}`);
   }
-  const ids=['UNRATE','ICSA','CPIAUCNS','MORTGAGE30US','DRSFRMACBS','DRCCLACBS','GASREGW','INDPRO','AMTMNO'];
+  const ids=['UNRATE','ICSA','CPIAUCNS','MORTGAGE30US','DRSFRMACBS','DRCCLACBS','GASREGW','NFCI','INDPRO','AMTMNO'];
   const S={};
   for(const id of ids){S[id]=await fetchSeries(id);process.stdout.write(id+' ')}
   S.ICSA.monthly=trailingFourWeekByMonth(S.ICSA.observations);
@@ -97,9 +101,9 @@ const writeAtomic=(file,content)=>{
   function stressesFor(m){
     const un=S.UNRATE.monthly[m],icsa=S.ICSA.monthly[m],cpi=S.CPIAUCNS.monthly[m];
     const inflationYoY=yearOverYear(S.CPIAUCNS.monthly,m);
-    const mort=S.MORTGAGE30US.monthly[m],gas=S.GASREGW.monthly[m];
+    const mort=S.MORTGAGE30US.monthly[m],gas=S.GASREGW.monthly[m],nfci=S.NFCI.monthly[m];
     const mdel=ff.DRSFRMACBS[m],cdel=ff.DRCCLACBS[m],auto30=ff.NYFED_AUTO_30PLUS[m];
-    if([un,icsa,cpi,inflationYoY,mort,gas,mdel,cdel,auto30].some(v=>v==null))return null;
+    if([un,icsa,cpi,inflationYoY,mort,gas,nfci,mdel,cdel,auto30].some(v=>v==null))return null;
     return{
       jobs:Math.max(interp(ANCHORS.unemployment,un),interp(ANCHORS.claimsK,icsa/1000)),
       inflation:interp(ANCHORS.inflationYoY,inflationYoY),
@@ -107,6 +111,7 @@ const writeAtomic=(file,content)=>{
       credit:interp(ANCHORS.cardDelinq,cdel),
       auto:auto30PlusStress(auto30),
       gas:interp(ANCHORS.gasReal,gas*cpiNow/cpi),
+      financial:financialConditionsStress(nfci),
     };
   }
   const cal=raw=>Math.max(0,Math.min(100,CAL.a*raw+CAL.b));
@@ -150,6 +155,7 @@ const writeAtomic=(file,content)=>{
   const priorManufacturingStress=interp(MANUFACTURING_YOY_ANCHORS,priorIndproYoY);
   const shipmentsMonth=S.AMTMNO.last.date.slice(0,7);
   const shipmentsYoY=yearOverYear(S.AMTMNO.monthly,shipmentsMonth);
+  const nfciMonth=S.NFCI.last.date.slice(0,7);
   const LINES={
     gas:{value:`$${S.GASREGW.last.value.toFixed(2)}`,asOf:S.GASREGW.last.date,cadence:'weekly',
       source:{publisher:'U.S. Energy Information Administration',transport:'FRED',seriesId:'GASREGW',metric:'U.S. regular gasoline retail price',url:fred('GASREGW'),proxy:false}},
@@ -165,6 +171,9 @@ const writeAtomic=(file,content)=>{
       secondary:{publisher:'U.S. Department of Labor',seriesId:'ICSA',value:claimsFourWeek,asOf:claimsWindow[claimsWindow.length-1].date,transform:'trailing four-week mean'}},
     inflation:{value:`${cpiYoY.toFixed(1)}%`,asOf:S.CPIAUCNS.last.date,cadence:'monthly',
       source:{publisher:'U.S. Bureau of Labor Statistics',transport:'FRED',seriesId:'CPIAUCNS',metric:'CPI-U all items',url:fred('CPIAUCNS'),proxy:false,seasonalAdjustment:'not seasonally adjusted',transform:'same-month year-over-year percent change'}},
+    financial:{value:S.NFCI.monthly[nfciMonth].toFixed(2),asOf:S.NFCI.last.date,cadence:'weekly',
+      contributesToOoze:true,
+      source:{publisher:'Federal Reserve Bank of Chicago',transport:'FRED',seriesId:'NFCI',metric:'National Financial Conditions Index, monthly mean of weekly values',url:fred('NFCI'),proxy:false,transform:'calendar-month mean'}},
     foreclosures:{value:`${S.DRSFRMACBS.last.value.toFixed(1)}%`,asOf:S.DRSFRMACBS.last.date,cadence:'quarterly',
       stress:Math.round(mortgageStress),delta:Math.round(mortgageStress)-Math.round(priorMortgageStress),contributesToOoze:false,
       scoreWeight:0,calibrationStatus:'provisional-auxiliary',
@@ -207,8 +216,10 @@ const writeAtomic=(file,content)=>{
     transforms:{
       claims:'Trailing mean of the latest four weekly observations available at each month end',
       inflation:'Same-month year-over-year percent change of non-seasonally-adjusted CPI-U',
+      financial:'Calendar-month mean of weekly NFCI observations',
       quarterly:'Forward-filled from observation quarter for ex-post historical reconstruction',
     },
+    revisionTolerances:{NFCI:{monthlyMeanAbsoluteChange:0.02,action:'expected-churn-at-or-below; flag-above'}},
   };
   const fingerprintSnapshot={
     fingerprintSchemaVersion:FINGERPRINT_SCHEMA_VERSION,
@@ -226,6 +237,12 @@ const writeAtomic=(file,content)=>{
       ...(source.sourceUrl?{sourceUrl:source.sourceUrl}:{}),
     }];
   }));
+  sourceComponents.NFCI.revisionBaseline={
+    transform:'calendar-month mean',
+    expectedAbsoluteTolerance:0.02,
+    monthlyMeans:Object.entries(S.NFCI.monthly).sort(([a],[b])=>a.localeCompare(b))
+      .map(([month,value])=>({month,value})),
+  };
   const changed=previous?.collection?.inputFingerprint!==inputFingerprint;
   const movers=Object.entries(deltas).filter(([,d])=>d!==0)
     .sort((a,b)=>Math.abs(b[1])-Math.abs(a[1])).slice(0,3)

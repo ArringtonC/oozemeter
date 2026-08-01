@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Shadow-model experiment: what would a market signal do to the Ooze score?
 
-Reads the frozen household backtest (research/backtest-results.json) and joins
+Reconstructs the frozen household-only v2 backtest from the canonical v3
+artifact and revision record, then joins
 three RESEARCH-ONLY market series (none touch production):
   - S&P 500 monthly closes  (Yahoo Finance chart API — unofficial, research only)
   - VIXCLS monthly mean     (FRED keyless CSV)
@@ -24,9 +25,10 @@ Run: python3 research/market-shadow-experiment.py
 Writes research/market-shadow-results.json and prints the summary tables.
 """
 import json,csv,urllib.request,datetime,statistics,os
+from household_v2_baseline import load_household_v2_baseline
 
 HERE=os.path.dirname(os.path.abspath(__file__))
-bt=json.load(open(os.path.join(HERE,'backtest-results.json')))
+bt=load_household_v2_baseline()
 CAL=bt['calibration']; W=bt['weights']; MONTHLY=bt['monthly']
 
 def fetch(url):

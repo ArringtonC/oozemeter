@@ -24,11 +24,16 @@ test('daily collection closes the standing alert after recovery', () => {
   assert.match(workflow, /gh issue close[\s\S]*--comment/);
 });
 
-test('daily collection enforces the methodology-v2 release gate before commit', () => {
+test('daily collection enforces the methodology release gate before commit', () => {
   assert.match(workflow, /tests\/fetch\.test\.js/);
   assert.match(workflow, /tests\/backtest\.integration\.test\.js/);
   assert.match(workflow, /tests\/integrity\.test\.js/);
   assert.match(workflow, /tests\/release-gate\.test\.js/);
   assert.match(workflow, /node scripts\/release-gate\.js --inspect-only/);
   assert.ok(workflow.indexOf('node scripts/release-gate.js --inspect-only') < workflow.indexOf('git commit'));
+});
+
+test('daily collection prefers the keyed FRED API when the secret is configured', () => {
+  assert.match(workflow, /name: verify collector contracts[\s\S]*FRED_API_KEY:\s*\$\{\{ secrets\.FRED_API_KEY \}\}/);
+  assert.match(workflow, /name: collect release-aware specimen[\s\S]*FRED_API_KEY:\s*\$\{\{ secrets\.FRED_API_KEY \}\}/);
 });

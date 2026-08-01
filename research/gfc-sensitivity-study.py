@@ -17,9 +17,10 @@ Ex-GFC metrics per weight:
   cost    — ex-GFC false positives, archive churn, band flips, confusion
 """
 import json,os,urllib.request
+from household_v2_baseline import load_household_v2_baseline
 
 HERE=os.path.dirname(os.path.abspath(__file__))
-bt=json.load(open(os.path.join(HERE,'backtest-results.json')))
+bt=load_household_v2_baseline()
 W=bt['weights']
 months=[r['month'] for r in bt['monthly']]
 house={r['month']:sum(W[k]*r['stresses'][k] for k in W)/100 for r in bt['monthly']}

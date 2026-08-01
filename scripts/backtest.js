@@ -1,17 +1,22 @@
 #!/usr/bin/env node
 /* OOZEMeter backtest — real public data vs. proposed calibration.
-   FRED series need no key; auto distress comes from the NY Fed HHDC workbook.
+   FRED prefers the keyed API and falls back to its documented CSV transport;
+   auto distress comes from the NY Fed HHDC workbook.
    Run: node scripts/backtest.js
    Writes research/backtest-results.json and prints episode peaks. */
 
 const {
   AUTO_30_PLUS_ANCHORS,
+  FINANCIAL_CONDITIONS_ANCHORS,
+  METHODOLOGY_V3_WEIGHTS,
   auto30PlusStress,
   fetchNyFedAutoSeries,
+  financialConditionsStress,
+  interpolateAnchors,
   trailingFourWeekByMonth,
   yearOverYear,
 } = require('./lib/methodology');
-const {fetchWithRetry} = require('./lib/fetch');
+const {fetchFredSeries} = require('./lib/fred');
 
 const SERIES = {
   UNRATE:      'Unemployment rate',
@@ -21,6 +26,7 @@ const SERIES = {
   DRSFRMACBS:  'Mortgage delinquency rate',
   DRCCLACBS:   'Credit card delinquency rate',
   GASREGW:     'Regular gas, $/gal (nominal, deflated by CPI)',
+  NFCI:        'Chicago Fed National Financial Conditions Index',
 };
 
 /* ---- published anchor curves: [indicator value, stress 0-100] ----
@@ -38,36 +44,14 @@ const ANCHORS = {
   cardDelinq:   [[1.5,10],[2.5,30],[3.5,50],[5,70],[6.8,90],[9,100]],
   auto30Plus:   AUTO_30_PLUS_ANCHORS,
   gasReal:      [[2,10],[3,35],[4,60],[5,85],[6.5,100]],
+  financialConditions: FINANCIAL_CONDITIONS_ANCHORS,
 };
-const WEIGHTS = { employment:25, housing:20, credit:20, auto:15, gas:10, inflation:10 };
+const WEIGHTS = METHODOLOGY_V3_WEIGHTS;
 
-function interp(anchors,x){
-  if(x<=anchors[0][0])return anchors[0][1];
-  const last=anchors[anchors.length-1];
-  if(x>=last[0])return last[1];
-  for(let i=0;i<anchors.length-1;i++){
-    const [x1,y1]=anchors[i],[x2,y2]=anchors[i+1];
-    if(x>=x1&&x<=x2)return y1+(y2-y1)*(x-x1)/(x2-x1);
-  }
-  return 0;
-}
+const interp=interpolateAnchors;
 
 async function fetchSeries(id){
-  const url=`https://fred.stlouisfed.org/graph/fredgraph.csv?id=${id}`;
-  const res=await fetchWithRetry(url);
-  if(!res.ok)throw new Error(`${id}: HTTP ${res.status}`);
-  const rows=(await res.text()).trim().split('\n').slice(1);
-  const out={};                                     // 'YYYY-MM' -> avg value
-  const acc={},observations=[];
-  for(const r of rows){
-    const [d,v]=r.split(',');
-    if(v==='.'||v===''||v==null)continue;
-    const value=parseFloat(v),key=d.slice(0,7);
-    observations.push({date:d,value});
-    (acc[key]??=[]).push(value);
-  }
-  for(const k in acc)out[k]=acc[k].reduce((a,b)=>a+b,0)/acc[k].length;
-  return {monthly:out,observations};
+  return fetchFredSeries(id);
 }
 
 /* quarterly series → forward-fill to months */
@@ -115,7 +99,8 @@ function ffill(series,months){
     const mort=data.MORTGAGE30US[m];
     const mdel=ff.DRSFRMACBS[m], cdel=ff.DRCCLACBS[m], auto30=ff.NYFED_AUTO_30PLUS[m];
     const gasNom=data.GASREGW[m];
-    if([un,icsa,cpi,inflationYoY,mort,mdel,cdel,auto30,gasNom].some(v=>v==null))continue;
+    const nfci=data.NFCI[m];
+    if([un,icsa,cpi,inflationYoY,mort,mdel,cdel,auto30,gasNom,nfci].some(v=>v==null))continue;
 
     const stresses={
       /* level (unemployment) OR speed (claims spike) — whichever screams louder */
@@ -125,15 +110,16 @@ function ffill(series,months){
       credit:interp(ANCHORS.cardDelinq,cdel),
       auto:auto30PlusStress(auto30),
       gas:interp(ANCHORS.gasReal,gasNom*cpiNow/cpi),
+      financial:financialConditionsStress(nfci),
     };
     const ooze=Object.entries(WEIGHTS).reduce((a,[k,w])=>a+w*stresses[k],0)/100;
     results.push({month:m,ooze,stresses});
   }
 
-  /* ---- calibration: two published points on the frozen 2000-2025 window ----
+  /* ---- calibration: two published points on the frozen 2003-2025 window ----
      calmest month → 10 (so SMOOTH is reachable) · GFC peak → 90 (the doctrine).
      After this run the printed a/b constants get frozen into collect.js. */
-  const win=results.filter(x=>x.month>='2000-01'&&x.month<='2025-12');
+  const win=results.filter(x=>x.month>='2003-01'&&x.month<='2025-12');
   const rawCalm=Math.min(...win.map(x=>x.ooze));
   const rawGfc=Math.max(...win.filter(x=>x.month>='2007-01'&&x.month<='2010-12').map(x=>x.ooze));
   const a=(90-10)/(rawGfc-rawCalm), b=10-a*rawCalm;
@@ -174,7 +160,7 @@ function ffill(series,months){
 
   const outputPath=process.env.OOZEMETER_BACKTEST_OUTPUT||'research/backtest-results.json';
   require('fs').writeFileSync(outputPath,
-    JSON.stringify({generated:new Date().toISOString(),anchors:ANCHORS,weights:WEIGHTS,
+    JSON.stringify({generated:new Date().toISOString(),methodologyVersion:'3.0.0',anchors:ANCHORS,weights:WEIGHTS,
       methodology:{
         auto:{
           source:'New York Fed Consumer Credit Panel / Equifax',
@@ -194,6 +180,13 @@ function ffill(series,months){
           seriesId:'CPIAUCNS',
           transform:'Same-month year-over-year percent change',
           seasonalAdjustment:'not seasonally adjusted',
+        },
+        financial:{
+          source:'Federal Reserve Bank of Chicago via FRED',
+          seriesId:'NFCI',
+          metric:'National Financial Conditions Index',
+          transform:'Calendar-month mean of weekly observations',
+          revisionTolerance:'Absolute monthly-mean change up to 0.02 is expected model churn',
         },
         historicalTiming:{
           realTimeCompatible:false,
