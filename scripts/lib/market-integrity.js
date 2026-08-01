@@ -3,10 +3,15 @@ const path = require('path');
 const {buildMarketNote} = require('./market-note');
 const {latestSectorObservationDate} = require('./market-sector');
 const {alignHistories} = require('./market-divergence');
-const {analyzeBacktest} = require('./market-validation');
+const {validateAcquisitionManifest} = require('./market-backtest');
+const {analyzeBacktest, renderValidationMarkdown} = require('./market-validation');
 
 const EXPECTED_SENSORS = ['rates', 'volatility', 'credit', 'energy', 'dollar', 'breadth'];
 const EXPECTED_TICKERS = ['SPY', 'QQQ', 'DIA', 'IWM', 'XLF', 'XLI', 'IYT', 'XLY', 'XLP', 'SMH', 'XLV'];
+const EXPECTED_BACKTEST_SOURCES = [
+  ...['T10Y3M', 'VIXCLS', 'NFCI', 'DCOILWTICO', 'DTWEXBGS'].map(id => `FRED:${id}`),
+  ...EXPECTED_TICKERS.map(id => `YAHOO:${id}`),
+];
 const BREADTH_ANCHORS = [[0, 5], [10, 22], [20, 40], [35, 60], [55, 80], [80, 100]];
 
 function readJson(file) {
@@ -151,6 +156,7 @@ function inspectCurrentMarketEvidence(root, now=new Date()) {
     if (!Number.isFinite(acquired) || !Number.isFinite(current) || age < -60_000 || age > 15 * 60_000) {
       fail('Market backtest acquisition is not current for this evidence cycle');
     }
+    for (const failure of validateAcquisitionManifest(backtest, EXPECTED_BACKTEST_SOURCES)) fail(failure);
 
     const expectedMonthly = alignHistories(backtest.monthly, household);
     const expectedStart = expectedMonthly[0]?.month;
@@ -158,17 +164,14 @@ function inspectCurrentMarketEvidence(root, now=new Date()) {
     if (!expectedMonthly.length || !same(history.monthly, expectedMonthly)
       || history.observations !== expectedMonthly.length
       || history.start !== expectedStart || history.end !== expectedEnd
-      || history.generated !== backtest.generated) {
+      || history.generated !== backtest.generated
+      || history.acquisitionFingerprint !== backtest.acquisition?.fingerprint) {
       fail('Market divergence does not match exact shared-month inputs');
     }
 
     const expectedValidation = analyzeBacktest(backtest);
     if (!same(validation, expectedValidation)) fail('Market anchor validation does not match the current backtest');
-    if (!report.includes(`Generated from the backtest acquisition at \`${backtest.generated}\`.`)
-      || !/descriptive checks, not a license to tune anchors/i.test(report)
-      || !/Any anchor change requires a new Ward M methodology version/i.test(report)) {
-      fail('Market anchor report is stale or missing the no-auto-tuning rule');
-    }
+    if (report !== renderValidationMarkdown(expectedValidation)) fail('Market anchor Markdown does not reproduce from the current backtest');
   } catch (error) {
     fail(`Current Market evidence unreadable: ${error.message}`);
   }

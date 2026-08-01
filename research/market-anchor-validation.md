@@ -1,6 +1,7 @@
 # Ward M anchor validation
 
-Generated from the backtest acquisition at `2026-08-01T23:25:16.580Z`.
+Generated from the backtest acquisition at `2026-08-01T23:35:18.922Z`.
+Acquisition receipt: `c0d1bff6ff1ba6d4f58ad1f91b139382d8e5e2e745307dc6b7f247e4d0caa906`.
 
 This report checks every provisional raw-value anchor against available current-revised history, not release-time vintages. A terminal month matching the retrieval month is partial. `Raw percentile` is the anchor’s position in the observed distribution. `At least this stressful` is the share of historical observations on the stressful side of that anchor. These are descriptive checks, not a license to tune anchors until the backtest tells a preferred story.
 

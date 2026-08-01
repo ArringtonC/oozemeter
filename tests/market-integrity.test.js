@@ -126,3 +126,50 @@ test('current-evidence gate rejects stale acquisition and downstream input drift
     fs.rmSync(copy, {recursive:true, force:true});
   }
 });
+
+test('current-evidence gate rejects timestamp relabeling without a new source receipt', () => {
+  const copy = fs.mkdtempSync(path.join(os.tmpdir(), 'ward-relabel-'));
+  fs.mkdirSync(path.join(copy, 'data'));
+  fs.mkdirSync(path.join(copy, 'research'));
+  for (const file of ['history.json', 'market-history.json']) fs.copyFileSync(path.join(root, 'data', file), path.join(copy, 'data', file));
+  for (const file of ['market-backtest.json', 'market-anchor-validation.json', 'market-anchor-validation.md']) fs.copyFileSync(path.join(root, 'research', file), path.join(copy, 'research', file));
+  try {
+    const backtestPath = path.join(copy, 'research/market-backtest.json');
+    const historyPath = path.join(copy, 'data/market-history.json');
+    const validationPath = path.join(copy, 'research/market-anchor-validation.json');
+    const reportPath = path.join(copy, 'research/market-anchor-validation.md');
+    const backtest = JSON.parse(fs.readFileSync(backtestPath));
+    const oldGenerated = backtest.generated;
+    const relabeled = new Date(Date.parse(oldGenerated) + 60_000).toISOString();
+    backtest.generated = relabeled;
+    fs.writeFileSync(backtestPath, JSON.stringify(backtest));
+    for (const target of [historyPath, validationPath]) {
+      const payload = JSON.parse(fs.readFileSync(target));
+      payload.generated = relabeled;
+      fs.writeFileSync(target, JSON.stringify(payload));
+    }
+    fs.writeFileSync(reportPath, fs.readFileSync(reportPath, 'utf8').replaceAll(oldGenerated, relabeled));
+    assert.match(inspectCurrentMarketEvidence(copy, new Date(Date.parse(relabeled) + 60_000)).failures.join('\n'), /acquisition receipt|acquisition generated/i);
+  } finally {
+    fs.rmSync(copy, {recursive:true, force:true});
+  }
+});
+
+test('current-evidence gate rejects substantive Markdown report drift', () => {
+  const copy = fs.mkdtempSync(path.join(os.tmpdir(), 'ward-report-'));
+  fs.mkdirSync(path.join(copy, 'data'));
+  fs.mkdirSync(path.join(copy, 'research'));
+  for (const file of ['history.json', 'market-history.json']) fs.copyFileSync(path.join(root, 'data', file), path.join(copy, 'data', file));
+  for (const file of ['market-backtest.json', 'market-anchor-validation.json', 'market-anchor-validation.md']) fs.copyFileSync(path.join(root, 'research', file), path.join(copy, 'research', file));
+  try {
+    const backtest = JSON.parse(fs.readFileSync(path.join(copy, 'research/market-backtest.json')));
+    const reportPath = path.join(copy, 'research/market-anchor-validation.md');
+    const report = fs.readFileSync(reportPath, 'utf8');
+    const corrupted = report.replace(/\| rates \|[^\n]+/, '| rates | corrupted |');
+    assert.notEqual(corrupted, report);
+    fs.writeFileSync(reportPath, corrupted);
+    assert.match(inspectCurrentMarketEvidence(copy, new Date(Date.parse(backtest.generated) + 60_000)).failures.join('\n'), /Markdown.*does not reproduce/i);
+  } finally {
+    fs.rmSync(copy, {recursive:true, force:true});
+  }
+});

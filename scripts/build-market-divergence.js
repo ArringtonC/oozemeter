@@ -21,6 +21,7 @@ const monthly = alignHistories(market.monthly, household);
 if (!monthly.length) throw new Error('Market and household histories have no exact shared months');
 const payload = {
   generated: market.generated,
+  acquisitionFingerprint: market.acquisition?.fingerprint || null,
   start: monthly[0].month,
   end: monthly[monthly.length - 1].month,
   observations: monthly.length,

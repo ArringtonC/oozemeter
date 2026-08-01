@@ -12,19 +12,20 @@ const fs=require('fs');
 const path=require('path');
 const {interpolateAnchors,parseFredMonthly}=require('./lib/market-series');
 const {parseYahooChart}=require('./lib/market-sector');
-const {FROZEN_WARD_CALIBRATION,applyFrozenCalibration,deriveCalibrationDiagnostic}=require('./lib/market-backtest');
+const {FROZEN_WARD_CALIBRATION,applyFrozenCalibration,buildAcquisitionManifest,deriveCalibrationDiagnostic,describeSourceSeries}=require('./lib/market-backtest');
 
 const OUTPUT_PATH=path.resolve(process.env.OOZEMETER_MARKET_BACKTEST_OUTPUT||'research/market-backtest.json');
 
+const fredEndpoint=id=>`https://fred.stlouisfed.org/graph/fredgraph.csv?id=${id}`;
+const yahooEndpoint=(sym,period2)=>`https://query1.finance.yahoo.com/v8/finance/chart/${sym}?period1=1149120000&period2=${period2}&interval=1mo`;
 async function fred(id){
-  const res=await fetch(`https://fred.stlouisfed.org/graph/fredgraph.csv?id=${id}`,
+  const res=await fetch(fredEndpoint(id),
     {headers:{'User-Agent':'oozemeter ward-m backtest'}});
   if(!res.ok)throw new Error(`${id}: HTTP ${res.status}`);
   return parseFredMonthly(await res.text(),id);
 }
-async function yahooMonthly(sym){
-  const now=Math.floor(Date.now()/1000);
-  const res=await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${sym}?period1=1149120000&period2=${now}&interval=1mo`,
+async function yahooMonthly(sym,endpoint){
+  const res=await fetch(endpoint,
     {headers:{'User-Agent':'Mozilla/5.0 (oozemeter ward-m backtest)'}});
   if(!res.ok)throw new Error(`${sym}: HTTP ${res.status}`);
   const {observations}=parseYahooChart(await res.json(),sym);
@@ -51,15 +52,20 @@ const A={
 
 (async()=>{
   const S={};
+  const acquisitionSources={};
   for(const id of ['T10Y3M','VIXCLS','NFCI','DCOILWTICO','DTWEXBGS']){
     process.stdout.write(`fetching ${id}... `);
     S[id]=await fred(id);
+    acquisitionSources[`FRED:${id}`]=describeSourceSeries({transport:'FRED CSV',endpoint:fredEndpoint(id),series:S[id]});
     console.log(Object.keys(S[id]).length+' months');
   }
   const px={};
+  const period2=Math.floor(Date.now()/1000);
   for(const t of TICKERS){
     process.stdout.write(`fetching ${t}... `);
-    px[t]=await yahooMonthly(t);
+    const endpoint=yahooEndpoint(t,period2);
+    px[t]=await yahooMonthly(t,endpoint);
+    acquisitionSources[`YAHOO:${t}`]=describeSourceSeries({transport:'Yahoo Finance chart endpoint',endpoint,series:px[t]});
     console.log(Object.keys(px[t]).length+' months');
   }
   /* monthly breadth weakness: share of tickers down >2% (half-weight) / >7% (full) */
@@ -123,15 +129,17 @@ const A={
   const calm=results.reduce((p,c)=>c.score<p.score?c:p);
   console.log(`calmest          ${calm.score} in ${calm.month}`);
   console.log(`LATEST           ${results[results.length-1].score} in ${results[results.length-1].month}`);
+  const generated=new Date().toISOString();
+  const acquisition=buildAcquisitionManifest({generated,sources:acquisitionSources});
   fs.mkdirSync(path.dirname(OUTPUT_PATH),{recursive:true});
   fs.writeFileSync(OUTPUT_PATH,JSON.stringify({
-    generated:new Date().toISOString(),anchors:A,gauges:Object.keys(A),
+    generated,acquisition,anchors:A,gauges:Object.keys(A),
     basis:'Current-revised research reconstruction, not release-time vintages. Historical breadth uses successive monthly Yahoo closes; live Sector Watch uses a 22-session daily interval requiring 23 closes, so the two breadth transforms are not identical.',
     breadthTickers:TICKERS,
     gaugeHistory,
     calibration:FROZEN_WARD_CALIBRATION,
     calibrationDiagnostic,
-    monthly:results.map(r=>({month:r.month,score:r.score,raw:+r.raw.toFixed(2)})),
+    monthly:results.map(r=>({month:r.month,score:r.score,raw:r.raw})),
   },null,1));
   console.log(`wrote ${OUTPUT_PATH}`);
 })();

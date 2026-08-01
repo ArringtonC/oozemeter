@@ -1,5 +1,124 @@
 {
- "generated": "2026-08-01T23:25:16.580Z",
+ "generated": "2026-08-01T23:35:18.922Z",
+ "acquisition": {
+  "version": 1,
+  "generated": "2026-08-01T23:35:18.922Z",
+  "sources": {
+   "FRED:DCOILWTICO": {
+    "transport": "FRED CSV",
+    "endpoint": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DCOILWTICO",
+    "observations": 487,
+    "latestObservationMonth": "2026-07",
+    "sha256": "123c2331e0ffad6790da9eca640192bb0fdefabb9d7e20be28f3c1c6e61abf92"
+   },
+   "FRED:DTWEXBGS": {
+    "transport": "FRED CSV",
+    "endpoint": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DTWEXBGS",
+    "observations": 247,
+    "latestObservationMonth": "2026-07",
+    "sha256": "0e707d2dcace0307de570fb3d7f8d732d1d562724d5e4a9412be3b1f2e484ab6"
+   },
+   "FRED:NFCI": {
+    "transport": "FRED CSV",
+    "endpoint": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=NFCI",
+    "observations": 667,
+    "latestObservationMonth": "2026-07",
+    "sha256": "c3c294503a5da9900c5558b3acba50a8601772adcf2a72d3ddca729e155dcb03"
+   },
+   "FRED:T10Y3M": {
+    "transport": "FRED CSV",
+    "endpoint": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=T10Y3M",
+    "observations": 535,
+    "latestObservationMonth": "2026-07",
+    "sha256": "b035b6398bb62bf387acdf98e5bb4633a3fbc2be99dfe71d2f43610329183dbd"
+   },
+   "FRED:VIXCLS": {
+    "transport": "FRED CSV",
+    "endpoint": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=VIXCLS",
+    "observations": 439,
+    "latestObservationMonth": "2026-07",
+    "sha256": "8907b45c36b0f1f4457fa4ea700e282cc113b9ef9d0f77f6ebe8d8c98e5a8a8c"
+   },
+   "YAHOO:DIA": {
+    "transport": "Yahoo Finance chart endpoint",
+    "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/DIA?period1=1149120000&period2=1785627317&interval=1mo",
+    "observations": 242,
+    "latestObservationMonth": "2026-07",
+    "sha256": "5016745d7079dc0df58fc0ef9aae8efaec5bab4e4bdd92200e7989dfce79630c"
+   },
+   "YAHOO:IWM": {
+    "transport": "Yahoo Finance chart endpoint",
+    "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/IWM?period1=1149120000&period2=1785627317&interval=1mo",
+    "observations": 242,
+    "latestObservationMonth": "2026-07",
+    "sha256": "ab867b42b3d555b230d39e15826f6010c1733eb8890f7662f3968a5948095b48"
+   },
+   "YAHOO:IYT": {
+    "transport": "Yahoo Finance chart endpoint",
+    "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/IYT?period1=1149120000&period2=1785627317&interval=1mo",
+    "observations": 242,
+    "latestObservationMonth": "2026-07",
+    "sha256": "cbc35fc2033a95a180eef93e2b1d0b4ed146a0d1e4b5226d5699d5cb51df49bb"
+   },
+   "YAHOO:QQQ": {
+    "transport": "Yahoo Finance chart endpoint",
+    "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/QQQ?period1=1149120000&period2=1785627317&interval=1mo",
+    "observations": 242,
+    "latestObservationMonth": "2026-07",
+    "sha256": "34e50097e59b362ae92a4a1a82b2d96b677c58be1668b71a687c5bc9578223d1"
+   },
+   "YAHOO:SMH": {
+    "transport": "Yahoo Finance chart endpoint",
+    "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/SMH?period1=1149120000&period2=1785627317&interval=1mo",
+    "observations": 242,
+    "latestObservationMonth": "2026-07",
+    "sha256": "8ab19abc97441abc4979e43b1995d6370040874b3e9abf9cbcc59e1f47425b68"
+   },
+   "YAHOO:SPY": {
+    "transport": "Yahoo Finance chart endpoint",
+    "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/SPY?period1=1149120000&period2=1785627317&interval=1mo",
+    "observations": 242,
+    "latestObservationMonth": "2026-07",
+    "sha256": "a439a2e9b2ed9f50a12c104e56c2148ab209913827eebf73567f6de882187ec0"
+   },
+   "YAHOO:XLF": {
+    "transport": "Yahoo Finance chart endpoint",
+    "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/XLF?period1=1149120000&period2=1785627317&interval=1mo",
+    "observations": 242,
+    "latestObservationMonth": "2026-07",
+    "sha256": "889cff0300c698be385d266dd4171108c8f34f6bf982072fe754fdf5974c48d7"
+   },
+   "YAHOO:XLI": {
+    "transport": "Yahoo Finance chart endpoint",
+    "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/XLI?period1=1149120000&period2=1785627317&interval=1mo",
+    "observations": 242,
+    "latestObservationMonth": "2026-07",
+    "sha256": "5d951d566528142b7ffd13a7a208f75e4397833faa412a7fe3f59d0e349c9413"
+   },
+   "YAHOO:XLP": {
+    "transport": "Yahoo Finance chart endpoint",
+    "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/XLP?period1=1149120000&period2=1785627317&interval=1mo",
+    "observations": 242,
+    "latestObservationMonth": "2026-07",
+    "sha256": "0ebfc635c777eec329aa022c15ecda9ec430b7092d7f0eddf893fa82c96906c3"
+   },
+   "YAHOO:XLV": {
+    "transport": "Yahoo Finance chart endpoint",
+    "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/XLV?period1=1149120000&period2=1785627317&interval=1mo",
+    "observations": 242,
+    "latestObservationMonth": "2026-07",
+    "sha256": "99d874703a132ee789fd5f32a86232d5ac5d225fe52f2ad1a6c72d4a4c4f341f"
+   },
+   "YAHOO:XLY": {
+    "transport": "Yahoo Finance chart endpoint",
+    "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/XLY?period1=1149120000&period2=1785627317&interval=1mo",
+    "observations": 242,
+    "latestObservationMonth": "2026-07",
+    "sha256": "4de816c5d0eff5d2eb02fef640d15977c9d2b504189f1d0e9ed8e11133bb60aa"
+   }
+  },
+  "fingerprint": "c0d1bff6ff1ba6d4f58ad1f91b139382d8e5e2e745307dc6b7f247e4d0caa906"
+ },
  "anchors": {
   "rates": [
    [
@@ -10641,1177 +10760,1177 @@
   {
    "month": "2007-01",
    "score": 21,
-   "raw": 19.65
+   "raw": 19.650001492233887
   },
   {
    "month": "2007-02",
    "score": 29,
-   "raw": 25.98
+   "raw": 25.975142069708312
   },
   {
    "month": "2007-03",
    "score": 28,
-   "raw": 24.66
+   "raw": 24.659683242853728
   },
   {
    "month": "2007-04",
    "score": 22,
-   "raw": 20.87
+   "raw": 20.87316061244429
   },
   {
    "month": "2007-05",
    "score": 21,
-   "raw": 20.19
+   "raw": 20.19388495184081
   },
   {
    "month": "2007-06",
    "score": 27,
-   "raw": 23.97
+   "raw": 23.974668424962385
   },
   {
    "month": "2007-07",
    "score": 38,
-   "raw": 31.95
+   "raw": 31.95354437229437
   },
   {
    "month": "2007-08",
    "score": 37,
-   "raw": 31.62
+   "raw": 31.619151065647618
   },
   {
    "month": "2007-09",
    "score": 36,
-   "raw": 30.49
+   "raw": 30.494627192982453
   },
   {
    "month": "2007-10",
    "score": 37,
-   "raw": 31.4
+   "raw": 31.40471288976724
   },
   {
    "month": "2007-11",
    "score": 58,
-   "raw": 46.21
+   "raw": 46.20599567099567
   },
   {
    "month": "2007-12",
    "score": 48,
-   "raw": 39.17
+   "raw": 39.16767045454546
   },
   {
    "month": "2008-01",
    "score": 58,
-   "raw": 46.48
+   "raw": 46.4785551948052
   },
   {
    "month": "2008-02",
    "score": 58,
-   "raw": 46.16
+   "raw": 46.15634090909089
   },
   {
    "month": "2008-03",
    "score": 50,
-   "raw": 40.42
+   "raw": 40.421787337662344
   },
   {
    "month": "2008-04",
    "score": 43,
-   "raw": 35.49
+   "raw": 35.49282828282828
   },
   {
    "month": "2008-05",
    "score": 43,
-   "raw": 35.6
+   "raw": 35.603229316979316
   },
   {
    "month": "2008-06",
    "score": 68,
-   "raw": 53.14
+   "raw": 53.14331349206349
   },
   {
    "month": "2008-07",
    "score": 49,
-   "raw": 39.8
+   "raw": 39.80314393939394
   },
   {
    "month": "2008-08",
    "score": 43,
-   "raw": 35.7
+   "raw": 35.703917989417995
   },
   {
    "month": "2008-09",
    "score": 74,
-   "raw": 57.83
+   "raw": 57.830080018381295
   },
   {
    "month": "2008-10",
    "score": 89,
-   "raw": 68.79
+   "raw": 68.79473957549148
   },
   {
    "month": "2008-11",
    "score": 90,
-   "raw": 69.17
+   "raw": 69.1739573095215
   },
   {
    "month": "2008-12",
    "score": 61,
-   "raw": 48.7
+   "raw": 48.70246605605667
   },
   {
    "month": "2009-01",
    "score": 82,
-   "raw": 63.54
+   "raw": 63.54183729163942
   },
   {
    "month": "2009-02",
    "score": 85,
-   "raw": 65.3
+   "raw": 65.30217105263158
   },
   {
    "month": "2009-03",
    "score": 63,
-   "raw": 50.22
+   "raw": 50.22246212121212
   },
   {
    "month": "2009-04",
    "score": 61,
-   "raw": 48.22
+   "raw": 48.22293650793651
   },
   {
    "month": "2009-05",
    "score": 54,
-   "raw": 43.3
+   "raw": 43.30090596905969
   },
   {
    "month": "2009-06",
    "score": 55,
-   "raw": 44.39
+   "raw": 44.38864443864693
   },
   {
    "month": "2009-07",
    "score": 47,
-   "raw": 38.6
+   "raw": 38.59535620698494
   },
   {
    "month": "2009-08",
    "score": 41,
-   "raw": 34.57
+   "raw": 34.57288622729675
   },
   {
    "month": "2009-09",
    "score": 35,
-   "raw": 29.98
+   "raw": 29.982186935772138
   },
   {
    "month": "2009-10",
    "score": 42,
-   "raw": 34.87
+   "raw": 34.866439393939395
   },
   {
    "month": "2009-11",
    "score": 28,
-   "raw": 25.29
+   "raw": 25.285
   },
   {
    "month": "2009-12",
    "score": 24,
-   "raw": 22.41
+   "raw": 22.414393939393943
   },
   {
    "month": "2010-01",
    "score": 37,
-   "raw": 31.38
+   "raw": 31.381127990430624
   },
   {
    "month": "2010-02",
    "score": 24,
-   "raw": 22.2
+   "raw": 22.19570175438597
   },
   {
    "month": "2010-03",
    "score": 20,
-   "raw": 19.37
+   "raw": 19.36784420289855
   },
   {
    "month": "2010-04",
    "score": 22,
-   "raw": 20.47
+   "raw": 20.469069264069265
   },
   {
    "month": "2010-05",
    "score": 54,
-   "raw": 43.17
+   "raw": 43.16624708205691
   },
   {
    "month": "2010-06",
    "score": 54,
-   "raw": 43.62
+   "raw": 43.61944539888183
   },
   {
    "month": "2010-07",
    "score": 29,
-   "raw": 25.63
+   "raw": 25.63379817392264
   },
   {
    "month": "2010-08",
    "score": 45,
-   "raw": 37.2
+   "raw": 37.2046816246696
   },
   {
    "month": "2010-09",
    "score": 25,
-   "raw": 23.09
+   "raw": 23.09129607118631
   },
   {
    "month": "2010-10",
    "score": 24,
-   "raw": 22.15
+   "raw": 22.152898330367787
   },
   {
    "month": "2010-11",
    "score": 26,
-   "raw": 23.77
+   "raw": 23.765279815143852
   },
   {
    "month": "2010-12",
    "score": 24,
-   "raw": 21.83
+   "raw": 21.834793351337293
   },
   {
    "month": "2011-01",
    "score": 22,
-   "raw": 20.53
+   "raw": 20.527099772096143
   },
   {
    "month": "2011-02",
    "score": 20,
-   "raw": 19.24
+   "raw": 19.24113447002879
   },
   {
    "month": "2011-03",
    "score": 30,
-   "raw": 26.53
+   "raw": 26.529320377689945
   },
   {
    "month": "2011-04",
    "score": 24,
-   "raw": 21.87
+   "raw": 21.868333333333336
   },
   {
    "month": "2011-05",
    "score": 28,
-   "raw": 25.27
+   "raw": 25.266160413660412
   },
   {
    "month": "2011-06",
    "score": 34,
-   "raw": 29.58
+   "raw": 29.580808080808083
   },
   {
    "month": "2011-07",
    "score": 38,
-   "raw": 32.16
+   "raw": 32.16157828282829
   },
   {
    "month": "2011-08",
    "score": 53,
-   "raw": 42.9
+   "raw": 42.89778326745718
   },
   {
    "month": "2011-09",
    "score": 61,
-   "raw": 48.3
+   "raw": 48.29806127120247
   },
   {
    "month": "2011-10",
    "score": 40,
-   "raw": 33.2
+   "raw": 33.19847321954217
   },
   {
    "month": "2011-11",
    "score": 48,
-   "raw": 39.52
+   "raw": 39.52348830006237
   },
   {
    "month": "2011-12",
    "score": 40,
-   "raw": 33.36
+   "raw": 33.35567072235929
   },
   {
    "month": "2012-01",
    "score": 36,
-   "raw": 30.59
+   "raw": 30.5883058952284
   },
   {
    "month": "2012-02",
    "score": 34,
-   "raw": 28.94
+   "raw": 28.938650092196653
   },
   {
    "month": "2012-03",
    "score": 31,
-   "raw": 27.38
+   "raw": 27.381555986034382
   },
   {
    "month": "2012-04",
    "score": 39,
-   "raw": 32.85
+   "raw": 32.8469897818599
   },
   {
    "month": "2012-05",
    "score": 58,
-   "raw": 46.6
+   "raw": 46.60241599959114
   },
   {
    "month": "2012-06",
    "score": 40,
-   "raw": 33.23
+   "raw": 33.23180009580747
   },
   {
    "month": "2012-07",
    "score": 40,
-   "raw": 33.27
+   "raw": 33.27462981631667
   },
   {
    "month": "2012-08",
    "score": 34,
-   "raw": 29.55
+   "raw": 29.55185787966302
   },
   {
    "month": "2012-09",
    "score": 31,
-   "raw": 27.2
+   "raw": 27.20338873564904
   },
   {
    "month": "2012-10",
    "score": 31,
-   "raw": 26.83
+   "raw": 26.829055102080797
   },
   {
    "month": "2012-11",
    "score": 25,
-   "raw": 22.73
+   "raw": 22.731614711912062
   },
   {
    "month": "2012-12",
    "score": 26,
-   "raw": 23.43
+   "raw": 23.434926726722935
   },
   {
    "month": "2013-01",
    "score": 22,
-   "raw": 20.89
+   "raw": 20.888726068754945
   },
   {
    "month": "2013-02",
    "score": 25,
-   "raw": 23.1
+   "raw": 23.101979423612207
   },
   {
    "month": "2013-03",
    "score": 24,
-   "raw": 22.21
+   "raw": 22.214952708511277
   },
   {
    "month": "2013-04",
    "score": 24,
-   "raw": 22.1
+   "raw": 22.100925040338236
   },
   {
    "month": "2013-05",
    "score": 24,
-   "raw": 22.14
+   "raw": 22.13667074451708
   },
   {
    "month": "2013-06",
    "score": 30,
-   "raw": 26.73
+   "raw": 26.73066611654883
   },
   {
    "month": "2013-07",
    "score": 25,
-   "raw": 22.48
+   "raw": 22.47874603279011
   },
   {
    "month": "2013-08",
    "score": 41,
-   "raw": 34.26
+   "raw": 34.26045654715688
   },
   {
    "month": "2013-09",
    "score": 28,
-   "raw": 24.84
+   "raw": 24.838772567975102
   },
   {
    "month": "2013-10",
    "score": 26,
-   "raw": 23.79
+   "raw": 23.7897998837189
   },
   {
    "month": "2013-11",
    "score": 22,
-   "raw": 21.03
+   "raw": 21.028771076462014
   },
   {
    "month": "2013-12",
    "score": 26,
-   "raw": 23.31
+   "raw": 23.308758403676137
   },
   {
    "month": "2014-01",
    "score": 39,
-   "raw": 33.01
+   "raw": 33.01213966619001
   },
   {
    "month": "2014-02",
    "score": 28,
-   "raw": 25.08
+   "raw": 25.076498565484727
   },
   {
    "month": "2014-03",
    "score": 30,
-   "raw": 26.27
+   "raw": 26.26640620769301
   },
   {
    "month": "2014-04",
    "score": 29,
-   "raw": 25.94
+   "raw": 25.942790397429835
   },
   {
    "month": "2014-05",
    "score": 23,
-   "raw": 21.57
+   "raw": 21.566589072451517
   },
   {
    "month": "2014-06",
    "score": 23,
-   "raw": 21.13
+   "raw": 21.129594873059386
   },
   {
    "month": "2014-07",
    "score": 27,
-   "raw": 24.37
+   "raw": 24.36517924158217
   },
   {
    "month": "2014-08",
    "score": 23,
-   "raw": 21.17
+   "raw": 21.16890660507227
   },
   {
    "month": "2014-09",
    "score": 27,
-   "raw": 24.46
+   "raw": 24.464715403880835
   },
   {
    "month": "2014-10",
    "score": 29,
-   "raw": 25.65
+   "raw": 25.65360709478683
   },
   {
    "month": "2014-11",
    "score": 23,
-   "raw": 21.56
+   "raw": 21.556579420289733
   },
   {
    "month": "2014-12",
    "score": 26,
-   "raw": 23.67
+   "raw": 23.665667364792707
   },
   {
    "month": "2015-01",
    "score": 42,
-   "raw": 34.94
+   "raw": 34.93749428466381
   },
   {
    "month": "2015-02",
    "score": 27,
-   "raw": 24.11
+   "raw": 24.107773391358574
   },
   {
    "month": "2015-03",
    "score": 38,
-   "raw": 32.08
+   "raw": 32.082768780964436
   },
   {
    "month": "2015-04",
    "score": 29,
-   "raw": 25.7
+   "raw": 25.701705116746094
   },
   {
    "month": "2015-05",
    "score": 29,
-   "raw": 25.37
+   "raw": 25.365237310718538
   },
   {
    "month": "2015-06",
    "score": 41,
-   "raw": 34.32
+   "raw": 34.31902138214122
   },
   {
    "month": "2015-07",
    "score": 31,
-   "raw": 26.8
+   "raw": 26.80318905467629
   },
   {
    "month": "2015-08",
    "score": 52,
-   "raw": 41.8
+   "raw": 41.80023629148629
   },
   {
    "month": "2015-09",
    "score": 47,
-   "raw": 38.52
+   "raw": 38.517831517718754
   },
   {
    "month": "2015-10",
    "score": 29,
-   "raw": 25.63
+   "raw": 25.633872818994092
   },
   {
    "month": "2015-11",
    "score": 27,
-   "raw": 24.49
+   "raw": 24.493572163507753
   },
   {
    "month": "2015-12",
    "score": 41,
-   "raw": 34.28
+   "raw": 34.284823039983046
   },
   {
    "month": "2016-01",
    "score": 52,
-   "raw": 42.37
+   "raw": 42.37497395380988
   },
   {
    "month": "2016-02",
    "score": 33,
-   "raw": 28.33
+   "raw": 28.33273328626497
   },
   {
    "month": "2016-03",
    "score": 19,
-   "raw": 18.83
+   "raw": 18.82515815626162
   },
   {
    "month": "2016-04",
    "score": 20,
-   "raw": 19.52
+   "raw": 19.51697271799763
   },
   {
    "month": "2016-05",
    "score": 21,
-   "raw": 19.82
+   "raw": 19.821119296611396
   },
   {
    "month": "2016-06",
    "score": 30,
-   "raw": 26.1
+   "raw": 26.102516305104547
   },
   {
    "month": "2016-07",
    "score": 19,
-   "raw": 18.34
+   "raw": 18.339514043941463
   },
   {
    "month": "2016-08",
    "score": 16,
-   "raw": 16.66
+   "raw": 16.66078268998012
   },
   {
    "month": "2016-09",
    "score": 20,
-   "raw": 19.14
+   "raw": 19.14206167453271
   },
   {
    "month": "2016-10",
    "score": 26,
-   "raw": 23.82
+   "raw": 23.81582769910737
   },
   {
    "month": "2016-11",
    "score": 20,
-   "raw": 19.4
+   "raw": 19.398387572061804
   },
   {
    "month": "2016-12",
    "score": 17,
-   "raw": 16.94
+   "raw": 16.938302088586315
   },
   {
    "month": "2017-01",
    "score": 14,
-   "raw": 14.74
+   "raw": 14.739740507557832
   },
   {
    "month": "2017-02",
    "score": 13,
-   "raw": 14.34
+   "raw": 14.342121125237526
   },
   {
    "month": "2017-03",
    "score": 18,
-   "raw": 18.17
+   "raw": 18.16843925505264
   },
   {
    "month": "2017-04",
    "score": 18,
-   "raw": 17.66
+   "raw": 17.664824879033503
   },
   {
    "month": "2017-05",
    "score": 15,
-   "raw": 15.38
+   "raw": 15.384253447533167
   },
   {
    "month": "2017-06",
    "score": 18,
-   "raw": 17.82
+   "raw": 17.822337254697654
   },
   {
    "month": "2017-07",
    "score": 12,
-   "raw": 13.66
+   "raw": 13.658157444323217
   },
   {
    "month": "2017-08",
    "score": 11,
-   "raw": 12.68
+   "raw": 12.678791231595879
   },
   {
    "month": "2017-09",
    "score": 10,
-   "raw": 12.13
+   "raw": 12.129772057910289
   },
   {
    "month": "2017-10",
    "score": 10,
-   "raw": 12.34
+   "raw": 12.337133508146602
   },
   {
    "month": "2017-11",
    "score": 10,
-   "raw": 12.3
+   "raw": 12.303343944918822
   },
   {
    "month": "2017-12",
    "score": 12,
-   "raw": 13.44
+   "raw": 13.440566287878788
   },
   {
    "month": "2018-01",
    "score": 11,
-   "raw": 12.93
+   "raw": 12.932242063492064
   },
   {
    "month": "2018-02",
    "score": 34,
-   "raw": 29.53
+   "raw": 29.528462254120154
   },
   {
    "month": "2018-03",
    "score": 31,
-   "raw": 27.19
+   "raw": 27.18997113997114
   },
   {
    "month": "2018-04",
    "score": 24,
-   "raw": 22.02
+   "raw": 22.01700036075036
   },
   {
    "month": "2018-05",
    "score": 17,
-   "raw": 17.15
+   "raw": 17.154168639152186
   },
   {
    "month": "2018-06",
    "score": 26,
-   "raw": 23.51
+   "raw": 23.51074012750402
   },
   {
    "month": "2018-07",
    "score": 21,
-   "raw": 20.17
+   "raw": 20.174817013030196
   },
   {
    "month": "2018-08",
    "score": 22,
-   "raw": 20.66
+   "raw": 20.663197395979406
   },
   {
    "month": "2018-09",
    "score": 30,
-   "raw": 26.18
+   "raw": 26.177193239540276
   },
   {
    "month": "2018-10",
    "score": 50,
-   "raw": 40.32
+   "raw": 40.321142188244984
   },
   {
    "month": "2018-11",
    "score": 27,
-   "raw": 24.33
+   "raw": 24.331239952985186
   },
   {
    "month": "2018-12",
    "score": 54,
-   "raw": 43.33
+   "raw": 43.33424315606053
   },
   {
    "month": "2019-01",
    "score": 30,
-   "raw": 26.5
+   "raw": 26.498896787318373
   },
   {
    "month": "2019-02",
    "score": 27,
-   "raw": 24.57
+   "raw": 24.574482049011163
   },
   {
    "month": "2019-03",
    "score": 32,
-   "raw": 27.5
+   "raw": 27.504228293735093
   },
   {
    "month": "2019-04",
    "score": 30,
-   "raw": 26.4
+   "raw": 26.396294672863544
   },
   {
    "month": "2019-05",
    "score": 51,
-   "raw": 41.64
+   "raw": 41.64200802641388
   },
   {
    "month": "2019-06",
    "score": 27,
-   "raw": 23.9
+   "raw": 23.904978827734883
   },
   {
    "month": "2019-07",
    "score": 23,
-   "raw": 21.72
+   "raw": 21.715712457800134
   },
   {
    "month": "2019-08",
    "score": 42,
-   "raw": 34.78
+   "raw": 34.78246435290265
   },
   {
    "month": "2019-09",
    "score": 29,
-   "raw": 25.56
+   "raw": 25.559211307831333
   },
   {
    "month": "2019-10",
    "score": 24,
-   "raw": 21.95
+   "raw": 21.953823299449407
   },
   {
    "month": "2019-11",
    "score": 18,
-   "raw": 18.11
+   "raw": 18.111707710554455
   },
   {
    "month": "2019-12",
    "score": 19,
-   "raw": 18.62
+   "raw": 18.617996697049374
   },
   {
    "month": "2020-01",
    "score": 29,
-   "raw": 25.83
+   "raw": 25.825580144037797
   },
   {
    "month": "2020-02",
    "score": 51,
-   "raw": 41.09
+   "raw": 41.088730228590734
   },
   {
    "month": "2020-03",
    "score": 71,
-   "raw": 55.52
+   "raw": 55.52239156230517
   },
   {
    "month": "2020-04",
    "score": 49,
-   "raw": 40
+   "raw": 39.99981981169657
   },
   {
    "month": "2020-05",
    "score": 38,
-   "raw": 32.01
+   "raw": 32.01173114047614
   },
   {
    "month": "2020-06",
    "score": 34,
-   "raw": 29.2
+   "raw": 29.20047945046929
   },
   {
    "month": "2020-07",
    "score": 29,
-   "raw": 25.36
+   "raw": 25.360864285118964
   },
   {
    "month": "2020-08",
    "score": 22,
-   "raw": 20.76
+   "raw": 20.763086639541715
   },
   {
    "month": "2020-09",
    "score": 37,
-   "raw": 31.44
+   "raw": 31.43925064750888
   },
   {
    "month": "2020-10",
    "score": 35,
-   "raw": 29.98
+   "raw": 29.979462958135016
   },
   {
    "month": "2020-11",
    "score": 21,
-   "raw": 19.65
+   "raw": 19.648325099521063
   },
   {
    "month": "2020-12",
    "score": 19,
-   "raw": 18.2
+   "raw": 18.20339802467908
   },
   {
    "month": "2021-01",
    "score": 26,
-   "raw": 23.39
+   "raw": 23.39295816104519
   },
   {
    "month": "2021-02",
    "score": 21,
-   "raw": 19.94
+   "raw": 19.93943480995443
   },
   {
    "month": "2021-03",
    "score": 17,
-   "raw": 17.3
+   "raw": 17.2963768115942
   },
   {
    "month": "2021-04",
    "score": 13,
-   "raw": 14.56
+   "raw": 14.558161976911975
   },
   {
    "month": "2021-05",
    "score": 18,
-   "raw": 17.94
+   "raw": 17.937948232323233
   },
   {
    "month": "2021-06",
    "score": 21,
-   "raw": 20.33
+   "raw": 20.325031565656566
   },
   {
    "month": "2021-07",
    "score": 22,
-   "raw": 20.41
+   "raw": 20.411998351928066
   },
   {
    "month": "2021-08",
    "score": 18,
-   "raw": 17.82
+   "raw": 17.823812210753623
   },
   {
    "month": "2021-09",
    "score": 38,
-   "raw": 31.77
+   "raw": 31.767740332132945
   },
   {
    "month": "2021-10",
    "score": 22,
-   "raw": 21.02
+   "raw": 21.016355499471207
   },
   {
    "month": "2021-11",
    "score": 35,
-   "raw": 30.16
+   "raw": 30.16267542594169
   },
   {
    "month": "2021-12",
    "score": 29,
-   "raw": 25.35
+   "raw": 25.350144341786546
   },
   {
    "month": "2022-01",
    "score": 50,
-   "raw": 40.81
+   "raw": 40.81481034448968
   },
   {
    "month": "2022-02",
    "score": 45,
-   "raw": 37
+   "raw": 37.00310315790201
   },
   {
    "month": "2022-03",
    "score": 41,
-   "raw": 34.18
+   "raw": 34.180605426976
   },
   {
    "month": "2022-04",
    "score": 62,
-   "raw": 49.17
+   "raw": 49.174221855648064
   },
   {
    "month": "2022-05",
    "score": 55,
-   "raw": 44.01
+   "raw": 44.00638902642425
   },
   {
    "month": "2022-06",
    "score": 73,
-   "raw": 57.39
+   "raw": 57.38564260749959
   },
   {
    "month": "2022-07",
    "score": 52,
-   "raw": 42.14
+   "raw": 42.13602528662941
   },
   {
    "month": "2022-08",
    "score": 64,
-   "raw": 50.42
+   "raw": 50.42245825034263
   },
   {
    "month": "2022-09",
    "score": 76,
-   "raw": 58.87
+   "raw": 58.87223421810282
   },
   {
    "month": "2022-10",
    "score": 59,
-   "raw": 47.13
+   "raw": 47.131524276281596
   },
   {
    "month": "2022-11",
    "score": 56,
-   "raw": 44.58
+   "raw": 44.57698513228334
   },
   {
    "month": "2022-12",
    "score": 71,
-   "raw": 55.45
+   "raw": 55.44852213058429
   },
   {
    "month": "2023-01",
    "score": 50,
-   "raw": 40.99
+   "raw": 40.98514722461317
   },
   {
    "month": "2023-02",
    "score": 60,
-   "raw": 47.77
+   "raw": 47.77179066404009
   },
   {
    "month": "2023-03",
    "score": 57,
-   "raw": 45.37
+   "raw": 45.366363560713985
   },
   {
    "month": "2023-04",
    "score": 54,
-   "raw": 43.19
+   "raw": 43.19167533877023
   },
   {
    "month": "2023-05",
    "score": 54,
-   "raw": 43.46
+   "raw": 43.45527540532302
   },
   {
    "month": "2023-06",
    "score": 41,
-   "raw": 34.06
+   "raw": 34.06409137639392
   },
   {
    "month": "2023-07",
    "score": 40,
-   "raw": 33.25
+   "raw": 33.24694677982392
   },
   {
    "month": "2023-08",
    "score": 53,
-   "raw": 42.78
+   "raw": 42.77566206471986
   },
   {
    "month": "2023-09",
    "score": 59,
-   "raw": 47.23
+   "raw": 47.23480115878727
   },
   {
    "month": "2023-10",
    "score": 56,
-   "raw": 45.05
+   "raw": 45.045534342657085
   },
   {
    "month": "2023-11",
    "score": 37,
-   "raw": 31.23
+   "raw": 31.229020379141208
   },
   {
    "month": "2023-12",
    "score": 37,
-   "raw": 31.25
+   "raw": 31.252688707278136
   },
   {
    "month": "2024-01",
    "score": 43,
-   "raw": 35.49
+   "raw": 35.48755170532923
   },
   {
    "month": "2024-02",
    "score": 39,
-   "raw": 33.12
+   "raw": 33.11968965131401
   },
   {
    "month": "2024-03",
    "score": 40,
-   "raw": 33.3
+   "raw": 33.297750845962405
   },
   {
    "month": "2024-04",
    "score": 60,
-   "raw": 47.66
+   "raw": 47.65616341856937
   },
   {
    "month": "2024-05",
    "score": 39,
-   "raw": 32.86
+   "raw": 32.86320878989901
   },
   {
    "month": "2024-06",
    "score": 43,
-   "raw": 35.4
+   "raw": 35.39681957909109
   },
   {
    "month": "2024-07",
    "score": 48,
-   "raw": 39.01
+   "raw": 39.00827749913936
   },
   {
    "month": "2024-08",
    "score": 48,
-   "raw": 39.06
+   "raw": 39.05637860500723
   },
   {
    "month": "2024-09",
    "score": 42,
-   "raw": 34.71
+   "raw": 34.709467391977114
   },
   {
    "month": "2024-10",
    "score": 42,
-   "raw": 34.7
+   "raw": 34.69748193418623
   },
   {
    "month": "2024-11",
    "score": 35,
-   "raw": 29.94
+   "raw": 29.93607617921292
   },
   {
    "month": "2024-12",
    "score": 51,
-   "raw": 41.14
+   "raw": 41.14096771830742
   },
   {
    "month": "2025-01",
    "score": 35,
-   "raw": 30.26
+   "raw": 30.25692033045176
   },
   {
    "month": "2025-02",
    "score": 41,
-   "raw": 34.37
+   "raw": 34.373058902083194
   },
   {
    "month": "2025-03",
    "score": 56,
-   "raw": 45.27
+   "raw": 45.267589207307026
   },
   {
    "month": "2025-04",
    "score": 47,
-   "raw": 38.87
+   "raw": 38.86711381797293
   },
   {
    "month": "2025-05",
    "score": 31,
-   "raw": 26.76
+   "raw": 26.75992685328747
   },
   {
    "month": "2025-06",
    "score": 29,
-   "raw": 25.58
+   "raw": 25.58259289276704
   },
   {
    "month": "2025-07",
    "score": 27,
-   "raw": 24.02
+   "raw": 24.01970967344798
   },
   {
    "month": "2025-08",
    "score": 24,
-   "raw": 22.19
+   "raw": 22.18611933692461
   },
   {
    "month": "2025-09",
    "score": 25,
-   "raw": 22.76
+   "raw": 22.761040992935932
   },
   {
    "month": "2025-10",
    "score": 27,
-   "raw": 24.36
+   "raw": 24.356131561218735
   },
   {
    "month": "2025-11",
    "score": 25,
-   "raw": 22.85
+   "raw": 22.854375203251863
   },
   {
    "month": "2025-12",
    "score": 18,
-   "raw": 17.77
+   "raw": 17.772733585858585
   },
   {
    "month": "2026-01",
    "score": 18,
-   "raw": 17.91
+   "raw": 17.913047438672436
   },
   {
    "month": "2026-02",
    "score": 27,
-   "raw": 23.96
+   "raw": 23.961731459330142
   },
   {
    "month": "2026-03",
    "score": 53,
-   "raw": 42.69
+   "raw": 42.69412878787879
   },
   {
    "month": "2026-04",
    "score": 32,
-   "raw": 27.98
+   "raw": 27.975948209615712
   },
   {
    "month": "2026-05",
    "score": 30,
-   "raw": 26.6
+   "raw": 26.599034005279425
   },
   {
    "month": "2026-06",
    "score": 30,
-   "raw": 26.48
+   "raw": 26.476245619035726
   },
   {
    "month": "2026-07",
    "score": 37,
-   "raw": 31.28
+   "raw": 31.276307241275077
   }
  ]
 }
