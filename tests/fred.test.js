@@ -80,7 +80,7 @@ test('fails closed on provider-invalid dates, numeric grammar, and observation o
     );
   }
   assert.throws(
-    () => parseFredCsv('observation_date,UNRATE\n2026-99-99,4.1\n', 'UNRATE'),
+    () => parseFredCsv('observation_date,UNRATE\n2026-02-29,4.1\n', 'UNRATE'),
     /UNRATE: invalid observation date/,
   );
   assert.throws(
@@ -97,6 +97,16 @@ test('fails closed on provider-invalid dates, numeric grammar, and observation o
     ]}, 'UNRATE'),
     /strictly increasing/,
   );
+});
+
+test('preserves documented FRED missing-value sentinels', () => {
+  const result = parseFredApiJson({observations:[
+    {date:'2026-06-01', value:'.'},
+    {date:'2026-06-02', value:''},
+    {date:'2026-06-03', value:null},
+    {date:'2026-06-04', value:'4.1'},
+  ]}, 'UNRATE');
+  assert.deepEqual(result.observations, [{date:'2026-06-04', value:4.1}]);
 });
 
 test('fails closed when FRED returns no observations', () => {

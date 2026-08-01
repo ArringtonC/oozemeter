@@ -3,6 +3,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
+const crypto = require('node:crypto');
 const {spawnSync} = require('node:child_process');
 
 const repo = path.resolve(__dirname, '..');
@@ -64,6 +65,45 @@ print(json.dumps({
     const source = fs.readFileSync(path.join(repo, 'research', file), 'utf8');
     assert.match(source, /load_household_v2_baseline\(\)/);
     assert.doesNotMatch(source, /json\.load\(open\(os\.path\.join\(HERE,'backtest-results\.json'\)\)\)/);
+  }
+});
+
+test('frozen v2 study adapter rejects artifact drift and ignores the mutable v3 backtest', () => {
+  const expectedSha = '6a7860ef97e04a1252dad4765827c638d1e81759cc4e5046fb80a3d8effcdc11';
+  const artifact = fs.readFileSync(path.join(repo, 'research/household-v2-backtest.json'));
+  assert.equal(crypto.createHash('sha256').update(artifact).digest('hex'), expectedSha);
+
+  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'oozemeter-v2-baseline-'));
+  const researchDir = path.join(tempRoot, 'research');
+  const dataDir = path.join(tempRoot, 'data');
+  fs.mkdirSync(researchDir);
+  fs.mkdirSync(dataDir);
+  fs.copyFileSync(path.join(repo, 'research/household_v2_baseline.py'), path.join(researchDir, 'household_v2_baseline.py'));
+  fs.copyFileSync(path.join(repo, 'research/household-v2-backtest.json'), path.join(researchDir, 'household-v2-backtest.json'));
+  fs.copyFileSync(path.join(repo, 'data/revisions.json'), path.join(dataDir, 'revisions.json'));
+  fs.writeFileSync(path.join(researchDir, 'backtest-results.json'), '{"mutable":"v3 must not be read"}\n');
+
+  const script = "import sys; sys.path.insert(0, 'research'); from household_v2_baseline import load_household_v2_baseline; assert len(load_household_v2_baseline()['monthly']) == 281";
+  const run = () => spawnSync('python3', ['-c', script], {
+    cwd:tempRoot,encoding:'utf8',env:{...process.env,PYTHONDONTWRITEBYTECODE:'1'},
+  });
+  try {
+    const independent = run();
+    assert.equal(independent.status, 0, independent.stderr || independent.stdout);
+
+    fs.appendFileSync(path.join(researchDir, 'household-v2-backtest.json'), '\n');
+    const tampered = run();
+    assert.notEqual(tampered.status, 0, 'tampered frozen artifact must be rejected');
+    assert.match(tampered.stderr, /artifact fingerprint changed/);
+
+    fs.writeFileSync(path.join(researchDir, 'household-v2-backtest.json'), artifact);
+    const adapterPath = path.join(researchDir, 'household_v2_baseline.py');
+    const adapter = fs.readFileSync(adapterPath, 'utf8');
+    fs.writeFileSync(adapterPath, adapter.replace("'household-v2-backtest.json'", "'backtest-results.json'"));
+    const mutableRegression = run();
+    assert.notEqual(mutableRegression.status, 0, 'adapter must not regress to the mutable v3 backtest');
+  } finally {
+    fs.rmSync(tempRoot, {recursive:true, force:true});
   }
 });
 

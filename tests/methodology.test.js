@@ -83,6 +83,15 @@ test('fails closed on malformed NY Fed AUTO numeric cells', () => {
       /invalid AUTO numeric value/i,
     );
   }
+
+  const missingCellXml = `<worksheet><sheetData>
+    <row r="5"><c r="B5" t="s"><v>0</v></c></row>
+    <row r="6"><c r="A6" t="s"><v>1</v></c></row>
+  </sheetData></worksheet>`;
+  assert.throws(
+    () => parseNyFedAutoWorkbookParts({...base, worksheetXml:missingCellXml}),
+    /invalid AUTO numeric value/i,
+  );
 });
 
 test('fails closed if the AUTO header moves or disappears', () => {
