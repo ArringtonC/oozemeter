@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<base href="../">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#070b06">
+<title>OOZEMeter — Financial Conditions | Today's Reading &amp; Stress History</title>
+<meta name="description" content="Financial Conditions: current reading of -0.54, why it matters, and how it feeds the Ooze Score.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800;900&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="OOZEMeter">
+<meta property="og:title" content="OOZEMeter — Financial Conditions | Today's Reading &amp; Stress History">
+<meta property="og:description" content="Financial Conditions: current reading of -0.54, why it matters, and how it feeds the Ooze Score.">
+<meta property="og:image" content="https://arringtonc.github.io/oozemeter/og-card.png">
+<meta property="og:url" content="https://arringtonc.github.io/oozemeter/financial/">
+<link rel="canonical" href="https://arringtonc.github.io/oozemeter/financial/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="lab.css">
+</head>
+<body>
+<div id="page">
+<main class="wrap-narrow" id="main"><h1>🌡 Financial Conditions</h1><p><b>Current reading: -0.54</b> · ▲ +0 pts vs May · as of 2026-07-24</p><p>This line reads the financial system's plumbing: the Chicago Fed's National Financial Conditions Index compresses 105 measures of lending, funding, and risk appetite into one number. Positive means tighter than normal — banks pulling back, credit harder to get; negative means looser. It entered the jar in methodology v3 at 3% as a labeled bet: in backtesting it made the score climb about a month earlier during the slow credit tightening of 2007–08, and did nothing in the fast crash of 2020. Its measured benefit comes from that single historical episode, and in calm markets its arithmetic effect on the blended score is slightly negative. The full studies are public in the research archive.</p><p><a href="index.html">See today's Ooze Level →</a></p></main>
+</div>
+
+<script>window.FORCED_SLUG='financial';document.addEventListener('click',function(e){var a=e.target.closest('a[href^="#"]');if(!a)return;e.preventDefault();var t=document.getElementById(a.getAttribute('href').slice(1));if(t)t.scrollIntoView({behavior:'smooth'});history.replaceState(null,'',location.pathname+a.getAttribute('href'))});</script>
+<script src="data/latest.js"></script>
+<script src="data/editorial.js"></script>
+<script src="lab.js"></script>
+<script>
+renderHeader('');
+/* one template serves all 8 indicator URLs; scripts/static-pages.js stamps a
+   real /slug/ page per line, which sets window.FORCED_SLUG */
+const slug=new URLSearchParams(location.search).get('i')||window.FORCED_SLUG||'gas';
+const x=indBySlug(slug)||INDICATORS[0];
+const idx=INDICATORS.indexOf(x)+1;
+document.title=`OOZEMeter — ${x.name} | Today's Reading & Stress History`;
+
+const drain=x.dir==='down';
+const lineLive=LIVE&&x.val!=='—'; /* foreclosures/manufacturing stay pending even in LIVE */
+$('main').innerHTML=`
+  <div class="localnav">
+    <b>${x.emoji} ${x.name}</b>
+    <nav>
+      <a href="#reading">Reading</a>
+      <a href="#history">History</a>
+      <a href="#why">Why it matters</a>
+      <a href="#vs2008">vs 2008</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <a class="btn primary" href="index.html">See the Jar ▸</a>
+  </div>
+  <div class="crumbs"><a href="index.html">Facility</a> / <a href="index.html#pressure">Pressure Sources</a> / ${x.name}</div>
+
+  <div class="ind-head">
+    <div class="ind-title">
+      <div class="intake">Intake Line ${String(idx).padStart(2,'0')} — ${x.weight?x.weight+'% of formula':'auxiliary sensor'}</div>
+      <h1>${x.emoji} ${x.name}</h1>
+    </div>
+    <div class="contrib-chip">${lineLive?`Feeding the jar this month: <b>+${x.contrib} oz</b>`:`Feed pending — reads <b>0 oz</b>`}</div>
+  </div>
+
+  <div class="ind-reading" id="reading">
+    <div class="ind-val">${x.val}</div>
+    <div class="ind-meta">
+      <span class="${x.dir}">${x.trend}</span><br>
+      ${lineLive?`Fresh specimen collected — ${UPDATED}`:`Live feed pending — will meter <a href="${x.source.url}" target="_blank" rel="noopener">${x.source.name}</a>`}
+    </div>
+  </div>
+
+  ${window.EDITORIAL&&EDITORIAL.lines[x.slug]?`<div class="prose reveal" id="whychanged" style="margin-bottom:26px">
+    <h2 style="margin-top:0">Why it changed this month</h2>
+    <p>${EDITORIAL.lines[x.slug]}</p>
+  </div>`:''}
+  <div class="chart-panel reveal" id="history">
+    <h2>Stress History — ${x.name}</h2>
+    <div class="src" style="padding:22px 0 6px">📼 <b>HISTORY FEED — PENDING.</b> This line's real per-line history has not been published yet, so no chart renders here — the facility does not display sketches where data belongs. When the per-line backfill lands (milestone M2), a real chart will draw from the same archive that powers the <a href="archive.html">incident files</a>. Until then, the raw series is public at the source: <a href="${x.source.url}" target="_blank" rel="noopener">${x.source.name}</a>.</div>
+  </div>
+
+  <div class="prose reveal" id="why">
+    <h2>Why this line matters</h2>
+    <p>${x.why}</p>
+  </div>
+
+  <div class="prose reveal" id="vs2008">
+    <h2>How it compares to 2008</h2>
+    <div class="incident-callout">
+      <span class="ic-stamp">Incident File — 2008</span>
+      <p>${x.vs2008}</p>
+    </div>
+    <p>Full replay available in the <a href="archive.html">Incident Archive</a>.</p>
+  </div>
+
+  <div class="prose reveal">
+    <h2>How it feeds the ooze</h2>
+    <p>${x.name} ${x.weight?`carries a published weight of <strong>${x.weight}%</strong> in the Ooze Formula`:`is an auxiliary sensor — it doesn't carry formula weight, but it feeds the daily reading`}. ${lineLive?`Its current stress reading contributes <strong>+${x.contrib} of this month's ${TODAY_SCORE} oz</strong>${drain?' — and it has been relieving pressure lately':''}.`:`Once its feed connects, its normalized stress reading × weight will appear here as ounces of ooze.`} The complete recipe is public in the <a href="notes.html">Lab Notes</a>.</p>
+  </div>
+
+  <div class="prose reveal faq" id="faq">
+    <h2>Frequently asked questions</h2>
+    ${x.faqs.map(f=>`<details><summary>${f.q}</summary><p>${f.a}</p></details>`).join('')}
+  </div>
+
+  <div class="reveal">
+    <h2 style="font-family:var(--display);font-weight:800;font-size:1.25rem;margin:38px 0 12px">Cross-References</h2>
+    <div class="related">
+      ${x.related.map(r=>{const y=indBySlug(r);return `<a href="indicator.html?i=${y.slug}"><span>${y.emoji}</span> ${y.name} <span class="r-oz">+${y.contrib}</span></a>`}).join('')}
+      <a href="personal.html"><span>🧬</span> Your Personal Ooze <span class="r-oz">?</span></a>
+    </div>
+  </div>
+
+  <div class="reveal" style="margin:56px 0" id="nlMount"></div>
+`;
+
+/* previous / next file — continue through the facility */
+const prevX=INDICATORS[(idx-2+INDICATORS.length)%INDICATORS.length];
+const nextX=INDICATORS[idx%INDICATORS.length];
+$('main').insertAdjacentHTML('beforeend',`
+  <div class="filenav">
+    <a href="indicator.html?i=${prevX.slug}"><span class="fn-k">◂ Previous file</span>${prevX.emoji} ${prevX.name}</a>
+    <a href="indicator.html?i=${nextX.slug}" style="text-align:right"><span class="fn-k">Next file ▸</span>${nextX.emoji} ${nextX.name}</a>
+  </div>`);
+
+/* FAQ structured data (AUDIT-7 completion) */
+const faqLd={'@context':'https://schema.org','@type':'FAQPage',
+  mainEntity:x.faqs.map(f=>({'@type':'Question',name:f.q,
+    acceptedAnswer:{'@type':'Answer',text:f.a}}))};
+const faqTag=document.createElement('script');
+faqTag.type='application/ld+json';faqTag.textContent=JSON.stringify(faqLd);
+document.head.appendChild(faqTag);
+
+$('nlMount').innerHTML=newsletterHTML();
+wireNewsletter();
+renderFooter();
+wireReveals();
+</script>
+</body>
+</html>

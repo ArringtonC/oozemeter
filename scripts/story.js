@@ -15,7 +15,7 @@ const d=JSON.parse(fs.readFileSync('data/latest.json','utf8'));
 const history=JSON.parse(fs.readFileSync('data/history.json','utf8'));
 let revisions=[];try{revisions=JSON.parse(fs.readFileSync('data/revisions.json','utf8'))}catch{}
 
-const NAMES={gas:'gas prices',housing:'housing',credit:'credit cards',auto:'auto loans',jobs:'employment',inflation:'inflation',foreclosures:'mortgage distress',manufacturing:'manufacturing'};
+const NAMES={gas:'gas prices',housing:'housing',credit:'credit cards',auto:'auto loans',jobs:'employment',inflation:'inflation',financial:'financial conditions',foreclosures:'mortgage distress',manufacturing:'manufacturing'};
 const AUX=new Set(Object.entries(d.lines).filter(([,l])=>l.contributesToOoze===false).map(([k])=>k));
 const band=s=>[[20,'Smooth'],[40,'Sticky'],[60,'Slippery'],[80,'Oozing'],[100,'Overflowing']].find(([m])=>s<=m)[1];
 const cap=t=>t[0].toUpperCase()+t.slice(1);
@@ -28,6 +28,7 @@ const VALUE_CLAUSE={
   auto:l=>` with auto-loan delinquency at ${l.value}`,
   jobs:l=>` with unemployment at ${l.value}`,
   inflation:l=>` as yearly price growth ran ${l.value}`,
+  financial:l=>` with the Chicago Fed's conditions index at ${l.value}`,
   foreclosures:l=>` with mortgage delinquency at ${l.value}`,
   manufacturing:l=>``,
 };
