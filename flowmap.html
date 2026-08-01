@@ -197,6 +197,7 @@ footer{padding:36px 0 64px;font-size:.66rem;letter-spacing:.16em;text-transform:
       <button class="tab" data-panel="p-flow">Visitor Flow</button>
       <button class="tab" data-panel="p-complete">% Complete</button>
       <button class="tab" data-panel="p-tasks">Tasks</button>
+      <button class="tab" data-panel="p-versions">Versions</button>
       <button class="tab" data-panel="p-reqs">Requirements</button>
       <button class="tab" data-panel="p-goals">Goals</button>
       <button class="tab" data-panel="p-how">How</button>
@@ -504,6 +505,16 @@ footer{padding:36px 0 64px;font-size:.66rem;letter-spacing:.16em;text-transform:
   </div>
 </section>
 
+<!-- BLUEPRINT 09 — VERSION PLAN -->
+<section class="panel" id="p-versions">
+  <div class="wrap">
+    <div class="bp-label">Blueprint 09 — Version Plan</div>
+    <h2>Three versions to a real website</h2>
+    <p class="bp-sub">The board review (2026-08-01) sorted into releases. Each version has one goal; its tasks are exactly what that goal requires — nothing ships into a version it doesn't serve. 🔑 marks the steps only the operator can take.</p>
+    <div class="gates" style="grid-template-columns:repeat(auto-fit,minmax(300px,1fr))" id="verBoard"></div>
+  </div>
+</section>
+
 <!-- BLUEPRINT 08 — ROADMAP -->
 <section class="panel" id="p-road">
   <div class="wrap">
@@ -528,7 +539,7 @@ footer{padding:36px 0 64px;font-size:.66rem;letter-spacing:.16em;text-transform:
 </section>
 
 <footer>
-  <div class="wrap">Blueprint Rev 10 · Ward M research program landed 2026-08-01 (six lessons, gauge files, divergence chart, anchor validation, integrity gates; froth panel triaged to queue; Codex task pack: v3 + quote rights) · Ward M market wing opened 2026-07-28 (market-signal review → Path A spec + Sector Watch + calibrated composite) · Season-2 batch 2026-07-27 (GA4 tracker, OG previews, clean URLs, sitemap) · Variant J front page folded into index.html 2026-07-27 · Refinement Audit v1 absorbed (8 findings + 9 deltas) · Board review 2026-07-24 · Gates 1–2 cleared 2026-07-25 · Sources: improvements.md · REQUIREMENTS.md · tasks.js · research/ · data/latest.json · Tryst playbook inventory</div>
+  <div class="wrap">Blueprint Rev 11 · Version plan added 2026-08-01 (V1 honest launch → V2 built for strangers → V3 self-running; board review sorted into releases) · Ward M research program landed 2026-08-01 (six lessons, gauge files, divergence chart, anchor validation, integrity gates; froth panel triaged to queue; Codex task pack: v3 + quote rights) · Ward M market wing opened 2026-07-28 (market-signal review → Path A spec + Sector Watch + calibrated composite) · Season-2 batch 2026-07-27 (GA4 tracker, OG previews, clean URLs, sitemap) · Variant J front page folded into index.html 2026-07-27 · Refinement Audit v1 absorbed (8 findings + 9 deltas) · Board review 2026-07-24 · Gates 1–2 cleared 2026-07-25 · Sources: improvements.md · REQUIREMENTS.md · tasks.js · research/ · data/latest.json · Tryst playbook inventory</div>
 </footer>
 
 <script src="tasks.js"></script>
@@ -645,6 +656,53 @@ document.getElementById('taskBoard').innerHTML=Object.keys(byV).map(v=>{
       </div>`}).join('')}
   </div>`;
 }).join('');
+
+/* ---- version plan (board review 2026-08-01 sorted into releases) ---- */
+const VERSIONS=[
+ {v:'V1',name:'THE HONEST LAUNCH',color:'var(--ooze)',
+  goal:'A stranger can trust every number on every page — then we buy the domain.',
+  measure:'Met when: zero false claims, zero fake charts, the 0–100 scale explained in plain English, and the domain cutover is a one-variable change.',
+  tasks:[
+   ['Replace the eight "illustrative" indicator charts — real per-line backfill or an honest pending stub','todo'],
+   ['Publish Ward M anchor tables in data/market.json and link the validation report from every gauge page','todo'],
+   ['Relabel the front-page "Integrity: N%" stat — it is 100−score, not an audit result','todo'],
+   ['Plain-English 0–100 band legend on what-is-ooze.html, today\'s reading marked, linked from the hero chip','todo'],
+   ['Sector Watch percentage color matches the published state rule (green at ≥ −2%)','todo'],
+   ['One build-time base-URL constant across sitemap, robots, OG tags, canonicals, feed, and JSON-LD','todo'],
+   ['🔑 Buy the domain and point Pages at it — only after every box above','operator']]},
+ {v:'V2',name:'BUILT FOR STRANGERS',color:'var(--cyan)',
+  goal:'A first-time visitor understands it, shares it, and finds their way — and we can finally measure all three.',
+  measure:'Met when: the score paints in under a second, every page previews with its number, no page is a dead end, and the analytics goals report real data.',
+  tasks:[
+   ['Statically stamp indicator pages + market.html — pre-JS HTML never reads "—/100 OFFLINE"','todo'],
+   ['Boot ceremony auto-skips by default; the number is visible in under one second (AUDIT-8)','todo'],
+   ['Share buttons on every page; OG cards carry each page\'s live reading in the image','todo'],
+   ['Sitemap covers the gauge pages and lessons; canonicals on index and market','todo'],
+   ['Lessons wing joins the facility: shared tokens, footer, and a one-tap path to today\'s reading','todo'],
+   ['Divergence chart survives a 360px screen; Ward M gets one tokenized color, household keeps ooze green','todo'],
+   ['Ward M copy rewritten for civilians; gauge pages gain the can-glass instrument','todo'],
+   ['Policies + notes cover the whole facility — Ward M house rules and the two aux jar lines disclosed','todo'],
+   ['🔑 GA4 property + Search Console verification — six parked goals start measuring','operator']]},
+ {v:'V3',name:'THE SELF-RUNNING FACILITY',color:'var(--amber)',
+  goal:'The site updates, verifies, and deepens itself — the operator watches instead of cranks.',
+  measure:'Met when: every collection runs on schedule under oozebot, every published claim re-verifies itself monthly, and v3 methodology is live with its disclosures.',
+  tasks:[
+   ['Methodology v3: NFCI enters the flagship at 3% — pipeline (Codex) + disclosure copy (publish blocker)','todo'],
+   ['Quote rights cleared → weekly Sector Watch schedule under the oozebot identity','todo'],
+   ['Divergence history and anchor validation refresh themselves in the monthly cycle','todo'],
+   ['Partial-month labels and STALE flags on Ward M readings','todo'],
+   ['Household golden-day fixtures: calm day, GFC peak, COVID whipsaw, staleness day — CI red/green','todo'],
+   ['Froth panel (last): margin debt, Buffett Z.1 proxy, household equity allocation — a separate valuation panel, never averaged into stress','todo']]},
+];
+document.getElementById('verBoard').innerHTML=VERSIONS.map(ver=>`
+  <div class="gate">
+    <div class="gnum" style="color:${ver.color}">${ver.v} — ${ver.name}</div>
+    <h3>${ver.goal}</h3>
+    <ul>
+      <li style="color:var(--dim)">${ver.measure}</li>
+      ${ver.tasks.map(([t,s])=>`<li>${s==='done'?'✓ ':s==='operator'?'':'○ '}${t}</li>`).join('')}
+    </ul>
+  </div>`).join('');
 
 /* ---- goals board ---- */
 const GOALS=[
