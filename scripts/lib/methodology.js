@@ -18,6 +18,15 @@ const METHODOLOGY_V3_WEIGHTS = Object.freeze({
   financial: 3.00,
 });
 
+function parseProviderNumber(rawValue, label) {
+  if (typeof rawValue !== 'string' || !/^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?$/.test(rawValue)) {
+    throw new Error(`Invalid ${label} numeric value: ${JSON.stringify(rawValue)}`);
+  }
+  const value = Number(rawValue);
+  if (!Number.isFinite(value)) throw new Error(`Invalid ${label} numeric value: ${JSON.stringify(rawValue)}`);
+  return value;
+}
+
 function interpolateAnchors(anchors, value) {
   if (!Number.isFinite(value)) throw new Error(`Cannot interpolate non-finite value: ${value}`);
   if (value <= anchors[0][0]) return anchors[0][1];
@@ -138,8 +147,7 @@ function parseNyFedAutoWorkbookParts({workbookXml, relsXml, sharedStringsXml, wo
     if (!/^A\d+$/.test(reference) || !/^\d{2}:Q[1-4]$/.test(String(rawQuarter))) continue;
     const row = reference.match(/\d+$/)[0];
     const rawValue = cells[`${autoColumn}${row}`];
-    const value = Number(rawValue);
-    if (!Number.isFinite(value)) continue;
+    const value = parseProviderNumber(rawValue, 'AUTO');
     const month = quarterToMonth(rawQuarter);
     monthly[month] = value;
     last = {date: `${month}-01`, value, quarter: rawQuarter};

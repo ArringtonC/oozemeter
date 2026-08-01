@@ -1,19 +1,34 @@
 const {fetchWithRetry} = require('./fetch');
 
+function validDate(value) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+  const date = new Date(`${value}T00:00:00.000Z`);
+  return Number.isFinite(date.getTime()) && date.toISOString().slice(0, 10) === value;
+}
+
+function parseFredNumber(rawValue, seriesId, date) {
+  if (typeof rawValue !== 'string' || !/^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?$/.test(rawValue)) {
+    throw new Error(`${seriesId}: invalid numeric value ${JSON.stringify(rawValue)} at ${date}`);
+  }
+  const value = Number(rawValue);
+  if (!Number.isFinite(value)) throw new Error(`${seriesId}: invalid numeric value ${JSON.stringify(rawValue)} at ${date}`);
+  return value;
+}
+
 function normalizeFredObservations(rows, seriesId) {
   const grouped = {};
   const observations = [];
   let last = null;
+  let previousDate = '';
 
   for (const {date, rawValue} of rows) {
-    if (rawValue === '.' || rawValue === '' || rawValue == null) continue;
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+    if (!validDate(date)) {
       throw new Error(`${seriesId}: invalid observation date ${JSON.stringify(date)}`);
     }
-    const value = Number(rawValue);
-    if (!Number.isFinite(value)) {
-      throw new Error(`${seriesId}: invalid numeric value ${JSON.stringify(rawValue)} at ${date}`);
-    }
+    if (date <= previousDate) throw new Error(`${seriesId}: observation dates must be strictly increasing`);
+    previousDate = date;
+    if (rawValue === '.' || rawValue === '' || rawValue == null) continue;
+    const value = parseFredNumber(rawValue, seriesId, date);
     observations.push({date, value});
     (grouped[date.slice(0, 7)] ??= []).push(value);
     last = {date, value};
@@ -28,9 +43,14 @@ function normalizeFredObservations(rows, seriesId) {
 }
 
 function parseFredCsv(csv, seriesId) {
-  const rows = String(csv).trim().split(/\r?\n/).slice(1);
-  return normalizeFredObservations(rows.filter(Boolean).map(row => {
-    const [date, rawValue] = row.split(',');
+  if (typeof csv !== 'string') throw new Error(`${seriesId}: FRED CSV response must be text`);
+  const lines = csv.replace(/(?:\r?\n)+$/, '').split(/\r?\n/);
+  const header = lines.shift();
+  if (header !== `observation_date,${seriesId}`) throw new Error(`${seriesId}: unexpected FRED CSV header`);
+  return normalizeFredObservations(lines.map(row => {
+    const fields = row.split(',');
+    if (fields.length !== 2) throw new Error(`${seriesId}: malformed FRED CSV row`);
+    const [date, rawValue] = fields;
     return {date, rawValue};
   }), seriesId);
 }

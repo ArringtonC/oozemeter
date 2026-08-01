@@ -72,6 +72,33 @@ test('fails closed on a malformed FRED numeric field', () => {
   );
 });
 
+test('fails closed on provider-invalid dates, numeric grammar, and observation order', () => {
+  for (const token of ['0x10', 'Infinity', '1_000', ' 1.2', '1.2 ']) {
+    assert.throws(
+      () => parseFredCsv(`observation_date,UNRATE\n2026-06-01,${token}\n`, 'UNRATE'),
+      /UNRATE: invalid numeric value/,
+    );
+  }
+  assert.throws(
+    () => parseFredCsv('observation_date,UNRATE\n2026-99-99,4.1\n', 'UNRATE'),
+    /UNRATE: invalid observation date/,
+  );
+  assert.throws(
+    () => parseFredApiJson({observations:[
+      {date:'2026-06-02', value:'4.1'},
+      {date:'2026-06-01', value:'4.0'},
+    ]}, 'UNRATE'),
+    /strictly increasing/,
+  );
+  assert.throws(
+    () => parseFredApiJson({observations:[
+      {date:'2026-06-01', value:'4.1'},
+      {date:'2026-06-01', value:'4.0'},
+    ]}, 'UNRATE'),
+    /strictly increasing/,
+  );
+});
+
 test('fails closed when FRED returns no observations', () => {
   assert.throws(() => parseFredCsv('observation_date,CPIAUCNS\n', 'CPIAUCNS'), /CPIAUCNS: no valid observations/);
 });

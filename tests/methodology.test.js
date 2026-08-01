@@ -67,6 +67,24 @@ test('extracts AUTO 30-plus transition data by sheet and header name', () => {
   assert.equal(result.worksheetPath, 'xl/worksheets/sheet12.xml');
 });
 
+test('fails closed on malformed NY Fed AUTO numeric cells', () => {
+  const base = {
+    workbookXml: '<workbook xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets><sheet name="Page 13 Data" sheetId="12" r:id="rId12"/></sheets></workbook>',
+    relsXml: '<Relationships><Relationship Id="rId12" Target="worksheets/sheet12.xml"/></Relationships>',
+    sharedStringsXml: '<sst><si><t>AUTO</t></si><si><t>26:Q1</t></si></sst>',
+  };
+  for (const rawValue of ['0x10', 'not-a-number', '']) {
+    const worksheetXml = `<worksheet><sheetData>
+      <row r="5"><c r="B5" t="s"><v>0</v></c></row>
+      <row r="6"><c r="A6" t="s"><v>1</v></c><c r="B6"><v>${rawValue}</v></c></row>
+    </sheetData></worksheet>`;
+    assert.throws(
+      () => parseNyFedAutoWorkbookParts({...base, worksheetXml}),
+      /invalid AUTO numeric value/i,
+    );
+  }
+});
+
 test('fails closed if the AUTO header moves or disappears', () => {
   const parts = {
     workbookXml: '<workbook xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets><sheet name="Page 13 Data" r:id="rId12"/></sheets></workbook>',
