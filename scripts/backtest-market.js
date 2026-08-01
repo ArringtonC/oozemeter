@@ -9,8 +9,12 @@
    Run: node scripts/backtest-market.js → prints frozen constants,
    writes research/market-backtest.json */
 const fs=require('fs');
+const path=require('path');
 const {interpolateAnchors,parseFredMonthly}=require('./lib/market-series');
 const {parseYahooChart}=require('./lib/market-sector');
+const {FROZEN_WARD_CALIBRATION,applyFrozenCalibration,deriveCalibrationDiagnostic}=require('./lib/market-backtest');
+
+const OUTPUT_PATH=path.resolve(process.env.OOZEMETER_MARKET_BACKTEST_OUTPUT||'research/market-backtest.json');
 
 async function fred(id){
   const res=await fetch(`https://fred.stlouisfed.org/graph/fredgraph.csv?id=${id}`,
@@ -93,7 +97,7 @@ const A={
   };
 
   const now=new Date();
-  const results=[];
+  let results=[];
   for(let y=2007;y<=now.getFullYear();y++)for(let mo=1;mo<=12;mo++){
     const m=`${y}-${String(mo).padStart(2,'0')}`;
     if(y===now.getFullYear()&&mo>now.getMonth()+1)break;
@@ -105,11 +109,10 @@ const A={
     const raw=Object.values(stresses).reduce((a,b)=>a+b,0)/6;
     results.push({month:m,raw,stresses});
   }
-  const rawCalm=Math.min(...results.map(r=>r.raw));
-  const rawGfc=Math.max(...results.filter(r=>r.month<='2010-12').map(r=>r.raw));
-  const a=(90-10)/(rawGfc-rawCalm),b=10-a*rawCalm;
-  for(const r of results)r.score=Math.round(Math.max(0,Math.min(100,a*r.raw+b)));
-  console.log(`\ncalibration: raw calm ${rawCalm.toFixed(1)} → 10 · raw GFC peak ${rawGfc.toFixed(1)} → 90 · a=${a.toFixed(4)} b=${b.toFixed(4)}`);
+  const calibrationDiagnostic=deriveCalibrationDiagnostic(results);
+  results=applyFrozenCalibration(results);
+  console.log(`\nfrozen calibration: raw calm ${FROZEN_WARD_CALIBRATION.rawCalm.toFixed(1)} → 10 · raw GFC peak ${FROZEN_WARD_CALIBRATION.rawGfc.toFixed(1)} → 90 · a=${FROZEN_WARD_CALIBRATION.a.toFixed(4)} b=${FROZEN_WARD_CALIBRATION.b.toFixed(4)}`);
+  console.log(`current-revised diagnostic (not applied): raw calm ${calibrationDiagnostic.observedRawCalm.toFixed(1)} · raw GFC peak ${calibrationDiagnostic.observedRawGfc.toFixed(1)}`);
   const peak=(f,t)=>{const rr=results.filter(x=>x.month>=f&&x.month<=t);return rr.reduce((p,c)=>c.score>p.score?c:p,rr[0])};
   for(const [name,f,t] of [['GFC','2007-01','2010-12'],['Euro stress','2011-01','2012-12'],['COVID','2020-01','2020-12'],
       ['2022 tightening','2022-01','2022-12'],['Bank stress','2023-01','2023-12'],['Latest 12mo',results[results.length-13].month,results[results.length-1].month]]){
@@ -120,13 +123,15 @@ const A={
   const calm=results.reduce((p,c)=>c.score<p.score?c:p);
   console.log(`calmest          ${calm.score} in ${calm.month}`);
   console.log(`LATEST           ${results[results.length-1].score} in ${results[results.length-1].month}`);
-  fs.writeFileSync('research/market-backtest.json',JSON.stringify({
+  fs.mkdirSync(path.dirname(OUTPUT_PATH),{recursive:true});
+  fs.writeFileSync(OUTPUT_PATH,JSON.stringify({
     generated:new Date().toISOString(),anchors:A,gauges:Object.keys(A),
     basis:'Current-revised research reconstruction, not release-time vintages. Historical breadth uses successive monthly Yahoo closes; live Sector Watch uses a 22-session daily interval requiring 23 closes, so the two breadth transforms are not identical.',
     breadthTickers:TICKERS,
     gaugeHistory,
-    calibration:{rawCalm,rawGfc,a,b,rule:'ward calm 2007-present → 10, ward GFC peak → 90'},
+    calibration:FROZEN_WARD_CALIBRATION,
+    calibrationDiagnostic,
     monthly:results.map(r=>({month:r.month,score:r.score,raw:+r.raw.toFixed(2)})),
   },null,1));
-  console.log('wrote research/market-backtest.json');
+  console.log(`wrote ${OUTPUT_PATH}`);
 })();

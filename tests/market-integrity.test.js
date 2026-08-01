@@ -4,7 +4,7 @@ const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
 
-const {inspectMarketRelease} = require('../scripts/lib/market-integrity');
+const {inspectCurrentMarketEvidence, inspectMarketRelease} = require('../scripts/lib/market-integrity');
 const root = path.resolve(__dirname, '..');
 
 function disposableCopy() {
@@ -91,4 +91,38 @@ test('integrity gate rejects null and out-of-range history scores', () => {
   fs.writeFileSync(path.join(copy, 'data/market-history.json'), JSON.stringify(history));
   fs.writeFileSync(path.join(copy, 'data/market-history.js'), `window.MARKET_HISTORY=${JSON.stringify(history)};\n`);
   assert.match(inspectMarketRelease(copy).failures.join('\n'), /history scores must be finite numbers from 0 to 100/i);
+});
+
+test('current-evidence gate proves divergence and anchor reports derive from a fresh backtest', () => {
+  const backtest = JSON.parse(fs.readFileSync(path.join(root, 'research/market-backtest.json')));
+  const now = new Date(Date.parse(backtest.generated) + 60_000);
+  assert.deepEqual(inspectCurrentMarketEvidence(root, now).failures, []);
+});
+
+test('current-evidence gate rejects stale acquisition and downstream input drift', () => {
+  const canonicalBacktest = JSON.parse(fs.readFileSync(path.join(root, 'research/market-backtest.json')));
+  const staleNow = new Date(Date.parse(canonicalBacktest.generated) + 16 * 60_000);
+  assert.match(inspectCurrentMarketEvidence(root, staleNow).failures.join('\n'), /backtest acquisition is not current/i);
+
+  const copy = fs.mkdtempSync(path.join(os.tmpdir(), 'ward-evidence-'));
+  fs.mkdirSync(path.join(copy, 'data'));
+  fs.mkdirSync(path.join(copy, 'research'));
+  for (const file of ['history.json', 'market-history.json']) {
+    fs.copyFileSync(path.join(root, 'data', file), path.join(copy, 'data', file));
+  }
+  for (const file of ['market-backtest.json', 'market-anchor-validation.json', 'market-anchor-validation.md']) {
+    fs.copyFileSync(path.join(root, 'research', file), path.join(copy, 'research', file));
+  }
+  const backtest = JSON.parse(fs.readFileSync(path.join(copy, 'research/market-backtest.json')));
+  const history = JSON.parse(fs.readFileSync(path.join(copy, 'data/market-history.json')));
+  history.monthly.pop();
+  history.observations = history.monthly.length;
+  history.end = history.monthly.at(-1).month;
+  fs.writeFileSync(path.join(copy, 'data/market-history.json'), JSON.stringify(history));
+  try {
+    const failures = inspectCurrentMarketEvidence(copy, new Date(Date.parse(backtest.generated) + 60_000)).failures.join('\n');
+    assert.match(failures, /does not match exact shared-month inputs/i);
+  } finally {
+    fs.rmSync(copy, {recursive:true, force:true});
+  }
 });

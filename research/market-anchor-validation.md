@@ -1,6 +1,6 @@
 # Ward M anchor validation
 
-Generated from the backtest acquisition at `2026-07-29T02:46:06.858Z`.
+Generated from the backtest acquisition at `2026-08-01T23:25:16.580Z`.
 
 This report checks every provisional raw-value anchor against available current-revised history, not release-time vintages. A terminal month matching the retrieval month is partial. `Raw percentile` is the anchor’s position in the observed distribution. `At least this stressful` is the share of historical observations on the stressful side of that anchor. These are descriptive checks, not a license to tune anchors until the backtest tells a preferred story.
 
@@ -8,12 +8,12 @@ This report checks every provisional raw-value anchor against available current-
 
 | Gauge | Direction | Coverage | Terminal | N | p05 | p50 | p95 |
 |---|---|---:|---|---:|---:|---:|---:|
-| rates | lower-is-more-stressful | 1982-01–2026-07 | partial retrieval month | 535 | -0.49 | 1.58 | 3.39 |
-| volatility | higher-is-more-stressful | 1990-01–2026-07 | partial retrieval month | 439 | 11.69 | 17.68 | 32 |
-| credit | higher-is-more-stressful | 1971-01–2026-07 | partial retrieval month | 667 | -0.77 | -0.39 | 2.32 |
-| energy | higher-is-more-stressful | 1986-01–2026-07 | partial retrieval month | 487 | 15.1 | 44.65 | 101.4 |
-| dollar | higher-is-more-stressful | 2007-01–2026-07 | partial retrieval month | 235 | -8.62 | 1.08 | 12.58 |
-| breadth | higher-is-more-stressful | 2006-07–2026-07 | partial retrieval month | 241 | 0 | 4.55 | 81.82 |
+| rates | lower-is-more-stressful | 1982-01–2026-07 | prior month | 535 | -0.49 | 1.58 | 3.39 |
+| volatility | higher-is-more-stressful | 1990-01–2026-07 | prior month | 439 | 11.69 | 17.68 | 32 |
+| credit | higher-is-more-stressful | 1971-01–2026-07 | prior month | 667 | -0.77 | -0.39 | 2.32 |
+| energy | higher-is-more-stressful | 1986-01–2026-07 | prior month | 487 | 15.1 | 44.65 | 101.4 |
+| dollar | higher-is-more-stressful | 2007-01–2026-07 | prior month | 235 | -8.62 | 1.08 | 12.58 |
+| breadth | higher-is-more-stressful | 2006-07–2026-07 | prior month | 241 | 0 | 4.55 | 81.82 |
 
 ## rates
 

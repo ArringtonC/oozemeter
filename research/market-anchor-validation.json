@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-29T02:46:06.858Z",
+  "generated": "2026-08-01T23:25:16.580Z",
   "methodology": "Ward M anchor percentile validation",
   "vintageBasis": "Current-revised reconstruction, not release-time vintages. A terminal month matching the retrieval month is partial.",
   "gauges": {
@@ -67,7 +67,7 @@
           "stressTailShare": 72.9
         }
       ],
-      "terminalMonthPartial": true
+      "terminalMonthPartial": false
     },
     "volatility": {
       "orientation": "higher-is-more-stressful",
@@ -127,7 +127,7 @@
           "stressTailShare": 0.46
         }
       ],
-      "terminalMonthPartial": true
+      "terminalMonthPartial": false
     },
     "credit": {
       "orientation": "higher-is-more-stressful",
@@ -199,7 +199,7 @@
           "stressTailShare": 2.55
         }
       ],
-      "terminalMonthPartial": true
+      "terminalMonthPartial": false
     },
     "energy": {
       "orientation": "higher-is-more-stressful",
@@ -259,7 +259,7 @@
           "stressTailShare": 0
         }
       ],
-      "terminalMonthPartial": true
+      "terminalMonthPartial": false
     },
     "dollar": {
       "orientation": "higher-is-more-stressful",
@@ -319,7 +319,7 @@
           "stressTailShare": 1.7
         }
       ],
-      "terminalMonthPartial": true
+      "terminalMonthPartial": false
     },
     "breadth": {
       "orientation": "higher-is-more-stressful",
@@ -379,7 +379,7 @@
           "stressTailShare": 5.39
         }
       ],
-      "terminalMonthPartial": true
+      "terminalMonthPartial": false
     }
   }
 }

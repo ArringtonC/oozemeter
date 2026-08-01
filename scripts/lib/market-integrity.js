@@ -2,6 +2,8 @@ const fs = require('fs');
 const path = require('path');
 const {buildMarketNote} = require('./market-note');
 const {latestSectorObservationDate} = require('./market-sector');
+const {alignHistories} = require('./market-divergence');
+const {analyzeBacktest} = require('./market-validation');
 
 const EXPECTED_SENSORS = ['rates', 'volatility', 'credit', 'energy', 'dollar', 'breadth'];
 const EXPECTED_TICKERS = ['SPY', 'QQQ', 'DIA', 'IWM', 'XLF', 'XLI', 'IYT', 'XLY', 'XLP', 'SMH', 'XLV'];
@@ -133,4 +135,44 @@ function inspectMarketRelease(root) {
   return {status: failures.length ? 'fail' : 'pass', failures};
 }
 
-module.exports = {inspectMarketRelease};
+function inspectCurrentMarketEvidence(root, now=new Date()) {
+  const failures = [];
+  const fail = message => failures.push(message);
+  try {
+    const backtest = readJson(path.join(root, 'research/market-backtest.json'));
+    const household = readJson(path.join(root, 'data/history.json'));
+    const history = readJson(path.join(root, 'data/market-history.json'));
+    const validation = readJson(path.join(root, 'research/market-anchor-validation.json'));
+    const report = fs.readFileSync(path.join(root, 'research/market-anchor-validation.md'), 'utf8');
+
+    const acquired = Date.parse(backtest.generated);
+    const current = now instanceof Date ? now.getTime() : Date.parse(now);
+    const age = current - acquired;
+    if (!Number.isFinite(acquired) || !Number.isFinite(current) || age < -60_000 || age > 15 * 60_000) {
+      fail('Market backtest acquisition is not current for this evidence cycle');
+    }
+
+    const expectedMonthly = alignHistories(backtest.monthly, household);
+    const expectedStart = expectedMonthly[0]?.month;
+    const expectedEnd = expectedMonthly.at(-1)?.month;
+    if (!expectedMonthly.length || !same(history.monthly, expectedMonthly)
+      || history.observations !== expectedMonthly.length
+      || history.start !== expectedStart || history.end !== expectedEnd
+      || history.generated !== backtest.generated) {
+      fail('Market divergence does not match exact shared-month inputs');
+    }
+
+    const expectedValidation = analyzeBacktest(backtest);
+    if (!same(validation, expectedValidation)) fail('Market anchor validation does not match the current backtest');
+    if (!report.includes(`Generated from the backtest acquisition at \`${backtest.generated}\`.`)
+      || !/descriptive checks, not a license to tune anchors/i.test(report)
+      || !/Any anchor change requires a new Ward M methodology version/i.test(report)) {
+      fail('Market anchor report is stale or missing the no-auto-tuning rule');
+    }
+  } catch (error) {
+    fail(`Current Market evidence unreadable: ${error.message}`);
+  }
+  return {status: failures.length ? 'fail' : 'pass', failures};
+}
+
+module.exports = {inspectCurrentMarketEvidence, inspectMarketRelease};
