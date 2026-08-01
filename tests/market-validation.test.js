@@ -1,7 +1,14 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
+const {execFileSync} = require('node:child_process');
+const fs = require('node:fs');
+const os = require('node:os');
+const path = require('node:path');
 
 const {analyzeBacktest, analyzeGauge, quantile} = require('../scripts/lib/market-validation');
+
+const root = path.resolve(__dirname, '..');
+const validator = path.join(root, 'scripts/validate-market-anchors.js');
 
 test('quantile interpolates the sorted historical distribution', () => {
   assert.equal(quantile([10, 20, 30, 40, 50], 0.25), 20);
@@ -56,4 +63,53 @@ test('anchor validation marks the retrieval month as partial', () => {
     gaugeHistory: {rates: [{month: '2026-06', value: 0}, {month: '2026-07', value: 1}]},
   });
   assert.equal(report.gauges.rates.terminalMonthPartial, true);
+});
+
+test('anchor report command is deterministic and never tunes its input anchors', () => {
+  const outputRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'ward-anchor-validation-'));
+  const inputPath = path.join(outputRoot, 'market-backtest.json');
+  const jsonPath = path.join(outputRoot, 'market-anchor-validation.json');
+  const reportPath = path.join(outputRoot, 'market-anchor-validation.md');
+  const backtest = {
+    generated: '2026-08-01T00:00:00.000Z',
+    anchors: {
+      rates: [[-1, 100], [0, 45], [1, 5]],
+      volatility: [[10, 5], [20, 35], [40, 80]],
+    },
+    gaugeHistory: {
+      rates: [
+        {month: '2026-06', value: -0.5},
+        {month: '2026-07', value: 0.5},
+      ],
+      volatility: [
+        {month: '2026-06', value: 15},
+        {month: '2026-07', value: 25},
+      ],
+    },
+  };
+  const input = `${JSON.stringify(backtest, null, 2)}\n`;
+  const run = () => execFileSync(process.execPath, [
+    validator,
+    '--input', inputPath,
+    '--json', jsonPath,
+    '--report', reportPath,
+  ], {cwd: root, encoding: 'utf8'});
+
+  fs.writeFileSync(inputPath, input);
+  run();
+  const firstJson = fs.readFileSync(jsonPath, 'utf8');
+  const firstReport = fs.readFileSync(reportPath, 'utf8');
+  const validation = JSON.parse(firstJson);
+  assert.deepEqual(
+    validation.gauges.rates.anchors.map(({raw, stress}) => [raw, stress]),
+    backtest.anchors.rates,
+  );
+  assert.match(firstReport, /descriptive checks, not a license to tune anchors/i);
+  assert.match(firstReport, /Any anchor change requires a new Ward M methodology version/i);
+  assert.equal(fs.readFileSync(inputPath, 'utf8'), input);
+
+  run();
+  assert.equal(fs.readFileSync(jsonPath, 'utf8'), firstJson);
+  assert.equal(fs.readFileSync(reportPath, 'utf8'), firstReport);
+  assert.equal(fs.readFileSync(inputPath, 'utf8'), input);
 });

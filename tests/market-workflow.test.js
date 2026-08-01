@@ -33,3 +33,10 @@ test('hosted Ward M workflow runs strict Yahoo parser and Sector Watch interval 
   const workflow = fs.readFileSync(workflowPath, 'utf8');
   assert.match(workflow, /tests\/market-sector\.test\.js/);
 });
+
+test('hosted Ward M workflow refreshes descriptive anchor evidence without auto-tuning', () => {
+  const workflow = fs.readFileSync(workflowPath, 'utf8');
+  assert.match(workflow, /node scripts\/build-market-divergence\.js[\s\S]*node scripts\/validate-market-anchors\.js[\s\S]*node scripts\/market-integrity\.js/);
+  assert.doesNotMatch(workflow, /node scripts\/backtest-market\.js/);
+  assert.match(workflow, /git add[^\n]*research\/market-anchor-validation\.json research\/market-anchor-validation\.md/);
+});
