@@ -17,6 +17,7 @@
 <meta property="og:title" content="OOZEMeter — Ooze Level 26/100 (Sticky) · June 2026">
 <meta property="og:description" content="The June 2026 Ooze Level is 26/100 (Sticky), down 3 from May 2026. One score for U.S. economic stress, computed from public data.">
 <meta property="og:image" content="https://arringtonc.github.io/oozemeter/og-card.png">
+<link rel="canonical" href="https://arringtonc.github.io/oozemeter/">
 <meta property="og:url" content="https://arringtonc.github.io/oozemeter/">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="stylesheet" href="lab.css">
@@ -69,6 +70,7 @@
 
       <div class="specimen-line cine c5">🧪 Monthly specimen sealed: <b>June 2026 = 26</b> · intake lines refresh as their data releases </div>
       <div class="streak-line cine c5" id="streakLine"></div>
+      <div class="cine c5" style="margin-top:8px"><a href="index.html?boot=1" style="font-size:.6rem;letter-spacing:.18em;color:var(--dim);text-decoration:none">▶ REPLAY CLEARANCE CHECK</a></div>
     </div>
 
     <aside class="pvJ-rail cine c5">
@@ -147,13 +149,17 @@ const boot=$('boot');
 function endBoot(){
   if(boot.classList.contains('done'))return;
   boot.classList.add('done');
-  sessionStorage.setItem('oozeboot','1');
+  localStorage.setItem('oozeboot','1');
   document.body.classList.add('intro-go');
   startCountUp();
   setTimeout(()=>setJar(heroJar,heroTheme,TODAY_SCORE),300);
 }
 boot.addEventListener('click',endBoot);
-if(sessionStorage.getItem('oozeboot')||matchMedia('(prefers-reduced-motion: reduce)').matches){
+/* ceremony plays once per browser (AUDIT-8: daily checkers get the score instantly);
+   ?boot=1 or the footer replay link brings the theater back */
+const wantBoot=new URLSearchParams(location.search).has('boot');
+if(wantBoot)localStorage.removeItem('oozeboot');
+if((!wantBoot&&localStorage.getItem('oozeboot'))||matchMedia('(prefers-reduced-motion: reduce)').matches){
   boot.style.display='none';
   requestAnimationFrame(()=>endBoot());
 }else{
@@ -251,7 +257,7 @@ function startCountUp(){
 /* ============ RESEARCH LIBRARY (rail) ============ */
 /* site-wide tag taxonomy — keep in sync with article.html + oozeonomics.html CATS */
 const CATL={report:['OOZE MONTHLY REPORT','var(--ooze)'],incident:['OOZE ARCHIVES','var(--red)'],
-            explainer:['OOZEONOMICS','#5fd7ff'],manual:['OOZEONOMICS','#5fd7ff']};
+            explainer:['OOZEONOMICS','var(--ward)'],manual:['OOZEONOMICS','var(--ward)']};
 const ALLA=(window.ARTICLES||[]).concat(window.AUTO_ARTICLES||[]).sort((a,b)=>b.date.localeCompare(a.date));
 const lead=ALLA.find(a=>a.slug===(window.EDITORIAL||{}).articleSlug)||ALLA[0];
 const others=ALLA.filter(a=>a!==lead).slice(0,3);
@@ -286,7 +292,7 @@ if(window.MARKET_DATA){
   const M=window.MARKET_DATA,SW=window.SECTOR_DATA;
   $('wardCard').innerHTML=`<a class="pk-file" href="market.html">
     <span class="fico">📊</span>
-    <div class="fi-meta"><span class="fi-dot" style="background:#5fd7ff"></span>MARKET OOZE · EXPERIMENTAL</div>
+    <div class="fi-meta"><span class="fi-dot" style="background:var(--ward)"></span>MARKET OOZE · EXPERIMENTAL</div>
     <div class="fi-t">Markets read ${M.score} — ${bandOf(M.score).name}</div>
     ${SW?`<div class="fi-tease">Sector Watch: ${SW.overall.toLowerCase()} — ${SW.breadth.steady} of ${SW.breadth.total} ticker proxies steady.</div>`:''}
     <span class="pk-more" style="display:inline-block;margin-top:10px">OPEN THE WARD →</span>

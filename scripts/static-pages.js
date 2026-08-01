@@ -24,7 +24,7 @@ const ARTICLES=(ctx.window.ARTICLES||[]).concat(ctx.window.AUTO_ARTICLES||[]);
 /* with <base>, fragment-only links would navigate to the parent — intercept them */
 const FRAG_FIX=`document.addEventListener('click',function(e){var a=e.target.closest('a[href^="#"]');if(!a)return;e.preventDefault();var t=document.getElementById(a.getAttribute('href').slice(1));if(t)t.scrollIntoView({behavior:'smooth'});history.replaceState(null,'',location.pathname+a.getAttribute('href'))});`;
 
-function bake(template,{base,slug,title,desc,url}){
+function bake(template,{base,slug,title,desc,url,image,staticMain}){
   let h=template;
   const sub=(re,rep,label)=>{
     if(!re.test(h))throw new Error(`static-pages: anchor missing — ${label} (${url})`);
@@ -37,6 +37,10 @@ function bake(template,{base,slug,title,desc,url}){
   sub(/<meta property="og:description" content="[^"]*">/,`<meta property="og:description" content="${desc}">`,'og:description');
   sub(/<meta property="og:url" content="[^"]*">/,`<meta property="og:url" content="${url}">\n<link rel="canonical" href="${url}">`,'og:url');
   sub(/<script src="data\/latest\.js"><\/script>/,`<script>window.FORCED_SLUG='${slug}';${FRAG_FIX}</script>\n<script src="data/latest.js"></script>`,'forced slug');
+  if(image)sub(/<meta property="og:image" content="[^"]*">/,`<meta property="og:image" content="${image}">`,'og:image');
+  /* pre-JS content: crawlers, previews, and no-JS visitors see the real reading;
+     the page script replaces #main innerHTML wholesale on load */
+  if(staticMain)sub(/<main class="wrap-narrow" id="main"><\/main>/,`<main class="wrap-narrow" id="main">${staticMain}</main>`,'static main');
   return h;
 }
 
@@ -52,7 +56,9 @@ for(const x of INDICATORS){
   fs.writeFileSync(path.join(x.slug,'index.html'),bake(indT,{
     base:'../',slug:x.slug,url,
     title:esc(`OOZEMeter — ${x.name} | Today's Reading & Stress History`),
-    desc:esc(`${x.name}: current reading, 20-year stress history, why it matters, and how it feeds the Ooze Score.`),
+    desc:esc(`${x.name}: current reading of ${x.val}, why it matters, and how it feeds the Ooze Score.`),
+    image:fs.existsSync(`og-cards/${x.slug}.png`)?`${SITE}/og-cards/${x.slug}.png`:undefined,
+    staticMain:`<h1>${x.emoji} ${esc(x.name)}</h1><p><b>Current reading: ${esc(x.val)}</b> · ${esc(x.trend)}</p><p>${esc(x.why)}</p><p><a href="index.html">See today's Ooze Level →</a></p>`,
   }));
   urls.push(url);
 }
@@ -74,6 +80,13 @@ for(const a of ARTICLES){
 /* the ?i= / ?a= template pages stay out — their static /slug/ twins are canonical */
 const ROOT=['','what-is-ooze.html','oozeonomics.html','archive.html','notes.html',
   'personal.html','states.html','specimen-progress.html','policies.html','about.html','market.html'];
+/* Ward M gauge files + academy lessons (public, linked from gauge pages) */
+try{
+  for(const g of require('./lib/market-gauge-content')){
+    urls.push(`${SITE}/market/${g.slug}/`);
+    urls.push(`${SITE}/research/lessons/${g.lesson}`);
+  }
+}catch(e){console.warn('sitemap: market pages skipped —',e.message)}
 const entry=u=>{const[loc,mod]=u.split('|');return `  <url><loc>${loc}</loc>${mod?`<lastmod>${mod}</lastmod>`:''}</url>`};
 fs.writeFileSync('sitemap.xml',`<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

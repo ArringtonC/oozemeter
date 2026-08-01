@@ -79,6 +79,27 @@ try{
   sub(/id="verdictLine">[^<]*</,`id="verdictLine">${verdict}<`,'verdict line');
 }catch(e){console.warn('stamp: verdict skipped —',e.message)}
 
+/* canonical (idempotent) */
+if(!h.includes('rel="canonical"')){
+  h=h.replace('<meta property="og:url"',`<link rel="canonical" href="${SITE}/">\n<meta property="og:url"`);
+}
 fs.writeFileSync('index.html',h);
 console.log(`stamped index.html: ${s}/100 ${band(s)} (${d.monthLabel}), delta ${delta>=0?'+':''}${delta}, missing markers: ${missing}`);
+
+/* ---- market.html: static score + band + canonical + live-number OG card ---- */
+try{
+  const md=JSON.parse(fs.readFileSync('data/market.json','utf8'));
+  const wardBand=band(md.score); /* same BANDS scale the page JS uses (bandOf) */
+  let m=fs.readFileSync('market.html','utf8');
+  const msub=(re,rep,label)=>{
+    if(re.test(m))m=m.replace(re,rep);
+    else{console.warn('stamp(market): marker missing —',label);missing++;}
+  };
+  msub(/id="mktScore">[^<]*</,`id="mktScore">${md.score}<`,'market score');
+  msub(/id="mktBand">[^<]*</,`id="mktBand">${wardBand}<`,'market band');
+  if(!m.includes('rel="canonical"'))m=m.replace('<meta property="og:url"',`<link rel="canonical" href="${SITE}/market.html">\n<meta property="og:url"`);
+  if(fs.existsSync('og-cards/market.png'))m=m.replace(/<meta property="og:image" content="[^"]*">/,`<meta property="og:image" content="${SITE}/og-cards/market.png">`);
+  fs.writeFileSync('market.html',m);
+  console.log(`stamped market.html: ${md.score}/100 ${wardBand}`);
+}catch(e){console.warn('stamp(market) skipped —',e.message)}
 if(missing>3)process.exit(1); /* structure drifted badly — fail loud for the cron */

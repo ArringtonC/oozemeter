@@ -438,6 +438,11 @@ function renderFooter(){
   document.getElementById('page').insertAdjacentHTML('beforeend',`
   <footer>
     <div class="wrap">
+      <div class="foot-share">
+        <span class="fs-label">📎 Leak this file</span>
+        <button class="btn" id="fsCopy">Copy link</button>
+        <a class="btn" id="fsPost" target="_blank" rel="noopener">Post to X</a>
+      </div>
       <div class="foot-grid">
         <div>
           <div class="wordmark" style="margin-bottom:12px">OOZE<em>METER</em></div>
@@ -473,6 +478,13 @@ function renderFooter(){
       <p class="disclaimer">OOZEMeter is an educational visualization, not financial advice. National readings use public data under methodology ${LD?.methodologyVersion||'offline'}; state and personal tools remain educational prototypes. This facility is not responsible for lost savings, spilled specimens, or feelings about the housing market. © 2026 OOZEMeter.</p>
     </div>
   </footer>`);
+  const fsText=()=>`${document.title} ${location.href.split('?')[0].split('#')[0]}`;
+  const fsCopy=document.getElementById('fsCopy');
+  fsCopy.addEventListener('click',()=>{
+    navigator.clipboard.writeText(fsText()).then(()=>{fsCopy.textContent='Copied ✓';setTimeout(()=>fsCopy.textContent='Copy link',1600)});
+    if(typeof gtag==='function')gtag('event','share',{method:'copy',page:location.pathname});
+  });
+  document.getElementById('fsPost').href='https://twitter.com/intent/tweet?text='+encodeURIComponent(fsText());
 }
 
 function adSlot(){

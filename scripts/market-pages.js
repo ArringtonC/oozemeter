@@ -21,12 +21,13 @@ function gaugePage(gauge) {
   return `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><base href="../../"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#070b06">
 <title>${escapeHtml(title)}</title><meta name="description" content="${escapeHtml(description)}"><link rel="canonical" href="${SITE}/market/${gauge.slug}/">
+<meta property="og:type" content="website"><meta property="og:site_name" content="OOZEMeter"><meta property="og:title" content="${escapeHtml(title)}"><meta property="og:description" content="${escapeHtml(description)}"><meta property="og:image" content="${SITE}/og-cards/market.png"><meta property="og:url" content="${SITE}/market/${gauge.slug}/"><meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800;900&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet"><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="lab.css"><script type="application/ld+json">${faqJson}</script></head>
 <body><div id="page"><main class="wrap-narrow">
 <div class="localnav"><b>${gauge.emoji} ${escapeHtml(gauge.name)}</b><nav><a href="#reading">Reading</a><a href="#why">Why it matters</a><a href="#vs2008">vs 2008</a><a href="#method">Method</a><a href="#faq">FAQ</a></nav><a class="btn primary" href="market.html">Ward M ▸</a></div>
 <div class="crumbs"><a href="index.html">Facility</a> / <a href="market.html">Ward M</a> / ${escapeHtml(gauge.name)}</div>
 <div class="ind-head"><div class="ind-title"><div class="intake">Ward M gauge · experimental</div><h1>${gauge.emoji} ${escapeHtml(gauge.name)}</h1></div><div class="contrib-chip">Separate instrument · <b>0 oz</b> in household jar</div></div>
-<div class="ind-reading" id="reading"><div class="ind-val" id="gaugeValue">—</div><div class="ind-meta"><span id="gaugeStress">Ward M data loading</span><br><span id="gaugeAsOf"></span></div></div>
+<div class="ind-reading" id="reading" style="display:flex;align-items:center;gap:22px;flex-wrap:wrap"><div class="can-glass" style="flex:none" role="img" aria-label="Gauge stress level"><div id="gaugeFill" style="position:absolute;left:0;right:0;bottom:0;height:0%;background:var(--ward);opacity:.85;transition:height .8s var(--ease)"></div></div><div class="ind-val" id="gaugeValue">—</div><div class="ind-meta"><span id="gaugeStress">Ward M data loading</span><br><span id="gaugeAsOf"></span></div></div>
 <div class="prose"><p><strong>This gauge does not affect the household Ooze Score.</strong> It contributes one-sixth of the experimental Ward M raw composite before Ward M calibration.</p></div>
 <div class="prose" id="why"><h2>Why this gauge matters</h2><p>${escapeHtml(gauge.why)}</p><h3>What it measures</h3><p>${escapeHtml(gauge.measurement)}</p><p>${escapeHtml(gauge.release)}</p><h3>Interpret it without overclaiming</h3><p>${escapeHtml(gauge.interpretation)}</p></div>
 <div class="prose" id="vs2008"><h2>How it behaved in 2008</h2><p><strong>Historical basis:</strong> ${escapeHtml(historicalBasis)}</p><div class="incident-callout"><span class="ic-stamp">Incident File — 2008</span><p>${escapeHtml(gauge.vs2008)}</p></div></div>
@@ -36,7 +37,7 @@ ${roster}
 <div class="prose"><p><a href="research/lessons/${gauge.lesson}">🎓 OOZE ACADEMY field training: Lesson ${gauge.lesson.slice(2, 4)} — ${escapeHtml(gauge.name)} →</a></p></div>
 <div><h2 style="font-family:var(--display);font-size:1.25rem">Other Ward M files</h2><div class="related">${related}</div></div>
 </main></div><script src="data/market.js"></script><script src="data/sectors.js"></script><script src="data/latest.js"></script><script src="lab.js"></script><script>
-renderHeader('market');const sensor=window.MARKET_DATA&&window.MARKET_DATA.sensors&&window.MARKET_DATA.sensors[${JSON.stringify(gauge.sensor)}];if(sensor){document.getElementById('gaugeValue').textContent=sensor.value;document.getElementById('gaugeStress').textContent='Ward M stress '+sensor.stress+'/100 · '+(sensor.delta>=0?'▲ +':'▼ ')+Math.abs(sensor.delta);document.getElementById('gaugeAsOf').textContent='Observation '+sensor.asOf+' · collected '+window.MARKET_DATA.generated.slice(0,10)}else{document.getElementById('gaugeStress').textContent='Ward M gauge offline'}renderFooter();wireReveals();
+renderHeader('market');const sensor=window.MARKET_DATA&&window.MARKET_DATA.sensors&&window.MARKET_DATA.sensors[${JSON.stringify(gauge.sensor)}];if(sensor){document.getElementById('gaugeValue').textContent=sensor.value;document.getElementById('gaugeStress').textContent='Ward M stress '+sensor.stress+'/100 · '+(sensor.delta>=0?'▲ +':'▼ ')+Math.abs(sensor.delta);document.getElementById('gaugeAsOf').textContent='Observation '+sensor.asOf+' · collected '+window.MARKET_DATA.generated.slice(0,10);document.getElementById('gaugeFill').style.height=sensor.stress+'%'}else{document.getElementById('gaugeStress').textContent='Ward M gauge offline'}renderFooter();wireReveals();
 </script></body></html>
 `;
 }
@@ -55,7 +56,7 @@ ${roster}
 <h2>${gauge.roster ? '6' : '5'} · Source desk</h2><div class="source-card">${sourceList(gauge.sources)}</div>
 <h2>Course map</h2><div class="course-map">${gauges.map(item => `<a href="${item.lesson}"${item.slug === gauge.slug ? ' aria-current="page"' : ''}>${item.emoji} ${escapeHtml(item.name)}</a>`).join('')}</div>
 <div class="next"><a href="../../market/${gauge.slug}/">Open the public gauge file →</a></div>
-</main></body></html>`;
+</main><script src="../assets/course.js"></script></body></html>`;
 }
 
 for (const [index, gauge] of gauges.entries()) {

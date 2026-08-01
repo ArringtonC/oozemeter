@@ -48,7 +48,22 @@
           <tr><td>☢ NATIONAL MESS</td><td>95 – 100</td></tr>
         </table>
         <p style="margin-top:16px"><b style="color:var(--red)">☢ OOZEMAXING</b> — a separate breadth condition, not a score band: declared only when <b>every weighted intake line reads 60+ simultaneously</b> — gas, credit, autos, jobs, housing, and inflation all failing at once, feeding each other. Depression-class. Never met in the comparable record since 2003: at the GFC's worst (June 2009), five of six lines crossed 60 — credit 90, housing 87, autos 85, employment 78, gas 62 — and only deflation, holding the inflation line at 55, kept the declaration off the board.</p>
+        <h3 style="margin-top:28px">Auxiliary sensors — on the board, not in the formula</h3>
+        <p>Two additional lines appear in the ledger at <b>zero weight</b>: <b>Foreclosures</b> (proxied by the Fed's single-family mortgage delinquency rate, DRSFRMACBS) and <b>Manufacturing</b> (industrial production INDPRO plus manufacturers' new orders AMTMNO). They are labeled AUX everywhere they render and contribute nothing to the score — they ride along so the cascade's terminal stage and the factory floor stay visible while their proxies earn (or fail to earn) a weighted place. The complete recipe is the six weighted lines above plus these two disclosed passengers.</p>
       </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap" id="ward">
+    <div class="sec-label reveal">Annex — Ward M</div>
+    <h2 class="sec-title reveal">The market wing's recipe</h2>
+    <div class="prose reveal">
+      <p><a href="market.html">Ward M</a> is a separate instrument on its own 0–100 scale. It never adds to or subtracts from the Ooze Score. The same house rules bind it: <b>no simulated number ever renders without a label, and nothing here forecasts</b> — the ward measures market conditions now; it does not predict recessions, returns, or the jar.</p>
+      <p><b>The composite</b> averages six gauges — rates (10-year minus 3-month Treasury spread, T10Y3M), volatility (VIX monthly mean), credit &amp; funding (Chicago Fed NFCI), energy (WTI monthly mean), the dollar (broad index, year-over-year), and breadth from Sector Watch — then maps the average through a frozen calibration: the ward's calmest month since 2007 reads 10, its November 2008 peak reads 90. Gauge anchors are <b>provisional</b>; they are percentile-checked against each gauge's full history in the <a href="https://github.com/ArringtonC/oozemeter/blob/main/research/market-anchor-validation.md" target="_blank" rel="noopener">anchor-validation report</a> and published in the <a href="https://github.com/ArringtonC/oozemeter/blob/main/scripts/collect-market.js" target="_blank" rel="noopener">collector source</a>.</p>
+      <p><b>Sector Watch fine print:</b> the eleven-ticker panel is collected manually from a public quote feed (Yahoo's chart endpoint, an undocumented transport) whose redistribution rights are unresolved — so only derived states and percent moves publish, never prices, and scheduled collection stays disabled until a licensed source is secured. The percent figures are <b>price returns over 22 trading sessions</b>, not calendar-month total returns: dividends and distributions are not counted, which can make a fund look slightly weaker than its total return. Monthly means for the official gauges are computed at collection time — a reading collected before month-end is a partial month until recomputed.</p>
+      <p>The full decision record for why markets sit beside the jar rather than inside it — four backtested studies included — is in the public <a href="https://github.com/ArringtonC/oozemeter/blob/main/research/market-signal-review-2026-07-28.md" target="_blank" rel="noopener">market-signal review</a>.</p>
     </div>
   </div>
 </section>

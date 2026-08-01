@@ -15,7 +15,8 @@
 <meta property="og:site_name" content="OOZEMeter">
 <meta property="og:title" content="Market Ooze — Ward M | OOZEMeter">
 <meta property="og:description" content="Ward M: a manual Sector Watch specimen by economic role, plus a calibrated Market Ooze composite. Separate from the Ooze Score.">
-<meta property="og:image" content="https://arringtonc.github.io/oozemeter/og-card.png">
+<meta property="og:image" content="https://arringtonc.github.io/oozemeter/og-cards/market.png">
+<link rel="canonical" href="https://arringtonc.github.io/oozemeter/market.html">
 <meta property="og:url" content="https://arringtonc.github.io/oozemeter/market.html">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="stylesheet" href="lab.css">
@@ -35,8 +36,8 @@
       <div class="ward-jarbox"><div class="jar mini" id="mktJar" role="img" aria-label="Market containment jar"></div></div>
       <div class="ward-readout">
         <div class="kicker" id="mktKicker">Market Stress — Provisional</div>
-        <div class="big-score" style="font-size:clamp(2.6rem,7vw,3.8rem)"><span id="mktScore">—</span><small>/100</small></div>
-        <div class="status-row" style="justify-content:flex-start"><div class="status-chip" id="mktBand">OFFLINE</div></div>
+        <div class="big-score" style="font-size:clamp(2.6rem,7vw,3.8rem)"><span id="mktScore">38</span><small>/100</small></div>
+        <div class="status-row" style="justify-content:flex-start"><div class="status-chip" id="mktBand">STICKY</div></div>
         <div class="verdict" id="mktCompare" style="max-width:44ch"></div>
         <div class="ward-note">⚠ Experimental instrument · <b>does not fill the household jar</b></div>
         <div class="ward-hist" id="wardHist"></div>
@@ -51,7 +52,7 @@
     <div class="pvJ-label wide" style="margin-top:44px">Sector Watch — manual quoted-market specimen</div>
     <div class="sw-head" id="swHead"></div>
     <div class="sw-groups" id="swGroups"></div>
-    <p class="sw-note">Manual report from an 11-ticker equity proxy panel: derived states and price changes only, not direct economic activity or independent sector breadth. Live rule: 22-session change ≥ −2% 🟢 steady · from −7% inclusive to below −2% 🟡 softening · below −7% 🔴 stressed. The quote.close field is not total return; quote rights remain unresolved, so scheduled publishing is disabled. Zero weight in the household score.</p>
+    <p class="sw-note">Eleven familiar tickers, one question: is weakness narrow or broad? The rule is published and checkable: a fund down less than 2% over ~a month is 🟢 steady, down 2–7% is 🟡 softening, down more than 7% is 🔴 stressed. States and percent moves only — no prices are archived, and this panel is updated manually while data-licensing is being cleared. Zero weight in the household score. <a href="notes.html#ward">Full fine print →</a></p>
     <aside class="market-note" id="marketNote" hidden>
       <div class="market-note-label">OOZEBOT · measured market note</div>
       <p id="marketNoteText"></p>
@@ -75,9 +76,9 @@
   <div class="wrap-narrow prose">
     <h2 style="margin-top:0">What this ward is — and is not</h2>
     <p>Ward M is an <strong>experimental market-stress instrument</strong>, opened after the facility's market-signal review. Some financial conditions can move before household outcomes, but this same-month comparison does not establish a lead, forecast, or causal relationship. Markets also cry wolf: they have panicked plenty of times while households stayed fine. So the ward is kept in a separate wing, on its own scale, with its own seal. <strong>Nothing here changes the Ooze Score.</strong></p>
-    <p><strong>Sector Watch sits under the composite</strong> because its eleven ticker proxies are transparent, but they mix broad indexes, sectors, and industries with material overlap. The live panel uses Yahoo's undocumented quote.close transport; it is a price-return reconstruction, not total return, and derived-only publication does not resolve quote rights. Scheduled collection remains disabled pending a licensed or explicitly permitted source. The other five gauges come from government, Federal Reserve, or Cboe series with their original publishers identified.</p>
-    <p>The composite is the average of six gauges — rates, volatility, credit & funding, energy, the dollar, and <strong>market breadth from Sector Watch</strong> (so a weakening ticker proxy moves this score) — <strong>calibrated to the ward's own 2007–present history on the same doctrine as the jar</strong>: the ward's calmest month reads 10, its November 2008 crisis peak reads 90. The two instruments share no data and genuinely disagree when history disagrees — the ward screamed through 2020 and late 2022 while the household jar stayed comparatively calm, which is the divergence this wing exists to show. Gauge anchors remain <strong>provisional</strong> — the full anchor tables live in the <a href="https://github.com/ArringtonC/oozemeter/blob/main/scripts/collect-market.js" target="_blank" rel="noopener">collector source</a> and are percentile-checked against each gauge's full history in the <a href="https://github.com/ArringtonC/oozemeter/blob/main/research/market-anchor-validation.md" target="_blank" rel="noopener">anchor-validation report</a> — and will be revisited after the ward's first live tightening episode. Four earlier sensors — builders, industry, freight, and the bitcoin canary — are parked in the improvements ledger to keep the ward readable; their anchors are preserved for when more data earns its place.</p>
-    <p>The full decision record — why the market is displayed beside the jar rather than blended into it, four backtested studies included — is public in the <a href="https://github.com/ArringtonC/oozemeter/blob/main/research/market-signal-review-2026-07-28.md" target="_blank" rel="noopener">market-signal review</a>. The Credit &amp; Funding sensor (Chicago Fed NFCI) is the designated bridge for methodology v3, which will add it to the flagship at 3% under the disclosures recorded there.</p>
+    <p><strong>The composite averages six gauges</strong> — the bond market's recession signal, the stock market's fear gauge, a Federal Reserve credit index, oil, the dollar, and <strong>breadth from Sector Watch</strong> (so one weakening ticker proxy — a single corner of the market going soft — moves the score). It is calibrated the same way the jar is: the ward's calmest month since 2007 reads 10, its worst month of the 2008 crisis reads 90. The two instruments share no data and genuinely disagree when history disagrees — markets screamed through 2020 and late 2022 while households stayed comparatively calm. That disagreement is the reason this wing exists.</p>
+    <p><strong>Sector Watch is the part anyone can check</strong>: eleven tickers you can look up anywhere, in seconds. It sits below the composite because it is the evidence, not the verdict. The exact sources, calibration constants, provisional-anchor status, and licensing fine print are all published in the <a href="notes.html#ward">Lab Notes annex</a> — nothing here is a black box.</p>
+    <p>The full decision record — why the market is displayed beside the jar rather than blended into it, four backtested studies included — is public in the <a href="https://github.com/ArringtonC/oozemeter/blob/main/research/market-signal-review-2026-07-28.md" target="_blank" rel="noopener">market-signal review</a>.</p>
   </div>
 </section>
 

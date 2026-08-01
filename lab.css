@@ -14,6 +14,7 @@
   --amber:#ffb02e;
   --red:#ff4d3d;
   --green:#4dffa1;
+  --ward:#5fd7ff; /* THE market-wing hue — every Ward M reference uses this, nothing else does */
   --glass:rgba(200,255,190,.05);
   --radius:14px;
   --ease:cubic-bezier(.22,1,.36,1); /* the settle curve — declared once */
@@ -334,6 +335,9 @@ section{padding:74px 0;border-bottom:1px solid var(--line)}
 .sw-row:nth-of-type(2){border-top:none}
 .sw-dot{font-size:.7rem}
 a.status-chip{text-decoration:none;cursor:pointer}
+.foot-share{display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:14px 0 22px;border-bottom:1px solid var(--line);margin-bottom:26px}
+.foot-share .fs-label{font-size:.64rem;letter-spacing:.2em;color:var(--dim);text-transform:uppercase}
+.foot-share .btn{font-size:.66rem;padding:7px 14px}
 .scale-rows{display:grid;gap:8px;max-width:680px}
 .scale-row{display:grid;grid-template-columns:76px 1fr;gap:16px;align-items:start;border:1px solid var(--line);border-radius:10px;background:var(--panel);padding:14px 16px}
 .scale-range{font-family:var(--display);font-weight:800;font-size:.78rem;line-height:1.5}
@@ -365,15 +369,17 @@ a.status-chip{text-decoration:none;cursor:pointer}
 .divergence-panel{padding-top:48px}
 .divergence-key{position:absolute;top:14px;right:18px;display:flex;gap:18px;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 .divergence-key span::before{content:"";display:inline-block;width:20px;height:2px;margin:0 7px 3px 0;background:currentColor}
-.divergence-key .market-line{color:var(--ooze)}
-.divergence-key .household-line{color:#78b8ff}
+.divergence-key .market-line{color:var(--ward)}
+.divergence-key .household-line{color:var(--ooze)}
+.divergence-panel{overflow-x:auto}
+.divergence-panel svg{min-width:640px}
 .div-grid line{stroke:var(--line);stroke-width:1}
 .div-grid text{fill:var(--dim);font:11px var(--mono)}
 .div-path{fill:none;stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round;vector-effect:non-scaling-stroke}
-.div-path.market{stroke:var(--ooze)}
-.div-path.household{stroke:#78b8ff}
-.div-dot.market{stroke:var(--ooze);fill:var(--ooze)}
-.div-dot.household{stroke:#78b8ff;fill:#78b8ff}
+.div-path.market{stroke:var(--ward)}
+.div-path.household{stroke:var(--ooze)}
+.div-dot.market{stroke:var(--ward);fill:var(--ward)}
+.div-dot.household{stroke:var(--ooze);fill:var(--ooze)}
 .divergence-readout{font-size:.68rem;color:var(--muted);letter-spacing:.08em;border-top:1px solid var(--line);padding:10px 4px 0}
 @media(max-width:600px){.divergence-key{position:static;margin-bottom:8px}.divergence-panel{padding-top:14px}.market-divergence{margin-top:34px}}
 
