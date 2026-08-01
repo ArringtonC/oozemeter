@@ -138,6 +138,8 @@ v5 | Content    | OOZEBOT manual market note: one deterministic measured-fact pa
 v5 | Trust      | Ward M local release review: 89-test suite, household and market integrity gates, anchor validation, and final independent review passed | done
 v5 | Launch     | Ward M research batch landed (2026-08-01, operator go-ahead): lessons 0009-0014, gauge files, divergence chart, anchor validation, OOZEBOT note, integrity gates — all tests green at commit | done
 v5 | Trust      | Sector Watch quote rights: obtain licensed/explicitly permitted derived-display source, document corporate-action policy, then enable weekly schedule | todo
+v5 | Data       | Divergence-history freshness: wire build-market-divergence into the monthly cycle so the ward-vs-jar chart tracks new sealed months (Codex task pack 2026-08-01) | todo
+v5 | Data       | Anchor-validation cadence: re-run validate-market-anchors monthly so "provisional anchors" stays backed by a current report — descriptive only, no auto-tuning (Codex task pack 2026-08-01) | todo
 v5 | Research   | Froth panel (queued, LAST — new sensors after research signoff + live episode): margin debt (FINRA), Buffett Indicator (Z.1 proxy), household equity allocation — valuation/complacency panel, separate from the stress composite; triage + licensing notes in improvements.md | todo
 v5 | Algorithm  | METHODOLOGY v3 (SEQUENCED AFTER Ward M live experience): Financial Conditions (NFCI) enters the flagship at 3% — spec in research/METHODOLOGY-V3-SPEC.md, implementation = data session | todo
 v5 | Trust      | v3 disclosure copy (notes + policies + revision record #2): GFC-calibrated bet stated plainly, studies linked — BLOCKS first v3 publish | todo
