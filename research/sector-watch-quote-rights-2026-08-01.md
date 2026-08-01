@@ -4,7 +4,7 @@
 
 No source reviewed here establishes permission for OOZEMeter to retrieve the 11 Sector Watch ETF proxies and repeatedly publish the resulting 22- and 64-session percentage changes and states in a public Git repository. The quote-rights gate therefore stays closed.
 
-`market.yml` remains manual-only. The existing Yahoo collector remains unchanged as the current manual route; this review does **not** clear that route for scheduled collection or establish publication rights. No collector, data, workflow, or test file is changed by this decision. Because Task 2 is unresolved and the task pack requires priority order, the Task 3 divergence-refresh work and Task 4 anchor-validation cadence remain unstarted.
+`market.yml` remains manual-only. The existing Yahoo collector remains unchanged as the current manual route; this review does **not** clear that route for scheduled collection or establish publication rights. No collector, data, workflow, or test file is changed by this decision. Task 3 divergence refresh and Task 4 anchor-validation cadence were attempted afterward, but review proved both would repeatedly consume the same 2026-07-29 Yahoo-backed research snapshot; those commits were reverted. Both tasks remain blocked on a rights-cleared advancing Market-history input.
 
 This is a conservative rights decision, not a conclusion that every rejected source forbids every possible use. Where the reviewed first-party material did not affirmatively cover OOZEMeter's use, the result is “permission not established.”
 
@@ -47,4 +47,4 @@ After that evidence exists, a separate implementation batch must:
 3. update and pass the collector, output, integrity, and workflow tests; and
 4. only then enable `market.yml`, preserving the required refresh order: sectors first, then market, because market breadth reads `sectors.json`.
 
-Until every applicable condition is satisfied, the scheduled workflow remains disabled and Tasks 3 and 4 remain stopped behind the unresolved Task 2 rights gate.
+Until every applicable condition is satisfied, the scheduled workflow remains disabled. Tasks 3 and 4 remain blocked after their stale-input implementations were rejected and reverted; neither may be represented as a current-data cadence until a rights-cleared updater advances the underlying Market history without recalibrating frozen Ward constants.
