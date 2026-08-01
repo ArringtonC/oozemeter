@@ -6,6 +6,8 @@ on:
 permissions:
   contents: write
   issues: write
+  id-token: write
+  attestations: write
 concurrency:
   group: oozemeter-publication
   cancel-in-progress: false
@@ -31,6 +33,20 @@ jobs:
           node scripts/collect-sectors.js
           node scripts/collect-market.js
           node scripts/backtest-market.js
+      - name: attest exact Market backtest acquisition
+        id: attest-market-backtest
+        uses: actions/attest-build-provenance@e8998f949152b193b063cb0ec769d69d929409be # v2.4.0
+        with:
+          subject-path: research/market-backtest.json
+      - name: retain and verify trusted Market acquisition attestation
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ATTESTATION_BUNDLE: ${{ steps.attest-market-backtest.outputs.bundle-path }}
+        run: |
+          cp "$ATTESTATION_BUNDLE" research/market-backtest.attestation.json
+          gh attestation verify research/market-backtest.json --bundle research/market-backtest.attestation.json --repo "$GITHUB_REPOSITORY"
+      - name: derive evidence from attested Market acquisition
+        run: |
           node scripts/build-market-divergence.js
           node scripts/validate-market-anchors.js
           node scripts/market-integrity.js --require-current-evidence
@@ -40,7 +56,7 @@ jobs:
         run: |
           git config user.name "oozebot"
           git config user.email "oozebot@users.noreply.github.com"
-          git add data/market.json data/market.js data/sectors.json data/sectors.js data/market-history.json data/market-history.js research/market-backtest.json research/market-anchor-validation.json research/market-anchor-validation.md
+          git add data/market.json data/market.js data/sectors.json data/sectors.js data/market-history.json data/market-history.js research/market-backtest.json research/market-backtest.attestation.json research/market-anchor-validation.json research/market-anchor-validation.md
           git diff --cached --quiet && echo "no new market data" && exit 0
           git commit -m "market specimen $(date -u +%F)"
           git push

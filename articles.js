@@ -4,7 +4,7 @@
    Fields: slug, cat (report|incident|explainer|manual), date, title, dek,
    keyPoints[], body[] (paragraphs; lines starting "## " render as h3). */
 window.ARTICLES = [
-{slug:'june-2026-seal',cat:'report',month:'2026-06',date:'2026-07-24',title:'June seals at 27: the jar drains 3 points',
+{slug:'june-2026-seal',cat:'report',month:'2026-06',date:'2026-07-24',title:'June seals at {{s:2026-06}}: the jar drains 3 points',
  dek:'Gas and inflation eased at the same time — the biggest one-month relief since the winter.',
  keyPoints:[
   'The June 2026 Ooze Level sealed at {{s:2026-06}} (Sticky), down 3 points from May\'s {{s:2026-05}}.',

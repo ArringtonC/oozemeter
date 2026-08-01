@@ -42,3 +42,23 @@ test('manual Ward M cycle refreshes history and descriptive anchor evidence from
   assert.match(workflow, /git add[^\n]*data\/market-history\.json[^\n]*data\/market-history\.js/);
   assert.doesNotMatch(workflow, /schedule:/);
 });
+
+test('manual Ward M cycle cryptographically attests the exact refreshed backtest before deriving evidence', () => {
+  const workflow = fs.readFileSync(workflowPath, 'utf8');
+  assert.match(workflow, /id-token:\s*write/);
+  assert.match(workflow, /attestations:\s*write/);
+  assert.match(workflow, /uses:\s*actions\/attest-build-provenance@e8998f949152b193b063cb0ec769d69d929409be/);
+  assert.match(workflow, /id:\s*attest-market-backtest[\s\S]*subject-path:\s*research\/market-backtest\.json/);
+  assert.match(workflow, /steps\.attest-market-backtest\.outputs\.bundle-path/);
+  assert.match(workflow, /gh attestation verify research\/market-backtest\.json[\s\S]*--bundle research\/market-backtest\.attestation\.json/);
+  const order = [
+    'node scripts/backtest-market.js',
+    'uses: actions/attest-build-provenance@e8998f949152b193b063cb0ec769d69d929409be',
+    'gh attestation verify research/market-backtest.json',
+    'node scripts/build-market-divergence.js',
+    'node scripts/market-integrity.js --require-current-evidence',
+  ].map(value => workflow.indexOf(value));
+  assert.ok(order.every(index => index >= 0));
+  assert.deepEqual(order, [...order].sort((a, b) => a - b));
+  assert.match(workflow, /git add[^\n]*research\/market-backtest\.attestation\.json/);
+});
