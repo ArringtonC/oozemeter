@@ -32,6 +32,7 @@ function gaugePage(gauge) {
 <div class="prose" id="method"><h2>Reproduce the data path</h2>${list(gauge.reproduce)}<h3>Limits</h3><p>${escapeHtml(gauge.limits)}</p><h3>Primary and institutional sources</h3>${sourceList(gauge.sources)}</div>
 ${roster}
 <div class="prose faq" id="faq"><h2>Frequently asked questions</h2>${faqs}</div>
+<div class="prose"><p><a href="research/lessons/${gauge.lesson}">🎓 OOZE ACADEMY field training: Lesson ${gauge.lesson.slice(2, 4)} — ${escapeHtml(gauge.name)} →</a></p></div>
 <div><h2 style="font-family:var(--display);font-size:1.25rem">Other Ward M files</h2><div class="related">${related}</div></div>
 </main></div><script src="data/market.js"></script><script src="data/sectors.js"></script><script src="data/latest.js"></script><script src="lab.js"></script><script>
 renderHeader('market');const sensor=window.MARKET_DATA&&window.MARKET_DATA.sensors&&window.MARKET_DATA.sensors[${JSON.stringify(gauge.sensor)}];if(sensor){document.getElementById('gaugeValue').textContent=sensor.value;document.getElementById('gaugeStress').textContent='Ward M stress '+sensor.stress+'/100 · '+(sensor.delta>=0?'▲ +':'▼ ')+Math.abs(sensor.delta);document.getElementById('gaugeAsOf').textContent='Observation '+sensor.asOf+' · collected '+window.MARKET_DATA.generated.slice(0,10)}else{document.getElementById('gaugeStress').textContent='Ward M gauge offline'}renderFooter();wireReveals();
@@ -51,6 +52,7 @@ function lessonPage(gauge, index) {
 ${roster}
 <h2>${gauge.roster ? '5' : '4'} · Compare with 2008</h2><div class="card warning"><strong>Historical basis:</strong><p>${escapeHtml(historicalBasis)}</p></div><div class="card"><p>${escapeHtml(gauge.vs2008)}</p></div>
 <h2>${gauge.roster ? '6' : '5'} · Source desk</h2><div class="source-card">${sourceList(gauge.sources)}</div>
+<h2>Course map</h2><div class="course-map">${gauges.map(item => `<a href="${item.lesson}"${item.slug === gauge.slug ? ' aria-current="page"' : ''}>${item.emoji} ${escapeHtml(item.name)}</a>`).join('')}</div>
 <div class="next"><a href="../../market/${gauge.slug}/">Open the public gauge file →</a></div>
 </main></body></html>`;
 }

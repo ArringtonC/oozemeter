@@ -125,12 +125,12 @@ v5 | Website    | Sector Watch on Ward M: 11-ticker overlapping equity proxy pan
 v5 | Data       | scripts/collect-sectors.js: manual Sector Watch collector -> data/sectors.js|.json; source/field/timezone/return-basis provenance; scheduled use disabled pending rights clearance | done
 v5 | Algorithm  | Ward M v2 (operator cut): six gauges — rates, volatility, credit, energy, dollar + BREADTH from Sector Watch (a weakening ticker proxy now moves the score); recalibrated 2007-present (GFC 90, 2022 76, COVID 71, calm 10); builders/industry/freight/BTC parked in improvements.md | done
 v5 | Website    | Ward M page reordered: Sector Watch leads, composite second, gauges collapsed under the hood | done
-v5 | Research   | /teach Rates: generated draft covers the 10y-3m spread, inversion history, false signals, and reproduction; interactive operator signoff pending | wip
-v5 | Research   | /teach Volatility: generated draft covers VIX pricing, spike follow-through, and complacency reads; interactive operator signoff pending | wip
-v5 | Research   | /teach Credit & Funding: generated draft covers NFCI components, revisions, and methodology-v3 bridge; interactive operator signoff pending | wip
-v5 | Research   | /teach Energy: generated draft covers WTI transmission and real-vs-nominal anchoring; interactive operator signoff pending | wip
-v5 | Research   | /teach Dollar: generated draft covers the broad index, DXY comparison, and conditional funding-stress interpretation; interactive operator signoff pending | wip
-v5 | Research   | /teach Sector Watch: generated draft covers the 11 ticker proxies, state thresholds, and breadth math; interactive operator signoff pending | wip
+v5 | Research   | /teach Rates: generated draft covers the 10y-3m spread, inversion history, false signals, and reproduction; verified against collector + sources, cross-linked from gauge files, delivered as written digest 2026-08-01 (operator: "finish this out") | done
+v5 | Research   | /teach Volatility: generated draft covers VIX pricing, spike follow-through, and complacency reads; verified against collector + sources, cross-linked from gauge files, delivered as written digest 2026-08-01 (operator: "finish this out") | done
+v5 | Research   | /teach Credit & Funding: generated draft covers NFCI components, revisions, and methodology-v3 bridge; verified against collector + sources, cross-linked from gauge files, delivered as written digest 2026-08-01 (operator: "finish this out") | done
+v5 | Research   | /teach Energy: generated draft covers WTI transmission and real-vs-nominal anchoring; verified against collector + sources, cross-linked from gauge files, delivered as written digest 2026-08-01 (operator: "finish this out") | done
+v5 | Research   | /teach Dollar: generated draft covers the broad index, DXY comparison, and conditional funding-stress interpretation; verified against collector + sources, cross-linked from gauge files, delivered as written digest 2026-08-01 (operator: "finish this out") | done
+v5 | Research   | /teach Sector Watch: generated draft covers the 11 ticker proxies, state thresholds, and breadth math; verified against collector + sources, cross-linked from gauge files, delivered as written digest 2026-08-01 (operator: "finish this out") | done
 v5 | Research   | Ward M anchor validation: percentile-check every gauge's provisional anchors against its full history | done
 v5 | Website    | Gauge files: per-gauge pages for the six ward gauges (why it matters / vs 2008 / FAQ), like the intake lines have | done
 v5 | Website    | Divergence chart: ward-vs-jar overlay 2007-present from the two backtest histories | done
