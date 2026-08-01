@@ -180,6 +180,34 @@ h2{font-family:var(--display);font-weight:800;font-size:clamp(1.2rem,2.6vw,1.7re
 
 footer{padding:36px 0 64px;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
 @media print{body::before{display:none}body{background:#fff;color:#111}.panel{display:block}.tabs{display:none}}
+/* ---- interactive visitor descent flowcharts (02b) ---- */
+.uflow-grid{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:30px}
+@media(max-width:860px){.uflow-grid{grid-template-columns:1fr}}
+.uflow{border:1px solid var(--line-hard);border-radius:14px;background:var(--panel);padding:20px 18px 26px}
+.uflow[data-accent="cyan"]{--acc:var(--cyan)}
+.uflow[data-accent="ooze"]{--acc:var(--ooze)}
+.uf-head{font-family:var(--display);font-weight:800;font-size:.82rem;color:var(--acc);letter-spacing:.06em;padding-bottom:14px;border-bottom:1px solid var(--line);margin-bottom:18px}
+.uf-head small{display:block;font-family:var(--mono);font-weight:400;color:var(--dim);font-size:.66rem;letter-spacing:.08em;margin-top:6px;text-transform:none}
+.uf-node{position:relative;margin:0 0 0 10px;padding:0 0 18px 26px;border-left:2px solid color-mix(in srgb,var(--acc) 40%,transparent)}
+.uf-node:last-child{border-left-color:transparent;padding-bottom:0}
+.uf-node::before{content:"";position:absolute;left:-8px;top:4px;width:14px;height:14px;border-radius:50%;background:var(--panel2);border:2px solid var(--acc);transition:background .2s}
+.uf-node.on::before{background:var(--acc);box-shadow:0 0 12px color-mix(in srgb,var(--acc) 60%,transparent)}
+.uf-btn{display:flex;align-items:baseline;gap:9px;width:100%;text-align:left;background:none;border:none;color:var(--text);font-family:var(--mono);font-size:.76rem;cursor:pointer;padding:2px 0 4px}
+.uf-btn b{font-family:var(--display);font-weight:800;font-size:.72rem;letter-spacing:.04em}
+.uf-btn .uf-step{color:var(--dim);font-size:.6rem;letter-spacing:.16em;flex:none}
+.uf-btn:hover b{color:var(--acc)}
+.uf-node.on .uf-btn b{color:var(--acc)}
+.uf-more{margin-left:auto;color:var(--dim);flex:none;transition:transform .25s}
+.uf-node.on .uf-more{transform:rotate(90deg);color:var(--acc)}
+.uf-detail{display:none;margin:8px 0 4px;border:1px solid var(--line);border-left:3px solid var(--acc);border-radius:0 10px 10px 0;background:var(--panel2);padding:12px 14px}
+.uf-node.on .uf-detail{display:block;animation:ufIn .25s ease-out}
+@keyframes ufIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+.uf-thought{font-size:.74rem;line-height:1.65;color:var(--text);font-style:italic}
+.uf-thought::before{content:"💭 ";font-style:normal}
+.uf-gives{font-size:.68rem;line-height:1.6;color:var(--muted);margin-top:9px}
+.uf-gives b{color:var(--acc);font-size:.58rem;letter-spacing:.18em}
+.uf-gives a{color:var(--acc)}
+.uf-loop{margin:6px 0 0 36px;font-size:.62rem;letter-spacing:.14em;color:var(--dim)}
 </style>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -405,6 +433,20 @@ footer{padding:36px 0 64px;font-size:.66rem;letter-spacing:.16em;text-transform:
       <span><i style="background:var(--cyan)"></i>Content engine</span>
       <span><i style="background:var(--amber)"></i>Distribution</span>
       <span><i style="background:var(--red)"></i>Governance / veto</span>
+    </div>
+
+    <div class="bp-label" style="margin-top:64px">Blueprint 02b — Two Visitors, Two Descents</div>
+    <h2>Follow each visitor down the facility</h2>
+    <p class="bp-sub">The same building, entered for two different reasons. Click any step to hear what that visitor is thinking — and see what the facility hands them at that exact moment.</p>
+    <div class="uflow-grid">
+      <div class="uflow" data-accent="ooze">
+        <div class="uf-head">🫙 THE ECONOMIC VISITOR<small>"How bad is it for people like me?"</small></div>
+        <div id="ufEcon"></div>
+      </div>
+      <div class="uflow" data-accent="cyan">
+        <div class="uf-head">📊 THE MARKET VISITOR<small>"What are markets telling us today?"</small></div>
+        <div id="ufMarket"></div>
+      </div>
     </div>
   </div>
 </section>
@@ -656,6 +698,45 @@ document.getElementById('taskBoard').innerHTML=Object.keys(byV).map(v=>{
       </div>`}).join('')}
   </div>`;
 }).join('');
+
+/* ---- interactive visitor descents (02b): click a step, hear the thought ---- */
+const ECON_FLOW=[
+ {e:'😰',t:'The squeeze',think:'Groceries are up again, my card balance won\'t go down, and the news says everything is fine. Is it just me?',give:'Nothing yet — this person is still out in the world. The facility exists for exactly this feeling.'},
+ {e:'🔎',t:'The search',think:'"is the economy actually getting worse 2026"… I don\'t want a lecture, I want an answer.',give:'A search door: a monthly report, /gas/, or the what-is-ooze explainer ranks for the question they actually typed. <a href="what-is-ooze.html" target="_blank" rel="noopener">what-is-ooze.html</a>'},
+ {e:'🫙',t:'The jar',think:'26 out of 100. "Sticky." Down 3 from last month. …Okay, that took five seconds and I weirdly get it.',give:'The five-second promise: score, band, delta, top drivers — all static, phone-first, before any script runs. <a href="index.html" target="_blank" rel="noopener">index.html</a>'},
+ {e:'🤨',t:'The squint',think:'Cute jar. But says who? If this is some vibes dashboard I\'m leaving.',give:'The ledger: all nine lines, each with its value, its weight, and a link to the government source. The score chip explains its own scale. This is where we win the visitor everyone else loses.'},
+ {e:'💡',t:'The click-through',think:'Huh — it\'s housing and credit cards carrying the pressure, not gas. That\'s… not what the headlines said.',give:'The why-it-changed story on each intake line, written from the data by OOZEBOT — measured facts, no prophecy. <a href="housing/" target="_blank" rel="noopener">/housing/</a>'},
+ {e:'📤',t:'The dinner table',think:'I\'m sending this to my sister. She thinks I\'m paranoid about money. The jar agrees with me.',give:'The share card — jar, score, band baked into the link preview — and the "leak this file" strip on every page.'},
+ {e:'🔁',t:'The habit',think:'New seal drops mid-month, right? I\'ll check after the jobs report. My streak\'s at 6.',give:'The release calendar, the streak counter, and (soon) the OOZE WEEKLY in their inbox. Loop closes: next scare, they skip the search and come straight to the jar.'},
+];
+const MARKET_FLOW=[
+ {e:'📉',t:'The red morning',think:'Futures are ugly and my feed is screaming. Is this a real one or another Tuesday?',give:'Nothing yet — but they\'ve seen the ward cited with a number ("Ward M at 37"). That citation is the door.'},
+ {e:'📊',t:'The ward',think:'Market Ooze 37. Below the 2022 tightening, nowhere near GFC territory. Okay — elevated, not systemic.',give:'A calibrated composite with history pegged to episodes they remember: GFC 90, 2022 76, COVID 71. Context in one glance. <a href="market.html" target="_blank" rel="noopener">market.html</a>'},
+ {e:'🌡',t:'The gauges',think:'Curve still inverted, VIX average is tame, credit is loose. The plumbing isn\'t breaking — this is a tech tantrum.',give:'Six gauges under the hood, each with its Fed/Cboe/EIA source and a can-glass showing its stress. <a href="market/credit/" target="_blank" rel="noopener">/market/credit/</a>'},
+ {e:'🧾',t:'The spot-check',think:'SMH down 14.7%, marked stressed. Let me check… yep, that\'s what my terminal says too. They\'re not making this up.',give:'Sector Watch: eleven tickers anyone can verify anywhere in seconds. States and percent moves only — the honesty is checkable.'},
+ {e:'⚖️',t:'The divergence',think:'Ward at 37 while the household jar sits at 26. Markets are jumpier than Main Street — or early. That gap IS the story.',give:'The two-instrument chart, 2007–present, no interpolation. The one picture nobody else draws. <a href="market.html" target="_blank" rel="noopener">market.html#divergence</a>'},
+ {e:'🗣',t:'The take',think:'Posting it: "Ward M 37 vs household 26 — the market is having feelings the kitchen table doesn\'t share yet."',give:'The ward OG card with the cyan jar and live score. Their post carries our number — the citation loop the whole strategy aims at.'},
+ {e:'🔁',t:'The Friday check',think:'Sector Watch refreshes weekly. I\'ll swing by Friday and see if the bleeding spread past semis.',give:'Weekly cadence (scheduled, once quote rights clear) and the WARD M WEEKLY note. Loop closes: next red morning, they open the ward before Twitter.'},
+];
+function renderUflow(elId,data){
+  const el=document.getElementById(elId);
+  el.innerHTML=data.map((n,i)=>`
+    <div class="uf-node${i===0?' on':''}">
+      <button class="uf-btn" data-uf="${i}"><span class="uf-step">${String(i+1).padStart(2,'0')}</span><span>${n.e}</span><b>${n.t}</b><span class="uf-more">▸</span></button>
+      <div class="uf-detail">
+        <div class="uf-thought">${n.think}</div>
+        <div class="uf-gives"><b>THE FACILITY HANDS THEM:</b> ${n.give}</div>
+      </div>
+    </div>`).join('')+`<div class="uf-loop">↺ LOOP — step 07 feeds step 01 of the next visit</div>`;
+  el.addEventListener('click',ev=>{
+    const btn=ev.target.closest('.uf-btn');if(!btn)return;
+    const node=btn.closest('.uf-node');
+    el.querySelectorAll('.uf-node').forEach(x=>x!==node&&x.classList.remove('on'));
+    node.classList.toggle('on');
+  });
+}
+renderUflow('ufEcon',ECON_FLOW);
+renderUflow('ufMarket',MARKET_FLOW);
 
 /* ---- version plan (board review 2026-08-01 sorted into releases) ---- */
 const VERSIONS=[
