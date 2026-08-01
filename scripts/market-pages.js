@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const gauges = require('./lib/market-gauge-content');
 const {atomicWrite} = require('./lib/market-output');
+const SITE = require('./lib/site-url');
 
 const root = path.resolve(process.env.MARKET_PAGES_ROOT || path.resolve(__dirname, '..'));
 const historicalBasis = 'Historical incident files use the latest data available at retrieval: a current-vintage reconstruction, not the release-time view available in 2008. Revised series can change, and a terminal calendar month may be partial.';
@@ -19,7 +20,7 @@ function gaugePage(gauge) {
   const roster = gauge.roster ? `<div class="chart-panel"><h2>Published proxy roster</h2><table class="rank-table"><thead><tr><th>Ticker</th><th>Economic role</th></tr></thead><tbody>${gauge.roster.map(([ticker, role]) => `<tr><td><b>${ticker}</b></td><td>${escapeHtml(role)}</td></tr>`).join('')}</tbody></table></div>` : '';
   return `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><base href="../../"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#070b06">
-<title>${escapeHtml(title)}</title><meta name="description" content="${escapeHtml(description)}"><link rel="canonical" href="https://arringtonc.github.io/oozemeter/market/${gauge.slug}/">
+<title>${escapeHtml(title)}</title><meta name="description" content="${escapeHtml(description)}"><link rel="canonical" href="${SITE}/market/${gauge.slug}/">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800;900&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet"><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="lab.css"><script type="application/ld+json">${faqJson}</script></head>
 <body><div id="page"><main class="wrap-narrow">
 <div class="localnav"><b>${gauge.emoji} ${escapeHtml(gauge.name)}</b><nav><a href="#reading">Reading</a><a href="#why">Why it matters</a><a href="#vs2008">vs 2008</a><a href="#method">Method</a><a href="#faq">FAQ</a></nav><a class="btn primary" href="market.html">Ward M ▸</a></div>
@@ -29,7 +30,7 @@ function gaugePage(gauge) {
 <div class="prose"><p><strong>This gauge does not affect the household Ooze Score.</strong> It contributes one-sixth of the experimental Ward M raw composite before Ward M calibration.</p></div>
 <div class="prose" id="why"><h2>Why this gauge matters</h2><p>${escapeHtml(gauge.why)}</p><h3>What it measures</h3><p>${escapeHtml(gauge.measurement)}</p><p>${escapeHtml(gauge.release)}</p><h3>Interpret it without overclaiming</h3><p>${escapeHtml(gauge.interpretation)}</p></div>
 <div class="prose" id="vs2008"><h2>How it behaved in 2008</h2><p><strong>Historical basis:</strong> ${escapeHtml(historicalBasis)}</p><div class="incident-callout"><span class="ic-stamp">Incident File — 2008</span><p>${escapeHtml(gauge.vs2008)}</p></div></div>
-<div class="prose" id="method"><h2>Reproduce the data path</h2>${list(gauge.reproduce)}<h3>Limits</h3><p>${escapeHtml(gauge.limits)}</p><h3>Primary and institutional sources</h3>${sourceList(gauge.sources)}</div>
+<div class="prose" id="method"><h2>Reproduce the data path</h2>${list(gauge.reproduce)}<h3>Limits</h3><p>${escapeHtml(gauge.limits)}</p><p>This gauge's provisional anchors are percentile-checked against its full history in the <a href="https://github.com/ArringtonC/oozemeter/blob/main/research/market-anchor-validation.md" target="_blank" rel="noopener">anchor-validation report</a>.</p><h3>Primary and institutional sources</h3>${sourceList(gauge.sources)}</div>
 ${roster}
 <div class="prose faq" id="faq"><h2>Frequently asked questions</h2>${faqs}</div>
 <div class="prose"><p><a href="research/lessons/${gauge.lesson}">🎓 OOZE ACADEMY field training: Lesson ${gauge.lesson.slice(2, 4)} — ${escapeHtml(gauge.name)} →</a></p></div>

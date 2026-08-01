@@ -39,9 +39,9 @@ sub(/aria-label="Containment jar, ooze level \d+ of 100"/,
   `aria-label="Containment jar, ooze level ${s} of 100"`,'jar aria-label');
 sub(/id="heroTheme" data-level="\d"/,`id="heroTheme" data-level="${level(s)}"`,'hero level');
 sub(/id="heroScore">\d+</,`id="heroScore">${s}<`,'hero score');
-sub(/id="heroStatus">[^<]*</,`id="heroStatus">${band(s)}<`,'hero status');
+sub(/(id="heroStatus"[^>]*>)[^<]*</,`$1${band(s)}<`,'hero status');
 sub(/id="heroDelta">[^<]*</,`id="heroDelta">${deltaTxt}<`,'hero delta');
-sub(/id="plcSealed">[^<]*</,`id="plcSealed">Integrity: ${100-s}%<`,'placard integrity');
+sub(/id="plcSealed">[^<]*</,`id="plcSealed">Integrity gate: PASS · fails closed<`,'placard integrity');
 sub(/class="specimen-line cine c5">[^<]*<b>[^<]*<\/b>[^<]*</,
   `class="specimen-line cine c5">🧪 Monthly specimen sealed: <b>${d.monthLabel} = ${s}</b> · intake lines refresh as their data releases <`,'specimen line');
 sub(/class="sc-score">\d+<span/,`class="sc-score">${s}<span`,'share score');
@@ -49,7 +49,7 @@ sub(/class="sc-status">[^<]*</,`class="sc-status">${tier(s)}<`,'share status');
 sub(/id="scLine">[^<]*</,`id="scLine">${d.monthLabel}: top pressure — ${top3}<`,'share line');
 
 /* ensure feed link + Dataset JSON-LD exist (idempotent inserts) */
-const SITE='https://arringtonc.github.io/oozemeter';
+const SITE=require('./lib/site-url');
 if(!h.includes('application/atom+xml')){
   h=h.replace('<link rel="stylesheet" href="lab.css">',
     `<link rel="alternate" type="application/atom+xml" title="OOZEMeter — Oozeonomics" href="${SITE}/feed.xml">\n<link rel="stylesheet" href="lab.css">`);

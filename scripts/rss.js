@@ -3,7 +3,7 @@
    Aggregator discovery + crawler pings + Buttondown RSS-to-email, one file.
    Run after collect.js in the daily cron. */
 const fs=require('fs');
-const SITE='https://arringtonc.github.io/oozemeter';
+const SITE=require('./lib/site-url');
 const d=JSON.parse(fs.readFileSync('data/latest.json','utf8'));
 const window={};eval(fs.readFileSync('articles.js','utf8'));
 try{eval(fs.readFileSync('data/auto-articles.js','utf8'))}catch{}

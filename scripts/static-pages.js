@@ -8,7 +8,7 @@
    workflow file belongs to the data session right now). */
 const fs=require('fs'),path=require('path'),vm=require('vm');
 
-const SITE='https://arringtonc.github.io/oozemeter';
+const SITE=require('./lib/site-url');
 const read=f=>fs.readFileSync(f,'utf8');
 
 /* evaluate the site's own data in a browser-shaped sandbox — no duplicated lists */

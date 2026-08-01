@@ -77,9 +77,8 @@ $('main').innerHTML=`
     <p>${EDITORIAL.lines[x.slug]}</p>
   </div>`:''}
   <div class="chart-panel reveal" id="history">
-    <h2>20-Year Stress History — ${x.name} (illustrative)</h2>
-    ${bigChart(x.stressHist)}
-    <div class="src">Illustrative sketch — the real per-line backfill lands with milestone M2 · Source: <a href="${x.source.url}" target="_blank" rel="noopener">${x.source.name}</a> · Red bands: U.S. recessions</div>
+    <h2>Stress History — ${x.name}</h2>
+    <div class="src" style="padding:22px 0 6px">📼 <b>HISTORY FEED — PENDING.</b> This line's real per-line history has not been published yet, so no chart renders here — the facility does not display sketches where data belongs. When the per-line backfill lands (milestone M2), a real chart will draw from the same archive that powers the <a href="archive.html">incident files</a>. Until then, the raw series is public at the source: <a href="${x.source.url}" target="_blank" rel="noopener">${x.source.name}</a>.</div>
   </div>
 
   <div class="prose reveal" id="why">

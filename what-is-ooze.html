@@ -47,6 +47,15 @@
   </div>
 </section>
 
+<section id="scale">
+  <div class="wrap">
+    <div class="sec-label reveal">Reading the Meter</div>
+    <h2 class="sec-title reveal">What the 0–100 number means</h2>
+    <p class="sec-sub reveal">The meter is pegged to the historical record, not to opinion: the calmest month since 2003 is calibrated to read 10, and the worst month of the 2008–09 financial crisis reads 90. Every reading lives between those two pegs. Five bands, plain English:</p>
+    <div class="scale-rows reveal" id="scaleBands"></div>
+  </div>
+</section>
+
 <section>
   <div class="wrap">
     <div class="sec-label reveal">Cross-Reference</div>
@@ -62,6 +71,18 @@
 <script src="lab.js"></script>
 <script>
 renderHeader('what');
+const FEELS=[
+ 'Budgets bend without breaking. Pressure exists — it always does — but savings absorb it. The calmest month on record lives here.',
+ 'The pressure shows in the data before it makes headlines: balances creep up, savings thin out, and the gap between paycheck and prices goes on the card.',
+ 'Softening becomes slipping. Delinquencies rise, hiring slows, and households start cutting real things — not luxuries, logistics.',
+ 'Broad distress: several intake lines failing at once, the cascade moving link to link. Recession-grade territory.',
+ 'Systemic crisis. The chain fails everywhere at the same time — the worst month of 2008–09 is pegged at 90 in this band.',
+];
+$('scaleBands').innerHTML=BANDS.map((b,i)=>{
+  const lo=i?BANDS[i-1].max+1:0;
+  const today=(typeof LIVE!=='undefined'&&LIVE&&TODAY_SCORE>=lo&&TODAY_SCORE<=b.max)?`<span class="scale-today">TODAY: ${TODAY_SCORE}</span>`:'';
+  return `<div class="scale-row"><div class="scale-range">${b.tier.split(' ')[0]}<br>${lo}–${b.max}</div><div><h3>${b.name}${today}</h3><p>${FEELS[i]}</p></div></div>`;
+}).join('');
 $('allLines').innerHTML=INDICATORS.map(y=>
   `<a href="indicator.html?i=${y.slug}"><span>${y.emoji}</span> ${y.name} <span class="r-oz">+${y.contrib}</span></a>`).join('');
 renderFooter();
