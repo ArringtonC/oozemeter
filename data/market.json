@@ -1,7 +1,7 @@
 {
- "generated": "2026-07-30T21:46:46.334Z",
- "score": 38,
- "raw": 32.17,
+ "generated": "2026-08-01T23:03:42.763Z",
+ "score": 37,
+ "raw": 31.17,
  "calibration": {
   "a": 1.4025,
   "b": -7.0116,
@@ -45,7 +45,7 @@
   "rates": {
    "name": "Rates",
    "emoji": "🏛",
-   "value": "0.72pp",
+   "value": "0.73pp",
    "stress": 27,
    "delta": -1,
    "asOf": "2026-07",
@@ -125,10 +125,10 @@
   "breadth": {
    "name": "Breadth",
    "emoji": "📊",
-   "value": "5/11 steady",
-   "stress": 56,
+   "value": "6/11 steady",
+   "stress": 50,
    "delta": 0,
-   "asOf": "2026-07-30",
+   "asOf": "2026-07-31",
    "read": "How many of the eleven Sector Watch tickers are weakening. One weakening ticker proxy moves this; a broad selloff maxes it.",
    "source": {
     "publisher": "Sector Watch manual proxy panel",
