@@ -5,6 +5,12 @@ const path = require('node:path');
 
 const workflow = fs.readFileSync(path.resolve(__dirname, '..', '.github/workflows/collect.yml'), 'utf8');
 
+test('write-capable daily workflow pins third-party actions to commit SHAs', () => {
+  assert.doesNotMatch(workflow, /uses:\s+actions\/(?:checkout|setup-node)@v\d+/);
+  assert.match(workflow, /uses:\s+actions\/checkout@[0-9a-f]{40}/);
+  assert.match(workflow, /uses:\s+actions\/setup-node@[0-9a-f]{40}/);
+});
+
 test('daily collection opens or updates one actionable failure issue', () => {
   assert.match(workflow, /permissions:\s*\n\s+contents: write\s*\n\s+issues: write/);
   assert.match(workflow, /name: alert on collection failure[\s\S]*if:.*failure\(\)/);

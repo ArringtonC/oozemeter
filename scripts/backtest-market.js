@@ -2,52 +2,35 @@
 /* WARD M backtest v2 — slimmed composite, recalibrated on its own history.
    Weighted gauges (operator cut, 2026-07-28): rates, volatility, credit,
    energy, dollar + BREADTH (share of the 11 Sector Watch tickers weakening,
-   monthly closes via quoted markets — the gauge that lets a -13% sector week
+   monthly closes via quoted markets — the gauge that lets a sharply weakening ticker proxy
    move the score). Parked sensors (builders/industry/freight/speculative)
    are documented in improvements.md with anchors intact.
    Doctrine: ward calm 2007-present → 10, ward GFC peak → 90.
    Run: node scripts/backtest-market.js → prints frozen constants,
    writes research/market-backtest.json */
 const fs=require('fs');
+const {interpolateAnchors,parseFredMonthly}=require('./lib/market-series');
+const {parseYahooChart}=require('./lib/market-sector');
 
 async function fred(id){
   const res=await fetch(`https://fred.stlouisfed.org/graph/fredgraph.csv?id=${id}`,
     {headers:{'User-Agent':'oozemeter ward-m backtest'}});
   if(!res.ok)throw new Error(`${id}: HTTP ${res.status}`);
-  const rows=(await res.text()).trim().split('\n').slice(1);
-  const acc={};
-  for(const r of rows){
-    const [d,v]=r.split(',');
-    if(v==='.'||v===''||v==null)continue;
-    (acc[d.slice(0,7)]??=[]).push(parseFloat(v));
-  }
-  const monthly={};
-  for(const k in acc)monthly[k]=acc[k].reduce((a,b)=>a+b,0)/acc[k].length;
-  return monthly;
+  return parseFredMonthly(await res.text(),id);
 }
 async function yahooMonthly(sym){
   const now=Math.floor(Date.now()/1000);
   const res=await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${sym}?period1=1149120000&period2=${now}&interval=1mo`,
     {headers:{'User-Agent':'Mozilla/5.0 (oozemeter ward-m backtest)'}});
   if(!res.ok)throw new Error(`${sym}: HTTP ${res.status}`);
-  const r=(await res.json()).chart.result[0];
+  const {observations}=parseYahooChart(await res.json(),sym);
   const out={};
-  for(let i=0;i<r.timestamp.length;i++){
-    const c=r.indicators.quote[0].close[i];
-    if(c!=null)out[new Date(r.timestamp[i]*1000).toISOString().slice(0,7)]=c;
+  for(const {t,c} of observations){
+    out[new Date(t*1000).toISOString().slice(0,7)]=c;
   }
   return out;
 }
-function interp(anchors,x){
-  if(x<=anchors[0][0])return anchors[0][1];
-  const last=anchors[anchors.length-1];
-  if(x>=last[0])return last[1];
-  for(let i=0;i<anchors.length-1;i++){
-    const [x1,y1]=anchors[i],[x2,y2]=anchors[i+1];
-    if(x>=x1&&x<=x2)return y1+(y2-y1)*(x-x1)/(x2-x1);
-  }
-  return 0;
-}
+
 const yoy=(m,k)=>{const p=m[`${+k.slice(0,4)-1}${k.slice(4)}`];return p!=null&&m[k]!=null?((m[k]-p)/p*100):null};
 const prevKey=k=>{const[y,mo]=k.split('-').map(Number);return `${mo===1?y-1:y}-${String(mo===1?12:mo-1).padStart(2,'0')}`};
 
@@ -84,11 +67,30 @@ const A={
     for(const t of TICKERS){
       const c=px[t][m],p=px[t][prevKey(m)];
       if(c==null||p==null)continue;
-      const chg=(c/p-1)*100;n++;
+      const chg=(c/p-1)*100;
+      if(!Number.isFinite(chg))throw new Error(`${t} ${m}: non-finite monthly price change`);
+      n++;
       if(chg<-7)stress++;else if(chg<-2)soft++;
     }
     if(n>=8)weakness[m]=(0.5*soft+stress)/n*100;
   }
+  const historyRows=series=>Object.entries(series)
+    .filter(([month,value])=>/^\d{4}-\d{2}$/.test(month)&&Number.isFinite(value))
+    .sort(([a],[b])=>a.localeCompare(b))
+    .map(([month,value])=>({month,value:+value.toFixed(6)}));
+  const dollarHistory={};
+  for(const month of Object.keys(S.DTWEXBGS)){
+    const value=yoy(S.DTWEXBGS,month);
+    if(value!=null)dollarHistory[month]=value;
+  }
+  const gaugeHistory={
+    rates:historyRows(S.T10Y3M),
+    volatility:historyRows(S.VIXCLS),
+    credit:historyRows(S.NFCI),
+    energy:historyRows(S.DCOILWTICO),
+    dollar:historyRows(dollarHistory),
+    breadth:historyRows(weakness),
+  };
 
   const now=new Date();
   const results=[];
@@ -99,7 +101,7 @@ const A={
       energy:S.DCOILWTICO[m],dollar:yoy(S.DTWEXBGS,m),breadth:weakness[m]};
     if(Object.values(vals).some(v=>v==null))continue;
     const stresses={};
-    for(const k in vals)stresses[k]=interp(A[k],vals[k]);
+    for(const k in vals)stresses[k]=interpolateAnchors(A[k],vals[k]);
     const raw=Object.values(stresses).reduce((a,b)=>a+b,0)/6;
     results.push({month:m,raw,stresses});
   }
@@ -120,7 +122,9 @@ const A={
   console.log(`LATEST           ${results[results.length-1].score} in ${results[results.length-1].month}`);
   fs.writeFileSync('research/market-backtest.json',JSON.stringify({
     generated:new Date().toISOString(),anchors:A,gauges:Object.keys(A),
+    basis:'Current-revised research reconstruction, not release-time vintages. Historical breadth uses successive monthly Yahoo closes; live Sector Watch uses a 22-session daily interval requiring 23 closes, so the two breadth transforms are not identical.',
     breadthTickers:TICKERS,
+    gaugeHistory,
     calibration:{rawCalm,rawGfc,a,b,rule:'ward calm 2007-present → 10, ward GFC peak → 90'},
     monthly:results.map(r=>({month:r.month,score:r.score,raw:+r.raw.toFixed(2)})),
   },null,1));

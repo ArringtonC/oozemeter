@@ -119,22 +119,26 @@ v5 | Growth     | GA4 event auto-tracker ported from Tryst into lab.js (indicato
 v5 | Growth     | Static per-slug pages: /gas/…/manufacturing/ + /files/<article>/ via scripts/static-pages.js — clean URLs, canonical, per-page meta (rerun after publish; cron wiring awaits data session) | done
 v5 | Growth     | sitemap.xml + robots.txt shipped (Search Console verification still needs operator Google account) | done
 v5 | Brand      | Jar SVG master: favicon.svg + og-card.png on every page; index OG tags stamped fresh by the daily cron | done
-v5 | Website    | MARKET OOZE (Ward M, market.html): 9 official-series sensors mapped from the operator's watchlist (tickers -> licensing-clean twins), provisional composite, divergence line vs the jar, experimental labeling | done
-v5 | Data       | scripts/collect-market.js: standalone Ward M collector -> data/market.js|.json (cron wiring awaits data session; rerun manually meanwhile) | done
-v5 | Website    | Sector Watch on Ward M: operator's 11-ETF dashboard (SPY QQQ DIA IWM XLF XLI IYT XLY XLP SMH XLV) grouped by economic role — weekly states + %% moves only, newsroom-style, user-verifiable by ticker, no price data republished | done
-v5 | Data       | scripts/collect-sectors.js: weekly Sector Watch collector -> data/sectors.js|.json (published state rule; breadth = steady/softening/stressed counts) | done
-v5 | Algorithm  | Ward M v2 (operator cut): six gauges — rates, volatility, credit, energy, dollar + BREADTH from Sector Watch (a bleeding sector now moves the score); recalibrated 2007-present (GFC 90, 2022 76, COVID 71, calm 10); builders/industry/freight/BTC parked in improvements.md | done
+v5 | Website    | MARKET OOZE (Ward M, market.html): six-gauge provisional composite, Sector Watch proxy panel, divergence line vs the jar, experimental labeling | done
+v5 | Data       | Hosted Ward M workflow candidate: retrying collectors, coordinated JSON/JS publication with failure rollback, integrity gate, serialized publish, and failure/recovery handling; manual-only behind quote-rights gate | done
+v5 | Website    | Sector Watch on Ward M: 11-ticker overlapping equity proxy panel (SPY QQQ DIA IWM XLF XLI IYT XLY XLP SMH XLV), 22-session price-return states, source and rights disclosures | done
+v5 | Data       | scripts/collect-sectors.js: manual Sector Watch collector -> data/sectors.js|.json; source/field/timezone/return-basis provenance; scheduled use disabled pending rights clearance | done
+v5 | Algorithm  | Ward M v2 (operator cut): six gauges — rates, volatility, credit, energy, dollar + BREADTH from Sector Watch (a weakening ticker proxy now moves the score); recalibrated 2007-present (GFC 90, 2022 76, COVID 71, calm 10); builders/industry/freight/BTC parked in improvements.md | done
 v5 | Website    | Ward M page reordered: Sector Watch leads, composite second, gauges collapsed under the hood | done
-v5 | Research   | /teach Rates: what the 10y-3m spread measures, inversion history, false-signal record, reproducible data path | todo
-v5 | Research   | /teach Volatility: what VIX actually prices, spike-vs-follow-through record, complacency reads | todo
-v5 | Research   | /teach Credit & Funding: NFCI's 105 components, revision behavior, why it bridges to methodology v3 | todo
-v5 | Research   | /teach Energy: WTI-to-pump-price transmission, real vs nominal anchoring | todo
-v5 | Research   | /teach Dollar: broad index vs DXY, why a surging dollar equals global funding stress | todo
-v5 | Research   | /teach Sector Watch: what each of the 11 tickers represents, the state-rule thresholds, breadth math | todo
-v5 | Research   | Ward M anchor validation: percentile-check every gauge's provisional anchors against its full history | todo
-v5 | Website    | Gauge files: per-gauge pages for the six ward gauges (why it matters / vs 2008 / FAQ), like the intake lines have | todo
-v5 | Website    | Divergence chart: ward-vs-jar overlay 2007-present from the two backtest histories | todo
-v5 | Content    | OOZEBOT weekly market note: one measured-fact paragraph per Sector Watch collection | todo
+v5 | Research   | /teach Rates: generated draft covers the 10y-3m spread, inversion history, false signals, and reproduction; interactive operator signoff pending | wip
+v5 | Research   | /teach Volatility: generated draft covers VIX pricing, spike follow-through, and complacency reads; interactive operator signoff pending | wip
+v5 | Research   | /teach Credit & Funding: generated draft covers NFCI components, revisions, and methodology-v3 bridge; interactive operator signoff pending | wip
+v5 | Research   | /teach Energy: generated draft covers WTI transmission and real-vs-nominal anchoring; interactive operator signoff pending | wip
+v5 | Research   | /teach Dollar: generated draft covers the broad index, DXY comparison, and conditional funding-stress interpretation; interactive operator signoff pending | wip
+v5 | Research   | /teach Sector Watch: generated draft covers the 11 ticker proxies, state thresholds, and breadth math; interactive operator signoff pending | wip
+v5 | Research   | Ward M anchor validation: percentile-check every gauge's provisional anchors against its full history | done
+v5 | Website    | Gauge files: per-gauge pages for the six ward gauges (why it matters / vs 2008 / FAQ), like the intake lines have | done
+v5 | Website    | Divergence chart: ward-vs-jar overlay 2007-present from the two backtest histories | done
+v5 | Content    | OOZEBOT manual market note: one deterministic measured-fact paragraph per approved Sector Watch collection | done
+v5 | Trust      | Ward M local release review: 89-test suite, household and market integrity gates, anchor validation, and final independent review passed | done
+v5 | Launch     | Ward M research batch landed (2026-08-01, operator go-ahead): lessons 0009-0014, gauge files, divergence chart, anchor validation, OOZEBOT note, integrity gates — all tests green at commit | done
+v5 | Trust      | Sector Watch quote rights: obtain licensed/explicitly permitted derived-display source, document corporate-action policy, then enable weekly schedule | todo
+v5 | Research   | Froth panel (queued, LAST — new sensors after research signoff + live episode): margin debt (FINRA), Buffett Indicator (Z.1 proxy), household equity allocation — valuation/complacency panel, separate from the stress composite; triage + licensing notes in improvements.md | todo
 v5 | Algorithm  | METHODOLOGY v3 (SEQUENCED AFTER Ward M live experience): Financial Conditions (NFCI) enters the flagship at 3% — spec in research/METHODOLOGY-V3-SPEC.md, implementation = data session | todo
 v5 | Trust      | v3 disclosure copy (notes + policies + revision record #2): GFC-calibrated bet stated plainly, studies linked — BLOCKS first v3 publish | todo
 v5 | Website    | lab.js WEIGHTS + INDICATORS entry for the financial line; notes.html formula update (after data session ships v3) | todo

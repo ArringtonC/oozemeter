@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#070b06">
 <title>Market Ooze — Ward M | OOZEMeter</title>
-<meta name="description" content="Ward M: Sector Watch — eleven quoted-market tickers by economic role, weekly — plus a calibrated Market Ooze composite from rates, volatility, credit, energy, the dollar, and breadth. Separate from the Ooze Score.">
+<meta name="description" content="Ward M: a manual Sector Watch specimen with eleven quoted-market tickers by economic role, plus a calibrated Market Ooze composite from rates, volatility, credit, energy, the dollar, and breadth. Separate from the Ooze Score.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800;900&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
@@ -14,7 +14,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OOZEMeter">
 <meta property="og:title" content="Market Ooze — Ward M | OOZEMeter">
-<meta property="og:description" content="Ward M: Sector Watch by economic role, weekly, plus a calibrated Market Ooze composite. Separate from the Ooze Score.">
+<meta property="og:description" content="Ward M: a manual Sector Watch specimen by economic role, plus a calibrated Market Ooze composite. Separate from the Ooze Score.">
 <meta property="og:image" content="https://arringtonc.github.io/oozemeter/og-card.png">
 <meta property="og:url" content="https://arringtonc.github.io/oozemeter/market.html">
 <meta name="twitter:card" content="summary_large_image">
@@ -28,7 +28,7 @@
     <div class="crumbs" style="padding-bottom:18px"><a href="index.html">Facility</a> / Ward M</div>
     <div class="sec-label">Ward M — Market Containment Wing <span class="exp-badge">EXPERIMENTAL</span></div>
     <h1 class="sec-title">Market Ooze</h1>
-    <p class="sec-sub">The main jar measures pressure households feel <em>now</em>. This ward watches the markets first — sector by sector, verifiable ticker by ticker — and distills them into one calibrated score. None of it touches the Ooze Score.</p>
+    <p class="sec-sub">The main jar measures pressure households feel <em>now</em>. This ward watches markets first — official gauge by official gauge, plus a disclosed ticker-proxy panel — and distills them into one calibrated score. None of it touches the Ooze Score.</p>
 
     <div class="pvJ-label wide" style="margin-top:40px">The Composite — Market Ooze</div>
     <div class="ward-hero">
@@ -48,19 +48,35 @@
       <div class="ward-grid" id="wardGrid" style="margin-top:16px"></div>
     </details>
 
-    <div class="pvJ-label wide" style="margin-top:44px">Sector Watch — quoted markets, weekly</div>
+    <div class="pvJ-label wide" style="margin-top:44px">Sector Watch — manual quoted-market specimen</div>
     <div class="sw-head" id="swHead"></div>
     <div class="sw-groups" id="swGroups"></div>
-    <p class="sw-note">Weekly report of quoted-market changes, newsroom-style: states and percent moves only, no price data archived. Every row is verifiable in seconds — look up the ticker anywhere. State rule: 1-month change ≥ −2% 🟢 steady · −2% to −7% 🟡 softening · below −7% 🔴 stressed. Zero weight in any score.</p>
+    <p class="sw-note">Manual report from an 11-ticker equity proxy panel: derived states and price changes only, not direct economic activity or independent sector breadth. Live rule: 22-session change ≥ −2% 🟢 steady · from −7% inclusive to below −2% 🟡 softening · below −7% 🔴 stressed. The quote.close field is not total return; quote rights remain unresolved, so scheduled publishing is disabled. Zero weight in the household score.</p>
+    <aside class="market-note" id="marketNote" hidden>
+      <div class="market-note-label">OOZEBOT · measured market note</div>
+      <p id="marketNoteText"></p>
+    </aside>
+
+    <div class="market-divergence" aria-labelledby="divergenceTitle">
+      <div class="pvJ-label wide">Two instruments, one timeline</div>
+      <h2 id="divergenceTitle">Ward M vs. the household jar</h2>
+      <p>Exact shared monthly observations from 2007 onward. Missing months remain gaps; neither line is interpolated.</p>
+      <div class="echart-panel divergence-panel">
+        <div class="divergence-key" aria-hidden="true"><span class="market-line">Ward M</span><span class="household-line">Household jar</span></div>
+        <svg id="divergenceChart" viewBox="0 0 960 340" role="img" aria-label="Monthly Ward M and household Ooze scores from 2007 to the latest exact shared month"></svg>
+        <div class="divergence-readout" id="divergenceReadout" aria-live="polite"></div>
+      </div>
+      <p class="sw-note" id="divergenceNote"></p>
+    </div>
   </div>
 </section>
 
 <section>
   <div class="wrap-narrow prose">
     <h2 style="margin-top:0">What this ward is — and is not</h2>
-    <p>Ward M is an <strong>experimental market-stress instrument</strong>, opened after the facility's market-signal review. It exists because financial conditions have historically <em>led</em> household pressure by months — the plumbing breaks before the kitchen sink stops working — but it also cries wolf: markets have panicked plenty of times while households stayed fine. So the ward is kept in a separate wing, on its own scale, with its own seal. <strong>Nothing here changes the Ooze Score.</strong></p>
-    <p><strong>Sector Watch sits under the composite</strong> because it is the part anyone can check: eleven tickers, grouped by what they represent, reported newsroom-style — states and percent moves, never archived price data (exchange and index licensing forbids republishing the prices themselves). The composite's official gauges come from government and Federal Reserve series, so every weighted number still traces to a public publisher.</p>
-    <p>The composite is the average of six gauges — rates, volatility, credit &amp; funding, energy, the dollar, and <strong>market breadth from Sector Watch</strong> (so a bleeding sector moves this score) — <strong>calibrated to the ward's own 2007–present history on the same doctrine as the jar</strong>: the ward's calmest month reads 10, its 2009 crisis peak reads 90. The two instruments share no data and genuinely disagree when history disagrees — the ward screamed through 2020 and late 2022 while the household jar stayed comparatively calm, which is the divergence this wing exists to show. Gauge anchors remain <strong>provisional</strong> (published in <a href="data/market.json">data/market.json</a> and the collector source) and will be revisited after the ward's first live tightening episode. Four earlier sensors — builders, industry, freight, and the bitcoin canary — are parked in the improvements ledger to keep the ward readable; their anchors are preserved for when more data earns its place.</p>
+    <p>Ward M is an <strong>experimental market-stress instrument</strong>, opened after the facility's market-signal review. Some financial conditions can move before household outcomes, but this same-month comparison does not establish a lead, forecast, or causal relationship. Markets also cry wolf: they have panicked plenty of times while households stayed fine. So the ward is kept in a separate wing, on its own scale, with its own seal. <strong>Nothing here changes the Ooze Score.</strong></p>
+    <p><strong>Sector Watch sits under the composite</strong> because its eleven ticker proxies are transparent, but they mix broad indexes, sectors, and industries with material overlap. The live panel uses Yahoo's undocumented quote.close transport; it is a price-return reconstruction, not total return, and derived-only publication does not resolve quote rights. Scheduled collection remains disabled pending a licensed or explicitly permitted source. The other five gauges come from government, Federal Reserve, or Cboe series with their original publishers identified.</p>
+    <p>The composite is the average of six gauges — rates, volatility, credit & funding, energy, the dollar, and <strong>market breadth from Sector Watch</strong> (so a weakening ticker proxy moves this score) — <strong>calibrated to the ward's own 2007–present history on the same doctrine as the jar</strong>: the ward's calmest month reads 10, its November 2008 crisis peak reads 90. The two instruments share no data and genuinely disagree when history disagrees — the ward screamed through 2020 and late 2022 while the household jar stayed comparatively calm, which is the divergence this wing exists to show. Gauge anchors remain <strong>provisional</strong> (published in <a href="data/market.json">data/market.json</a> and the collector source) and will be revisited after the ward's first live tightening episode. Four earlier sensors — builders, industry, freight, and the bitcoin canary — are parked in the improvements ledger to keep the ward readable; their anchors are preserved for when more data earns its place.</p>
     <p>The full decision record — why the market is displayed beside the jar rather than blended into it, four backtested studies included — is public in the <a href="https://github.com/ArringtonC/oozemeter/blob/main/research/market-signal-review-2026-07-28.md" target="_blank" rel="noopener">market-signal review</a>. The Credit &amp; Funding sensor (Chicago Fed NFCI) is the designated bridge for methodology v3, which will add it to the flagship at 3% under the disclosures recorded there.</p>
   </div>
 </section>
@@ -70,6 +86,7 @@
 <script src="data/latest.js"></script>
 <script src="data/market.js"></script>
 <script src="data/sectors.js"></script>
+<script src="data/market-history.js"></script>
 <script src="lab.js"></script>
 <script>
 renderHeader('market');
@@ -90,10 +107,10 @@ if(MD){
   if(LIVE){
     const hb=TODAY_SCORE<=40,mb=MD.score<=40;
     $('mktCompare').textContent=
-      hb&&mb?`Household jar ${TODAY_SCORE}, market ward ${MD.score} — both wings quiet.`:
-      !hb&&mb?`Markets are calm while households carry ${TODAY_SCORE} oz of pressure — the divergence this facility exists to show.`:
-      hb&&!mb?`Market stress at ${MD.score} while households hold at ${TODAY_SCORE}. Financial tightening has historically preceded household pressure — but not always.`:
-      `Both wings under pressure: households ${TODAY_SCORE}, markets ${MD.score}.`;
+      hb&&mb?`Household jar ${TODAY_SCORE}, market ward ${MD.score} — both instruments are below 41; this does not establish timing or causality.`:
+      !hb&&mb?`Household jar ${TODAY_SCORE}, market ward ${MD.score} — the instruments disagree; this does not establish timing or causality.`:
+      hb&&!mb?`Household jar ${TODAY_SCORE}, market ward ${MD.score} — the instruments disagree; this does not establish timing or causality.`:
+      `Household jar ${TODAY_SCORE}, market ward ${MD.score} — both instruments are above 40; this does not establish timing or causality.`;
   }
 
   /* same months, two instruments — ward side from frozen backtest constants,
@@ -117,7 +134,7 @@ if(MD){
         </div>
       </div>
       <p class="wc-read">${s.read}</p>
-      <a class="wc-src" href="${s.source.url}" target="_blank" rel="noopener">${s.source.publisher} · ${s.source.seriesId}</a>
+      <div class="wc-links"><a class="wc-file" href="market/${slug==='breadth'?'sector-watch':slug}/">Open gauge file →</a><a class="wc-src" href="${s.source.url}" target="_blank" rel="noopener">${s.source.publisher} · ${s.source.seriesId}</a></div>
     </div>`).join('');
 }else{
   $('mktCompare').textContent='Ward M sensors offline — no market collection yet.';
@@ -127,7 +144,7 @@ if(MD){
 const SD=window.SECTOR_DATA||null;
 if(SD){
   const b=SD.breadth;
-  $('swHead').innerHTML=`<b>Overall: ${SD.overall}</b> — ${b.steady} steady · ${b.softening} softening · ${b.stressed} stressed <span class="sw-asof">· week of ${SD.generated.slice(0,10)}</span>`;
+  $('swHead').innerHTML=`<b>Overall: ${SD.overall}</b> — ${b.steady} steady · ${b.softening} softening · ${b.stressed} stressed <span class="sw-asof">· observation collected ${SD.generated.slice(0,10)}</span>`;
   $('swGroups').innerHTML=SD.groups.map(g=>`
     <div class="sw-group">
       <div class="sw-gname">${g.name}</div>
@@ -135,12 +152,58 @@ if(SD){
       <div class="sw-row" title="${r.role} — as of ${r.asOf}">
         <span class="sw-jar ${r.state}" role="img" aria-label="${r.state}"></span><b class="sw-sym">${r.sym}</b>
         <span class="sw-role">${r.role}</span>
-        <span class="sw-pct" style="color:${r.m1>=0?'var(--green)':r.m1>=-7?'var(--amber)':'var(--red)'}">${r.m1>=0?'+':''}${r.m1}%<small>/1mo</small></span>
+        <span class="sw-pct" style="color:${r.m1>=0?'var(--green)':r.m1>=-7?'var(--amber)':'var(--red)'}">${r.m1>=0?'+':''}${r.m1}%<small>/22 sessions</small></span>
       </div>`).join('')}
     </div>`).join('');
+  if(SD.oozebot&&SD.oozebot.paragraph){
+    $('marketNoteText').textContent=SD.oozebot.paragraph;
+    $('marketNote').hidden=false;
+  }
 }else{
-  $('swHead').textContent='Sector Watch offline — no weekly collection yet.';
+  $('swHead').textContent='Sector Watch offline — no approved collection yet.';
 }
+
+function renderDivergenceChart(){
+  const history=window.MARKET_HISTORY;
+  const svg=$('divergenceChart');
+  if(!history||!history.monthly||!history.monthly.length){
+    svg.setAttribute('aria-label','Ward M divergence history unavailable');
+    $('divergenceNote').textContent='Divergence history offline.';
+    return;
+  }
+  const rows=history.monthly;
+  const W=960,H=340,L=54,R=20,T=30,B=40;
+  const monthNumber=m=>{const[y,mo]=m.split('-').map(Number);return y*12+mo-1};
+  const first=monthNumber(rows[0].month),last=monthNumber(rows[rows.length-1].month);
+  const x=m=>L+(monthNumber(m)-first)/Math.max(1,last-first)*(W-L-R);
+  const y=v=>T+(100-v)/100*(H-T-B);
+  const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const paths=key=>{
+    const segments=[];let current=[];let previous=null;
+    rows.forEach(row=>{
+      const month=monthNumber(row.month);
+      if(previous!==null&&month-previous>1){segments.push(current);current=[];}
+      current.push(`${current.length?'L':'M'}${x(row.month).toFixed(1)},${y(row[key]).toFixed(1)}`);
+      previous=month;
+    });
+    if(current.length)segments.push(current);
+    return segments.map(segment=>segment.join(' '));
+  };
+  const grid=[0,25,50,75,100].map(value=>`<g><line x1="${L}" y1="${y(value)}" x2="${W-R}" y2="${y(value)}"/><text x="${L-10}" y="${y(value)+4}" text-anchor="end">${value}</text></g>`).join('');
+  const years=[];
+  for(let year=Math.ceil(first/12);year<=Math.floor(last/12);year+=3){
+    const month=`${year}-01`;years.push(`<text x="${x(month)}" y="${H-12}" text-anchor="middle">${year}</text>`);
+  }
+  const latest=rows[rows.length-1];
+  svg.innerHTML=`<g class="div-grid">${grid}${years.join('')}</g>`+
+    paths('market').map(d=>`<path class="div-path market" d="${d}"/>`).join('')+
+    paths('household').map(d=>`<path class="div-path household" d="${d}"/>`).join('')+
+    `<circle class="div-dot market" cx="${x(latest.month)}" cy="${y(latest.market)}" r="5"><title>Ward M ${esc(latest.month)}: ${latest.market}</title></circle>`+
+    `<circle class="div-dot household" cx="${x(latest.month)}" cy="${y(latest.household)}" r="5"><title>Household jar ${esc(latest.month)}: ${latest.household}</title></circle>`;
+  $('divergenceReadout').textContent=`${latest.month}: Ward M ${latest.market}, household jar ${latest.household}, divergence ${latest.divergence>=0?'+':''}${latest.divergence}.`;
+  $('divergenceNote').textContent=`${history.observations} exact shared months · ${history.start}–${history.end} · ${history.note}`;
+}
+renderDivergenceChart();
 wireReveals();
 </script>
 </body>

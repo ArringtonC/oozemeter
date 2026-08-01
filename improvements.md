@@ -102,3 +102,25 @@ Re-add condition: when the ward earns a deeper "all gauges" view (or the
 composite proves too narrow in a live episode), restore into both
 scripts/collect-market.js and scripts/backtest-market.js, then re-freeze
 calibration.
+
+## Ward M — froth panel candidates (2026-08-01, advisor triage)
+
+Valuation/complacency indicators from the "Capital Ooze" advisor text.
+These measure FROTH (how stretched markets are), not STRESS (whether they
+are breaking) — they peak during euphoria while every stress gauge reads
+calm. If built, they form a separate labeled panel ("how stretched is the
+rubber band"), never averaged into the stress composite.
+
+| Candidate | Source | Cadence / lag | Notes |
+|---|---|---|---|
+| Margin debt | FINRA margin statistics (free, public) | Monthly, ~3-4wk lag | Most buildable; partially overlaps NFCI leverage subindex — disclose |
+| Buffett Indicator | Fed Z.1 corporate equities value ÷ GDP (FRED-derivable) | Quarterly, months of lag | Wilshire 5000 pulled from FRED — Z.1 proxy is the licensing-clean path |
+| Household equity allocation | Fed Z.1 flow of funds (FRED) | Quarterly, months of lag | Known long-horizon valuation signal; slow for a fast wing |
+
+Rejected from the same text: fund flows (ICI licensing), index concentration
+(constituent data licensing), Buffett cash pile (narrative, fails honesty
+rules), liquidity rebrand (Ward M already is the market wing).
+
+Build condition: after the Ward M research program is signed off and the
+provisional anchors survive a live episode — froth panel is new-sensor work
+and new sensors come last.

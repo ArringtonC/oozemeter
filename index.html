@@ -288,7 +288,7 @@ if(window.MARKET_DATA){
     <span class="fico">📊</span>
     <div class="fi-meta"><span class="fi-dot" style="background:#5fd7ff"></span>MARKET OOZE · EXPERIMENTAL</div>
     <div class="fi-t">Markets read ${M.score} — ${bandOf(M.score).name}</div>
-    ${SW?`<div class="fi-tease">Sector Watch: ${SW.overall.toLowerCase()} — ${SW.breadth.steady} of ${SW.breadth.total} sectors steady.</div>`:''}
+    ${SW?`<div class="fi-tease">Sector Watch: ${SW.overall.toLowerCase()} — ${SW.breadth.steady} of ${SW.breadth.total} ticker proxies steady.</div>`:''}
     <span class="pk-more" style="display:inline-block;margin-top:10px">OPEN THE WARD →</span>
   </a>`;
 }else{document.querySelectorAll('.file-h')[2].style.display='none'}

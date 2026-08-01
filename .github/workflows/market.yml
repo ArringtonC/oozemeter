@@ -1,0 +1,63 @@
+name: manual-market-collection-candidate
+on:
+  # QUOTE RIGHTS GATE: keep manual-only until a licensed or explicitly
+  # permitted quote source replaces the undocumented Yahoo transport.
+  workflow_dispatch: {}
+permissions:
+  contents: write
+  issues: write
+concurrency:
+  group: oozemeter-publication
+  cancel-in-progress: false
+jobs:
+  collect-market:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 22
+      - name: verify Ward M contracts
+        run: |
+          node --test --test-concurrency=1 tests/fetch.test.js tests/market-output.test.js tests/market-note.test.js tests/market-divergence.test.js tests/market-validation.test.js tests/market-series.test.js tests/market-sector.test.js tests/market-public.test.js tests/market-integrity.test.js tests/market-workflow.test.js
+          node --check scripts/collect-sectors.js
+          node --check scripts/collect-market.js
+          node --check scripts/market-integrity.js
+      - name: collect complete Ward M specimen
+        run: |
+          node scripts/collect-sectors.js
+          node scripts/collect-market.js
+      - name: validate complete Ward M specimen
+        run: node scripts/market-integrity.js
+      - name: commit complete Ward M specimen
+        run: |
+          git config user.name "oozebot"
+          git config user.email "oozebot@users.noreply.github.com"
+          git add data/market.json data/market.js data/sectors.json data/sectors.js
+          git diff --cached --quiet && echo "no new market data" && exit 0
+          git commit -m "market specimen $(date -u +%F)"
+          git push
+      - name: alert on Ward M collection failure
+        if: ${{ failure() }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          title='[OOZEMeter] Ward M collection failure'
+          run_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          issue=$(gh issue list --state open --search '"[OOZEMeter] Ward M collection failure" in:title' --json number --jq '.[0].number // empty')
+          body="The manual Ward M collection failed. The last valid public market specimen remains in place. Inspect the run before publishing another specimen: ${run_url}"
+          if [[ -n "$issue" ]]; then
+            gh issue comment "$issue" --body "$body"
+          else
+            gh issue create --title "$title" --body "$body"
+          fi
+      - name: close recovered Ward M alert
+        if: ${{ success() }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          issue=$(gh issue list --state open --search '"[OOZEMeter] Ward M collection failure" in:title' --json number --jq '.[0].number // empty')
+          if [[ -n "$issue" ]]; then
+            run_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+            gh issue close "$issue" --comment "Ward M collection recovered successfully: ${run_url}"
+          fi
