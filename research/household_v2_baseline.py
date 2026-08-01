@@ -1,15 +1,14 @@
-"""Reconstruct the frozen household-only v2 baseline from the canonical v3 backtest.
+"""Load the immutable household-only v2 baseline used by decision studies.
 
-The market decision studies add candidate signals to the pre-v3 household score.
-After methodology v3 replaced ``backtest-results.json``, reading that artifact
-directly would count Financial Conditions twice. This adapter deliberately uses
-the frozen v2 weights and calibration, then proves every reconstructed integer
-against revision record entry #2 before returning the study input.
+Methodology v3 replaced ``backtest-results.json`` with current-revised inputs.
+Reconstructing v2 from that moving artifact made the supposedly frozen research
+baseline drift after each source revision. This adapter instead loads the exact
+pre-v3 canonical backtest retained in ``household-v2-backtest.json``, verifies its
+byte fingerprint, and reconciles it with revision record entry #2.
 """
 
 import json
 import hashlib
-import math
 import os
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -22,66 +21,43 @@ V2_WEIGHTS = {
     'inflation': 10,
 }
 V2_CALIBRATION = {'a': 1.4209110232483089, 'b': -24.62145011353958}
-FROZEN_V2_BASELINE_SHA256 = '988f07e07902f4edda50902d49b3cabe550b4685b32f4d4a121c430f74d9cfa3'
-
-
-def _history_key(month):
-    year, number = map(int, month.split('-'))
-    return f'{year + (number - 1) / 12:.3f}'
-
-
-def _js_round(value):
-    return math.floor(value + 0.5)
+FROZEN_V2_BASELINE_SHA256 = '6a7860ef97e04a1252dad4765827c638d1e81759cc4e5046fb80a3d8effcdc11'
 
 
 def load_household_v2_baseline():
-    with open(os.path.join(HERE, 'backtest-results.json'), encoding='utf-8') as source:
-        current = json.load(source)
+    baseline_path = os.path.join(HERE, 'household-v2-backtest.json')
+    with open(baseline_path, 'rb') as source:
+        baseline_bytes = source.read()
+    fingerprint = hashlib.sha256(baseline_bytes).hexdigest()
+    if fingerprint != FROZEN_V2_BASELINE_SHA256:
+        raise RuntimeError(f'Frozen v2 study artifact fingerprint changed: {fingerprint}')
+    baseline = json.loads(baseline_bytes)
+
     with open(os.path.join(HERE, '..', 'data', 'revisions.json'), encoding='utf-8') as source:
         revisions = json.load(source)
 
     revision = next((entry for entry in revisions if entry.get('toMethodologyVersion') == '3.0.0'), None)
     if revision is None:
         raise RuntimeError('Methodology v3 revision record is required to validate the v2 study baseline')
-    expected_old = {f"{change['t']:.3f}": change['old'] for change in revision['changes']}
-
     comparison_months = revision.get('summary', {}).get('monthsCompared')
     if not isinstance(comparison_months, int) or comparison_months <= 0:
         raise RuntimeError('Methodology v3 revision record is missing the frozen comparison-month count')
-
-    monthly = []
-    for current_row in current['monthly'][:comparison_months]:
-        stresses = current_row['stresses']
-        missing = [name for name in V2_WEIGHTS if name not in stresses]
-        if missing:
-            raise RuntimeError(f"Cannot reconstruct v2 baseline for {current_row['month']}; missing {missing}")
-        raw = sum(V2_WEIGHTS[name] * stresses[name] for name in V2_WEIGHTS) / 100
-        unrounded = V2_CALIBRATION['a'] * raw + V2_CALIBRATION['b']
-        ooze = _js_round(max(0, min(100, unrounded)))
-        expected = expected_old.get(_history_key(current_row['month']), current_row['ooze'])
-        if ooze != expected:
-            raise RuntimeError(
-                f"Frozen v2 reconstruction mismatch at {current_row['month']}: {ooze} != {expected}"
-            )
-        monthly.append({**current_row, 'ooze': ooze})
-
+    monthly = baseline.get('monthly', [])
     if len(monthly) != comparison_months:
         raise RuntimeError(f'Frozen v2 baseline expected {comparison_months} months, found {len(monthly)}')
+    if baseline.get('weights') != V2_WEIGHTS:
+        raise RuntimeError('Frozen v2 study weights changed')
+    calibration = baseline.get('calibration', {})
+    if calibration.get('a') != V2_CALIBRATION['a'] or calibration.get('b') != V2_CALIBRATION['b']:
+        raise RuntimeError('Frozen v2 study calibration changed')
 
-    fingerprint_rows = []
-    for row in monthly:
-        raw = sum(V2_WEIGHTS[name] * row['stresses'][name] for name in V2_WEIGHTS) / 100
-        fingerprint_rows.append({'month': row['month'], 'raw': raw, 'ooze': row['ooze']})
-    fingerprint_payload = {
-        'weights': V2_WEIGHTS,
-        'calibration': V2_CALIBRATION,
-        'monthly': fingerprint_rows,
-    }
-    fingerprint = hashlib.sha256(
-        json.dumps(fingerprint_payload, sort_keys=True, separators=(',', ':')).encode()
-    ).hexdigest()
-    if fingerprint != FROZEN_V2_BASELINE_SHA256:
-        raise RuntimeError(f'Frozen v2 study baseline fingerprint changed: {fingerprint}')
+    by_month = {row['month']: row['ooze'] for row in monthly}
+    for change in revision.get('changes', []):
+        year = int(change['t'])
+        month = round((change['t'] - year) * 12) + 1
+        key = f'{year}-{month:02d}'
+        if by_month.get(key) != change['old']:
+            raise RuntimeError(f'Frozen v2 revision mismatch at {key}: {by_month.get(key)} != {change["old"]}')
 
     return {'weights': V2_WEIGHTS, 'calibration': V2_CALIBRATION, 'monthly': monthly}
 
