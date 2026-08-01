@@ -528,7 +528,7 @@ footer{padding:36px 0 64px;font-size:.66rem;letter-spacing:.16em;text-transform:
 </section>
 
 <footer>
-  <div class="wrap">Blueprint Rev 9 · Ward M market wing opened 2026-07-28 (market-signal review → Path A spec + Sector Watch + calibrated composite) · Season-2 batch 2026-07-27 (GA4 tracker, OG previews, clean URLs, sitemap) · Variant J front page folded into index.html 2026-07-27 · Refinement Audit v1 absorbed (8 findings + 9 deltas) · Board review 2026-07-24 · Gates 1–2 cleared 2026-07-25 · Sources: improvements.md · REQUIREMENTS.md · tasks.js · research/ · data/latest.json · Tryst playbook inventory</div>
+  <div class="wrap">Blueprint Rev 10 · Ward M research program landed 2026-08-01 (six lessons, gauge files, divergence chart, anchor validation, integrity gates; froth panel triaged to queue; Codex task pack: v3 + quote rights) · Ward M market wing opened 2026-07-28 (market-signal review → Path A spec + Sector Watch + calibrated composite) · Season-2 batch 2026-07-27 (GA4 tracker, OG previews, clean URLs, sitemap) · Variant J front page folded into index.html 2026-07-27 · Refinement Audit v1 absorbed (8 findings + 9 deltas) · Board review 2026-07-24 · Gates 1–2 cleared 2026-07-25 · Sources: improvements.md · REQUIREMENTS.md · tasks.js · research/ · data/latest.json · Tryst playbook inventory</div>
 </footer>
 
 <script src="tasks.js"></script>
@@ -557,12 +557,12 @@ const BOARD=[
    ['Fast-signal momentum (claims)',90,'Live in employment line'],
    ['Monthly seal + release cadence',90,'Headline seals mid-month; lines carry own asOf + STALE flags'],
    ['OOZEMAXING breadth check',80,'Computed daily · not yet displayed on site'],
-   ['Unit tests / golden fixtures',10,'Only console.asserts so far'],
+   ['Unit tests / golden fixtures',70,'22 test files: market suite + integrity gates + public-label guards · household lines still lighter'],
    ['Incident severity ratings (C1–C5)',0,'Specced, not computed'],
  ]},
  {name:'Website — by area',ref:'improvements.md §2–3',weight:1.5,rows:[
    ['Homepage / containment chamber',95,'Variant J: mission control × research library, live data · missing: analytics'],
-   ['Market wing (Ward M)',70,'Sector Watch + calibrated 6-gauge composite live · gauge files, /teach passes, divergence chart pending'],
+   ['Market wing (Ward M)',90,'Composite leads the page, Sector Watch mini jars, gauge files, six lessons, divergence chart — all live · pending: quote-rights source + scheduled collection, then v3 bridge'],
    ['Indicator pages',70,'Live readings via template · charts still illustrative, no static URLs'],
    ['Incident archive',90,'Fully backtested replay + real incident files'],
    ['Lab notes / methodology',85,'Cadence doctrine documented · anchor tables not yet human-readable'],
@@ -572,8 +572,8 @@ const BOARD=[
    ['404, about, favicon, share images',100,'All four shipped — favicon, OG card, DEC-404, about.html'],
  ]},
  {name:'Automation (the video system, adapted)',ref:'improvements.md §5 · flowmap Lane B',weight:1.5,rows:[
-   ['Daily data collection cron',85,'collect.js + Actions workflow written · activates on push'],
-   ['Auto site refresh on new data',80,'Pages redeploys on commit · pending push'],
+   ['Daily data collection cron',100,'Live — oozebot commits daily; integrity gate fails closed'],
+   ['Auto site refresh on new data',100,'Live — Pages redeploys on every oozebot commit'],
    ['Trending headlines intake',0,'Gate 4'],
    ['Auto-generated Daily Ooze Report',0,'Gate 4 — golden-master template first'],
    ['Fast indexing (IndexNow / API)',0,'Gate 4'],
@@ -849,6 +849,7 @@ const CHAPTERS=[
   ['⭐','Put it online','Pushed 2026-07-25. The real number is on the internet; the robot ran its first cloud collection the same day.','done'],
   ['🎛','New front page','Mission Control × Research Library (Variant J, 10 designs tested): jar + placard, intake canisters, the full 8-line ledger, and a file rail of reports.','done'],
   ['📊','Opened Ward M','The market wing: Sector Watch (11 tickers by economic role, weekly) + a calibrated Market Ooze composite — separate from the jar, and honest about it.','done'],
+  ['🎓','Ward M research program','Six field-training lessons, per-gauge public files, the ward-vs-jar divergence chart, and an anchor-validation report — all landed 2026-08-01.','done'],
   ['📱','Put it on my phone','Home-screen jar icon shipped — now it\'s one Add-to-Home-Screen tap on my phone.','current'],
   ['🧪','Hook up stat #7: foreclosures','The data is already being downloaded — it just needs to show on the site.','todo'],
   ['🏭','Hook up stat #8: manufacturing','One more government feed, and all 8 stats I listed are real.','todo'],
