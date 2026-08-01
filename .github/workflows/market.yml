@@ -22,21 +22,18 @@ jobs:
           node --test --test-concurrency=1 tests/fetch.test.js tests/market-output.test.js tests/market-note.test.js tests/market-divergence.test.js tests/market-validation.test.js tests/market-series.test.js tests/market-sector.test.js tests/market-public.test.js tests/market-integrity.test.js tests/market-workflow.test.js
           node --check scripts/collect-sectors.js
           node --check scripts/collect-market.js
-          node --check scripts/build-market-divergence.js
           node --check scripts/market-integrity.js
       - name: collect complete Ward M specimen
         run: |
           node scripts/collect-sectors.js
           node scripts/collect-market.js
-      - name: refresh and validate complete Ward M specimen
-        run: |
-          node scripts/build-market-divergence.js
-          node scripts/market-integrity.js
+      - name: validate complete Ward M specimen
+        run: node scripts/market-integrity.js
       - name: commit complete Ward M specimen
         run: |
           git config user.name "oozebot"
           git config user.email "oozebot@users.noreply.github.com"
-          git add data/market.json data/market.js data/sectors.json data/sectors.js data/market-history.json data/market-history.js
+          git add data/market.json data/market.js data/sectors.json data/sectors.js
           git diff --cached --quiet && echo "no new market data" && exit 0
           git commit -m "market specimen $(date -u +%F)"
           git push

@@ -13,9 +13,8 @@ test('hosted Ward M workflow remains manual-only until quote rights are cleared'
   assert.match(workflow, /tests\/market-output\.test\.js/);
   assert.match(workflow, /tests\/market-integrity\.test\.js/);
   assert.match(workflow, /node scripts\/collect-sectors\.js[\s\S]*node scripts\/collect-market\.js/);
-  assert.match(workflow, /node scripts\/collect-market\.js[\s\S]*node scripts\/build-market-divergence\.js[\s\S]*node scripts\/market-integrity\.js/);
   assert.match(workflow, /node scripts\/market-integrity\.js/);
-  assert.match(workflow, /git add data\/market\.json data\/market\.js data\/sectors\.json data\/sectors\.js data\/market-history\.json data\/market-history\.js/);
+  assert.match(workflow, /git add data\/market\.json data\/market\.js data\/sectors\.json data\/sectors\.js/);
 });
 
 test('hosted Ward M workflow has serialized push and failure recovery alerts', () => {

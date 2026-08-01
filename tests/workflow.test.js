@@ -37,9 +37,3 @@ test('daily collection prefers the keyed FRED API when the secret is configured'
   assert.match(workflow, /name: verify collector contracts[\s\S]*FRED_API_KEY:\s*\$\{\{ secrets\.FRED_API_KEY \}\}/);
   assert.match(workflow, /name: collect release-aware specimen[\s\S]*FRED_API_KEY:\s*\$\{\{ secrets\.FRED_API_KEY \}\}/);
 });
-
-test('daily collection rebuilds divergence after the household history is sealed', () => {
-  assert.match(workflow, /tests\/market-divergence\.test\.js/);
-  assert.match(workflow, /node scripts\/collect\.js[\s\S]*node scripts\/build-market-divergence\.js[\s\S]*node scripts\/market-integrity\.js/);
-  assert.ok(workflow.indexOf('node scripts/build-market-divergence.js') < workflow.indexOf('git commit'));
-});
