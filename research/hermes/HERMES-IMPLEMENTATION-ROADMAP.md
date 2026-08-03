@@ -49,10 +49,20 @@ Constitution and the Editorial Decision process, not through exploratory writing
 - Governance established (§14 amendment rule, §16 staged-rules register)
 
 ### Gate 2 — Engineering · **FAIL** ← you are here
+*(revised 2026-08-03 after reviewing the first real edition — further along than
+this roadmap originally assumed; see `EDITION-REVIEW-2026-08-03.md`)*
 
-- ☐ Observed values retained through the pipeline
-- ☐ Evidence packet exists
-- ☐ Validators enforce the Constitution
+- ☑ **Evidence packet exists** — `weekly-evidence/v1`, hash-chained, facts keyed
+  with unit + asOf + basis, gates recorded with commands. Epic 1 substantially
+  delivered and better than specified.
+- ☑ **Observed values retained** — for the WEEKLY path. All 14 are in the packet
+  (`hh.gas.value: "$4.10"` etc). Epic 2 is a *renderer* problem here, not a data
+  problem. Still outstanding for the ARCHIVE path (backtest retention, Codex 8).
+- ☐ **Validators enforce the Constitution** — `validation.json` returned
+  `"pass", failures: []` on an edition containing a false sentence and six rule
+  violations. **This is now the critical path.**
+- ☐ **Failing gates actually block** — two gates failed (one with 19 findings)
+  and the edition published. A gate that does not stop publication is decoration.
 - ☐ Regression tests over the archive
 
 ### Gate 3 — Publication · **FAIL**
@@ -135,7 +145,7 @@ and any governing idea that argues about the economy rather than the arithmetic.
 
 ---
 
-## Epic 3 — Validator Framework
+## Epic 3 — Validator Framework · **CRITICAL PATH**
 
 **Goal.** Turn the Constitution into executable software. **Any checklist item
 expressible as an assertion about generated output must be one** (§12) — three
