@@ -53,78 +53,56 @@ configured correctly; keep it in any future verification.
 
 ## Discord — bot
 
-**Status: not started. Gateway is not running; no Discord keys are set.**
+**Status: WIRED AND VERIFIED (2026-08-02).**
 
-### Step 1 — Create the application
-
-<https://discord.com/developers/applications> → **New Application** → name it
-`OOZEBOT` → **Bot** → **Reset Token** → copy it. Treat that token like a
-password; anyone holding it controls the bot.
-
-### Step 2 — Enable Privileged Gateway Intents (the step everyone skips)
-
-Same **Bot** page → **Privileged Gateway Intents**:
-
-| Intent | Required? |
+| Item | Value |
 |---|---|
-| Presence Intent | optional |
-| **Server Members Intent** | **ON** |
-| **Message Content Intent** | **ON** |
+| Bot | `OOZEBOT#7192` (app/bot ID `1533629174823125042`) |
+| Server | `OOZEMeter` (`1533631423498424490`) |
+| Channel | `#general` (`1533631424593395744`) |
+| Owner / allowlist | `468902102995959808` |
+| Secrets | `~/.hermes/.env`, mode `0600` |
+| Service | launchd `ai.hermes.gateway`, auto-start + auto-restart |
 
-**This is the #1 reason Discord bots appear online but never respond.** Without
-Message Content Intent the bot receives events with empty text — it literally
-cannot see what you typed. Click **Save Changes**.
+Verified against the live Discord API, not just config:
 
-For a private bot, also turn **Public Bot** OFF (then use the manual invite URL
-in step 3, since Discord's own link generator requires Public Bot on).
+- Token authenticates; `/users/@me` returns `OOZEBOT`.
+- **Both privileged intents already enabled** — Message Content and Server
+  Members (`raw_flags 565248`). This is the #1 cause of silent bots.
+- Gateway log: `[Discord] Connected as OOZEBOT#7192`.
+- A real message was posted to `#general` and accepted (`200`).
+- `#general` is in `DISCORD_FREE_RESPONSE_CHANNELS`, so it answers without
+  an `@mention`.
 
-### Step 3 — Invite it to your server
+### Outstanding portal cleanup (cosmetic, not blocking)
 
-Replace `YOUR_APP_ID` with the Application ID from the General Information page:
+`bot_public` is still `true`, so anyone with the app ID could invite OOZEBOT
+to their own server. It could do nothing there — `DISCORD_ALLOWED_USERS`
+restricts it to one user — but close it anyway:
 
-```text
-https://discord.com/oauth2/authorize?client_id=YOUR_APP_ID&scope=bot+applications.commands&permissions=274878286912
-```
+1. **Installation** tab → Install Link → **None** → Save
+2. **Bot** tab → uncheck **Public Bot** → Save
 
-That permission set covers View Channels, Send Messages, Read Message History,
-Attach Files, Embed Links, Send Messages in Threads, and Add Reactions.
-
-### Step 4 — Get your own user ID
-
-Discord → **Settings → Advanced → Developer Mode ON**, then right-click your own
-name → **Copy User ID**. Without this the gateway denies everyone by default,
-which is the correct safe posture.
-
-### Step 5 — Configure and start
-
-Add to `~/.hermes/.env` (secrets belong here, never in `config.yaml`):
-
-```bash
-DISCORD_BOT_TOKEN=<token from step 1>
-DISCORD_ALLOWED_USERS=<your user ID from step 4>
-```
-
-Then:
-
-```bash
-hermes gateway install   # run as a user service, survives reboot
-hermes gateway status    # expect: running
-```
-
-DM the bot to confirm it answers. In server channels it only replies when
-`@mentioned` unless you add the channel to `DISCORD_FREE_RESPONSE_CHANNELS`.
+Discord rejects the second step until the first is done ("Private application
+cannot have a default authorization link").
 
 ---
 
-## Step 6 — Register the two cron jobs
+## Scheduled jobs
 
-Only after **both** channels answer. Scheduling delivery into a dead channel
-produces silent weekly failures, which is worse than no automation.
+Both registered, `no_agent` (script-only, zero token cost):
 
-```text
-Sunday build:     0 18 * * 0   America/Chicago   workdir = this repo
-Monday delivery:  0 8  * * 1   America/Chicago   workdir = this repo
-```
+| Job | ID | Schedule | Delivery |
+|---|---|---|---|
+| Sunday build | `355f7ca34c51` | `0 18 * * 0` | local (silent unless it fails) |
+| Monday delivery | `b0819ecdc57a` | `0 8 * * 1` | `discord:1533631424593395744` |
 
-Ask me to create them once `hermes gateway status` reports running and the
-himalaya test send lands in your inbox.
+Scripts live in `~/.hermes/scripts/`:
+
+- `oozemeter-weekly-build.sh` — runs gates, writes the dated package, prints a
+  one-line receipt on success and a loud alert on failure.
+- `oozemeter-weekly-deliver.sh` — reads the package, emails the full reports,
+  prints the Discord summary. **Prints nothing when the package was already
+  delivered**, so a re-run cannot double-post.
+
+Both dry-run successfully end to end.
