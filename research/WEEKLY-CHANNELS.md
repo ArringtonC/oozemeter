@@ -7,7 +7,7 @@ and **email** (full reports). This file tracks what is wired and what is not.
 
 ## Email — Gmail via Himalaya
 
-**Status: configured, awaiting your App Password.**
+**Status: WIRED AND VERIFIED END TO END (2026-08-02).**
 
 | Item | Value |
 |---|---|
@@ -18,32 +18,26 @@ and **email** (full reports). This file tracks what is wired and what is not.
 | SMTP | `smtp.gmail.com:587` STARTTLS |
 | Secret | macOS Keychain, service `oozemeter-gmail` |
 
-Verified: config parses, `himalaya account list` shows the account, no literal
-password anywhere in the file.
+Verified with live sends, not just config parsing:
 
-### The one step only you can do
+- IMAP authenticates — `himalaya folder list` returns the full folder tree.
+- The server's `\Sent` flag sits on `[Gmail]/Sent Mail`, confirming the alias.
+- Test message sent, exit `0`, landed in INBOX.
+- **Saved to Sent exactly once** — no duplicate, so the alias fix holds.
+- A real weekly brief (`OOZEMeter Weekly Reports — 2026-08-03`) was built by
+  the Sunday stage, staged by the Monday stage, and delivered successfully.
 
-Gmail rejects your normal password when 2FA is on. Create an **App Password**:
+The App Password is stored in the Keychain only. It never appears in the config
+file, this repository, or shell history.
 
-1. <https://myaccount.google.com/apppasswords>
-2. Name it `OOZEMeter`, copy the 16-character value.
-3. Store it in the Keychain — the `-w` with no value prompts securely, so the
-   secret never lands in your shell history:
-
-```bash
-security add-generic-password -a arrington.copeland@gmail.com -s oozemeter-gmail -w
-```
-
-4. Verify end to end:
+### Re-storing the password (if it ever needs rotating)
 
 ```bash
-himalaya folder list                        # proves IMAP auth works
-printf 'From: arrington.copeland@gmail.com\nTo: arrington.copeland@gmail.com\nSubject: OOZEMeter test\n\nchannel check\n' \
-  | himalaya template send                  # proves SMTP + save-to-Sent work
+security add-generic-password -a arrington.copeland@gmail.com -s oozemeter-gmail -w -U
 ```
 
-If step 4's send exits non-zero, **do not retry blindly** — check whether the
-message actually arrived first. See the folder-alias warning below.
+The `-w` with no value prompts securely. Get a fresh 16-character App Password
+at <https://myaccount.google.com/apppasswords> if Gmail invalidates the old one.
 
 ### Why the folder aliases matter
 
@@ -52,7 +46,8 @@ The config uses the plural `folder.aliases.X` spelling. The pre-1.2.0 singular
 falls through to a folder Gmail does not have (`[Gmail]/Sent Mail` is the real
 one). Save-to-Sent then fails **after** SMTP already delivered, himalaya exits
 non-zero, and any caller that retries re-sends the whole message — duplicate
-weekly reports.
+weekly reports. The "exactly once in Sent" check above is what proves this is
+configured correctly; keep it in any future verification.
 
 ---
 
