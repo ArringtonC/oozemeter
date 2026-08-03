@@ -1,6 +1,15 @@
 THE OOZE REPORT
-August 4, 2026 — re-issue of the August 3 edition, corrected
+August 4, 2026 — DRAFT re-issue of the August 3 edition
 ====================================================
+
+*** DRAFT — NOT FOR PUBLICATION. NOT SENT. ***
+This is prose only. A publishable edition requires five generated artifacts
+alongside it — edition.json, evidence.json, validation.json, approval.json and
+operator-appendix.txt — and this directory has none of them. They must be
+produced by the publication pipeline, not hand-written: a hand-authored
+validation record would be manufactured confidence, and a hand-authored approval
+record would be a fabricated approval. Until the pipeline can build them for this
+edition, this file is a draft of the corrected copy and nothing more.
 
 CORRECTION NOTICE
 This edition replaces the edition of August 3, 2026, which is retained unchanged
@@ -68,9 +77,11 @@ WHAT A HOUSEHOLD WOULD NOTICE
 Filling the tank cost $4.10 a gallon at the end of July. Anyone shopping for a
 mortgage meets 6.66%. Anyone carrying a card balance is paying it against a
 delinquency backdrop last measured in the winter, so the jar cannot yet say
-whether that got better or worse this spring. Nothing a household meets in an
-ordinary week changed in this week's data. What changed is what the facility
-knows about June — it knows one point less than it did a week ago.
+whether that got better or worse this spring. Two of those levels were observed inside the
+last seven days — the mortgage on July 30 and the pump on July 27 — and the
+facility still cannot say how far either moved in that window, because it keeps
+no prior-week snapshot to compare them against. What did change this week is
+what the facility knows about June: one point less than it knew a week ago.
 
 WARD M — THE MARKET WING
 Ward M stands at 37 out of 100 on July evidence. It is an experimental
@@ -101,9 +112,10 @@ is not a same-month comparison and should not be read as one. The last month
 both instruments have a figure for is June 2026: ward 30, jar 26. Between May
 and June the ward moved and the jar fell 3, so on the one month they share, the
 market wing was carrying more stress than the kitchen table and moving
-differently. For a household that means nothing directly: no market gauge
-touches the household score, and a ward reading has never been evidence about a
-grocery bill.
+differently. For a household that means nothing directly: the Ward M
+composite never enters Household OOZE, and a ward reading has never been
+evidence about a grocery bill. The two instruments do share one series upstream,
+which the next paragraph states.
 
 The instruments are never averaged. They overlap in one series: the Chicago Fed's
 financial-conditions index. Ward M scores its July mean at −0.54; the household
@@ -146,7 +158,10 @@ Reserve Bank of Chicago. Ward M summarizes market and financial-system stress on
 its own scale from Federal Reserve, Cboe and EIA series; it does not affect the
 household score, and its calibration anchors remain provisional. Component
 line-stress changes and headline contribution ounces are different units. This
-edition reports the latest validated evidence and does not forecast the economy.
+edition reports the latest collected evidence and does not forecast the economy.
+It carries no validation record: the artifacts that would carry one have not been
+generated for this edition, and the validation record of the August 3 edition is
+itself known to have omitted two failing gates.
 
 Methodology v3.0.0. All source releases current at collection; two weighted lines
 carry January observations by quarterly cadence. Two entries on the public

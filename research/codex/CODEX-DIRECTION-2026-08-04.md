@@ -13,6 +13,44 @@ work.
 
 ---
 
+## D-0 · BLOCKING · There is no pipeline path to publish a correction
+
+**Found by the operator stopping delivery of the August 4 re-issue, correctly.**
+
+The re-issue exists as `reports/editions/2026-08-04/edition.txt` and nothing else.
+A publishable edition requires five generated artifacts — `edition.json`,
+`evidence.json`, `validation.json`, `approval.json`, `operator-appendix.txt` —
+and the correction was written as prose because **the pipeline has no re-issue
+path**. It can build an edition from a collection cycle; it cannot build one from
+*"the previous edition was wrong."*
+
+This is structural, not clerical. §15 makes corrections a permanent editorial
+artifact and the Constitution's whole claim rests on them. A correction that can
+only be produced by hand is a correction that will be produced rarely, late, or
+not at all — and one that arrives without a validation record cannot be
+distinguished from an unchecked draft.
+
+**Do not close this by hand-writing the artifacts.** A hand-authored
+`validation.json` is manufactured confidence (the exact defect D-4 names) and a
+hand-authored `approval.json` is a fabricated approval record. Both would be
+worse than the missing files.
+
+**Required:**
+- A **re-issue mode**: given a prior edition ID and a list of corrections, the
+  pipeline produces the full artifact set with a `replaces` field pointing at the
+  superseded edition, and the superseded edition gains a `supersededBy` field.
+  Neither edition's bytes are ever edited.
+- `evidence.json` for a re-issue records **both** the original cycle's evidence
+  and anything re-derived, so a reader can see what changed and what did not.
+- `validation.json` runs the full gate set against the corrected text. A
+  correction is held to the same standard as an edition, not a lower one.
+- `corrections.jsonl` (Epic 4) is written by this path, not alongside it.
+- Acceptance: `reports/editions/2026-08-04/` can be regenerated end-to-end by the
+  pipeline, and the artifact set validates. Until then the August 4 text stays
+  marked **DRAFT — NOT FOR PUBLICATION** and nothing is sent.
+
+---
+
 ## D-1 · BLOCKING · The evidence packet ships the wrong vintage of every observable
 
 **This is the deepest defect in the pipeline and it invalidates the fix everyone
@@ -182,6 +220,31 @@ in **different months** — Ward M scores NFCI's July mean, the jar scored June'
 | "Two instruments share no data" falsehood | `market.html`, generator, editions |
 | Byline + confidence emitted and asserted 23/23 | `scripts/editorial-furniture.js` |
 | Public corrections published | `/files/correction-2026-08-archive-ounces/` |
+
+---
+
+## Reader-visible contradictions the operator caught in the August 4 draft
+
+All four are fixed in the draft and all four are the same class of defect — a
+sentence that contradicts another sentence in the same document. A validator that
+diffs claims against each other would have caught every one:
+
+1. *"cannot tell you how far any level moved in the last seven days"* followed by
+   *"nothing changed in this week's data"* — while the payload marks financial
+   conditions `new-observation` and two levels carry as-of dates inside the week.
+2. *"no market gauge touches the household score"* followed by an acknowledgment
+   that NFCI sits in both. The correct firewall is narrower and must be stated
+   narrowly: **the Ward M composite never enters Household OOZE; the two
+   instruments share one series upstream.**
+3. *"the latest validated evidence"* — with no validation artifact for the
+   edition, and a known-defective one for its predecessor.
+4. The changelog claimed every printed observable produced its score, then
+   admitted three did not.
+
+**Validator implied:** a self-consistency pass over the rendered text. Extract
+every claim of the form *cannot measure X* / *X did not change* / *X is
+validated* and assert no two contradict. Three of the four defects above are
+mechanically detectable.
 
 ---
 

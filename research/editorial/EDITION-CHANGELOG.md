@@ -67,10 +67,17 @@ this week's news is the most damaging thing it can do quietly.
 **3 · Observed values, everywhere a line is named** (§4, load-bearing rule).
 The August 3 edition named seven household lines and six market gauges and
 printed the value of none. The evidence packet contained fourteen and the prose
-used one. The re-issue attaches to every named line the figure that produced it
-**and the date it was observed**: `$4.10` (July 27), `6.66%` (July 30), `2.9%`
-and `7.7%` (January 1), `4.2%` and `3.5%` (June 1), `-0.54` (July 24), `$80`,
-`17.1`, `0.73pp`, `+0.5%`.
+used one. The re-issue prints them with the date each was observed: `$4.10`
+(July 27), `6.66%` (July 30), `2.9%` and `7.7%` (January 1), `4.2%` and `3.5%`
+(June 1), `-0.54` (July 24), `$80`, `17.1`, `0.73pp`, `+0.5%`.
+
+**Important qualification, and the reason this section is worded carefully:**
+three of those seven household figures are *not* the observables that produced
+June's score — gas, housing and financial conditions all carry as-of dates after
+the scored month. The re-issue therefore prints them as current levels and
+explicitly declines to attach them to contributions. §4 is **not yet satisfiable**
+for those three lines; it becomes satisfiable when the scored-period observables
+are retained (`research/codex/CODEX-DIRECTION-2026-08-04.md`, D-1 and D-2).
 
 Rationale: a report whose numbers are all internal scores has cited nothing. A
 reader can check `$4.10` at a gas station; nobody can check "11 line-stress
