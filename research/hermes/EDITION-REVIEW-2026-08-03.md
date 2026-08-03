@@ -272,3 +272,64 @@ contribution-points distinction, and the tie handling. Add: observed values in
 every line sentence, a household-translation paragraph, the verdict line, the
 byline, and the full confidence statement. Then re-run the gates with C-1 in
 force and see what actually stops it.
+
+
+---
+
+## 10 · BOARD ADDENDUM (2026-08-03) — three findings that OVERRULE or EXTEND this review
+
+The four-officer board reviewed the same edition after this document was written. Full
+report: `research/board/BOARD-REVIEW-2026-08-03-july-edition.md`. Three rulings change the
+instructions above.
+
+### B-1 · NEW BLOCKING — the June score was RESTATED and the edition never says so
+**This review missed it entirely.** `data/vintages/` shows June reading **27** (prevOoze 30)
+under methodology 2.0.0 in the vintages of 07-26, 07-28, 07-30 and 08-01T14:46:40 — and
+**26** (prevOoze 29) under 3.0.0 at 08-01T15:24:45. Thirty-eight minutes apart, identical
+gas and housing inputs; the change is v3 itself (seventh weighted line, all weights rescaled,
+calibration moved). `data/revisions.json` quantifies it: **180 of 281 months moved, 64.1% of
+the archive, 9 band-label flips.**
+
+The edition contains "3.0.0" zero times and "revision" zero times, and line 11 presents the
+restated pair as an observation. The pipeline's own gate said so — *"archive must identify
+methodology v3 before publication"* — and was marked non-blocking.
+
+**Codex:** the seal must carry the methodology version; one sentence must quantify the
+restatement from `revisions.json` (the numbers are already computed); METHODOLOGY names the
+version and links the revision log; the five `policies revision summary` fields ship.
+
+### B-2 · C-3 IS INSUFFICIENT — the breadth zero is self-referential, and it is not alone
+**The board ruled against this review's C-3.** Rendering `null` as "not measured" does not
+fix it, because the collector does not emit null here — it computes a *finite zero*.
+`scripts/collect-market.js:115-116` reads `market.json` as its prior; **line 137 writes that
+same file**. A re-run therefore diffs the payload against the copy it is about to overwrite,
+and the delta collapses to 0. Verified across published breadth values 37 → 56 → 50: the
+published delta is `0` in every one.
+
+**And the same defect sits at line 91** for all five FRED gauges:
+`const prevStress = prevVal==null ? stress : …` manufactures `delta 0` whenever the prior
+month is absent. **Fixing breadth alone leaves "unmeasured rendered as unchanged" in five of
+six sensors.**
+
+**Codex:** source deltas from a **prior-cycle snapshot store the collector cannot
+overwrite**. CI asserts breadth delta is non-zero whenever the sector panel counts change.
+Fix line 91's null-coalescing to emit an unmeasured delta rather than zero.
+
+### B-3 · §6d IS WITHDRAWN — restore the seven canonical section names
+This review recommended ratifying the edition's nine blocks as a new "Combined Edition"
+anatomy. **The board overruled it:** the order *is* the accumulation, and the names being
+ordered are themselves the unauthorised part. If the operator wants ONE-MINUTE BRIEF and
+Chart of the Week, that is a §14 amendment applied to every engine simultaneously — but the
+seal, the verdict line, "What a household would notice" and the close return regardless.
+
+**Also ruled:** the verdict line is a **regression, not a deferral** — §16 stages the
+*placement* line (§11) and explicitly sets the interim behaviour as *"editions carry the
+verdict line only."* The archive emits it 23/23. The weekly engine dropped it.
+
+### B-4 · Cadence ruling (see board PART 4)
+**Weekly is ratified — but the spine moves.** The sealed monthly score becomes a standing
+anchor block (*"unchanged since the June seal"*); the lead becomes what this week's evidence
+actually is: **levels**. Note the payload does not currently contain a weekly — every
+household line reads `updateStatus: "no-new-release"` except `financial`, which contributes
+zero points. **Hard precondition owned by Codex:** a prior-cycle snapshot store, or the
+cadence claim is not legitimate and the board's answer reverts to monthly.
