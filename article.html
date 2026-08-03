@@ -28,6 +28,7 @@
 <script src="data/latest.js"></script>
 <script src="articles.js"></script>
 <script src="data/auto-articles.js"></script>
+<script src="data/reconstruction-reports.js"></script>
 <script src="data/editorial.js"></script>
 <script src="lab.js"></script>
 <script>
@@ -36,7 +37,7 @@ renderHeader('news');
    through this exact layout. ?a=slug selects from articles.js */
 const CATS={report:['OOZE MONTHLY REPORT','var(--ooze)'],incident:['OOZE ARCHIVES','var(--red)'],
             explainer:['OOZEONOMICS','#5fd7ff'],manual:['OOZEONOMICS','#5fd7ff']};
-const ALL_ARTICLES=(window.ARTICLES||[]).concat(window.AUTO_ARTICLES||[]);
+const ALL_ARTICLES=(window.ARTICLES||[]).concat(window.AUTO_ARTICLES||[]).concat(window.RECON_ARTICLES||[]);
 const slug=new URLSearchParams(location.search).get('a')||window.FORCED_SLUG||ALL_ARTICLES[0].slug;
 const found=ALL_ARTICLES.find(x=>x.slug===slug);
 const a=found||ALL_ARTICLES[0];

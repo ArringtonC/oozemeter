@@ -18,8 +18,9 @@ vm.runInContext(read('data/latest.js'),ctx);
 vm.runInContext(read('lab.js'),ctx);
 vm.runInContext(read('articles.js'),ctx);
 vm.runInContext(read('data/auto-articles.js'),ctx);
+try{vm.runInContext(read('data/reconstruction-reports.js'),ctx)}catch(e){}
 const {INDICATORS,resolveClaims}=vm.runInContext('({INDICATORS,resolveClaims})',ctx);
-const ARTICLES=(ctx.window.ARTICLES||[]).concat(ctx.window.AUTO_ARTICLES||[]);
+const ARTICLES=(ctx.window.ARTICLES||[]).concat(ctx.window.AUTO_ARTICLES||[]).concat(ctx.window.RECON_ARTICLES||[]);
 
 /* with <base>, fragment-only links would navigate to the parent — intercept them */
 const FRAG_FIX=`document.addEventListener('click',function(e){var a=e.target.closest('a[href^="#"]');if(!a)return;e.preventDefault();var t=document.getElementById(a.getAttribute('href').slice(1));if(t)t.scrollIntoView({behavior:'smooth'});history.replaceState(null,'',location.pathname+a.getAttribute('href'))});`;
