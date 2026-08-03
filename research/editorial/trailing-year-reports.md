@@ -44,7 +44,11 @@ Housing and credit cards tied at 6 oz each — the heaviest lines on the board. 
 
 Most likely: some relief where auto loans show up in the budget, while housing stayed the biggest strain. The jar reads the cascade — the order a budget fails in, from the pump to the credit card to the car to the job — and in July 2025 the cascade mostly held.
 
-Reconstructed under methodology v3.0.0 from the public household backtest (vintage 2026-08-01); anchors, weights and calibration constants are published and frozen. Point moves are line-stress changes, not score points. For the current sealed reading, see the front page — the jar updates itself; you just check it.
+Point moves are line-stress changes, not score points. For the current sealed reading, see the front page — the jar updates itself; you just check it.
+
+Methodology v3.0.0. Reconstructed 2026-08-01 from current-vintage public data, not release-time observations. 2 source-revision events on the public record (data/revisions.json). Every figure traces to a cited public series; anchors, weights and calibration constants are published and frozen.
+
+Reconstructed by OOZEBOT · reviewed by the Division of Economic Containment
 
 #### The Ward M Report
 
@@ -71,9 +75,13 @@ Rates led the panel at 46/100 — the highest of the six, though still in the ca
 
 **Two instruments, one month**
 
-Ward 27/100, household jar 24/100 — a 3-point gap, the ward reading hotter. This month the ward moved -2 against the jar's -1. The two instruments share no inputs and are never averaged.
+Ward 27/100, household jar 24/100 — a 3-point gap, the ward reading hotter. This month the ward moved -2 against the jar's -1. The two instruments are never averaged; their one shared input is the Chicago Fed's financial-conditions index, which carries 3% of the jar's weight and one of the ward's six gauges.
 
-Reconstructed from the public market backtest (vintage 2026-08-01): raw gauge values, published anchors, frozen calibration. Gauge anchors remain provisional. Point moves are gauge-heat changes, not composite points. For the current ward reading, see the Markets page.
+Point moves are gauge-heat changes, not composite points. Gauge anchors remain provisional. For the current ward reading, see the Markets page.
+
+Methodology vWard M provisional. Reconstructed 2026-08-01 from current-vintage public data, not release-time observations. 2 source-revision events on the public record (data/revisions.json). Every figure traces to a cited public series; anchors, weights and calibration constants are published and frozen.
+
+Reconstructed by OOZEBOT · reviewed by the Division of Economic Containment
 
 ---
 
@@ -106,7 +114,11 @@ Housing carried the most weight — 6 of the month's 23 ounces — with credit c
 
 Most likely: a little more squeeze from inflation, with housing still the heaviest line on the board. The jar reads the cascade — the order a budget fails in, from the pump to the credit card to the car to the job — and in August 2025 the cascade mostly held.
 
-Reconstructed under methodology v3.0.0 from the public household backtest (vintage 2026-08-01); anchors, weights and calibration constants are published and frozen. Point moves are line-stress changes, not score points. For the current sealed reading, see the front page — the jar updates itself; you just check it.
+Point moves are line-stress changes, not score points. For the current sealed reading, see the front page — the jar updates itself; you just check it.
+
+Methodology v3.0.0. Reconstructed 2026-08-01 from current-vintage public data, not release-time observations. 2 source-revision events on the public record (data/revisions.json). Every figure traces to a cited public series; anchors, weights and calibration constants are published and frozen.
+
+Reconstructed by OOZEBOT · reviewed by the Division of Economic Containment
 
 #### The Ward M Report
 
@@ -133,9 +145,13 @@ Rates led the panel at 47/100 — the highest of the six, though still in the ca
 
 **Two instruments, one month**
 
-Ward 24/100, household jar 23/100 — a 1-point gap, the ward reading hotter. This month the ward moved -3 against the jar's -1. Energy sits upstream of the household gas line, so where both instruments moved this month they may be recording the same shock at different amplitudes rather than disagreeing. The two instruments share no inputs and are never averaged.
+Ward 24/100, household jar 23/100 — a 1-point gap, the ward reading hotter. This month the ward moved -3 against the jar's -1. Energy sits upstream of the household gas line, so where both instruments moved this month they may be recording the same shock at different amplitudes rather than disagreeing. The two instruments are never averaged; their one shared input is the Chicago Fed's financial-conditions index, which carries 3% of the jar's weight and one of the ward's six gauges.
 
-Reconstructed from the public market backtest (vintage 2026-08-01): raw gauge values, published anchors, frozen calibration. Gauge anchors remain provisional. Point moves are gauge-heat changes, not composite points. For the current ward reading, see the Markets page.
+Point moves are gauge-heat changes, not composite points. Gauge anchors remain provisional. For the current ward reading, see the Markets page.
+
+Methodology vWard M provisional. Reconstructed 2026-08-01 from current-vintage public data, not release-time observations. 2 source-revision events on the public record (data/revisions.json). Every figure traces to a cited public series; anchors, weights and calibration constants are published and frozen.
+
+Reconstructed by OOZEBOT · reviewed by the Division of Economic Containment
 
 ---
 
@@ -168,7 +184,11 @@ Housing carried the most weight — 6 of the month's 23 ounces — with credit c
 
 Most likely: some relief where housing shows up in the budget, while housing stayed the biggest strain. The jar reads the cascade — the order a budget fails in, from the pump to the credit card to the car to the job — and in September 2025 the cascade mostly held.
 
-Reconstructed under methodology v3.0.0 from the public household backtest (vintage 2026-08-01); anchors, weights and calibration constants are published and frozen. Point moves are line-stress changes, not score points. For the current sealed reading, see the front page — the jar updates itself; you just check it.
+Point moves are line-stress changes, not score points. For the current sealed reading, see the front page — the jar updates itself; you just check it.
+
+Methodology v3.0.0. Reconstructed 2026-08-01 from current-vintage public data, not release-time observations. 2 source-revision events on the public record (data/revisions.json). Every figure traces to a cited public series; anchors, weights and calibration constants are published and frozen.
+
+Reconstructed by OOZEBOT · reviewed by the Division of Economic Containment
 
 #### The Ward M Report
 
@@ -195,9 +215,13 @@ Rates led the panel at 43/100 — the highest of the six, though still in the ca
 
 **Two instruments, one month**
 
-Ward 25/100, household jar 23/100 — a 2-point gap, the ward reading hotter. This month the ward moved +1 against the jar's +0. The two instruments share no inputs and are never averaged.
+Ward 25/100, household jar 23/100 — a 2-point gap, the ward reading hotter. This month the ward moved +1 against the jar's +0. The two instruments are never averaged; their one shared input is the Chicago Fed's financial-conditions index, which carries 3% of the jar's weight and one of the ward's six gauges.
 
-Reconstructed from the public market backtest (vintage 2026-08-01): raw gauge values, published anchors, frozen calibration. Gauge anchors remain provisional. Point moves are gauge-heat changes, not composite points. For the current ward reading, see the Markets page.
+Point moves are gauge-heat changes, not composite points. Gauge anchors remain provisional. For the current ward reading, see the Markets page.
+
+Methodology vWard M provisional. Reconstructed 2026-08-01 from current-vintage public data, not release-time observations. 2 source-revision events on the public record (data/revisions.json). Every figure traces to a cited public series; anchors, weights and calibration constants are published and frozen.
+
+Reconstructed by OOZEBOT · reviewed by the Division of Economic Containment
 
 ---
 
@@ -234,7 +258,11 @@ Rates led the panel at 42/100 — the highest of the six, though still in the ca
 
 No household reading exists for October 2025 — the required BLS observations were never published — so the ward has nothing to be measured against this month. A missing month stays missing.
 
-Reconstructed from the public market backtest (vintage 2026-08-01): raw gauge values, published anchors, frozen calibration. Gauge anchors remain provisional. Point moves are gauge-heat changes, not composite points. For the current ward reading, see the Markets page.
+Point moves are gauge-heat changes, not composite points. Gauge anchors remain provisional. For the current ward reading, see the Markets page.
+
+Methodology vWard M provisional. Reconstructed 2026-08-01 from current-vintage public data, not release-time observations. 2 source-revision events on the public record (data/revisions.json). Every figure traces to a cited public series; anchors, weights and calibration constants are published and frozen.
+
+Reconstructed by OOZEBOT · reviewed by the Division of Economic Containment
 
 ---
 
@@ -267,7 +295,11 @@ Housing and credit cards tied at 5 oz each — the heaviest lines on the board. 
 
 Most likely: some relief where inflation shows up in the budget, while housing stayed the biggest strain. The jar reads the cascade — the order a budget fails in, from the pump to the credit card to the car to the job — and in November 2025 the cascade mostly held.
 
-Reconstructed under methodology v3.0.0 from the public household backtest (vintage 2026-08-01); anchors, weights and calibration constants are published and frozen. Point moves are line-stress changes, not score points. For the current sealed reading, see the front page — the jar updates itself; you just check it.
+Point moves are line-stress changes, not score points. For the current sealed reading, see the front page — the jar updates itself; you just check it.
+
+Methodology v3.0.0. Reconstructed 2026-08-01 from current-vintage public data, not release-time observations. 2 source-revision events on the public record (data/revisions.json). Every figure traces to a cited public series; anchors, weights and calibration constants are published and frozen.
+
+Reconstructed by OOZEBOT · reviewed by the Division of Economic Containment
 
 #### The Ward M Report
 
@@ -294,9 +326,13 @@ Rates led the panel at 40/100 — the highest of the six, though still in the ca
 
 **Two instruments, one month**
 
-Ward 25/100, household jar 22/100 — a 3-point gap, the ward reading hotter. The two instruments share no inputs and are never averaged.
+Ward 25/100, household jar 22/100 — a 3-point gap, the ward reading hotter. The two instruments are never averaged; their one shared input is the Chicago Fed's financial-conditions index, which carries 3% of the jar's weight and one of the ward's six gauges.
 
-Reconstructed from the public market backtest (vintage 2026-08-01): raw gauge values, published anchors, frozen calibration. Gauge anchors remain provisional. Point moves are gauge-heat changes, not composite points. For the current ward reading, see the Markets page.
+Point moves are gauge-heat changes, not composite points. Gauge anchors remain provisional. For the current ward reading, see the Markets page.
+
+Methodology vWard M provisional. Reconstructed 2026-08-01 from current-vintage public data, not release-time observations. 2 source-revision events on the public record (data/revisions.json). Every figure traces to a cited public series; anchors, weights and calibration constants are published and frozen.
+
+Reconstructed by OOZEBOT · reviewed by the Division of Economic Containment
 
 ---
 
@@ -329,7 +365,11 @@ Housing and credit cards tied at 5 oz each — the heaviest lines on the board. 
 
 Most likely: some relief where gas prices show up in the budget, while housing stayed the biggest strain. The jar reads the cascade — the order a budget fails in, from the pump to the credit card to the car to the job — and in December 2025 the cascade mostly held.
 
-Reconstructed under methodology v3.0.0 from the public household backtest (vintage 2026-08-01); anchors, weights and calibration constants are published and frozen. Point moves are line-stress changes, not score points. For the current sealed reading, see the front page — the jar updates itself; you just check it.
+Point moves are line-stress changes, not score points. For the current sealed reading, see the front page — the jar updates itself; you just check it.
+
+Methodology v3.0.0. Reconstructed 2026-08-01 from current-vintage public data, not release-time observations. 2 source-revision events on the public record (data/revisions.json). Every figure traces to a cited public series; anchors, weights and calibration constants are published and frozen.
+
+Reconstructed by OOZEBOT · reviewed by the Division of Economic Containment
 
 #### The Ward M Report
 
@@ -356,9 +396,13 @@ Rates led the panel at 31/100 — the highest of the six, though still in the ca
 
 **Two instruments, one month**
 
-Ward 18/100, household jar 21/100 — a 3-point gap, the jar reading hotter. This month the ward moved -7 against the jar's -1. The two instruments share no inputs and are never averaged.
+Ward 18/100, household jar 21/100 — a 3-point gap, the jar reading hotter. This month the ward moved -7 against the jar's -1. The two instruments are never averaged; their one shared input is the Chicago Fed's financial-conditions index, which carries 3% of the jar's weight and one of the ward's six gauges.
 
-Reconstructed from the public market backtest (vintage 2026-08-01): raw gauge values, published anchors, frozen calibration. Gauge anchors remain provisional. Point moves are gauge-heat changes, not composite points. For the current ward reading, see the Markets page.
+Point moves are gauge-heat changes, not composite points. Gauge anchors remain provisional. For the current ward reading, see the Markets page.
+
+Methodology vWard M provisional. Reconstructed 2026-08-01 from current-vintage public data, not release-time observations. 2 source-revision events on the public record (data/revisions.json). Every figure traces to a cited public series; anchors, weights and calibration constants are published and frozen.
+
+Reconstructed by OOZEBOT · reviewed by the Division of Economic Containment
 
 ---
 
@@ -391,7 +435,11 @@ Housing and credit cards tied at 5 oz each — the heaviest lines on the board. 
 
 Most likely: some relief where inflation shows up in the budget, while housing stayed the biggest strain. The jar reads the cascade — the order a budget fails in, from the pump to the credit card to the car to the job — and in January 2026 the cascade mostly held.
 
-Reconstructed under methodology v3.0.0 from the public household backtest (vintage 2026-08-01); anchors, weights and calibration constants are published and frozen. Point moves are line-stress changes, not score points. For the current sealed reading, see the front page — the jar updates itself; you just check it.
+Point moves are line-stress changes, not score points. For the current sealed reading, see the front page — the jar updates itself; you just check it.
+
+Methodology v3.0.0. Reconstructed 2026-08-01 from current-vintage public data, not release-time observations. 2 source-revision events on the public record (data/revisions.json). Every figure traces to a cited public series; anchors, weights and calibration constants are published and frozen.
+
+Reconstructed by OOZEBOT · reviewed by the Division of Economic Containment
 
 #### The Ward M Report
 
@@ -418,9 +466,13 @@ Rates led the panel at 29/100 — the highest of the six, though still in the ca
 
 **Two instruments, one month**
 
-Ward 18/100, household jar 19/100 — a 1-point gap, the jar reading hotter. This month the ward moved +0 against the jar's -2. The two instruments share no inputs and are never averaged.
+Ward 18/100, household jar 19/100 — a 1-point gap, the jar reading hotter. This month the ward moved +0 against the jar's -2. The two instruments are never averaged; their one shared input is the Chicago Fed's financial-conditions index, which carries 3% of the jar's weight and one of the ward's six gauges.
 
-Reconstructed from the public market backtest (vintage 2026-08-01): raw gauge values, published anchors, frozen calibration. Gauge anchors remain provisional. Point moves are gauge-heat changes, not composite points. For the current ward reading, see the Markets page.
+Point moves are gauge-heat changes, not composite points. Gauge anchors remain provisional. For the current ward reading, see the Markets page.
+
+Methodology vWard M provisional. Reconstructed 2026-08-01 from current-vintage public data, not release-time observations. 2 source-revision events on the public record (data/revisions.json). Every figure traces to a cited public series; anchors, weights and calibration constants are published and frozen.
+
+Reconstructed by OOZEBOT · reviewed by the Division of Economic Containment
 
 ---
 
@@ -453,7 +505,11 @@ Housing and credit cards tied at 5 oz each — the heaviest lines on the board. 
 
 Most likely: a month that felt like the one before it — the same bills carrying the same weight, no line of the budget suddenly better or worse. The jar reads the cascade — the order a budget fails in, from the pump to the credit card to the car to the job — and in February 2026 the cascade mostly held.
 
-Reconstructed under methodology v3.0.0 from the public household backtest (vintage 2026-08-01); anchors, weights and calibration constants are published and frozen. Point moves are line-stress changes, not score points. For the current sealed reading, see the front page — the jar updates itself; you just check it.
+Point moves are line-stress changes, not score points. For the current sealed reading, see the front page — the jar updates itself; you just check it.
+
+Methodology v3.0.0. Reconstructed 2026-08-01 from current-vintage public data, not release-time observations. 2 source-revision events on the public record (data/revisions.json). Every figure traces to a cited public series; anchors, weights and calibration constants are published and frozen.
+
+Reconstructed by OOZEBOT · reviewed by the Division of Economic Containment
 
 #### The Ward M Report
 
@@ -480,9 +536,13 @@ Rates led the panel at 32/100 — the highest of the six, though still in the ca
 
 **Two instruments, one month**
 
-Ward 27/100, household jar 20/100 — a 7-point gap, the ward reading hotter. This month the ward moved +9 against the jar's +1. Energy sits upstream of the household gas line, so where both instruments moved this month they may be recording the same shock at different amplitudes rather than disagreeing. The two instruments share no inputs and are never averaged.
+Ward 27/100, household jar 20/100 — a 7-point gap, the ward reading hotter. This month the ward moved +9 against the jar's +1. Energy sits upstream of the household gas line, so where both instruments moved this month they may be recording the same shock at different amplitudes rather than disagreeing. The two instruments are never averaged; their one shared input is the Chicago Fed's financial-conditions index, which carries 3% of the jar's weight and one of the ward's six gauges.
 
-Reconstructed from the public market backtest (vintage 2026-08-01): raw gauge values, published anchors, frozen calibration. Gauge anchors remain provisional. Point moves are gauge-heat changes, not composite points. For the current ward reading, see the Markets page.
+Point moves are gauge-heat changes, not composite points. Gauge anchors remain provisional. For the current ward reading, see the Markets page.
+
+Methodology vWard M provisional. Reconstructed 2026-08-01 from current-vintage public data, not release-time observations. 2 source-revision events on the public record (data/revisions.json). Every figure traces to a cited public series; anchors, weights and calibration constants are published and frozen.
+
+Reconstructed by OOZEBOT · reviewed by the Division of Economic Containment
 
 ---
 
@@ -515,7 +575,11 @@ Housing and credit cards tied at 5 oz each — the heaviest lines on the board. 
 
 Most likely: a little more squeeze from gas prices, with housing still the heaviest line on the board. The jar reads the cascade — the order a budget fails in, from the pump to the credit card to the car to the job — and in March 2026 the cascade moved.
 
-Reconstructed under methodology v3.0.0 from the public household backtest (vintage 2026-08-01); anchors, weights and calibration constants are published and frozen. Point moves are line-stress changes, not score points. For the current sealed reading, see the front page — the jar updates itself; you just check it.
+Point moves are line-stress changes, not score points. For the current sealed reading, see the front page — the jar updates itself; you just check it.
+
+Methodology v3.0.0. Reconstructed 2026-08-01 from current-vintage public data, not release-time observations. 2 source-revision events on the public record (data/revisions.json). Every figure traces to a cited public series; anchors, weights and calibration constants are published and frozen.
+
+Reconstructed by OOZEBOT · reviewed by the Division of Economic Containment
 
 #### The Ward M Report
 
@@ -542,9 +606,13 @@ Breadth led the panel at 91/100. Breadth heat means weakness was spreading acros
 
 **Two instruments, one month**
 
-Ward 53/100, household jar 24/100 — a 29-point gap, the ward reading hotter. This month the ward moved +26 against the jar's +4. Energy sits upstream of the household gas line, so where both instruments moved this month they may be recording the same shock at different amplitudes rather than disagreeing. The two instruments share no inputs and are never averaged.
+Ward 53/100, household jar 24/100 — a 29-point gap, the ward reading hotter. This month the ward moved +26 against the jar's +4. Energy sits upstream of the household gas line, so where both instruments moved this month they may be recording the same shock at different amplitudes rather than disagreeing. The two instruments are never averaged; their one shared input is the Chicago Fed's financial-conditions index, which carries 3% of the jar's weight and one of the ward's six gauges.
 
-Reconstructed from the public market backtest (vintage 2026-08-01): raw gauge values, published anchors, frozen calibration. Gauge anchors remain provisional. Point moves are gauge-heat changes, not composite points. For the current ward reading, see the Markets page.
+Point moves are gauge-heat changes, not composite points. Gauge anchors remain provisional. For the current ward reading, see the Markets page.
+
+Methodology vWard M provisional. Reconstructed 2026-08-01 from current-vintage public data, not release-time observations. 2 source-revision events on the public record (data/revisions.json). Every figure traces to a cited public series; anchors, weights and calibration constants are published and frozen.
+
+Reconstructed by OOZEBOT · reviewed by the Division of Economic Containment
 
 ---
 
@@ -577,7 +645,11 @@ Housing and credit cards tied at 6 oz each — the heaviest lines on the board. 
 
 Most likely: a little more squeeze from gas prices, with housing still the heaviest line on the board. The jar reads the cascade — the order a budget fails in, from the pump to the credit card to the car to the job — and in April 2026 the cascade moved.
 
-Reconstructed under methodology v3.0.0 from the public household backtest (vintage 2026-08-01); anchors, weights and calibration constants are published and frozen. Point moves are line-stress changes, not score points. For the current sealed reading, see the front page — the jar updates itself; you just check it.
+Point moves are line-stress changes, not score points. For the current sealed reading, see the front page — the jar updates itself; you just check it.
+
+Methodology v3.0.0. Reconstructed 2026-08-01 from current-vintage public data, not release-time observations. 2 source-revision events on the public record (data/revisions.json). Every figure traces to a cited public series; anchors, weights and calibration constants are published and frozen.
+
+Reconstructed by OOZEBOT · reviewed by the Division of Economic Containment
 
 #### The Ward M Report
 
@@ -604,9 +676,13 @@ Energy led the panel at 75/100. Energy heat is the upstream cousin of the househ
 
 **Two instruments, one month**
 
-Ward 32/100, household jar 27/100 — a 5-point gap, the ward reading hotter. This month the ward moved -21 against the jar's +3. Energy sits upstream of the household gas line, so where both instruments moved this month they may be recording the same shock at different amplitudes rather than disagreeing. The two instruments share no inputs and are never averaged.
+Ward 32/100, household jar 27/100 — a 5-point gap, the ward reading hotter. This month the ward moved -21 against the jar's +3. Energy sits upstream of the household gas line, so where both instruments moved this month they may be recording the same shock at different amplitudes rather than disagreeing. The two instruments are never averaged; their one shared input is the Chicago Fed's financial-conditions index, which carries 3% of the jar's weight and one of the ward's six gauges.
 
-Reconstructed from the public market backtest (vintage 2026-08-01): raw gauge values, published anchors, frozen calibration. Gauge anchors remain provisional. Point moves are gauge-heat changes, not composite points. For the current ward reading, see the Markets page.
+Point moves are gauge-heat changes, not composite points. Gauge anchors remain provisional. For the current ward reading, see the Markets page.
+
+Methodology vWard M provisional. Reconstructed 2026-08-01 from current-vintage public data, not release-time observations. 2 source-revision events on the public record (data/revisions.json). Every figure traces to a cited public series; anchors, weights and calibration constants are published and frozen.
+
+Reconstructed by OOZEBOT · reviewed by the Division of Economic Containment
 
 ---
 
@@ -639,7 +715,11 @@ Housing carried the most weight — 7 of the month's 29 ounces — with credit c
 
 Most likely: a little more squeeze from gas prices, with housing still the heaviest line on the board. The jar reads the cascade — the order a budget fails in, from the pump to the credit card to the car to the job — and in May 2026 the cascade mostly held.
 
-Reconstructed under methodology v3.0.0 from the public household backtest (vintage 2026-08-01); anchors, weights and calibration constants are published and frozen. Point moves are line-stress changes, not score points. For the current sealed reading, see the front page — the jar updates itself; you just check it.
+Point moves are line-stress changes, not score points. For the current sealed reading, see the front page — the jar updates itself; you just check it.
+
+Methodology v3.0.0. Reconstructed 2026-08-01 from current-vintage public data, not release-time observations. 2 source-revision events on the public record (data/revisions.json). Every figure traces to a cited public series; anchors, weights and calibration constants are published and frozen.
+
+Reconstructed by OOZEBOT · reviewed by the Division of Economic Containment
 
 #### The Ward M Report
 
@@ -666,9 +746,13 @@ Energy led the panel at 76/100. Energy heat is the upstream cousin of the househ
 
 **Two instruments, one month**
 
-Ward 30/100, household jar 29/100 — a 1-point gap, the ward reading hotter. This month the ward moved -2 against the jar's +2. The two instruments share no inputs and are never averaged.
+Ward 30/100, household jar 29/100 — a 1-point gap, the ward reading hotter. This month the ward moved -2 against the jar's +2. The two instruments are never averaged; their one shared input is the Chicago Fed's financial-conditions index, which carries 3% of the jar's weight and one of the ward's six gauges.
 
-Reconstructed from the public market backtest (vintage 2026-08-01): raw gauge values, published anchors, frozen calibration. Gauge anchors remain provisional. Point moves are gauge-heat changes, not composite points. For the current ward reading, see the Markets page.
+Point moves are gauge-heat changes, not composite points. Gauge anchors remain provisional. For the current ward reading, see the Markets page.
+
+Methodology vWard M provisional. Reconstructed 2026-08-01 from current-vintage public data, not release-time observations. 2 source-revision events on the public record (data/revisions.json). Every figure traces to a cited public series; anchors, weights and calibration constants are published and frozen.
+
+Reconstructed by OOZEBOT · reviewed by the Division of Economic Containment
 
 ---
 
@@ -701,7 +785,11 @@ Housing and credit cards tied at 6 oz each — the heaviest lines on the board. 
 
 Most likely: some relief where gas prices show up in the budget, while housing stayed the biggest strain. The jar reads the cascade — the order a budget fails in, from the pump to the credit card to the car to the job — and in June 2026 the cascade moved.
 
-Reconstructed under methodology v3.0.0 from the public household backtest (vintage 2026-08-01); anchors, weights and calibration constants are published and frozen. Point moves are line-stress changes, not score points. For the current sealed reading, see the front page — the jar updates itself; you just check it.
+Point moves are line-stress changes, not score points. For the current sealed reading, see the front page — the jar updates itself; you just check it.
+
+Methodology v3.0.0. Reconstructed 2026-08-01 from current-vintage public data, not release-time observations. 2 source-revision events on the public record (data/revisions.json). Every figure traces to a cited public series; anchors, weights and calibration constants are published and frozen.
+
+Reconstructed by OOZEBOT · reviewed by the Division of Economic Containment
 
 #### The Ward M Report
 
@@ -728,9 +816,13 @@ Energy led the panel at 56/100. Energy heat is the upstream cousin of the househ
 
 **Two instruments, one month**
 
-Ward 30/100, household jar 26/100 — a 4-point gap, the ward reading hotter. This month the ward moved +0 against the jar's -3. Energy sits upstream of the household gas line, so where both instruments moved this month they may be recording the same shock at different amplitudes rather than disagreeing. The two instruments share no inputs and are never averaged.
+Ward 30/100, household jar 26/100 — a 4-point gap, the ward reading hotter. This month the ward moved +0 against the jar's -3. Energy sits upstream of the household gas line, so where both instruments moved this month they may be recording the same shock at different amplitudes rather than disagreeing. The two instruments are never averaged; their one shared input is the Chicago Fed's financial-conditions index, which carries 3% of the jar's weight and one of the ward's six gauges.
 
-Reconstructed from the public market backtest (vintage 2026-08-01): raw gauge values, published anchors, frozen calibration. Gauge anchors remain provisional. Point moves are gauge-heat changes, not composite points. For the current ward reading, see the Markets page.
+Point moves are gauge-heat changes, not composite points. Gauge anchors remain provisional. For the current ward reading, see the Markets page.
+
+Methodology vWard M provisional. Reconstructed 2026-08-01 from current-vintage public data, not release-time observations. 2 source-revision events on the public record (data/revisions.json). Every figure traces to a cited public series; anchors, weights and calibration constants are published and frozen.
+
+Reconstructed by OOZEBOT · reviewed by the Division of Economic Containment
 
 ---
 

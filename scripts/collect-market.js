@@ -106,8 +106,19 @@ const BREADTH_ANCHORS=[[0,5],[10,22],[20,40],[35,60],[55,80],[80,100]];
     }
     const weakness=(0.5*b.softening+b.stressed)/b.total*100;
     const stress=Math.round(interpolateAnchors(BREADTH_ANCHORS,weakness));
+    /* delta against the previous published collection — never a hardcoded 0.
+       Sector Watch is manual, so on a first run there IS no prior reading and
+       the delta is null: an unmeasured value is published as unmeasured, never
+       rendered as "unchanged" (Constitution S5). */
+    let breadthDelta=null;
+    try{
+      const priorPath=path.join(dataRoot,'market.json');
+      const prior=JSON.parse(fs.readFileSync(priorPath,'utf8'));
+      const priorStress=prior?.sensors?.breadth?.stress;
+      if(Number.isFinite(priorStress))breadthDelta=stress-priorStress;
+    }catch{}
     sensors.breadth={name:'Breadth',emoji:'📊',value:`${b.total-b.softening-b.stressed}/${b.total} steady`,
-      stress,delta:0,asOf:latestSectorObservationDate(sd),
+      stress,delta:breadthDelta,asOf:latestSectorObservationDate(sd),
       read:'How many of the eleven Sector Watch tickers are weakening. One weakening ticker proxy moves this; a broad selloff maxes it.',
       source:{publisher:'Sector Watch manual proxy panel',transport:'derived from disclosed quote.close source',seriesId:'SECTOR-BREADTH',
         metric:`Weakness share: half-weight softening + full-weight stressed over ${b.total} tickers`,url:'market.html'}};

@@ -1,13 +1,27 @@
-# OOZEMeter Editorial Constitution — v1.0-rc
+# OOZEMeter Editorial Constitution — v1.0 · LOCKED
 
 > *The facility measures, does not prophesy — and publishes what it cannot fake,
 > including the arithmetic that proves it.*
 
-**Status:** v1.0-rc — amended 2026-08-02 from the trailing-year corpus review
-(24 editions read in sequence through five lenses, each finding adversarially
-challenged against the text; `research/editorial/trailing-year-reports.md`).
-**Not yet LOCKED.** Per §14, lock requires the operator's read plus Hermes'
-pattern study (§13). **No automated weekly send ships before lock.**
+**Status: LOCKED at v1.0 on 2026-08-02 by operator decision.** Derived from the
+trailing-year corpus review — 24 editions read in sequence through five lenses,
+every finding adversarially challenged against the text
+(`research/editorial/trailing-year-reports.md`).
+
+**What the lock means.** The robot expresses this voice; it never edits it. Every
+engine that writes for OOZEMeter is bound by the ACTIVE rules below and by the
+staged rules in §16 the moment their blockers clear. Changes require an operator
+decision, made by commit, on the public record — the same standard the
+methodology is held to.
+
+**What the lock does not mean.** Hermes' pattern study (§13) has not run. It was a
+precondition in the draft and the operator has waived it as a precondition; it
+remains outstanding and lands as a **post-lock amendment**, not as a reopening.
+
+**Automation gate:** two canonical editions must be produced by hand and approved
+against this document before any automated weekly send is enabled. Those editions
+live in `research/editorial/canonical-editions/` and are the golden masters every
+future edition is diffed against.
 
 ---
 
@@ -321,10 +335,16 @@ Changes by commit, on the public record, like the methodology. After lock,
 changes require an operator decision — the robot expresses this voice; it never
 edits it.
 
-**No "always" rule is adopted until the engine that publishes it emits it.** Each
+**No "always" rule is ACTIVE until the engine that publishes it emits it.** Each
 item in §4 names its emitting surface and the test that asserts its presence. A
 rule the Constitution states and no engine emits is a description of an
 aspiration, and this document does not describe aspirations.
+
+A rule may be **adopted but STAGED** — binding on every engine the moment its
+blocker clears, and meanwhile listed in §16 with its blocker, its owner, and what
+the engines print in the interim. **A staged rule that is not in §16 is not
+adopted; it is a wish.** No rule may be staged twice: if a blocker outlives one
+methodology revision, the rule is either implemented or struck.
 
 **Amendments are derived from shipped payloads, never from study compilations.**
 At least four findings in the August 2026 review were artifacts of the research
@@ -343,6 +363,24 @@ measurements are not checked in public.
 *First exercise: `/files/correction-2026-08-archive-ounces/` — the archive's
 ounce figures were printed on the wrong scale for roughly two hours on 2 August
 2026.*
+
+## 16. Staged rules register
+
+Rules adopted by this document that no engine yet emits. Each is binding the
+moment its blocker clears. Nothing may sit here silently: a staged rule prints its
+interim behaviour, so a reader is never told something the engine cannot deliver.
+
+| Rule | Blocker | Owner | Interim behaviour |
+|---|---|---|---|
+| §4 — observed value in the same sentence as every named line | `research/backtest-results.json` retains only `{month, ooze, stresses}`; raw observables are discarded in `scripts/backtest.js` | Codex, task 8 | Archive reports print rank, direction and ounces, and say plainly that point moves are line-stress changes rather than prices. No engine may print a bare observable-free claim as though it were complete. |
+| §11 — the placement line (streak / trailing extreme / band crossing) | No engine reads a second row of its own history at render time; `lastAvailable()` walks back but nothing computes runs | Front-end | Editions carry the verdict line only. The placement slot is not faked with a one-month restatement. |
+| §2/§6 — a weekly edition reports week-over-week change | `data/latest.json` stores only month-over-month `delta`; no engine retains a prior-week snapshot, so a weekly cannot say how far a weekly-cadence line moved in seven days | Codex | The edition prints the current level and states the limit in plain words rather than implying a weekly move it cannot measure. Caught in canonical edition 01 during review — the first sentence the locked Constitution killed. |
+| §6 — one shared furniture library across every engine | `scripts/story.js` prints its own section names and byline; `scripts/backfill-reports.js` now calls `scripts/editorial-furniture.js` | Front-end | Both engines emit byline and confidence from the shared module; section names converge at the next story-engine revision. Until then the strip-the-headline test is expected to fail between the live seal and the archive, and that failure is tracked here rather than tolerated silently. |
+
+**Active as of v1.0:** the byline and the confidence statement are emitted by
+`scripts/editorial-furniture.js` and asserted present in 23 of 23 archive reports.
+The fraction assertion, the empty-section guard, the whitespace guard, and the
+disclosure guard run inside `scripts/backfill-reports.js` and stop the build.
 
 ## Appendix — what the corpus proved (2026-08-02)
 

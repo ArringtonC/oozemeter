@@ -38,7 +38,10 @@ const plural = n => n === 1 ? '' : 's';
    date inside the observed month: these reports did not exist then. */
 const VINTAGE = (hh.generated || '').slice(0, 10);
 const MKVINTAGE = (mk.generated || '').slice(0, 10);
-const BYLINE = 'Reconstructed by OOZEBOT · reviewed by the Division of Economic Containment';
+const {BYLINES, confidenceStatement} = require('./editorial-furniture');
+const BYLINE = BYLINES.archive;
+const HH_CONFIDENCE = confidenceStatement({methodologyVersion: hh.methodologyVersion, vintage: VINTAGE, kind: 'archive'});
+const MK_CONFIDENCE = confidenceStatement({methodologyVersion: 'Ward M provisional', vintage: MKVINTAGE, kind: 'archive'});
 
 const END = '2026-06';
 const WINDOW = []; let cur = END;
@@ -156,7 +159,9 @@ function householdReport(ym) {
       `${pressingTxt}${collisionTxt}${employmentTxt} The seven weighted lines split the month's ${m.ooze} ounces between them and sum to it exactly.`,
       `## What a household would have noticed`,
       `Most likely: ${noticeTxt}. The jar reads the cascade — the order a budget fails in, from the pump to the credit card to the car to the job — and in ${label(ym)} the cascade ${Math.abs(delta) >= 3 ? 'moved' : 'mostly held'}.`,
-      `Reconstructed under methodology v${hh.methodologyVersion} from the public household backtest (vintage ${VINTAGE}); anchors, weights and calibration constants are published and frozen. Point moves are line-stress changes, not score points. For the current sealed reading, see the front page — the jar updates itself; you just check it.`,
+      `Point moves are line-stress changes, not score points. For the current sealed reading, see the front page — the jar updates itself; you just check it.`,
+      HH_CONFIDENCE,
+      BYLINE,
     ],
   };
 }
@@ -228,7 +233,7 @@ function marketReport(ym) {
     const shared = movers.some(x => x.g === 'energy')
       ? ' Energy sits upstream of the household gas line, so where both instruments moved this month they may be recording the same shock at different amplitudes rather than disagreeing.'
       : '';
-    divTxt = `${levels}${moved}${shared} The two instruments share no inputs and are never averaged.`;
+    divTxt = `${levels}${moved}${shared} The two instruments are never averaged; their one shared input is the Chicago Fed's financial-conditions index, which carries 3% of the jar's weight and one of the ward's six gauges.`;
   }
 
   return {
@@ -250,7 +255,9 @@ function marketReport(ym) {
       `${MKN[hot.g]} led the panel at ${hot.s}/100${hot.s < 50 ? ' — the highest of the six, though still in the calmer half of its own scale' : ''}. ${GLOSS[hot.g]}`,
       `## Two instruments, one month`,
       divTxt,
-      `Reconstructed from the public market backtest (vintage ${MKVINTAGE}): raw gauge values, published anchors, frozen calibration. Gauge anchors remain provisional. Point moves are gauge-heat changes, not composite points. For the current ward reading, see the Markets page.`,
+      `Point moves are gauge-heat changes, not composite points. Gauge anchors remain provisional. For the current ward reading, see the Markets page.`,
+      MK_CONFIDENCE,
+      BYLINE,
     ],
   };
 }
