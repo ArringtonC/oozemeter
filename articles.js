@@ -61,6 +61,25 @@ window.ARTICLES = [
   'What appears in this section: monthly Specimen Reports when each reading seals, Incident Files when history gets re-examined, and explainers that turn one confusing economic idea at a time into plain language. Facility-drafted pieces are generated from live data and checked against it; operator dispatches are marked as such.',
   'The economy is a specimen. Watch it with us.']},
 
+{slug:'correction-2026-08-archive-ounces',cat:'incident',date:'2026-08-02',title:'Correction: the archive printed ounces that did not sum to the reading',
+ dek:'For roughly two hours on 2 August 2026, all eleven household archive reconstructions printed contribution figures on the wrong scale. The parts exceeded the whole by 7 to 11 ounces. Here is what happened and what changed in the machine.',
+ keyPoints:[
+  'Affected: all 11 household archive reconstructions (July 2025 through June 2026), live 2 August 2026 for about two hours.',
+  'The bug: contributions were computed before calibration and printed against a post-calibration denominator, so the seven lines summed to 31-36 against a printed reading of 19-29.',
+  'Fixed by apportioning the calibrated score by largest remainder — the same method the live collector uses — with an assertion that now fails the build if the parts ever miss the whole again.'],
+ body:[
+  'This file documents an error the facility published. It is here because a facility that prints its gaps and hides its mistakes is only half honest, and the half it keeps is the easy one.',
+  '## What was wrong',
+  'Every household archive reconstruction contains a sentence of the form "Housing carried the most weight — 9 of the month\'s 24 ounces." The denominator was the published Ooze Score. The numerator was not a share of it. Contributions were computed as weight times line stress, which is the figure the formula uses <em>before</em> calibration maps it onto the published 0-100 scale. Printed together, they described a part-of-whole whose parts exceeded the whole by 25 to 45 percent in all eleven reports.',
+  'A reader with a calculator and the published weights would have found it, which is the point: every one of those reports closes by inviting exactly that check. The invitation was real and the arithmetic was wrong.',
+  '## What was not wrong',
+  'The Ooze Scores themselves. Every headline reading, band, delta, and historical percentile in the archive was and remains correct — those come from the calibrated pipeline and were independently re-derived and asserted against the published backtest before publication. The defect was confined to how each line\'s share of the total was displayed. The live monthly seal was never affected; its collector has apportioned contributions correctly, with an assertion, since it was written.',
+  '## What changed in the machine',
+  'The archive generator now apportions the calibrated score across the seven weighted lines by largest remainder — the identical method the live collector uses, so the two engines cannot describe the same month differently. A hard assertion compares the sum of the parts to the printed reading and stops the build if they ever differ. Three further defects found in the same review were fixed alongside it: reports were stamped with dates inside the month they described rather than the date they were computed, plural line names took singular verbs in three months, and two lines tied for heaviest were printed as though one outranked the other.',
+  '## Why this file exists',
+  'The facility\'s rule is that missing evidence is editorial content. The same applies to wrong evidence. A correction that is quietly patched teaches a reader nothing about whether the next number can be trusted; a correction that is published, dated, and explained is the only evidence a reader ever gets that the checking is real.',
+  'The corrected archive is republished. Every figure in it recomputes from the public backtest — and now the ounces sum to the reading they are quoted against.']},
+
 {slug:'gas-prices-explained',cat:'explainer',date:'2026-08-02',title:'Gas prices: the number America reads twice a week',
  dek:"Posted in foot-tall numbers on every corner, paid on a schedule nobody chooses — why the pump is the economy's mood ring, and how the facility meters it.",
  keyPoints:[

@@ -73,6 +73,29 @@ Requirements:
 Front-end owes, after this lands: archive UI showing the incident state (⚠ row rather than a
 missing row), which the operator has already specced.
 
+## 8. Retain raw observables in the backtest (TOP PRIORITY after v3 — unblocks the archive)
+
+The corpus review's single highest-leverage finding: **23 of 24 published reports describe the
+instrument, not the economy.** Zero dollar signs and zero percent signs across the whole
+trailing year — *"Housing carried the most weight"* appears 11 times and never once with a
+mortgage rate. The live seal does it right (*"down 11 points with the pump price at $4.10"*)
+because `data/latest.json` retains per-line observed values; the archive cannot, because
+`research/backtest-results.json` stores only `{month, ooze, stresses}`.
+
+This is now constitutional law (§4, first bullet): *no line is named in prose without the
+observed value that produced its score, in the same sentence.* The archive cannot comply
+until the data exists.
+
+- Retain the raw observable per line per month in the backtest output — every value is
+  already in scope in `scripts/backtest.js` around lines 95–102 where the anchor curves are
+  interpolated (`un`, `cpi`/`inflationYoY`, `mort`, `cdel`, `auto30`, `gasNom`, `nfci`).
+- Emit them under an `observed` object per month alongside `stresses`, each with its unit.
+- Keep the file's existing shape backward-compatible — `data/reconstruction-reports.js` and
+  anything else reading `monthly[].stresses` must not break.
+- Acceptance: a test asserts every month with a score also carries an observed value for all
+  seven weighted lines, with units; `node scripts/backfill-reports.js` then regenerates the
+  archive with real-world values in prose.
+
 ## Not yet — do not start
 
 - **Froth panel** (margin debt / Buffett Z.1 / household equity allocation): triaged and queued in `improvements.md`, sequenced LAST — after v3 and a live episode. Design constraint already recorded: froth ≠ stress, separate panel, never averaged into the composite.

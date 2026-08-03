@@ -21,59 +21,59 @@ across a year, what varies, where the formula shows, and where it earns its keep
 
 ### Archive reconstruction — July 2025: the jar read 24
 
-*The trailing-year archive, rebuilt under methodology v3.0.0: July 2025 scored 24/100 (Sticky), down 1 from the month before.*
+*The trailing-year archive, rebuilt under methodology v3.0.0: July 2025 scored 24/100 (Sticky), down 1 from June 2025.*
 
 **Key points**
 - July 2025 reads 24/100 — Sticky territory, down 1 from June 2025.
-- Biggest movement: auto loans fell 3 points.
-- Heaviest lines: Housing (9 oz) and credit cards (8 oz).
+- Biggest movement: pressure from auto loans eased 3 points.
+- Heaviest lines: Housing and credit cards tied at 6 oz each.
 
-This is a reconstruction, labeled as one. The facility opened in July 2026; it did not exist to seal July 2025 live. This report is today's methodology (v3.0.0) run over the latest revised public data for the month — sources revise their history, so these figures are the present's best view of July 2025, not a bulletin from it.
+This is a reconstruction, labeled as one. The facility opened in July 2026; it did not exist to seal July 2025 live. This report is today's methodology (v3.0.0) run over the latest revised public data for the month, computed 2026-08-01 — sources revise their history, so these figures are the present's best view of July 2025, not a bulletin from it.
 
-The month computes to 24 out of 100 — Sticky territory, down 1 from June 2025, and calmer than 7 of every 10 months since 2003.
+The month computes to 24 out of 100 — Sticky territory, the band where normal economies live — down 1 from June 2025, and calmer than 7 of every 10 months since 2003.
 
 **What moved**
 
-Auto loans fell 3 points. Months like this are the archive's quiet majority — pressure shifting by inches, not feet.
+Pressure from auto loans eased 3 points.
 
 **What was pressing**
 
-Housing carried the most weight — 9 of the month's 24 ounces — with credit cards next at 8. Recessions are employment events, and the employment line's position on this list is always worth a glance.
+Housing and credit cards tied at 6 oz each — the heaviest lines on the board. Employment sits at 3 oz this month — recessions are employment events, and this line's rank is always worth a glance. The seven weighted lines split the month's 24 ounces between them and sum to it exactly.
 
 **What a household would have noticed**
 
-Most likely: some relief where auto loans shows up in the budget, while housing stayed the biggest strain. The jar reads the cascade, and in July 2025 the cascade mostly held.
+Most likely: some relief where auto loans show up in the budget, while housing stayed the biggest strain. The jar reads the cascade — the order a budget fails in, from the pump to the credit card to the car to the job — and in July 2025 the cascade mostly held.
 
-Every figure above recomputes from the public backtest (research/backtest-results.json). The live jar and its current seal are on the front page — the jar updates itself; you just check it.
+Reconstructed under methodology v3.0.0 from the public household backtest (vintage 2026-08-01); anchors, weights and calibration constants are published and frozen. Point moves are line-stress changes, not score points. For the current sealed reading, see the front page — the jar updates itself; you just check it.
 
 #### The Ward M Report
 
 ### Archive reconstruction — Ward M, July 2025: market ooze 27
 
-*The market wing's trailing-year archive, rebuilt from six public gauges: July 2025 computes to 27/100, down 2 from the month before.*
+*The market wing's trailing-year archive, rebuilt from six public gauges: July 2025 computes to 27/100, down 2 from June 2025.*
 
 **Key points**
 - Ward M reads 27/100 for July 2025 — down 2 from June 2025.
-- Biggest gauge movement: volatility fell 8 points.
-- Hottest gauge: Rates at 46. Divergence vs the household jar: +3.
+- Biggest gauge movement: volatility gauge heat fell 8 points.
+- Hottest gauge: Rates at 46/100. Divergence vs the household jar: +3 points.
 
-This is a reconstruction, labeled as one. Ward M opened in late July 2026; this report runs its published gauges and calibration over the latest revised data for July 2025. It is the present's view of that month's market stress, not a bulletin from it — and like everything in this wing, it is an experimental instrument that contributes nothing to the household Ooze Score.
+This is a reconstruction, labeled as one. Ward M opened in late July 2026; this report runs its published gauges and calibration over the latest revised data for July 2025, computed 2026-08-01. It is the present's view of that month's market stress, not a bulletin from it — and like everything in this wing, it is an experimental instrument that contributes nothing to the household Ooze Score.
 
-The composite computes to 27 out of 100, down 2 from June 2025. Ward M averages six gauges — rates, volatility, credit & funding, energy, the dollar, and breadth — each mapped through published anchors, calibrated so the ward's calmest month since 2007 reads 10 and its worst 2008 month reads 90.
+The composite computes to 27 out of 100, down 2 from June 2025. Ward M averages six gauges — rates, volatility, credit and funding, energy, the dollar, and breadth — each mapped through published anchors, calibrated so the ward's calmest month since 2007 reads 10/100 and its worst 2008 month reads 90/100.
 
 **What moved**
 
-Volatility fell 8 points.
+Volatility gauge heat fell 8 points.
 
-**The hot gauge**
+**The leading gauge**
 
-Rates ran hottest at 46. Rates heat reflects the yield curve — the bond market's long-running recession signal.
+Rates led the panel at 46/100 — the highest of the six, though still in the calmer half of its own scale. Rates heat reflects the yield curve — the bond market carries a long-standing recession reputation, which is a reputation and not a forecast.
 
 **Two instruments, one month**
 
-The two instruments roughly agreed: ward 27, household jar 24.
+Ward 27/100, household jar 24/100 — a 3-point gap, the ward reading hotter. This month the ward moved -2 against the jar's -1. The two instruments share no inputs and are never averaged.
 
-Every figure recomputes from the public market backtest (research/market-backtest.json) — raw gauge values, published anchors, frozen calibration. The live ward is on the Markets page.
+Reconstructed from the public market backtest (vintage 2026-08-01): raw gauge values, published anchors, frozen calibration. Gauge anchors remain provisional. Point moves are gauge-heat changes, not composite points. For the current ward reading, see the Markets page.
 
 ---
 
@@ -83,59 +83,59 @@ Every figure recomputes from the public market backtest (research/market-backtes
 
 ### Archive reconstruction — August 2025: the jar read 23
 
-*The trailing-year archive, rebuilt under methodology v3.0.0: August 2025 scored 23/100 (Sticky), down 1 from the month before.*
+*The trailing-year archive, rebuilt under methodology v3.0.0: August 2025 scored 23/100 (Sticky), down 1 from July 2025.*
 
 **Key points**
 - August 2025 reads 23/100 — Sticky territory, down 1 from July 2025.
-- Biggest movement: inflation climbed 3 points.
-- Heaviest lines: Housing (9 oz) and credit cards (8 oz).
+- Biggest movement: pressure from inflation edged up 3 points.
+- Heaviest lines: Housing (6 oz) and credit cards (5 oz).
 
-This is a reconstruction, labeled as one. The facility opened in July 2026; it did not exist to seal August 2025 live. This report is today's methodology (v3.0.0) run over the latest revised public data for the month — sources revise their history, so these figures are the present's best view of August 2025, not a bulletin from it.
+This is a reconstruction, labeled as one. The facility opened in July 2026; it did not exist to seal August 2025 live. This report is today's methodology (v3.0.0) run over the latest revised public data for the month, computed 2026-08-01 — sources revise their history, so these figures are the present's best view of August 2025, not a bulletin from it.
 
-The month computes to 23 out of 100 — Sticky territory, down 1 from July 2025, and calmer than 7 of every 10 months since 2003.
+The month computes to 23 out of 100 — Sticky territory, the band where normal economies live — down 1 from July 2025, and calmer than 7 of every 10 months since 2003.
 
 **What moved**
 
-Inflation climbed 3 points. Months like this are the archive's quiet majority — pressure shifting by inches, not feet.
+Pressure from inflation edged up 3 points.
 
 **What was pressing**
 
-Housing carried the most weight — 9 of the month's 23 ounces — with credit cards next at 8. Recessions are employment events, and the employment line's position on this list is always worth a glance.
+Housing carried the most weight — 6 of the month's 23 ounces — with credit cards next at 5 oz. Employment sits at 3 oz this month — recessions are employment events, and this line's rank is always worth a glance. The seven weighted lines split the month's 23 ounces between them and sum to it exactly.
 
 **What a household would have noticed**
 
-Most likely: a little more squeeze from inflation, with housing still the heaviest line on the board. The jar reads the cascade, and in August 2025 the cascade mostly held.
+Most likely: a little more squeeze from inflation, with housing still the heaviest line on the board. The jar reads the cascade — the order a budget fails in, from the pump to the credit card to the car to the job — and in August 2025 the cascade mostly held.
 
-Every figure above recomputes from the public backtest (research/backtest-results.json). The live jar and its current seal are on the front page — the jar updates itself; you just check it.
+Reconstructed under methodology v3.0.0 from the public household backtest (vintage 2026-08-01); anchors, weights and calibration constants are published and frozen. Point moves are line-stress changes, not score points. For the current sealed reading, see the front page — the jar updates itself; you just check it.
 
 #### The Ward M Report
 
 ### Archive reconstruction — Ward M, August 2025: market ooze 24
 
-*The market wing's trailing-year archive, rebuilt from six public gauges: August 2025 computes to 24/100, down 3 from the month before.*
+*The market wing's trailing-year archive, rebuilt from six public gauges: August 2025 computes to 24/100, down 3 from July 2025.*
 
 **Key points**
 - Ward M reads 24/100 for August 2025 — down 3 from July 2025.
-- Biggest gauge movement: breadth fell 8 points; energy fell 4 points; dollar climbed 3 points.
-- Hottest gauge: Rates at 47. Divergence vs the household jar: +1.
+- Biggest gauge movement: breadth gauge heat fell 8 points; energy gauge heat eased 4 points; dollar gauge heat edged up 3 points.
+- Hottest gauge: Rates at 47/100. Divergence vs the household jar: +1 points.
 
-This is a reconstruction, labeled as one. Ward M opened in late July 2026; this report runs its published gauges and calibration over the latest revised data for August 2025. It is the present's view of that month's market stress, not a bulletin from it — and like everything in this wing, it is an experimental instrument that contributes nothing to the household Ooze Score.
+This is a reconstruction, labeled as one. Ward M opened in late July 2026; this report runs its published gauges and calibration over the latest revised data for August 2025, computed 2026-08-01. It is the present's view of that month's market stress, not a bulletin from it — and like everything in this wing, it is an experimental instrument that contributes nothing to the household Ooze Score.
 
-The composite computes to 24 out of 100, down 3 from July 2025. Ward M averages six gauges — rates, volatility, credit & funding, energy, the dollar, and breadth — each mapped through published anchors, calibrated so the ward's calmest month since 2007 reads 10 and its worst 2008 month reads 90.
+The composite computes to 24 out of 100, down 3 from July 2025. Ward M averages six gauges — rates, volatility, credit and funding, energy, the dollar, and breadth — each mapped through published anchors, calibrated so the ward's calmest month since 2007 reads 10/100 and its worst 2008 month reads 90/100.
 
 **What moved**
 
-Breadth fell 8 points; energy fell 4 points; dollar climbed 3 points.
+Breadth gauge heat fell 8 points; energy gauge heat eased 4 points; dollar gauge heat edged up 3 points.
 
-**The hot gauge**
+**The leading gauge**
 
-Rates ran hottest at 47. Rates heat reflects the yield curve — the bond market's long-running recession signal.
+Rates led the panel at 47/100 — the highest of the six, though still in the calmer half of its own scale. Rates heat reflects the yield curve — the bond market carries a long-standing recession reputation, which is a reputation and not a forecast.
 
 **Two instruments, one month**
 
-The two instruments roughly agreed: ward 24, household jar 23.
+Ward 24/100, household jar 23/100 — a 1-point gap, the ward reading hotter. This month the ward moved -3 against the jar's -1. Energy sits upstream of the household gas line, so where both instruments moved this month they may be recording the same shock at different amplitudes rather than disagreeing. The two instruments share no inputs and are never averaged.
 
-Every figure recomputes from the public market backtest (research/market-backtest.json) — raw gauge values, published anchors, frozen calibration. The live ward is on the Markets page.
+Reconstructed from the public market backtest (vintage 2026-08-01): raw gauge values, published anchors, frozen calibration. Gauge anchors remain provisional. Point moves are gauge-heat changes, not composite points. For the current ward reading, see the Markets page.
 
 ---
 
@@ -145,59 +145,59 @@ Every figure recomputes from the public market backtest (research/market-backtes
 
 ### Archive reconstruction — September 2025: the jar read 23
 
-*The trailing-year archive, rebuilt under methodology v3.0.0: September 2025 scored 23/100 (Sticky), unchanged from the month before.*
+*The trailing-year archive, rebuilt under methodology v3.0.0: September 2025 scored 23/100 (Sticky), unchanged from August 2025.*
 
 **Key points**
 - September 2025 reads 23/100 — Sticky territory, unchanged from August 2025.
-- Biggest movement: housing fell 3 points.
-- Heaviest lines: Housing (8 oz) and credit cards (8 oz).
+- Biggest movement: pressure from housing eased 3 points.
+- Heaviest lines: Housing (6 oz) and credit cards (5 oz).
 
-This is a reconstruction, labeled as one. The facility opened in July 2026; it did not exist to seal September 2025 live. This report is today's methodology (v3.0.0) run over the latest revised public data for the month — sources revise their history, so these figures are the present's best view of September 2025, not a bulletin from it.
+This is a reconstruction, labeled as one. The facility opened in July 2026; it did not exist to seal September 2025 live. This report is today's methodology (v3.0.0) run over the latest revised public data for the month, computed 2026-08-01 — sources revise their history, so these figures are the present's best view of September 2025, not a bulletin from it.
 
-The month computes to 23 out of 100 — Sticky territory, unchanged from August 2025, and calmer than 7 of every 10 months since 2003.
+The month computes to 23 out of 100 — Sticky territory, the band where normal economies live — unchanged from August 2025, and calmer than 7 of every 10 months since 2003.
 
 **What moved**
 
-Housing fell 3 points. Months like this are the archive's quiet majority — pressure shifting by inches, not feet.
+Pressure from housing eased 3 points.
 
 **What was pressing**
 
-Housing carried the most weight — 8 of the month's 23 ounces — with credit cards next at 8. Recessions are employment events, and the employment line's position on this list is always worth a glance.
+Housing carried the most weight — 6 of the month's 23 ounces — with credit cards next at 5 oz. The heaviest line was also the one that gave ground: housing eased 3 points and still carries 6 of the month's 23 ounces. Employment sits at 3 oz this month — recessions are employment events, and this line's rank is always worth a glance. The seven weighted lines split the month's 23 ounces between them and sum to it exactly.
 
 **What a household would have noticed**
 
-Most likely: some relief where housing shows up in the budget, while housing stayed the biggest strain. The jar reads the cascade, and in September 2025 the cascade mostly held.
+Most likely: some relief where housing shows up in the budget, while housing stayed the biggest strain. The jar reads the cascade — the order a budget fails in, from the pump to the credit card to the car to the job — and in September 2025 the cascade mostly held.
 
-Every figure above recomputes from the public backtest (research/backtest-results.json). The live jar and its current seal are on the front page — the jar updates itself; you just check it.
+Reconstructed under methodology v3.0.0 from the public household backtest (vintage 2026-08-01); anchors, weights and calibration constants are published and frozen. Point moves are line-stress changes, not score points. For the current sealed reading, see the front page — the jar updates itself; you just check it.
 
 #### The Ward M Report
 
 ### Archive reconstruction — Ward M, September 2025: market ooze 25
 
-*The market wing's trailing-year archive, rebuilt from six public gauges: September 2025 computes to 25/100, up 1 from the month before.*
+*The market wing's trailing-year archive, rebuilt from six public gauges: September 2025 computes to 25/100, up 1 from August 2025.*
 
 **Key points**
 - Ward M reads 25/100 for September 2025 — up 1 from August 2025.
-- Biggest gauge movement: breadth climbed 8 points; rates fell 4 points.
-- Hottest gauge: Rates at 43. Divergence vs the household jar: +2.
+- Biggest gauge movement: breadth gauge heat climbed 8 points; rates gauge heat eased 4 points.
+- Hottest gauge: Rates at 43/100. Divergence vs the household jar: +2 points.
 
-This is a reconstruction, labeled as one. Ward M opened in late July 2026; this report runs its published gauges and calibration over the latest revised data for September 2025. It is the present's view of that month's market stress, not a bulletin from it — and like everything in this wing, it is an experimental instrument that contributes nothing to the household Ooze Score.
+This is a reconstruction, labeled as one. Ward M opened in late July 2026; this report runs its published gauges and calibration over the latest revised data for September 2025, computed 2026-08-01. It is the present's view of that month's market stress, not a bulletin from it — and like everything in this wing, it is an experimental instrument that contributes nothing to the household Ooze Score.
 
-The composite computes to 25 out of 100, up 1 from August 2025. Ward M averages six gauges — rates, volatility, credit & funding, energy, the dollar, and breadth — each mapped through published anchors, calibrated so the ward's calmest month since 2007 reads 10 and its worst 2008 month reads 90.
+The composite computes to 25 out of 100, up 1 from August 2025. Ward M averages six gauges — rates, volatility, credit and funding, energy, the dollar, and breadth — each mapped through published anchors, calibrated so the ward's calmest month since 2007 reads 10/100 and its worst 2008 month reads 90/100.
 
 **What moved**
 
-Breadth climbed 8 points; rates fell 4 points.
+Breadth gauge heat climbed 8 points; rates gauge heat eased 4 points.
 
-**The hot gauge**
+**The leading gauge**
 
-Rates ran hottest at 43. Rates heat reflects the yield curve — the bond market's long-running recession signal.
+Rates led the panel at 43/100 — the highest of the six, though still in the calmer half of its own scale. Rates heat reflects the yield curve — the bond market carries a long-standing recession reputation, which is a reputation and not a forecast.
 
 **Two instruments, one month**
 
-The two instruments roughly agreed: ward 25, household jar 23.
+Ward 25/100, household jar 23/100 — a 2-point gap, the ward reading hotter. This month the ward moved +1 against the jar's +0. The two instruments share no inputs and are never averaged.
 
-Every figure recomputes from the public market backtest (research/market-backtest.json) — raw gauge values, published anchors, frozen calibration. The live ward is on the Markets page.
+Reconstructed from the public market backtest (vintage 2026-08-01): raw gauge values, published anchors, frozen calibration. Gauge anchors remain provisional. Point moves are gauge-heat changes, not composite points. For the current ward reading, see the Markets page.
 
 ---
 
@@ -211,30 +211,30 @@ Every figure recomputes from the public market backtest (research/market-backtes
 
 ### Archive reconstruction — Ward M, October 2025: market ooze 27
 
-*The market wing's trailing-year archive, rebuilt from six public gauges: October 2025 computes to 27/100, up 2 from the month before.*
+*The market wing's trailing-year archive, rebuilt from six public gauges: October 2025 computes to 27/100, up 2 from September 2025.*
 
 **Key points**
 - Ward M reads 27/100 for October 2025 — up 2 from September 2025.
-- Biggest gauge movement: volatility climbed 9 points; breadth climbed 8 points; energy fell 4 points.
-- Hottest gauge: Rates at 42. 
+- Biggest gauge movement: volatility gauge heat climbed 9 points; breadth gauge heat climbed 8 points; energy gauge heat eased 4 points.
+- Hottest gauge: Rates at 42/100. No household reading exists this month.
 
-This is a reconstruction, labeled as one. Ward M opened in late July 2026; this report runs its published gauges and calibration over the latest revised data for October 2025. It is the present's view of that month's market stress, not a bulletin from it — and like everything in this wing, it is an experimental instrument that contributes nothing to the household Ooze Score.
+This is a reconstruction, labeled as one. Ward M opened in late July 2026; this report runs its published gauges and calibration over the latest revised data for October 2025, computed 2026-08-01. It is the present's view of that month's market stress, not a bulletin from it — and like everything in this wing, it is an experimental instrument that contributes nothing to the household Ooze Score.
 
-The composite computes to 27 out of 100, up 2 from September 2025. Ward M averages six gauges — rates, volatility, credit & funding, energy, the dollar, and breadth — each mapped through published anchors, calibrated so the ward's calmest month since 2007 reads 10 and its worst 2008 month reads 90.
+The composite computes to 27 out of 100, up 2 from September 2025. Ward M averages six gauges — rates, volatility, credit and funding, energy, the dollar, and breadth — each mapped through published anchors, calibrated so the ward's calmest month since 2007 reads 10/100 and its worst 2008 month reads 90/100.
 
 **What moved**
 
-Volatility climbed 9 points; breadth climbed 8 points; energy fell 4 points.
+Volatility gauge heat climbed 9 points; breadth gauge heat climbed 8 points; energy gauge heat eased 4 points.
 
-**The hot gauge**
+**The leading gauge**
 
-Rates ran hottest at 42. Rates heat reflects the yield curve — the bond market's long-running recession signal.
+Rates led the panel at 42/100 — the highest of the six, though still in the calmer half of its own scale. Rates heat reflects the yield curve — the bond market carries a long-standing recession reputation, which is a reputation and not a forecast.
 
 **Two instruments, one month**
 
+No household reading exists for October 2025 — the required BLS observations were never published — so the ward has nothing to be measured against this month. A missing month stays missing.
 
-
-Every figure recomputes from the public market backtest (research/market-backtest.json) — raw gauge values, published anchors, frozen calibration. The live ward is on the Markets page.
+Reconstructed from the public market backtest (vintage 2026-08-01): raw gauge values, published anchors, frozen calibration. Gauge anchors remain provisional. Point moves are gauge-heat changes, not composite points. For the current ward reading, see the Markets page.
 
 ---
 
@@ -244,59 +244,59 @@ Every figure recomputes from the public market backtest (research/market-backtes
 
 ### Archive reconstruction — November 2025: the jar read 22
 
-*The trailing-year archive, rebuilt under methodology v3.0.0: November 2025 scored 22/100 (Sticky), down 1 from the month before.*
+*The trailing-year archive, rebuilt under methodology v3.0.0: November 2025 scored 22/100 (Sticky), down 1 from September 2025 — the month before is a gap in the archive.*
 
 **Key points**
-- November 2025 reads 22/100 — Sticky territory, down 1 from September 2025.
-- Biggest movement: inflation fell 4 points; gas prices fell 3 points.
-- Heaviest lines: Housing (8 oz) and credit cards (8 oz).
+- November 2025 reads 22/100 — Sticky territory, down 1 from September 2025 (October 2025 cannot be reconstructed).
+- Biggest movement: pressure from inflation eased 4 points; pressure from gas prices eased 3 points.
+- Heaviest lines: Housing and credit cards tied at 5 oz each.
 
-This is a reconstruction, labeled as one. The facility opened in July 2026; it did not exist to seal November 2025 live. This report is today's methodology (v3.0.0) run over the latest revised public data for the month — sources revise their history, so these figures are the present's best view of November 2025, not a bulletin from it.
+This is a reconstruction, labeled as one. The facility opened in July 2026; it did not exist to seal November 2025 live. This report is today's methodology (v3.0.0) run over the latest revised public data for the month, computed 2026-08-01 — sources revise their history, so these figures are the present's best view of November 2025, not a bulletin from it.
 
-The month computes to 22 out of 100 — Sticky territory, down 1 from September 2025 (October 2025 is a gap in the archive — a month the sources cannot fully reconstruct — so the comparison reaches back to September 2025), and calmer than 8 of every 10 months since 2003.
+The month computes to 22 out of 100 — Sticky territory, the band where normal economies live — down 1 from September 2025, and calmer than 8 of every 10 months since 2003. (October 2025 is a gap in the archive — a month the sources cannot fully reconstruct — so the comparison reaches back to September 2025.)
 
 **What moved**
 
-Inflation fell 4 points; gas prices fell 3 points.
+Pressure from inflation eased 4 points; pressure from gas prices eased 3 points.
 
 **What was pressing**
 
-Housing carried the most weight — 8 of the month's 22 ounces — with credit cards next at 8. Recessions are employment events, and the employment line's position on this list is always worth a glance.
+Housing and credit cards tied at 5 oz each — the heaviest lines on the board. Employment sits at 3 oz this month — recessions are employment events, and this line's rank is always worth a glance. The seven weighted lines split the month's 22 ounces between them and sum to it exactly.
 
 **What a household would have noticed**
 
-Most likely: some relief where inflation shows up in the budget, while housing stayed the biggest strain. The jar reads the cascade, and in November 2025 the cascade mostly held.
+Most likely: some relief where inflation shows up in the budget, while housing stayed the biggest strain. The jar reads the cascade — the order a budget fails in, from the pump to the credit card to the car to the job — and in November 2025 the cascade mostly held.
 
-Every figure above recomputes from the public backtest (research/backtest-results.json). The live jar and its current seal are on the front page — the jar updates itself; you just check it.
+Reconstructed under methodology v3.0.0 from the public household backtest (vintage 2026-08-01); anchors, weights and calibration constants are published and frozen. Point moves are line-stress changes, not score points. For the current sealed reading, see the front page — the jar updates itself; you just check it.
 
 #### The Ward M Report
 
 ### Archive reconstruction — Ward M, November 2025: market ooze 25
 
-*The market wing's trailing-year archive, rebuilt from six public gauges: November 2025 computes to 25/100, down 2 from the month before.*
+*The market wing's trailing-year archive, rebuilt from six public gauges: November 2025 computes to 25/100, down 2 from October 2025.*
 
 **Key points**
 - Ward M reads 25/100 for November 2025 — down 2 from October 2025.
-- Biggest gauge movement: breadth fell 8 points; volatility climbed 6 points; dollar fell 5 points.
-- Hottest gauge: Rates at 40. Divergence vs the household jar: +3.
+- Biggest gauge movement: breadth gauge heat fell 8 points; volatility gauge heat climbed 6 points; dollar gauge heat eased 5 points.
+- Hottest gauge: Rates at 40/100. Divergence vs the household jar: +3 points.
 
-This is a reconstruction, labeled as one. Ward M opened in late July 2026; this report runs its published gauges and calibration over the latest revised data for November 2025. It is the present's view of that month's market stress, not a bulletin from it — and like everything in this wing, it is an experimental instrument that contributes nothing to the household Ooze Score.
+This is a reconstruction, labeled as one. Ward M opened in late July 2026; this report runs its published gauges and calibration over the latest revised data for November 2025, computed 2026-08-01. It is the present's view of that month's market stress, not a bulletin from it — and like everything in this wing, it is an experimental instrument that contributes nothing to the household Ooze Score.
 
-The composite computes to 25 out of 100, down 2 from October 2025. Ward M averages six gauges — rates, volatility, credit & funding, energy, the dollar, and breadth — each mapped through published anchors, calibrated so the ward's calmest month since 2007 reads 10 and its worst 2008 month reads 90.
+The composite computes to 25 out of 100, down 2 from October 2025. Ward M averages six gauges — rates, volatility, credit and funding, energy, the dollar, and breadth — each mapped through published anchors, calibrated so the ward's calmest month since 2007 reads 10/100 and its worst 2008 month reads 90/100.
 
 **What moved**
 
-Breadth fell 8 points; volatility climbed 6 points; dollar fell 5 points.
+Breadth gauge heat fell 8 points; volatility gauge heat climbed 6 points; dollar gauge heat eased 5 points.
 
-**The hot gauge**
+**The leading gauge**
 
-Rates ran hottest at 40. Rates heat reflects the yield curve — the bond market's long-running recession signal.
+Rates led the panel at 40/100 — the highest of the six, though still in the calmer half of its own scale. Rates heat reflects the yield curve — the bond market carries a long-standing recession reputation, which is a reputation and not a forecast.
 
 **Two instruments, one month**
 
-The two instruments roughly agreed: ward 25, household jar 22.
+Ward 25/100, household jar 22/100 — a 3-point gap, the ward reading hotter. The two instruments share no inputs and are never averaged.
 
-Every figure recomputes from the public market backtest (research/market-backtest.json) — raw gauge values, published anchors, frozen calibration. The live ward is on the Markets page.
+Reconstructed from the public market backtest (vintage 2026-08-01): raw gauge values, published anchors, frozen calibration. Gauge anchors remain provisional. Point moves are gauge-heat changes, not composite points. For the current ward reading, see the Markets page.
 
 ---
 
@@ -306,59 +306,59 @@ Every figure recomputes from the public market backtest (research/market-backtes
 
 ### Archive reconstruction — December 2025: the jar read 21
 
-*The trailing-year archive, rebuilt under methodology v3.0.0: December 2025 scored 21/100 (Sticky), down 1 from the month before.*
+*The trailing-year archive, rebuilt under methodology v3.0.0: December 2025 scored 21/100 (Sticky), down 1 from November 2025.*
 
 **Key points**
 - December 2025 reads 21/100 — Sticky territory, down 1 from November 2025.
-- Biggest movement: gas prices fell 4 points.
-- Heaviest lines: Housing (8 oz) and credit cards (8 oz).
+- Biggest movement: pressure from gas prices eased 4 points.
+- Heaviest lines: Housing and credit cards tied at 5 oz each.
 
-This is a reconstruction, labeled as one. The facility opened in July 2026; it did not exist to seal December 2025 live. This report is today's methodology (v3.0.0) run over the latest revised public data for the month — sources revise their history, so these figures are the present's best view of December 2025, not a bulletin from it.
+This is a reconstruction, labeled as one. The facility opened in July 2026; it did not exist to seal December 2025 live. This report is today's methodology (v3.0.0) run over the latest revised public data for the month, computed 2026-08-01 — sources revise their history, so these figures are the present's best view of December 2025, not a bulletin from it.
 
-The month computes to 21 out of 100 — Sticky territory, down 1 from November 2025, and calmer than 8 of every 10 months since 2003.
+The month computes to 21 out of 100 — Sticky territory, the band where normal economies live — down 1 from November 2025, and calmer than 8 of every 10 months since 2003.
 
 **What moved**
 
-Gas prices fell 4 points. Months like this are the archive's quiet majority — pressure shifting by inches, not feet.
+Pressure from gas prices eased 4 points.
 
 **What was pressing**
 
-Housing carried the most weight — 8 of the month's 21 ounces — with credit cards next at 8. Recessions are employment events, and the employment line's position on this list is always worth a glance.
+Housing and credit cards tied at 5 oz each — the heaviest lines on the board. Employment sits at 3 oz this month — recessions are employment events, and this line's rank is always worth a glance. The seven weighted lines split the month's 21 ounces between them and sum to it exactly.
 
 **What a household would have noticed**
 
-Most likely: some relief where gas prices shows up in the budget, while housing stayed the biggest strain. The jar reads the cascade, and in December 2025 the cascade mostly held.
+Most likely: some relief where gas prices show up in the budget, while housing stayed the biggest strain. The jar reads the cascade — the order a budget fails in, from the pump to the credit card to the car to the job — and in December 2025 the cascade mostly held.
 
-Every figure above recomputes from the public backtest (research/backtest-results.json). The live jar and its current seal are on the front page — the jar updates itself; you just check it.
+Reconstructed under methodology v3.0.0 from the public household backtest (vintage 2026-08-01); anchors, weights and calibration constants are published and frozen. Point moves are line-stress changes, not score points. For the current sealed reading, see the front page — the jar updates itself; you just check it.
 
 #### The Ward M Report
 
 ### Archive reconstruction — Ward M, December 2025: market ooze 18
 
-*The market wing's trailing-year archive, rebuilt from six public gauges: December 2025 computes to 18/100, down 7 from the month before.*
+*The market wing's trailing-year archive, rebuilt from six public gauges: December 2025 computes to 18/100, down 7 from November 2025.*
 
 **Key points**
 - Ward M reads 18/100 for December 2025 — down 7 from November 2025.
-- Biggest gauge movement: volatility fell 16 points; rates fell 9 points; dollar fell 3 points.
-- Hottest gauge: Rates at 31. Divergence vs the household jar: -3.
+- Biggest gauge movement: volatility gauge heat fell 16 points; rates gauge heat fell 9 points; dollar gauge heat eased 3 points.
+- Hottest gauge: Rates at 31/100. Divergence vs the household jar: -3 points.
 
-This is a reconstruction, labeled as one. Ward M opened in late July 2026; this report runs its published gauges and calibration over the latest revised data for December 2025. It is the present's view of that month's market stress, not a bulletin from it — and like everything in this wing, it is an experimental instrument that contributes nothing to the household Ooze Score.
+This is a reconstruction, labeled as one. Ward M opened in late July 2026; this report runs its published gauges and calibration over the latest revised data for December 2025, computed 2026-08-01. It is the present's view of that month's market stress, not a bulletin from it — and like everything in this wing, it is an experimental instrument that contributes nothing to the household Ooze Score.
 
-The composite computes to 18 out of 100, down 7 from November 2025. Ward M averages six gauges — rates, volatility, credit & funding, energy, the dollar, and breadth — each mapped through published anchors, calibrated so the ward's calmest month since 2007 reads 10 and its worst 2008 month reads 90.
+The composite computes to 18 out of 100, down 7 from November 2025. Ward M averages six gauges — rates, volatility, credit and funding, energy, the dollar, and breadth — each mapped through published anchors, calibrated so the ward's calmest month since 2007 reads 10/100 and its worst 2008 month reads 90/100.
 
 **What moved**
 
-Volatility fell 16 points; rates fell 9 points; dollar fell 3 points.
+Volatility gauge heat fell 16 points; rates gauge heat fell 9 points; dollar gauge heat eased 3 points.
 
-**The hot gauge**
+**The leading gauge**
 
-Rates ran hottest at 31. Rates heat reflects the yield curve — the bond market's long-running recession signal.
+Rates led the panel at 31/100 — the highest of the six, though still in the calmer half of its own scale. Rates heat reflects the yield curve — the bond market carries a long-standing recession reputation, which is a reputation and not a forecast.
 
 **Two instruments, one month**
 
-The two instruments roughly agreed: ward 18, household jar 21.
+Ward 18/100, household jar 21/100 — a 3-point gap, the jar reading hotter. This month the ward moved -7 against the jar's -1. The two instruments share no inputs and are never averaged.
 
-Every figure recomputes from the public market backtest (research/market-backtest.json) — raw gauge values, published anchors, frozen calibration. The live ward is on the Markets page.
+Reconstructed from the public market backtest (vintage 2026-08-01): raw gauge values, published anchors, frozen calibration. Gauge anchors remain provisional. Point moves are gauge-heat changes, not composite points. For the current ward reading, see the Markets page.
 
 ---
 
@@ -368,59 +368,59 @@ Every figure recomputes from the public market backtest (research/market-backtes
 
 ### Archive reconstruction — January 2026: the jar read 19
 
-*The trailing-year archive, rebuilt under methodology v3.0.0: January 2026 scored 19/100 (Smooth), down 2 from the month before.*
+*The trailing-year archive, rebuilt under methodology v3.0.0: January 2026 scored 19/100 (Smooth), down 2 from December 2025.*
 
 **Key points**
 - January 2026 reads 19/100 — Smooth territory, down 2 from December 2025.
-- Biggest movement: inflation fell 4 points.
-- Heaviest lines: Housing (8 oz) and credit cards (7 oz).
+- Biggest movement: pressure from inflation eased 4 points.
+- Heaviest lines: Housing and credit cards tied at 5 oz each.
 
-This is a reconstruction, labeled as one. The facility opened in July 2026; it did not exist to seal January 2026 live. This report is today's methodology (v3.0.0) run over the latest revised public data for the month — sources revise their history, so these figures are the present's best view of January 2026, not a bulletin from it.
+This is a reconstruction, labeled as one. The facility opened in July 2026; it did not exist to seal January 2026 live. This report is today's methodology (v3.0.0) run over the latest revised public data for the month, computed 2026-08-01 — sources revise their history, so these figures are the present's best view of January 2026, not a bulletin from it.
 
-The month computes to 19 out of 100 — Smooth territory, down 2 from December 2025, and calmer than 9 of every 10 months since 2003.
+The month computes to 19 out of 100 — Smooth territory, the band where normal economies live — down 2 from December 2025, and calmer than 9 of every 10 months since 2003.
 
 **What moved**
 
-Inflation fell 4 points. Months like this are the archive's quiet majority — pressure shifting by inches, not feet.
+Pressure from inflation eased 4 points.
 
 **What was pressing**
 
-Housing carried the most weight — 8 of the month's 19 ounces — with credit cards next at 7. Recessions are employment events, and the employment line's position on this list is always worth a glance.
+Housing and credit cards tied at 5 oz each — the heaviest lines on the board. Employment sits at 2 oz this month — recessions are employment events, and this line's rank is always worth a glance. The seven weighted lines split the month's 19 ounces between them and sum to it exactly.
 
 **What a household would have noticed**
 
-Most likely: some relief where inflation shows up in the budget, while housing stayed the biggest strain. The jar reads the cascade, and in January 2026 the cascade mostly held.
+Most likely: some relief where inflation shows up in the budget, while housing stayed the biggest strain. The jar reads the cascade — the order a budget fails in, from the pump to the credit card to the car to the job — and in January 2026 the cascade mostly held.
 
-Every figure above recomputes from the public backtest (research/backtest-results.json). The live jar and its current seal are on the front page — the jar updates itself; you just check it.
+Reconstructed under methodology v3.0.0 from the public household backtest (vintage 2026-08-01); anchors, weights and calibration constants are published and frozen. Point moves are line-stress changes, not score points. For the current sealed reading, see the front page — the jar updates itself; you just check it.
 
 #### The Ward M Report
 
 ### Archive reconstruction — Ward M, January 2026: market ooze 18
 
-*The market wing's trailing-year archive, rebuilt from six public gauges: January 2026 computes to 18/100, unchanged from the month before.*
+*The market wing's trailing-year archive, rebuilt from six public gauges: January 2026 computes to 18/100, unchanged from December 2025.*
 
 **Key points**
 - Ward M reads 18/100 for January 2026 — unchanged from December 2025.
 - Biggest gauge movement: no gauge moved more than a couple of points.
-- Hottest gauge: Rates at 29. Divergence vs the household jar: -1.
+- Hottest gauge: Rates at 29/100. Divergence vs the household jar: -1 points.
 
-This is a reconstruction, labeled as one. Ward M opened in late July 2026; this report runs its published gauges and calibration over the latest revised data for January 2026. It is the present's view of that month's market stress, not a bulletin from it — and like everything in this wing, it is an experimental instrument that contributes nothing to the household Ooze Score.
+This is a reconstruction, labeled as one. Ward M opened in late July 2026; this report runs its published gauges and calibration over the latest revised data for January 2026, computed 2026-08-01. It is the present's view of that month's market stress, not a bulletin from it — and like everything in this wing, it is an experimental instrument that contributes nothing to the household Ooze Score.
 
-The composite computes to 18 out of 100, unchanged from December 2025. Ward M averages six gauges — rates, volatility, credit & funding, energy, the dollar, and breadth — each mapped through published anchors, calibrated so the ward's calmest month since 2007 reads 10 and its worst 2008 month reads 90.
+The composite computes to 18 out of 100, unchanged from December 2025. Ward M averages six gauges — rates, volatility, credit and funding, energy, the dollar, and breadth — each mapped through published anchors, calibrated so the ward's calmest month since 2007 reads 10/100 and its worst 2008 month reads 90/100.
 
 **What moved**
 
 No gauge moved more than a couple of points.
 
-**The hot gauge**
+**The leading gauge**
 
-Rates ran hottest at 29. Rates heat reflects the yield curve — the bond market's long-running recession signal.
+Rates led the panel at 29/100 — the highest of the six, though still in the calmer half of its own scale. Rates heat reflects the yield curve — the bond market carries a long-standing recession reputation, which is a reputation and not a forecast.
 
 **Two instruments, one month**
 
-The two instruments roughly agreed: ward 18, household jar 19.
+Ward 18/100, household jar 19/100 — a 1-point gap, the jar reading hotter. This month the ward moved +0 against the jar's -2. The two instruments share no inputs and are never averaged.
 
-Every figure recomputes from the public market backtest (research/market-backtest.json) — raw gauge values, published anchors, frozen calibration. The live ward is on the Markets page.
+Reconstructed from the public market backtest (vintage 2026-08-01): raw gauge values, published anchors, frozen calibration. Gauge anchors remain provisional. Point moves are gauge-heat changes, not composite points. For the current ward reading, see the Markets page.
 
 ---
 
@@ -430,16 +430,16 @@ Every figure recomputes from the public market backtest (research/market-backtes
 
 ### Archive reconstruction — February 2026: the jar read 20
 
-*The trailing-year archive, rebuilt under methodology v3.0.0: February 2026 scored 20/100 (Smooth), up 1 from the month before.*
+*The trailing-year archive, rebuilt under methodology v3.0.0: February 2026 scored 20/100 (Smooth), up 1 from January 2026.*
 
 **Key points**
 - February 2026 reads 20/100 — Smooth territory, up 1 from January 2026.
 - Biggest movement: no line moved more than a couple of points.
-- Heaviest lines: Housing (7 oz) and credit cards (7 oz).
+- Heaviest lines: Housing and credit cards tied at 5 oz each.
 
-This is a reconstruction, labeled as one. The facility opened in July 2026; it did not exist to seal February 2026 live. This report is today's methodology (v3.0.0) run over the latest revised public data for the month — sources revise their history, so these figures are the present's best view of February 2026, not a bulletin from it.
+This is a reconstruction, labeled as one. The facility opened in July 2026; it did not exist to seal February 2026 live. This report is today's methodology (v3.0.0) run over the latest revised public data for the month, computed 2026-08-01 — sources revise their history, so these figures are the present's best view of February 2026, not a bulletin from it.
 
-The month computes to 20 out of 100 — Smooth territory, up 1 from January 2026, and calmer than 8 of every 10 months since 2003.
+The month computes to 20 out of 100 — Smooth territory, the band where normal economies live — up 1 from January 2026, and calmer than 8 of every 10 months since 2003.
 
 **What moved**
 
@@ -447,42 +447,42 @@ No line moved more than a couple of points. Months like this are the archive's q
 
 **What was pressing**
 
-Housing carried the most weight — 7 of the month's 20 ounces — with credit cards next at 7. Recessions are employment events, and the employment line's position on this list is always worth a glance.
+Housing and credit cards tied at 5 oz each — the heaviest lines on the board. Employment sits at 3 oz this month — recessions are employment events, and this line's rank is always worth a glance. The seven weighted lines split the month's 20 ounces between them and sum to it exactly.
 
 **What a household would have noticed**
 
-Most likely: a month that felt like the one before it — the same bills carrying the same weight, no line of the budget suddenly better or worse. The jar reads the cascade, and in February 2026 the cascade mostly held.
+Most likely: a month that felt like the one before it — the same bills carrying the same weight, no line of the budget suddenly better or worse. The jar reads the cascade — the order a budget fails in, from the pump to the credit card to the car to the job — and in February 2026 the cascade mostly held.
 
-Every figure above recomputes from the public backtest (research/backtest-results.json). The live jar and its current seal are on the front page — the jar updates itself; you just check it.
+Reconstructed under methodology v3.0.0 from the public household backtest (vintage 2026-08-01); anchors, weights and calibration constants are published and frozen. Point moves are line-stress changes, not score points. For the current sealed reading, see the front page — the jar updates itself; you just check it.
 
 #### The Ward M Report
 
 ### Archive reconstruction — Ward M, February 2026: market ooze 27
 
-*The market wing's trailing-year archive, rebuilt from six public gauges: February 2026 computes to 27/100, up 9 from the month before.*
+*The market wing's trailing-year archive, rebuilt from six public gauges: February 2026 computes to 27/100, up 9 from January 2026.*
 
 **Key points**
 - Ward M reads 27/100 for February 2026 — up 9 from January 2026.
-- Biggest gauge movement: breadth climbed 16 points; volatility climbed 11 points; energy climbed 6 points.
-- Hottest gauge: Rates at 32. Divergence vs the household jar: +7.
+- Biggest gauge movement: breadth gauge heat climbed 16 points; volatility gauge heat climbed 11 points; energy gauge heat climbed 6 points.
+- Hottest gauge: Rates at 32/100. Divergence vs the household jar: +7 points.
 
-This is a reconstruction, labeled as one. Ward M opened in late July 2026; this report runs its published gauges and calibration over the latest revised data for February 2026. It is the present's view of that month's market stress, not a bulletin from it — and like everything in this wing, it is an experimental instrument that contributes nothing to the household Ooze Score.
+This is a reconstruction, labeled as one. Ward M opened in late July 2026; this report runs its published gauges and calibration over the latest revised data for February 2026, computed 2026-08-01. It is the present's view of that month's market stress, not a bulletin from it — and like everything in this wing, it is an experimental instrument that contributes nothing to the household Ooze Score.
 
-The composite computes to 27 out of 100, up 9 from January 2026. Ward M averages six gauges — rates, volatility, credit & funding, energy, the dollar, and breadth — each mapped through published anchors, calibrated so the ward's calmest month since 2007 reads 10 and its worst 2008 month reads 90.
+The composite computes to 27 out of 100, up 9 from January 2026. Ward M averages six gauges — rates, volatility, credit and funding, energy, the dollar, and breadth — each mapped through published anchors, calibrated so the ward's calmest month since 2007 reads 10/100 and its worst 2008 month reads 90/100.
 
 **What moved**
 
-Breadth climbed 16 points; volatility climbed 11 points; energy climbed 6 points.
+Breadth gauge heat climbed 16 points; volatility gauge heat climbed 11 points; energy gauge heat climbed 6 points.
 
-**The hot gauge**
+**The leading gauge**
 
-Rates ran hottest at 32. Rates heat reflects the yield curve — the bond market's long-running recession signal.
+Rates led the panel at 32/100 — the highest of the six, though still in the calmer half of its own scale. Rates heat reflects the yield curve — the bond market carries a long-standing recession reputation, which is a reputation and not a forecast.
 
 **Two instruments, one month**
 
-The two instruments roughly agreed: ward 27, household jar 20.
+Ward 27/100, household jar 20/100 — a 7-point gap, the ward reading hotter. This month the ward moved +9 against the jar's +1. Energy sits upstream of the household gas line, so where both instruments moved this month they may be recording the same shock at different amplitudes rather than disagreeing. The two instruments share no inputs and are never averaged.
 
-Every figure recomputes from the public market backtest (research/market-backtest.json) — raw gauge values, published anchors, frozen calibration. The live ward is on the Markets page.
+Reconstructed from the public market backtest (vintage 2026-08-01): raw gauge values, published anchors, frozen calibration. Gauge anchors remain provisional. Point moves are gauge-heat changes, not composite points. For the current ward reading, see the Markets page.
 
 ---
 
@@ -492,59 +492,59 @@ Every figure recomputes from the public market backtest (research/market-backtes
 
 ### Archive reconstruction — March 2026: the jar read 24
 
-*The trailing-year archive, rebuilt under methodology v3.0.0: March 2026 scored 24/100 (Sticky), up 4 from the month before.*
+*The trailing-year archive, rebuilt under methodology v3.0.0: March 2026 scored 24/100 (Sticky), up 4 from February 2026.*
 
 **Key points**
 - March 2026 reads 24/100 — Sticky territory, up 4 from February 2026.
-- Biggest movement: gas prices climbed 18 points; inflation climbed 13 points.
-- Heaviest lines: Housing (8 oz) and credit cards (7 oz).
+- Biggest movement: pressure from gas prices climbed 18 points; pressure from inflation climbed 13 points.
+- Heaviest lines: Housing and credit cards tied at 5 oz each.
 
-This is a reconstruction, labeled as one. The facility opened in July 2026; it did not exist to seal March 2026 live. This report is today's methodology (v3.0.0) run over the latest revised public data for the month — sources revise their history, so these figures are the present's best view of March 2026, not a bulletin from it.
+This is a reconstruction, labeled as one. The facility opened in July 2026; it did not exist to seal March 2026 live. This report is today's methodology (v3.0.0) run over the latest revised public data for the month, computed 2026-08-01 — sources revise their history, so these figures are the present's best view of March 2026, not a bulletin from it.
 
-The month computes to 24 out of 100 — Sticky territory, up 4 from February 2026, and calmer than 7 of every 10 months since 2003.
+The month computes to 24 out of 100 — Sticky territory, the band where normal economies live — up 4 from February 2026, and calmer than 7 of every 10 months since 2003.
 
 **What moved**
 
-Gas prices climbed 18 points; inflation climbed 13 points.
+Pressure from gas prices climbed 18 points; pressure from inflation climbed 13 points. A single-month move of 18 points on one line is large for this instrument; the line-level anchors are published, so the size is checkable rather than asserted.
 
 **What was pressing**
 
-Housing carried the most weight — 8 of the month's 24 ounces — with credit cards next at 7. Recessions are employment events, and the employment line's position on this list is always worth a glance.
+Housing and credit cards tied at 5 oz each — the heaviest lines on the board. Employment sits at 3 oz this month — recessions are employment events, and this line's rank is always worth a glance. The seven weighted lines split the month's 24 ounces between them and sum to it exactly.
 
 **What a household would have noticed**
 
-Most likely: a little more squeeze from gas prices, with housing still the heaviest line on the board. The jar reads the cascade, and in March 2026 the cascade moved.
+Most likely: a little more squeeze from gas prices, with housing still the heaviest line on the board. The jar reads the cascade — the order a budget fails in, from the pump to the credit card to the car to the job — and in March 2026 the cascade moved.
 
-Every figure above recomputes from the public backtest (research/backtest-results.json). The live jar and its current seal are on the front page — the jar updates itself; you just check it.
+Reconstructed under methodology v3.0.0 from the public household backtest (vintage 2026-08-01); anchors, weights and calibration constants are published and frozen. Point moves are line-stress changes, not score points. For the current sealed reading, see the front page — the jar updates itself; you just check it.
 
 #### The Ward M Report
 
 ### Archive reconstruction — Ward M, March 2026: market ooze 53
 
-*The market wing's trailing-year archive, rebuilt from six public gauges: March 2026 computes to 53/100, up 26 from the month before.*
+*The market wing's trailing-year archive, rebuilt from six public gauges: March 2026 computes to 53/100, up 26 from February 2026.*
 
 **Key points**
 - Ward M reads 53/100 for March 2026 — up 26 from February 2026.
-- Biggest gauge movement: breadth climbed 62 points; energy climbed 34 points; volatility climbed 17 points.
-- Hottest gauge: Breadth at 91. Divergence vs the household jar: +29.
+- Biggest gauge movement: breadth gauge heat climbed 62 points; energy gauge heat climbed 34 points; volatility gauge heat climbed 17 points.
+- Hottest gauge: Breadth at 91/100. Divergence vs the household jar: +29 points.
 
-This is a reconstruction, labeled as one. Ward M opened in late July 2026; this report runs its published gauges and calibration over the latest revised data for March 2026. It is the present's view of that month's market stress, not a bulletin from it — and like everything in this wing, it is an experimental instrument that contributes nothing to the household Ooze Score.
+This is a reconstruction, labeled as one. Ward M opened in late July 2026; this report runs its published gauges and calibration over the latest revised data for March 2026, computed 2026-08-01. It is the present's view of that month's market stress, not a bulletin from it — and like everything in this wing, it is an experimental instrument that contributes nothing to the household Ooze Score.
 
-The composite computes to 53 out of 100, up 26 from February 2026. Ward M averages six gauges — rates, volatility, credit & funding, energy, the dollar, and breadth — each mapped through published anchors, calibrated so the ward's calmest month since 2007 reads 10 and its worst 2008 month reads 90.
+The composite computes to 53 out of 100, up 26 from February 2026. Ward M averages six gauges — rates, volatility, credit and funding, energy, the dollar, and breadth — each mapped through published anchors, calibrated so the ward's calmest month since 2007 reads 10/100 and its worst 2008 month reads 90/100.
 
 **What moved**
 
-Breadth climbed 62 points; energy climbed 34 points; volatility climbed 17 points.
+Breadth gauge heat climbed 62 points; energy gauge heat climbed 34 points; volatility gauge heat climbed 17 points. A 62-point move on one gauge in a month is instrument behaviour worth watching in its own right — the anchors that produced it are published and provisional.
 
-**The hot gauge**
+**The leading gauge**
 
-Breadth ran hottest at 91. Breadth heat means weakness was spreading across the ticker panel rather than concentrating in one corner.
+Breadth led the panel at 91/100. Breadth heat means weakness was spreading across the ticker panel rather than concentrating in one corner.
 
 **Two instruments, one month**
 
-Markets ran 29 points hotter than the household jar (24) — the ward jumpy while kitchens stayed calmer, which is the divergence this wing exists to show.
+Ward 53/100, household jar 24/100 — a 29-point gap, the ward reading hotter. This month the ward moved +26 against the jar's +4. Energy sits upstream of the household gas line, so where both instruments moved this month they may be recording the same shock at different amplitudes rather than disagreeing. The two instruments share no inputs and are never averaged.
 
-Every figure recomputes from the public market backtest (research/market-backtest.json) — raw gauge values, published anchors, frozen calibration. The live ward is on the Markets page.
+Reconstructed from the public market backtest (vintage 2026-08-01): raw gauge values, published anchors, frozen calibration. Gauge anchors remain provisional. Point moves are gauge-heat changes, not composite points. For the current ward reading, see the Markets page.
 
 ---
 
@@ -554,59 +554,59 @@ Every figure recomputes from the public market backtest (research/market-backtes
 
 ### Archive reconstruction — April 2026: the jar read 27
 
-*The trailing-year archive, rebuilt under methodology v3.0.0: April 2026 scored 27/100 (Sticky), up 3 from the month before.*
+*The trailing-year archive, rebuilt under methodology v3.0.0: April 2026 scored 27/100 (Sticky), up 3 from March 2026.*
 
 **Key points**
 - April 2026 reads 27/100 — Sticky territory, up 3 from March 2026.
-- Biggest movement: gas prices climbed 11 points; inflation climbed 8 points.
-- Heaviest lines: Housing (8 oz) and credit cards (7 oz).
+- Biggest movement: pressure from gas prices climbed 11 points; pressure from inflation climbed 8 points.
+- Heaviest lines: Housing and credit cards tied at 6 oz each.
 
-This is a reconstruction, labeled as one. The facility opened in July 2026; it did not exist to seal April 2026 live. This report is today's methodology (v3.0.0) run over the latest revised public data for the month — sources revise their history, so these figures are the present's best view of April 2026, not a bulletin from it.
+This is a reconstruction, labeled as one. The facility opened in July 2026; it did not exist to seal April 2026 live. This report is today's methodology (v3.0.0) run over the latest revised public data for the month, computed 2026-08-01 — sources revise their history, so these figures are the present's best view of April 2026, not a bulletin from it.
 
-The month computes to 27 out of 100 — Sticky territory, up 3 from March 2026, and calmer than 6 of every 10 months since 2003.
+The month computes to 27 out of 100 — Sticky territory, the band where normal economies live — up 3 from March 2026, and calmer than 6 of every 10 months since 2003.
 
 **What moved**
 
-Gas prices climbed 11 points; inflation climbed 8 points.
+Pressure from gas prices climbed 11 points; pressure from inflation climbed 8 points. A single-month move of 11 points on one line is large for this instrument; the line-level anchors are published, so the size is checkable rather than asserted.
 
 **What was pressing**
 
-Housing carried the most weight — 8 of the month's 27 ounces — with credit cards next at 7. Recessions are employment events, and the employment line's position on this list is always worth a glance.
+Housing and credit cards tied at 6 oz each — the heaviest lines on the board. Employment sits at 3 oz this month — recessions are employment events, and this line's rank is always worth a glance. The seven weighted lines split the month's 27 ounces between them and sum to it exactly.
 
 **What a household would have noticed**
 
-Most likely: a little more squeeze from gas prices, with housing still the heaviest line on the board. The jar reads the cascade, and in April 2026 the cascade moved.
+Most likely: a little more squeeze from gas prices, with housing still the heaviest line on the board. The jar reads the cascade — the order a budget fails in, from the pump to the credit card to the car to the job — and in April 2026 the cascade moved.
 
-Every figure above recomputes from the public backtest (research/backtest-results.json). The live jar and its current seal are on the front page — the jar updates itself; you just check it.
+Reconstructed under methodology v3.0.0 from the public household backtest (vintage 2026-08-01); anchors, weights and calibration constants are published and frozen. Point moves are line-stress changes, not score points. For the current sealed reading, see the front page — the jar updates itself; you just check it.
 
 #### The Ward M Report
 
 ### Archive reconstruction — Ward M, April 2026: market ooze 32
 
-*The market wing's trailing-year archive, rebuilt from six public gauges: April 2026 computes to 32/100, down 21 from the month before.*
+*The market wing's trailing-year archive, rebuilt from six public gauges: April 2026 computes to 32/100, down 21 from March 2026.*
 
 **Key points**
 - Ward M reads 32/100 for April 2026 — down 21 from March 2026.
-- Biggest gauge movement: breadth fell 86 points; volatility fell 15 points; energy climbed 11 points.
-- Hottest gauge: Energy at 75. Divergence vs the household jar: +5.
+- Biggest gauge movement: breadth gauge heat fell 86 points; volatility gauge heat fell 15 points; energy gauge heat climbed 11 points.
+- Hottest gauge: Energy at 75/100. Divergence vs the household jar: +5 points.
 
-This is a reconstruction, labeled as one. Ward M opened in late July 2026; this report runs its published gauges and calibration over the latest revised data for April 2026. It is the present's view of that month's market stress, not a bulletin from it — and like everything in this wing, it is an experimental instrument that contributes nothing to the household Ooze Score.
+This is a reconstruction, labeled as one. Ward M opened in late July 2026; this report runs its published gauges and calibration over the latest revised data for April 2026, computed 2026-08-01. It is the present's view of that month's market stress, not a bulletin from it — and like everything in this wing, it is an experimental instrument that contributes nothing to the household Ooze Score.
 
-The composite computes to 32 out of 100, down 21 from March 2026. Ward M averages six gauges — rates, volatility, credit & funding, energy, the dollar, and breadth — each mapped through published anchors, calibrated so the ward's calmest month since 2007 reads 10 and its worst 2008 month reads 90.
+The composite computes to 32 out of 100, down 21 from March 2026. Ward M averages six gauges — rates, volatility, credit and funding, energy, the dollar, and breadth — each mapped through published anchors, calibrated so the ward's calmest month since 2007 reads 10/100 and its worst 2008 month reads 90/100.
 
 **What moved**
 
-Breadth fell 86 points; volatility fell 15 points; energy climbed 11 points.
+Breadth gauge heat fell 86 points; volatility gauge heat fell 15 points; energy gauge heat climbed 11 points. A 86-point move on one gauge in a month is instrument behaviour worth watching in its own right — the anchors that produced it are published and provisional.
 
-**The hot gauge**
+**The leading gauge**
 
-Energy ran hottest at 75. Energy heat is the upstream cousin of the household gas line: expensive oil squeezes everything that moves.
+Energy led the panel at 75/100. Energy heat is the upstream cousin of the household gas line: expensive oil squeezes everything that moves.
 
 **Two instruments, one month**
 
-The two instruments roughly agreed: ward 32, household jar 27.
+Ward 32/100, household jar 27/100 — a 5-point gap, the ward reading hotter. This month the ward moved -21 against the jar's +3. Energy sits upstream of the household gas line, so where both instruments moved this month they may be recording the same shock at different amplitudes rather than disagreeing. The two instruments share no inputs and are never averaged.
 
-Every figure recomputes from the public market backtest (research/market-backtest.json) — raw gauge values, published anchors, frozen calibration. The live ward is on the Markets page.
+Reconstructed from the public market backtest (vintage 2026-08-01): raw gauge values, published anchors, frozen calibration. Gauge anchors remain provisional. Point moves are gauge-heat changes, not composite points. For the current ward reading, see the Markets page.
 
 ---
 
@@ -616,59 +616,59 @@ Every figure recomputes from the public market backtest (research/market-backtes
 
 ### Archive reconstruction — May 2026: the jar read 29
 
-*The trailing-year archive, rebuilt under methodology v3.0.0: May 2026 scored 29/100 (Sticky), up 2 from the month before.*
+*The trailing-year archive, rebuilt under methodology v3.0.0: May 2026 scored 29/100 (Sticky), up 2 from April 2026.*
 
 **Key points**
 - May 2026 reads 29/100 — Sticky territory, up 2 from April 2026.
-- Biggest movement: gas prices climbed 9 points; inflation climbed 5 points.
-- Heaviest lines: Housing (8 oz) and credit cards (7 oz).
+- Biggest movement: pressure from gas prices climbed 9 points; pressure from inflation edged up 5 points.
+- Heaviest lines: Housing (7 oz) and credit cards (6 oz).
 
-This is a reconstruction, labeled as one. The facility opened in July 2026; it did not exist to seal May 2026 live. This report is today's methodology (v3.0.0) run over the latest revised public data for the month — sources revise their history, so these figures are the present's best view of May 2026, not a bulletin from it.
+This is a reconstruction, labeled as one. The facility opened in July 2026; it did not exist to seal May 2026 live. This report is today's methodology (v3.0.0) run over the latest revised public data for the month, computed 2026-08-01 — sources revise their history, so these figures are the present's best view of May 2026, not a bulletin from it.
 
-The month computes to 29 out of 100 — Sticky territory, up 2 from April 2026, and calmer than 6 of every 10 months since 2003.
+The month computes to 29 out of 100 — Sticky territory, the band where normal economies live — up 2 from April 2026, and calmer than 6 of every 10 months since 2003.
 
 **What moved**
 
-Gas prices climbed 9 points; inflation climbed 5 points.
+Pressure from gas prices climbed 9 points; pressure from inflation edged up 5 points.
 
 **What was pressing**
 
-Housing carried the most weight — 8 of the month's 29 ounces — with credit cards next at 7. Recessions are employment events, and the employment line's position on this list is always worth a glance.
+Housing carried the most weight — 7 of the month's 29 ounces — with credit cards next at 6 oz. Employment sits at 3 oz this month — recessions are employment events, and this line's rank is always worth a glance. The seven weighted lines split the month's 29 ounces between them and sum to it exactly.
 
 **What a household would have noticed**
 
-Most likely: a little more squeeze from gas prices, with housing still the heaviest line on the board. The jar reads the cascade, and in May 2026 the cascade mostly held.
+Most likely: a little more squeeze from gas prices, with housing still the heaviest line on the board. The jar reads the cascade — the order a budget fails in, from the pump to the credit card to the car to the job — and in May 2026 the cascade mostly held.
 
-Every figure above recomputes from the public backtest (research/backtest-results.json). The live jar and its current seal are on the front page — the jar updates itself; you just check it.
+Reconstructed under methodology v3.0.0 from the public household backtest (vintage 2026-08-01); anchors, weights and calibration constants are published and frozen. Point moves are line-stress changes, not score points. For the current sealed reading, see the front page — the jar updates itself; you just check it.
 
 #### The Ward M Report
 
 ### Archive reconstruction — Ward M, May 2026: market ooze 30
 
-*The market wing's trailing-year archive, rebuilt from six public gauges: May 2026 computes to 30/100, down 2 from the month before.*
+*The market wing's trailing-year archive, rebuilt from six public gauges: May 2026 computes to 30/100, down 2 from April 2026.*
 
 **Key points**
 - Ward M reads 30/100 for May 2026 — down 2 from April 2026.
-- Biggest gauge movement: volatility fell 10 points; dollar climbed 4 points; rates fell 3 points.
-- Hottest gauge: Energy at 76. Divergence vs the household jar: +1.
+- Biggest gauge movement: volatility gauge heat fell 10 points; dollar gauge heat edged up 4 points; rates gauge heat eased 3 points.
+- Hottest gauge: Energy at 76/100. Divergence vs the household jar: +1 points.
 
-This is a reconstruction, labeled as one. Ward M opened in late July 2026; this report runs its published gauges and calibration over the latest revised data for May 2026. It is the present's view of that month's market stress, not a bulletin from it — and like everything in this wing, it is an experimental instrument that contributes nothing to the household Ooze Score.
+This is a reconstruction, labeled as one. Ward M opened in late July 2026; this report runs its published gauges and calibration over the latest revised data for May 2026, computed 2026-08-01. It is the present's view of that month's market stress, not a bulletin from it — and like everything in this wing, it is an experimental instrument that contributes nothing to the household Ooze Score.
 
-The composite computes to 30 out of 100, down 2 from April 2026. Ward M averages six gauges — rates, volatility, credit & funding, energy, the dollar, and breadth — each mapped through published anchors, calibrated so the ward's calmest month since 2007 reads 10 and its worst 2008 month reads 90.
+The composite computes to 30 out of 100, down 2 from April 2026. Ward M averages six gauges — rates, volatility, credit and funding, energy, the dollar, and breadth — each mapped through published anchors, calibrated so the ward's calmest month since 2007 reads 10/100 and its worst 2008 month reads 90/100.
 
 **What moved**
 
-Volatility fell 10 points; dollar climbed 4 points; rates fell 3 points.
+Volatility gauge heat fell 10 points; dollar gauge heat edged up 4 points; rates gauge heat eased 3 points.
 
-**The hot gauge**
+**The leading gauge**
 
-Energy ran hottest at 76. Energy heat is the upstream cousin of the household gas line: expensive oil squeezes everything that moves.
+Energy led the panel at 76/100. Energy heat is the upstream cousin of the household gas line: expensive oil squeezes everything that moves.
 
 **Two instruments, one month**
 
-The two instruments roughly agreed: ward 30, household jar 29.
+Ward 30/100, household jar 29/100 — a 1-point gap, the ward reading hotter. This month the ward moved -2 against the jar's +2. The two instruments share no inputs and are never averaged.
 
-Every figure recomputes from the public market backtest (research/market-backtest.json) — raw gauge values, published anchors, frozen calibration. The live ward is on the Markets page.
+Reconstructed from the public market backtest (vintage 2026-08-01): raw gauge values, published anchors, frozen calibration. Gauge anchors remain provisional. Point moves are gauge-heat changes, not composite points. For the current ward reading, see the Markets page.
 
 ---
 
@@ -678,59 +678,59 @@ Every figure recomputes from the public market backtest (research/market-backtes
 
 ### Archive reconstruction — June 2026: the jar read 26
 
-*The trailing-year archive, rebuilt under methodology v3.0.0: June 2026 scored 26/100 (Sticky), down 3 from the month before.*
+*The trailing-year archive, rebuilt under methodology v3.0.0: June 2026 scored 26/100 (Sticky), down 3 from May 2026.*
 
 **Key points**
 - June 2026 reads 26/100 — Sticky territory, down 3 from May 2026.
-- Biggest movement: gas prices fell 10 points; inflation fell 10 points.
-- Heaviest lines: Housing (8 oz) and credit cards (7 oz).
+- Biggest movement: pressure from gas prices fell 10 points; pressure from inflation fell 10 points.
+- Heaviest lines: Housing and credit cards tied at 6 oz each.
 
-This is a reconstruction, labeled as one. The facility opened in July 2026; it did not exist to seal June 2026 live. This report is today's methodology (v3.0.0) run over the latest revised public data for the month — sources revise their history, so these figures are the present's best view of June 2026, not a bulletin from it.
+This is a reconstruction, labeled as one. The facility opened in July 2026; it did not exist to seal June 2026 live. This report is today's methodology (v3.0.0) run over the latest revised public data for the month, computed 2026-08-01 — sources revise their history, so these figures are the present's best view of June 2026, not a bulletin from it.
 
-The month computes to 26 out of 100 — Sticky territory, down 3 from May 2026, and calmer than 6 of every 10 months since 2003.
+The month computes to 26 out of 100 — Sticky territory, the band where normal economies live — down 3 from May 2026, and calmer than 6 of every 10 months since 2003.
 
 **What moved**
 
-Gas prices fell 10 points; inflation fell 10 points.
+Pressure from gas prices fell 10 points; pressure from inflation fell 10 points. A single-month move of 10 points on one line is large for this instrument; the line-level anchors are published, so the size is checkable rather than asserted.
 
 **What was pressing**
 
-Housing carried the most weight — 8 of the month's 26 ounces — with credit cards next at 7. Recessions are employment events, and the employment line's position on this list is always worth a glance.
+Housing and credit cards tied at 6 oz each — the heaviest lines on the board. Employment sits at 3 oz this month — recessions are employment events, and this line's rank is always worth a glance. The seven weighted lines split the month's 26 ounces between them and sum to it exactly.
 
 **What a household would have noticed**
 
-Most likely: some relief where gas prices shows up in the budget, while housing stayed the biggest strain. The jar reads the cascade, and in June 2026 the cascade moved.
+Most likely: some relief where gas prices show up in the budget, while housing stayed the biggest strain. The jar reads the cascade — the order a budget fails in, from the pump to the credit card to the car to the job — and in June 2026 the cascade moved.
 
-Every figure above recomputes from the public backtest (research/backtest-results.json). The live jar and its current seal are on the front page — the jar updates itself; you just check it.
+Reconstructed under methodology v3.0.0 from the public household backtest (vintage 2026-08-01); anchors, weights and calibration constants are published and frozen. Point moves are line-stress changes, not score points. For the current sealed reading, see the front page — the jar updates itself; you just check it.
 
 #### The Ward M Report
 
 ### Archive reconstruction — Ward M, June 2026: market ooze 30
 
-*The market wing's trailing-year archive, rebuilt from six public gauges: June 2026 computes to 30/100, unchanged from the month before.*
+*The market wing's trailing-year archive, rebuilt from six public gauges: June 2026 computes to 30/100, unchanged from May 2026.*
 
 **Key points**
 - Ward M reads 30/100 for June 2026 — unchanged from May 2026.
-- Biggest gauge movement: energy fell 20 points; breadth climbed 8 points; dollar climbed 7 points.
-- Hottest gauge: Energy at 56. Divergence vs the household jar: +4.
+- Biggest gauge movement: energy gauge heat fell 20 points; breadth gauge heat climbed 8 points; dollar gauge heat climbed 7 points.
+- Hottest gauge: Energy at 56/100. Divergence vs the household jar: +4 points.
 
-This is a reconstruction, labeled as one. Ward M opened in late July 2026; this report runs its published gauges and calibration over the latest revised data for June 2026. It is the present's view of that month's market stress, not a bulletin from it — and like everything in this wing, it is an experimental instrument that contributes nothing to the household Ooze Score.
+This is a reconstruction, labeled as one. Ward M opened in late July 2026; this report runs its published gauges and calibration over the latest revised data for June 2026, computed 2026-08-01. It is the present's view of that month's market stress, not a bulletin from it — and like everything in this wing, it is an experimental instrument that contributes nothing to the household Ooze Score.
 
-The composite computes to 30 out of 100, unchanged from May 2026. Ward M averages six gauges — rates, volatility, credit & funding, energy, the dollar, and breadth — each mapped through published anchors, calibrated so the ward's calmest month since 2007 reads 10 and its worst 2008 month reads 90.
+The composite computes to 30 out of 100, unchanged from May 2026. Ward M averages six gauges — rates, volatility, credit and funding, energy, the dollar, and breadth — each mapped through published anchors, calibrated so the ward's calmest month since 2007 reads 10/100 and its worst 2008 month reads 90/100.
 
 **What moved**
 
-Energy fell 20 points; breadth climbed 8 points; dollar climbed 7 points.
+Energy gauge heat fell 20 points; breadth gauge heat climbed 8 points; dollar gauge heat climbed 7 points.
 
-**The hot gauge**
+**The leading gauge**
 
-Energy ran hottest at 56. Energy heat is the upstream cousin of the household gas line: expensive oil squeezes everything that moves.
+Energy led the panel at 56/100. Energy heat is the upstream cousin of the household gas line: expensive oil squeezes everything that moves.
 
 **Two instruments, one month**
 
-The two instruments roughly agreed: ward 30, household jar 26.
+Ward 30/100, household jar 26/100 — a 4-point gap, the ward reading hotter. This month the ward moved +0 against the jar's -3. Energy sits upstream of the household gas line, so where both instruments moved this month they may be recording the same shock at different amplitudes rather than disagreeing. The two instruments share no inputs and are never averaged.
 
-Every figure recomputes from the public market backtest (research/market-backtest.json) — raw gauge values, published anchors, frozen calibration. The live ward is on the Markets page.
+Reconstructed from the public market backtest (vintage 2026-08-01): raw gauge values, published anchors, frozen calibration. Gauge anchors remain provisional. Point moves are gauge-heat changes, not composite points. For the current ward reading, see the Markets page.
 
 ---
 
