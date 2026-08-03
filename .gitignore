@@ -3,3 +3,6 @@
 skills-lock.json
 .DS_Store
 .weekly/
+
+# PII — recipient lists must NEVER be committed (any session). Delivery reads env/local only.
+config/weekly-recipients.json
