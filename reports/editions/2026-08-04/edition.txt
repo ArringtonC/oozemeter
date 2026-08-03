@@ -1,0 +1,157 @@
+THE OOZE REPORT
+August 4, 2026 — re-issue of the August 3 edition, corrected
+====================================================
+
+CORRECTION NOTICE
+This edition replaces the edition of August 3, 2026, which is retained unchanged
+in the archive. Two of its statements were wrong. It reported "breadth was
+unchanged" when that change was never measured, and it reported June's score
+without disclosing that June had been restated from 27 to 26 thirty-four hours
+earlier under a new methodology. The August 3 edition was the only one affected
+and it was current for one day. Nothing in the collector has been fixed yet: the
+prior-cycle snapshot store that would let the facility measure a breadth change
+is open work, listed publicly in the edition changelog. Full account at the end.
+
+THE SEAL
+Household OOZE stands at 26 out of 100 for June 2026 — that is Sticky territory,
+the band where normal economies live — down 3 from May's restated 29. It has
+taken no new monthly observation since the June seal and will take none until
+July seals. It has, however, been restated once inside that window.
+
+June was restated from 27 to 26 on August 1 under methodology 3.0.0, which added
+a seventh weighted line, financial conditions, and rescaled the other six. The
+restatement moved 180 of the 281 archived months by at most two points and
+changed nine band labels. The full record is public in data/revisions.json.
+
+THE VERDICT LINE
+June is calmer than 6 of every 10 months since 2003 — measured against all 281
+months in the record, not a chosen window.
+
+WHAT MOVED
+Inside the June seal, pressure from gas prices fell 11 line-stress points and
+pressure from inflation fell 9 — the two largest moves on the board — while
+employment eased 2 and housing edged up 1. Those are changes inside each
+component's own 0-to-100 reading. They are not points subtracted from the
+headline: gas has the highest line stress on the panel and the largest move, and
+still supplies only 4 of the 26 contribution points.
+
+Since that seal, three lines have posted newer observations than the month they
+scored. The pump was $4.10 a gallon on July 27; the 30-year mortgage was 6.66%
+on July 30; the Chicago Fed's financial-conditions index was −0.54 on July 24.
+Those are the current levels. They are not the figures that produced June's
+score, which was computed from June's monthly averages, and they will feed the
+July seal instead.
+
+This edition cannot tell you how far any level moved in the last seven days. The
+facility stores month-over-month change and retains no week-over-week snapshot,
+so where a number is a level it is labelled a level.
+
+WHAT'S STILL PRESSING
+Housing and card debt each supply 6 oz of the month's 26, with auto loans close
+behind at 5 oz. The seven weighted lines split the 26 ounces between them and
+sum to it exactly.
+
+The two heaviest lines rest on very different evidence. Housing's 6 oz sit on a
+mortgage rate whose newest print, 6.66%, is five days old. Card debt's 6 oz sit
+on a delinquency rate of 2.9% observed on January 1, and auto loans' 5 oz on a
+7.7% rate observed the same day — both report quarterly and neither has released
+since. Those are the latest figures that exist, and 11 of the month's 26 ounces
+rest on a January observation, which is worth knowing before anyone treats this
+month's number as this month's news.
+
+Employment supplies 3 oz — third-lightest of the seven, ahead of only inflation
+at 2 oz and financial conditions at 0 oz — despite carrying the heaviest weight
+in the formula, because unemployment at 4.2% on June 1 maps to a line stress of
+14. Recessions are employment events. This board is not showing one.
+
+WHAT A HOUSEHOLD WOULD NOTICE
+Filling the tank cost $4.10 a gallon at the end of July. Anyone shopping for a
+mortgage meets 6.66%. Anyone carrying a card balance is paying it against a
+delinquency backdrop last measured in the winter, so the jar cannot yet say
+whether that got better or worse this spring. Nothing a household meets in an
+ordinary week changed in this week's data. What changed is what the facility
+knows about June — it knows one point less than it did a week ago.
+
+WARD M — THE MARKET WING
+Ward M stands at 37 out of 100 on July evidence. It is an experimental
+instrument and it contributes nothing to the household score above.
+
+Four of its six gauges cooled: energy heat eased 7 points with WTI at $80 a
+barrel, volatility heat eased 3 with the VIX monthly mean at 17.1, credit and
+funding heat eased 2 with the Chicago Fed index at −0.54, and rates heat eased 1
+with the 10-year minus 3-month spread at 0.73pp. Dollar heat edged up 3 with the
+broad index 0.5% above a year ago. All five are July monthly means. As on the
+household side, a gauge-heat move is a change inside that gauge's own 0-to-100
+reading and is not subtracted from the composite: one gauge point moves Ward M
+by roughly a quarter of a point.
+
+The sixth gauge is breadth, and its change is not measured this cycle. Breadth
+stands at 50 out of 100 — the highest of the six — on a panel of 6 steady, 4
+softening and 1 stressed as of July 31. The collector compares against a file it
+then overwrites, so the published change of zero is an artifact rather than an
+observation, and the research reconstruction that would supply a real figure is
+built on a different transform than the live gauge. The honest statement is that
+breadth is the highest gauge on the panel and that the facility cannot yet say
+by how much it moved.
+
+TWO INSTRUMENTS, ONE MONTH
+Ward 37 out of 100 against a household jar of 26 out of 100. The two are on
+different clocks — the ward's gauges are July, the jar's seal is June — so that
+is not a same-month comparison and should not be read as one. The last month
+both instruments have a figure for is June 2026: ward 30, jar 26. Between May
+and June the ward moved and the jar fell 3, so on the one month they share, the
+market wing was carrying more stress than the kitchen table and moving
+differently. For a household that means nothing directly: no market gauge
+touches the household score, and a ward reading has never been evidence about a
+grocery bill.
+
+The instruments are never averaged. They overlap in one series: the Chicago Fed's
+financial-conditions index. Ward M scores its July mean at −0.54; the household
+jar scored June's mean, where the line carries 3% of the weight and 0 oz of the
+26. One series, two months, two readings — which is why the two numbers on this
+page are not the same number.
+
+THE CLOSE
+July's household specimen seals when the July jobs report and CPI land, the
+earliest moment all seven lines exist for that month; the facility does not yet
+carry the BLS release calendar as a checked fact, so this edition names the
+event rather than the date. Ward M's gauges roll when their Federal Reserve,
+Cboe and EIA series post. Sector Watch refreshes when the operator runs a
+collection, which stays manual until quote-redistribution rights are cleared.
+The jar updates itself; you just check it.
+
+WHAT WAS CORRECTED FROM THE AUGUST 3 EDITION
+1. "Breadth was unchanged" — withdrawn. That change was never measured. The
+   collector diffs the payload against the file it is about to overwrite, so it
+   produced a zero rather than an observation. Breadth is also the gauge that
+   carried Ward M's July level; the August 3 account of "the official gauges
+   cooled" therefore mis-stated the month's driver.
+2. The June restatement — added. The August 3 edition reported 26 and a
+   three-point fall without disclosing that both figures had been restated under
+   a new methodology thirty-four hours earlier.
+3. Observed values — added, and separated from the scores. The August 3 edition
+   named seven household lines and six market gauges and printed the value of
+   none. This edition prints them, with the date each was observed, and does not
+   claim that a July print produced a June score.
+4. "Household inputs current" — withdrawn. It was printed over two January
+   observations supplying 11 of 26 ounces. Every line now carries its own date.
+5. The verdict line, the seal's delta, and the household paragraph — restored.
+   All three are required in every edition and all three were missing.
+
+METHODOLOGY
+Household OOZE summarizes measured household pressure under methodology 3.0.0,
+from series published by the Bureau of Labor Statistics, Freddie Mac, the Federal
+Reserve Bank of New York, the Energy Information Administration and the Federal
+Reserve Bank of Chicago. Ward M summarizes market and financial-system stress on
+its own scale from Federal Reserve, Cboe and EIA series; it does not affect the
+household score, and its calibration anchors remain provisional. Component
+line-stress changes and headline contribution ounces are different units. This
+edition reports the latest validated evidence and does not forecast the economy.
+
+Methodology v3.0.0. All source releases current at collection; two weighted lines
+carry January observations by quarterly cadence. Two entries on the public
+revision record (data/revisions.json), the most recent a methodology
+recalibration. Every figure traces to a cited public series; anchors, weights and
+calibration constants are published and frozen.
+
+Drafted by OOZEBOT · reviewed by the Division of Economic Containment
