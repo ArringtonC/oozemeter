@@ -42,6 +42,37 @@ Your call to gate scheduled Yahoo collection was correct. Now resolve it:
 
 `scripts/og-cards.js` renders per-page OG cards with the live number via headless Chrome (zero npm deps; ubuntu runners ship Chrome — set CHROME_BIN). Wire it into the daily workflow after stamp.js so link previews never carry a stale score. Currently rerun manually.
 
+## 7. Month status as a first-class state (operator direction 2026-08-02)
+
+October 2025 has no household score: BLS canceled the October CPI and never fielded
+the household survey behind the unemployment rate (see `research/editorial/incident-2025-10-draft.md`
+for verification + primary sources). Today the backtest silently `continue`s past any
+month with a null input (`scripts/backtest.js:103`), so an unpublishable month is
+indistinguishable from a month that never happened.
+
+Make the state explicit instead of implicit. Give every month a status the whole system
+can read:
+
+- `COMPLETE` — all weighted inputs present, score published.
+- `PARTIAL` — score published, but one or more auxiliary/non-weighted inputs missing (disclose).
+- `BLOCKED` — inputs pending release (a delay; may resolve later).
+- `UNPUBLISHABLE` — a required weighted input does not exist and will not (permanent).
+
+Requirements:
+- Emit the status per month in the backtest output and in `data/latest.json`/history, with
+  the reason and the specific missing series named — never just an absence.
+- `UNPUBLISHABLE` months must never be interpolated, forward-filled, or averaged across in
+  any consumer (archive chart, divergence chart, verdict percentiles, story engine).
+- Renderers switch on it: an `UNPUBLISHABLE` month yields an Editorial Incident entry in the
+  archive rather than a report or a silent skip.
+- The integrity gate should fail closed if anything ever writes a score for an
+  `UNPUBLISHABLE` month.
+- Acceptance: a test asserts 2025-10 is `UNPUBLISHABLE`, names UNRATE + CPIAUCNS as the
+  missing inputs, and that no consumer interpolates across it.
+
+Front-end owes, after this lands: archive UI showing the incident state (⚠ row rather than a
+missing row), which the operator has already specced.
+
 ## Not yet — do not start
 
 - **Froth panel** (margin debt / Buffett Z.1 / household equity allocation): triaged and queued in `improvements.md`, sequenced LAST — after v3 and a live episode. Design constraint already recorded: froth ≠ stress, separate panel, never averaged into the composite.
