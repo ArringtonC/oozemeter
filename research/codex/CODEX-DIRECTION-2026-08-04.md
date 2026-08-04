@@ -51,6 +51,54 @@ worse than the missing files.
 
 ---
 
+## D-9 · BLOCKING · The packet names the wrong INPUT, not just the wrong vintage
+
+**Found by the newsroom-research triage, 2026-08-04. Four adversarial passes missed it —
+a four-officer board review, an independent chair re-derivation, D-0 through D-8, and six
+research documents — because in June the defect happened not to bind.**
+
+D-1 says the packet ships the wrong *vintage* of an observable. D-9 says that for two lines
+it may ship the wrong *series entirely*. Verified in `scripts/collect.js`:
+
+```js
+:108  jobs:Math.max(interp(ANCHORS.unemployment,un),interp(ANCHORS.claimsK,icsa/1000)),
+:110  housing:Math.max(interp(ANCHORS.mortgageRate,mort),interp(ANCHORS.mortgageDelinq,mdel)),
+```
+
+Both lines score as the **maximum of two independently anchored series**, and the evidence
+packet prints the *first candidate* unconditionally — `hh.jobs.value: "4.2%"` (unemployment),
+`hh.housing.value: "6.66%"` (mortgage rate). Whenever the second branch binds — jobless
+claims for employment, mortgage delinquency for housing — the packet certifies an observed
+value that **did not produce the score**, with a perfectly correct as-of date attached.
+
+D-1's own reproduction table shows jobs matching exactly (14.3 = 14.3). That is luck:
+unemployment bound in June. In a month where claims bind, §4 is violated and every existing
+check passes.
+
+**The gas line is the same defect one layer up.** It is scored from `gas*cpiNow/cpi`
+(`:113`) — a CPI-deflated real price — and printed as the latest *nominal* weekly price. And
+`methodologySnapshot.transforms` (`:216`) lists only `claims`, `inflation`, `financial`,
+`quarterly`: **gas is absent, and it is the largest transform in the model.**
+
+**Required:**
+- Emit per line: `scoredBy: {seriesId, value, unit, period, transform}` — the branch that
+  actually returned the maximum, plus every operation between the published observation and
+  the scoring input (aggregation, deflation, year-over-year, forward-fill), or the string
+  `none`. And `runnerUp: {seriesId, value}` — the branch that did not.
+- D-1's `scoredValue` resolves to `scoredBy.value`, **never** to the first candidate.
+- `methodologySnapshot.transforms` becomes total, not partial. Add
+  `gas: 'Calendar-month mean of weekly retail prices, CPI-deflated to the current base month'`
+  and an explicit entry or `none` for housing, credit, auto and jobs.
+- A validator rejects any packet where a line's `scoredBy.seriesId` is absent from the
+  transform map, and any prose pairing a value with a contribution where `scoredBy` is unset.
+
+**Why this outranks everything else on this list:** every other open item makes the facility
+better at *telling readers when it was wrong*. This is the one that makes the published
+number right. It is the failure the product exists to make impossible — a certified evidence
+packet describing an input that did not produce the score it certifies.
+
+---
+
 ## D-1 · BLOCKING · The evidence packet ships the wrong vintage of every observable
 
 **This is the deepest defect in the pipeline and it invalidates the fix everyone
