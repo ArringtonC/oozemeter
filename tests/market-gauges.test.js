@@ -18,7 +18,10 @@ test('all six Ward M gauge files have deep public sections and canonical URLs', 
     assert.match(html, /How it behaved in 2008/i);
     assert.match(html, /Frequently asked questions/i);
     assert.match(html, /data\/market\.js/);
-    assert.match(html, /does not affect the household Ooze Score/i);
+    /* since methodology v3 the NFCI gauge shares its series with the household
+       jar at 3% weight, so the blanket firewall sentence is false for it */
+    if (slug === 'credit') assert.match(html, /shares its series with the household jar/i);
+    else assert.match(html, /does not affect the household Ooze Score/i);
     assert.match(html, /current-vintage reconstruction, not the release-time view available in 2008/i);
   }
 });

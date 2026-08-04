@@ -8,6 +8,16 @@ const d=JSON.parse(fs.readFileSync('data/latest.json','utf8'));
 const window={};eval(fs.readFileSync('articles.js','utf8'));
 try{eval(fs.readFileSync('data/auto-articles.js','utf8'))}catch{}
 const ARTICLES=(window.ARTICLES||[]).concat(window.AUTO_ARTICLES||[]);
+/* tokens must resolve before they reach a reader — a feed is a reader surface */
+const HIST=JSON.parse(fs.readFileSync('data/history.json','utf8'));
+const HMAP=new Map(HIST.map(([t,v])=>[t.toFixed(3),v]));
+const ymKey=ym=>{const[y,m]=ym.split('-').map(Number);return(y+(m-1)/12).toFixed(3)};
+const resolve=t=>String(t||'')
+  .replace(/\{\{s:(\d{4}-\d{2})\}\}/g,(_,ym)=>{const v=HMAP.get(ymKey(ym));return v==null?'\u2014':Math.round(v)})
+  .replace(/\{\{peak:(\d{4}-\d{2})\.\.(\d{4}-\d{2})\}\}/g,(_,x,y)=>{
+    const a=+ymKey(x),b=+ymKey(y);
+    const w=HIST.filter(([t])=>t>=a-0.001&&t<=b+0.001).map(([,v])=>v);
+    return w.length?Math.round(Math.max(...w)):'\u2014';});
 let EDITORIAL=null;try{EDITORIAL=JSON.parse(fs.readFileSync('data/editorial.json','utf8'))}catch{}
 
 const esc=t=>t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
@@ -23,7 +33,7 @@ entries.push({
 });
 for(const a of ARTICLES){
   entries.push({id:`${SITE}/article.html?a=${a.slug}`,url:`${SITE}/article.html?a=${a.slug}`,
-    title:a.title,date:new Date(a.date+'T12:00:00Z').toISOString(),summary:a.dek});
+    title:resolve(a.title),date:new Date(a.date+'T12:00:00Z').toISOString(),summary:resolve(a.dek)});
 }
 entries.sort((a,b)=>b.date.localeCompare(a.date));
 

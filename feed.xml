@@ -5,8 +5,15 @@
   <link href="https://arringtonc.github.io/oozemeter/"/>
   <link rel="self" href="https://arringtonc.github.io/oozemeter/feed.xml"/>
   <id>https://arringtonc.github.io/oozemeter/</id>
-  <updated>2026-08-02T12:00:00.000Z</updated>
+  <updated>2026-08-04T12:00:00.000Z</updated>
   <author><name>OOZEMeter — Division of Economic Containment</name></author>
+  <entry>
+    <title>The Ooze Report: 26 out of 100, and eleven ounces running on January</title>
+    <link href="https://arringtonc.github.io/oozemeter/article.html?a=ooze-report-2026-08-04"/>
+    <id>https://arringtonc.github.io/oozemeter/article.html?a=ooze-report-2026-08-04</id>
+    <updated>2026-08-04T12:00:00.000Z</updated>
+    <summary>June sealed at 26. The relief came from the two prices you actually watch; the expensive things did not move. Plus: two corrections, and what we cannot yet measure.</summary>
+  </entry>
   <entry>
     <title>Correction: the archive printed ounces that did not sum to the reading</title>
     <link href="https://arringtonc.github.io/oozemeter/article.html?a=correction-2026-08-archive-ounces"/>
@@ -120,14 +127,14 @@
     <summary>The backtest found something nobody knew: even the Great Financial Crisis never tripped the everything-fails-at-once alarm.</summary>
   </entry>
   <entry>
-    <title>The vibecession, measured: why 2022 only scored {{peak:2022-01..2022-12}}</title>
+    <title>The vibecession, measured: why 2022 only scored 24</title>
     <link href="https://arringtonc.github.io/oozemeter/article.html?a=vibecession-measured"/>
     <id>https://arringtonc.github.io/oozemeter/article.html?a=vibecession-measured</id>
     <updated>2026-07-25T12:00:00.000Z</updated>
     <summary>Everyone hated that economy. The cascade data says households mostly held. Both things are true.</summary>
   </entry>
   <entry>
-    <title>June seals at {{s:2026-06}}: the jar drains 3 points</title>
+    <title>June seals at 26: the jar drains 3 points</title>
     <link href="https://arringtonc.github.io/oozemeter/article.html?a=june-2026-seal"/>
     <id>https://arringtonc.github.io/oozemeter/article.html?a=june-2026-seal</id>
     <updated>2026-07-24T12:00:00.000Z</updated>
