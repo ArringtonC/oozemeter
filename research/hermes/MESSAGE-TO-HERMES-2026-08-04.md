@@ -105,9 +105,25 @@ a public push and required a history rewrite.
 The operator wants to see the new report land in an inbox. Send it, with these
 conditions:
 
-- **Subject and body come from `reports/editions/2026-08-04/edition.txt`**, which
-  is the corrected, human-readable version. It has been checked against the
-  payloads three times.
+- **Subject and body come from `reports/editions/2026-08-04/edition.txt`.** It was
+  rewritten on 2026-08-04 after an outside read found it changed audiences
+  halfway through. Four things changed and all four should survive into whatever
+  the pipeline eventually generates:
+  1. **A bottom line at the top** — one sentence a reader can repeat to someone
+     else. It was the single biggest thing missing.
+  2. **The scale is explained where the number appears** — calmest month = 10,
+     worst month of 2008 = 90, five bands, above 40 is where things go wrong.
+     "Sticky" meant nothing to a new reader before this.
+  3. **Ward M is introduced, not just reported.** It now opens with *why* a
+     second gauge exists — "when the news says the economy, it usually means the
+     stock market" — before it states a value. The operator could not explain
+     Ward M's relevance from the previous draft, which settled the question.
+  4. **All technical material sits below a HOUSEKEEPING divider** labelled "for
+     people who want to check our work." The household story finishes cleanly
+     before the documentation starts.
+  The web version at `/files/ooze-report-2026-08-04/` goes further and folds that
+  back matter into a collapsed `<details>`. Email cannot collapse, so the divider
+  is the email equivalent — keep it.
 - **It is a TEST, and it must say so** — in the subject line and in the first
   line of the body. It carries no validation record, because the artifacts for it
   do not exist yet. Do not let a test read as a publication.

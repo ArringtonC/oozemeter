@@ -619,3 +619,15 @@ footer a:hover{color:var(--ooze)}
 .njar{display:inline-block;width:15px;height:20px;border:1px solid var(--line-hard);border-top:none;border-radius:0 0 5px 5px;position:relative;flex:none;overflow:hidden;vertical-align:middle}
 .njar::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:#1c2617;border-bottom:1px solid var(--line-hard)}
 .njar i{position:absolute;bottom:0;left:0;right:0;border-radius:0 0 4px 4px}
+
+.art-lede{border-left:3px solid var(--ooze);background:rgba(163,255,18,.05);padding:16px 20px;margin:0 0 28px;font-size:.94rem;line-height:1.7}
+.art-lede b{color:var(--ooze);letter-spacing:.14em;font-size:.62rem;display:block;margin-bottom:7px;text-transform:uppercase;font-family:var(--display)}
+.art-fold{border:1px solid var(--line);border-radius:12px;background:var(--panel);margin:34px 0 0;padding:0 20px}
+.art-fold summary{cursor:pointer;padding:16px 0;font-family:var(--display);font-size:.78rem;letter-spacing:.04em;list-style:none}
+.art-fold summary::-webkit-details-marker{display:none}
+.art-fold summary::before{content:'+ ';color:var(--ooze)}
+.art-fold[open] summary::before{content:'\2212 '}
+.art-fold summary small{display:block;font-family:var(--mono);font-weight:400;color:var(--dim);font-size:.68rem;letter-spacing:0;margin-top:5px;text-transform:none}
+.art-fold .fold-body{padding-bottom:18px;border-top:1px solid var(--line);padding-top:14px}
+.art-fold .fold-body h4{font-family:var(--display);font-size:.76rem;margin:18px 0 8px}
+.art-fold .fold-body p{font-size:.78rem;color:var(--muted);line-height:1.75;margin:0 0 12px}

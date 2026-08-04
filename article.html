@@ -51,13 +51,17 @@ const dateFmt=new Date(a.date+'T12:00').toLocaleDateString('en-US',{month:'long'
 let bodyHtml='';
 for(const line of a.body){
   if(line.startsWith('## ')){bodyHtml+=`<h3>${resolveClaims(line.slice(3))}</h3>`;continue}
+  /* a line that opens with a block tag is emitted raw — lets a piece fold its
+     own reference material behind <details> rather than making every reader
+     scroll past it */
+  if(/^<(details|div|figure|table|aside)\b/.test(line)){bodyHtml+=resolveClaims(line);continue}
   bodyHtml+=`<p>${resolveClaims(line)}</p>`;
 }
 
 const others=ALL_ARTICLES.filter(x=>x.slug!==a.slug).slice(0,3);
 $('main').innerHTML=`
   ${found?'':'<div class="crumbs" style="color:var(--amber);padding-top:20px">⚠ FILE NOT FOUND — showing the most recent report instead.</div>'}
-  <div class="crumbs" style="padding-bottom:20px"><a href="index.html">Facility</a> / <a href="oozeonomics.html">Oozeonomics</a> / ${a.title}</div>
+  <div class="crumbs" style="padding-bottom:20px"><a href="index.html">Facility</a> / <a href="oozeonomics.html">Oozeonomics</a> / ${resolveClaims(a.title)}</div>
   <div class="art-eyebrow" style="color:${catCol}">${catLabel}</div>
   <h1 class="art-title">${resolveClaims(a.title)}</h1>
   <p class="art-dek">${resolveClaims(a.dek)}</p>
