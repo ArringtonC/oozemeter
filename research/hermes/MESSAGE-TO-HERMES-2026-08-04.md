@@ -105,25 +105,36 @@ a public push and required a history rewrite.
 The operator wants to see the new report land in an inbox. Send it, with these
 conditions:
 
-- **Subject and body come from `reports/editions/2026-08-04/edition.txt`.** It was
-  rewritten on 2026-08-04 after an outside read found it changed audiences
-  halfway through. Four things changed and all four should survive into whatever
-  the pipeline eventually generates:
-  1. **A bottom line at the top** — one sentence a reader can repeat to someone
-     else. It was the single biggest thing missing.
+- **Subject and body come from `reports/editions/2026-08-04/edition.txt`.** That
+  file went through a final editorial pass on 2026-08-04 and **is now frozen as
+  the editorial model.** The structure it uses is codified in
+  `research/editorial/EDITION-STYLE-GUIDE.md`, which is the document future
+  editions are written to. Do not restructure it. In particular, these must
+  survive into whatever the pipeline eventually generates:
+
+  1. **THE BOTTOM LINE opens every edition** — two to four sentences a reader
+     could repeat to someone else. If they stop there, they still have the story.
   2. **The scale is explained where the number appears** — calmest month = 10,
-     worst month of 2008 = 90, five bands, above 40 is where things go wrong.
-     "Sticky" meant nothing to a new reader before this.
-  3. **Ward M is introduced, not just reported.** It now opens with *why* a
-     second gauge exists — "when the news says the economy, it usually means the
-     stock market" — before it states a value. The operator could not explain
-     Ward M's relevance from the previous draft, which settled the question.
-  4. **All technical material sits below a HOUSEKEEPING divider** labelled "for
-     people who want to check our work." The household story finishes cleanly
-     before the documentation starts.
-  The web version at `/files/ooze-report-2026-08-04/` goes further and folds that
-  back matter into a collapsed `<details>`. Email cannot collapse, so the divider
-  is the email equivalent — keep it.
+     worst month of 2008 = 90, five bands, above 40 is where strain begins.
+     "Sticky" alone means nothing to a new reader.
+  3. **Ward M leads with *why*, then the value.** The familiar tension first —
+     "when headlines say 'the economy,' they're often talking about the stock
+     market" — and only then the reading. The operator could not explain Ward M's
+     relevance from an earlier draft, which is how we know this ordering matters.
+  4. **Ward M's timing is stated precisely.** Its current 37 is on **July**
+     evidence; the household seal is **June**. The only honest same-window
+     comparison is June: ward **30** against household **26**. An earlier revision
+     accidentally presented the current 37 as June's figure — do not let a
+     renderer reintroduce that.
+  5. **All technical material sits below a HOUSEKEEPING divider**, under the line
+     *"Everything below is for people who want to check our work."* That divider
+     gives the reader permission to stop, which is what makes the transparency
+     read as confidence rather than defensiveness.
+  6. **Paragraphs run two to four sentences.** Most people read this on a phone.
+
+  The web version at `/files/ooze-report-2026-08-04/` folds that back matter into
+  a collapsed block. **Email cannot collapse, so the divider is the email
+  equivalent — keep it as a divider, do not delete the section.**
 - **It is a TEST, and it must say so** — in the subject line and in the first
   line of the body. It carries no validation record, because the artifacts for it
   do not exist yet. Do not let a test read as a publication.
