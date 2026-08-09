@@ -1,5 +1,5 @@
 {
- "generated": "2026-08-01T15:24:45.288Z",
+ "generated": "2026-08-09T18:46:49.764Z",
  "methodologyVersion": "3.0.0",
  "month": "2026-06",
  "monthLabel": "June 2026",
@@ -7,11 +7,11 @@
  "prevMonthLabel": "May 2026",
  "ooze": 26,
  "prevOoze": 29,
- "updatedLabel": "June 2026 reading · collected 2026-08-01",
+ "updatedLabel": "June 2026 reading · collected 2026-08-09",
  "collection": {
   "status": "ok",
   "changed": true,
-  "inputFingerprint": "e3c85422ff3948dd37568a9ba068bbc694380f7b35b2b211713d76180ff01205",
+  "inputFingerprint": "73898f9d4269c1adf7f6b198382ba7c0753415eb8c6cb5f24862660e54ca3a6e",
   "fingerprintSchemaVersion": 3,
   "vintageRetentionPolicy": "retain-all-unique-schema-v3-manifests",
   "freshnessStatus": "current",
@@ -23,8 +23,8 @@
  },
  "lines": {
   "gas": {
-   "value": "$4.10",
-   "asOf": "2026-07-27",
+   "value": "$4.08",
+   "asOf": "2026-08-03",
    "cadence": "weekly",
    "source": {
     "publisher": "U.S. Energy Information Administration",
@@ -38,11 +38,11 @@
    "contrib": 4,
    "delta": -11,
    "stale": false,
-   "updateStatus": "no-new-release"
+   "updateStatus": "new-observation"
   },
   "housing": {
-   "value": "6.66%",
-   "asOf": "2026-07-30",
+   "value": "6.69%",
+   "asOf": "2026-08-06",
    "cadence": "weekly",
    "source": {
     "publisher": "Freddie Mac",
@@ -63,7 +63,7 @@
    "contrib": 6,
    "delta": 1,
    "stale": false,
-   "updateStatus": "no-new-release"
+   "updateStatus": "new-observation"
   },
   "credit": {
    "value": "2.9%",
@@ -102,8 +102,8 @@
    "updateStatus": "no-new-release"
   },
   "jobs": {
-   "value": "4.2%",
-   "asOf": "2026-06-01",
+   "value": "4.1%",
+   "asOf": "2026-07-01",
    "cadence": "monthly",
    "source": {
     "publisher": "U.S. Bureau of Labor Statistics",
@@ -116,15 +116,15 @@
    "secondary": {
     "publisher": "U.S. Department of Labor",
     "seriesId": "ICSA",
-    "value": 202750,
-    "asOf": "2026-07-25",
+    "value": 198750,
+    "asOf": "2026-08-01",
     "transform": "trailing four-week mean"
    },
    "stress": 14,
    "contrib": 3,
    "delta": -2,
    "stale": false,
-   "updateStatus": "no-new-release"
+   "updateStatus": "new-observation"
   },
   "inflation": {
    "value": "3.5%",
@@ -147,8 +147,8 @@
    "updateStatus": "no-new-release"
   },
   "financial": {
-   "value": "-0.54",
-   "asOf": "2026-07-24",
+   "value": "-0.53",
+   "asOf": "2026-07-31",
    "cadence": "weekly",
    "contributesToOoze": true,
    "source": {
@@ -208,8 +208,8 @@
    "secondary": {
     "publisher": "U.S. Census Bureau",
     "seriesId": "AMTMNO",
-    "value": 2.3096090006271996,
-    "asOf": "2026-05-01",
+    "value": 7.371731447607499,
+    "asOf": "2026-06-01",
     "transform": "same-month year-over-year percent change"
    },
    "contrib": 0,
