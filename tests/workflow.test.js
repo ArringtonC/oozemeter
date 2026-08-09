@@ -29,7 +29,12 @@ test('daily collection enforces the methodology release gate before commit', () 
   assert.match(workflow, /tests\/backtest\.integration\.test\.js/);
   assert.match(workflow, /tests\/integrity\.test\.js/);
   assert.match(workflow, /tests\/release-gate\.test\.js/);
+  assert.match(workflow, /tests\/narrative-check\.test\.js/);
+  assert.match(workflow, /tests\/sync-fallback-history\.test\.js/);
+  assert.match(workflow, /node scripts\/sync-fallback-history\.js[\s\S]*node scripts\/release-gate\.js --inspect-only/);
   assert.match(workflow, /node scripts\/release-gate\.js --inspect-only/);
+  assert.match(workflow, /git add[^\n]*\blab\.js\b/);
+  assert.ok(workflow.indexOf('node scripts/sync-fallback-history.js') < workflow.indexOf('node scripts/release-gate.js --inspect-only'));
   assert.ok(workflow.indexOf('node scripts/release-gate.js --inspect-only') < workflow.indexOf('git commit'));
 });
 

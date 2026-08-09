@@ -147,11 +147,13 @@ function inspectRelease(root){
       failures.push('methodology v3 OOZEMAXING incident copy is not synchronized');
     if(/weighted six/i.test(intakeMap)||!/Financial Conditions/i.test(intakeMap))
       failures.push('methodology v3 public intake data map is not synchronized');
-    if(!marketGaugeContent||/not a current household input|keeps it separate until live experience/i.test(marketGaugeContent))
+    const contradictsNfci=text=>/\bNFCI\b[^.!?\n]{0,120}\b(?:is\s+not\s+(?:a\s+)?(?:current\s+)?household|no longer\s+carries|does not\s+(?:carry|affect|contribute)|doesn't\s+(?:carry|affect|contribute)|never\s+(?:carries|affects|contributes)|has zero(?: household)? weight|carries 0%|is zero-weight)\b/i.test(text||'');
+    const creditGaugeBlock=marketGaugeContent?.match(/\{[\s\S]{0,240}sensor:\s*['"]credit['"][\s\S]*?(?=\n\s*\},?\s*\n\s*\{|$)/)?.[0];
+    if(!creditGaugeBlock||!/methodology v3[\s\S]{0,120}also carries 3% of the household jar/i.test(creditGaugeBlock)||contradictsNfci(creditGaugeBlock))
       failures.push('methodology v3 Ward NFCI explanation still says the line is unweighted');
-    if(!marketPageGenerator||/Separate instrument[\s\S]{0,80}0 oz[\s\S]{0,40}in household jar/i.test(marketPageGenerator))
+    if(!marketPageGenerator||!/gauge\.sensor\s*===\s*['"]credit['"][\s\S]{0,1000}NFCI is one-sixth[\s\S]{0,220}since methodology v3[\s\S]{0,100}also carries 3% of the household/i.test(marketPageGenerator)||contradictsNfci(marketPageGenerator))
       failures.push('methodology v3 Ward NFCI page generator still labels the line zero-weight');
-    if(!marketGaugePage||/This gauge does not affect the household Ooze Score|not a current household input|keeps it separate until live experience|Separate instrument[\s\S]{0,80}0 oz[\s\S]{0,40}in household jar/i.test(marketGaugePage))
+    if(!marketGaugePage||!/<strong>This gauge shares its series with the household jar\.<\/strong>[\s\S]{0,300}since methodology v3[\s\S]{0,100}also carries(?:\s*<b>)?\s*3%/i.test(marketGaugePage)||contradictsNfci(marketGaugePage))
       failures.push('methodology v3 generated Ward NFCI page still says the line is unweighted');
     if((story.match(/\bfinancial\s*:/g)||[]).length<2)
       failures.push('methodology v3 OOZEBOT financial name/value narrative is missing');

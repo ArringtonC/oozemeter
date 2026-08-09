@@ -84,13 +84,13 @@ test('methodology v3 requires its fingerprint schema and mandatory front-end dis
     fs.writeFileSync(path.join(root,'research/reference/intake-data-map.html'),
       'The weighted lines include Financial Conditions.');
     fs.mkdirSync(path.join(root,'scripts/lib'),{recursive:true});
-    fs.writeFileSync(path.join(root,'scripts/lib/market-gauge-content.js'),
-      'NFCI is a Ward M gauge and a weighted household input under methodology v3.');
-    fs.writeFileSync(path.join(root,'scripts/market-pages.js'),
-      'The credit gauge remains in Ward M and NFCI also has 3% household weight under methodology v3.');
+    const creditContent=`{slug:'credit',sensor:'credit',why:'Under household methodology v3, the same upstream NFCI series also carries 3% of the household jar.'}`;
+    const creditGenerator=`if(gauge.sensor === 'credit') return 'The Chicago Fed NFCI is one-sixth of Ward M and, since methodology v3, also carries 3% of the household jar.';`;
+    const creditPage='<strong>This gauge shares its series with the household jar.</strong> Since methodology v3, NFCI also carries <b>3%</b> of the household jar.';
+    fs.writeFileSync(path.join(root,'scripts/lib/market-gauge-content.js'),creditContent);
+    fs.writeFileSync(path.join(root,'scripts/market-pages.js'),creditGenerator);
     fs.mkdirSync(path.join(root,'market/credit'),{recursive:true});
-    fs.writeFileSync(path.join(root,'market/credit/index.html'),
-      'NFCI remains a Ward M gauge and is also a weighted household input under methodology v3.');
+    fs.writeFileSync(path.join(root,'market/credit/index.html'),creditPage);
     fs.writeFileSync(path.join(root,'scripts/story.js'),
       `const NAMES={financial:'financial conditions'}; const VALUE_CLAUSE={financial:l=>' with NFCI at '+l.value};
        const sourceRevisions=revisions.filter(entry=>entry.type!=='methodology-recalibration');`);
@@ -105,6 +105,25 @@ test('methodology v3 requires its fingerprint schema and mandatory front-end dis
     vintage.output.historyFingerprint=collectionFingerprint(latest.history);
     fs.writeFileSync(vintagePath,JSON.stringify(vintage));
     assert.deepEqual(inspectRelease(root),[],'a later live month must not invalidate the frozen v3 fallback prefix');
+
+    fs.writeFileSync(path.join(root,'scripts/market-pages.js'),
+      `if(gauge.sensor === 'credit') return 'NFCI no longer carries 3% of the household jar.';`);
+    assert.match(inspectRelease(root).join('\n'),/page generator.*zero-weight/i);
+    fs.writeFileSync(path.join(root,'scripts/market-pages.js'),
+      `${creditGenerator} // NFCI no longer carries 3% of the household jar.`);
+    assert.match(inspectRelease(root).join('\n'),/page generator.*zero-weight/i);
+    fs.writeFileSync(path.join(root,'scripts/market-pages.js'),creditGenerator);
+
+    fs.writeFileSync(path.join(root,'market/credit/index.html'),
+      '<strong>This gauge shares its series with the household jar.</strong> NFCI no longer carries 3% of the household jar.');
+    assert.match(inspectRelease(root).join('\n'),/generated Ward NFCI page/i);
+    fs.writeFileSync(path.join(root,'market/credit/index.html'),
+      `${creditPage} NFCI no longer carries 3% of the household jar.`);
+    assert.match(inspectRelease(root).join('\n'),/generated Ward NFCI page/i);
+
+    fs.writeFileSync(path.join(root,'scripts/lib/market-gauge-content.js'),
+      `${creditContent} NFCI no longer carries 3% of the household jar.`);
+    assert.match(inspectRelease(root).join('\n'),/Ward NFCI explanation.*unweighted/i);
   }finally{fs.rmSync(root,{recursive:true,force:true})}
 });
 

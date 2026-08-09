@@ -51,12 +51,12 @@ module.exports = [
     interpretation: 'Read the level, direction, and category contributions. A move toward zero from deeply negative territory is tightening even if conditions remain historically loose. NFCI is broad, but it is not a direct household hardship measure.',
     limits: 'The entire NFCI history can change weekly as observations arrive, monthly and quarterly inputs revise, and indicator weights are re-estimated. Component coverage and relationships evolve. A single composite can hide offsetting movements across risk, credit, and leverage. Historical values are latest-vintage estimates, not immutable release-time readings.',
     reproduce: ['Retrieve NFCI from the Chicago Fed or FRED transport.', 'Retain valid weekly observations and average them within each calendar month.', 'Apply the published Ward M anchors to the monthly mean.', 'Record the retrieval vintage because historical NFCI values can revise.'],
-    why: 'Funding stress can constrain lenders and borrowers before household outcomes appear in delinquency or employment data. It is therefore useful beside the household jar, but Ward M keeps it separate until live experience supports any flagship-methodology change.',
+    why: 'Funding stress can constrain lenders and borrowers before household outcomes appear in delinquency or employment data. NFCI remains one gauge inside the independently calibrated Ward M composite and, under household methodology v3, the same upstream series also carries 3% of the household jar. The two instruments are never averaged.',
     vs2008: 'NFCI rose far above average during the global financial crisis as risk, credit, and leverage conditions tightened together. That breadth is why 2008 remains a useful stress reference, but crisis calibration should not make every modest tightening look systemic.',
     faqs: [
       ['What does zero mean?', 'Approximately average financial conditions over the index’s history, not “no stress.”'],
       ['Does NFCI get revised?', 'Yes. Underlying data and the index history can revise, so retrieval vintage matters.'],
-      ['Is NFCI already part of the household Ooze Score?', 'No. It is a Ward M gauge and a researched candidate for a later methodology version, not a current household input.'],
+      ['Is NFCI already part of the household Ooze Score?', 'Yes. Since methodology v3, NFCI also carries 3% of the household jar as Financial Conditions. It separately remains one-sixth of Ward M’s raw composite; the two independently calibrated instruments are never averaged.'],
     ],
     sources: [
       ['Federal Reserve Bank of Chicago — NFCI', 'https://www.chicagofed.org/research/data/nfci/current-data'],

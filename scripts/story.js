@@ -86,11 +86,13 @@ const summary=`The ${d.monthLabel} Ooze Level sealed at ${d.ooze} out of 100 —
 
 /* ---- confidence statement ---- */
 const staleN=d.collection?.staleLines?.length||0;
-const revisedRuns=revisions.length;
+const sourceRevisionRuns=revisions.filter(entry=>entry.type!=='methodology-recalibration').length;
+const recalibrationRuns=revisions.filter(entry=>entry.type==='methodology-recalibration').length;
 const confidence=[
   `Methodology v${d.methodologyVersion||'2'}.`,
   d.collection?.freshnessStatus==='current'?'All source feeds current at collection.':`${staleN} source feed${staleN===1?'':'s'} flagged stale at collection.`,
-  revisedRuns?`${revisedRuns} source-revision event${revisedRuns===1?'':'s'} on the public record (data/revisions.json).`:'No source revisions on record.',
+  sourceRevisionRuns?`${sourceRevisionRuns} source-revision event${sourceRevisionRuns===1?'':'s'} on the public record (data/revisions.json).`:'No source revisions on record.',
+  recalibrationRuns?`${recalibrationRuns} methodology recalibration${recalibrationRuns===1?' is':'s are'} separately identified in that record.`:'No methodology recalibrations on record.',
   'Every figure traces to a cited public series; the integrity gate verified plausibility bounds and calibration anchors before publication.',
 ].join(' ');
 
