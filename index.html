@@ -259,7 +259,12 @@ function startCountUp(){
 const CATL={report:['OOZE MONTHLY REPORT','var(--ooze)'],incident:['OOZE ARCHIVES','var(--red)'],
             explainer:['OOZEONOMICS','var(--ward)'],manual:['OOZEONOMICS','var(--ward)']};
 const ALLA=(window.ARTICLES||[]).concat(window.AUTO_ARTICLES||[]).sort((a,b)=>b.date.localeCompare(a.date));
-const lead=ALLA.find(a=>a.slug===(window.EDITORIAL||{}).articleSlug)||ALLA[0];
+/* the newest file leads, always. The monthly seal used to be pinned here, which
+   meant a newer weekly edition could never take the top slot and displayed the
+   seal's headline instead of its own. */
+const sealSlug=(window.EDITORIAL||{}).articleSlug;
+const lead=ALLA[0]||ALLA.find(a=>a.slug===sealSlug);
+const leadIsSeal=lead&&lead.slug===sealSlug;
 const others=ALLA.filter(a=>a!==lead).slice(0,3);
 const fdate=d=>new Date(d+'T12:00').toLocaleDateString('en-US',{month:'short',day:'numeric'}).toUpperCase();
 
@@ -271,12 +276,14 @@ const tease=LIVE?(easers.length
 
 if(lead){
   const[lcl,lcc]=CATL[lead.cat]||CATL.report;
-  const leadTitle=LIVE?`${LD.monthLabel.split(' ')[0]} seals at ${TODAY_SCORE}`:resolveClaims(lead.title);
+  /* the "<Month> seals at <N>" headline belongs to the seal article only */
+  const leadTitle=(LIVE&&leadIsSeal)?`${LD.monthLabel.split(' ')[0]} seals at ${TODAY_SCORE}`:resolveClaims(lead.title);
+  const leadTease=leadIsSeal?tease:resolveClaims(lead.dek||'');
   $('latestFile').innerHTML=`<a class="pk-file pk-latest" href="article.html?a=${lead.slug}">
     <span class="thumb"><span class="njar" style="width:22px;height:30px"><i style="height:${TODAY_SCORE}%;background:${LEVELCOLORS[levelOf(TODAY_SCORE)-1]}"></i></span></span>
     <div class="fi-meta"><span class="fi-dot" style="background:${lcc}"></span>${lcl} · ${fdate(lead.date)}</div>
     <div class="fi-t">${leadTitle}</div>
-    ${tease?`<div class="fi-tease">${tease}</div>`:''}
+    ${leadTease?`<div class="fi-tease">${leadTease}</div>`:''}
     <span class="btn primary fi-btn">Read the report →</span>
   </a>`;
 }
