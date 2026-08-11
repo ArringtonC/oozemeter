@@ -1,0 +1,65 @@
+{
+  "schemaVersion": "ooze-draft-evidence/v1",
+  "draftDate": "2026-08-09",
+  "sourceCommit": "bc96b48eba78d48a78f04490be0836260806cbbf",
+  "sourceCollection": {
+    "generated": "2026-08-09T18:46:49.764Z",
+    "methodologyVersion": "3.0.0",
+    "fingerprint": "73898f9d4269c1adf7f6b198382ba7c0753415eb8c6cb5f24862660e54ca3a6e",
+    "freshnessStatus": "current",
+    "staleLines": []
+  },
+  "householdSeal": {
+    "period": "2026-06",
+    "score": 26,
+    "band": "Sticky",
+    "previousPeriod": "2026-05",
+    "previousScore": 29,
+    "change": -3,
+    "history": {
+      "months": 281,
+      "monthsAbove": 178,
+      "percentAbove": 63.3,
+      "readerVerdict": "Calmer than 6 of every 10 months since 2003"
+    }
+  },
+  "scoredPeriodDisclosure": {
+    "status": "incomplete-observable-retention",
+    "detail": "The canonical specimen retains June line stress, contributions, and the headline score, but does not separately retain scoredValue and currentValue. Newer observations must not be described as producing June contributions.",
+    "topContributions": [
+      {"line": "Housing", "contribution": 6, "unit": "oz"},
+      {"line": "Credit cards", "contribution": 6, "unit": "oz"},
+      {"line": "Auto loans", "contribution": 5, "unit": "oz"}
+    ]
+  },
+  "currentContext": {
+    "classification": "newer-context-only; not score-producing for the June seal",
+    "observations": [
+      {"line": "Gas", "value": "$4.08", "asOf": "2026-08-03", "source": "U.S. Energy Information Administration GASREGW via FRED"},
+      {"line": "Housing", "value": "6.69%", "asOf": "2026-08-06", "source": "Freddie Mac MORTGAGE30US via FRED"},
+      {"line": "Employment", "value": "4.1%", "asOf": "2026-07-01", "source": "U.S. Bureau of Labor Statistics UNRATE via FRED"},
+      {"line": "Initial claims", "value": 198750, "asOf": "2026-08-01", "transform": "trailing four-week mean", "source": "U.S. Department of Labor ICSA via FRED"},
+      {"line": "Financial conditions", "value": "-0.53", "asOf": "2026-07-31", "source": "Federal Reserve Bank of Chicago NFCI via FRED"}
+    ]
+  },
+  "wardM": {
+    "currentScore": 37,
+    "evidencePeriod": "mostly 2026-07",
+    "artifactGenerated": "2026-08-01T23:03:42.763Z",
+    "calibrationStatus": "calibrated-to-own-history; anchors provisional",
+    "latestExactSharedMonth": {
+      "period": "2026-06",
+      "wardM": 30,
+      "household": 26,
+      "difference": 4
+    },
+    "relationship": "Ward M is independently calibrated and carries zero weight in Household OOZE. NFCI is upstream in both instruments and has a 3% Household weight. The two composites are never averaged."
+  },
+  "verification": {
+    "householdIntegrity": "pass",
+    "marketIntegrity": "pass",
+    "narrativeIntegrity": "pass",
+    "releaseGate": "pass"
+  },
+  "publicationStatus": "draft-only; not approved, archived, published, or delivered"
+}

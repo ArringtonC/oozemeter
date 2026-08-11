@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<base href="../../">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#070b06">
+<title>The Ooze Report: the household number held, and the market calmed down — Oozeonomics | OOZEMeter</title>
+<meta name="description" content="June is still the last sealed month, so the household score didn't move. Ward M fell ten points as the semiconductor selloff reversed and market weakness s…">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800;900&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="OOZEMeter">
+<meta property="og:title" content="The Ooze Report: the household number held, and the market calmed down — Oozeonomics | OOZEMeter">
+<meta property="og:description" content="June is still the last sealed month, so the household score didn't move. Ward M fell ten points as the semiconductor selloff reversed and market weakness s…">
+<meta property="og:image" content="https://arringtonc.github.io/oozemeter/og-card.png">
+<meta property="og:url" content="https://arringtonc.github.io/oozemeter/files/ooze-report-2026-08-11/">
+<link rel="canonical" href="https://arringtonc.github.io/oozemeter/files/ooze-report-2026-08-11/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="lab.css">
+</head>
+<body>
+<div id="page">
+<main class="wrap-narrow" id="main"></main>
+</div>
+
+<script>window.FORCED_SLUG='ooze-report-2026-08-11';document.addEventListener('click',function(e){var a=e.target.closest('a[href^="#"]');if(!a)return;e.preventDefault();var t=document.getElementById(a.getAttribute('href').slice(1));if(t)t.scrollIntoView({behavior:'smooth'});history.replaceState(null,'',location.pathname+a.getAttribute('href'))});</script>
+<script src="data/latest.js"></script>
+<script src="articles.js"></script>
+<script src="data/auto-articles.js"></script>
+<script src="data/reconstruction-reports.js"></script>
+<script src="data/editorial.js"></script>
+<script src="lab.js"></script>
+<script>
+renderHeader('news');
+/* golden-master article template: every generated or hand-written piece renders
+   through this exact layout. ?a=slug selects from articles.js */
+const CATS={report:['OOZE MONTHLY REPORT','var(--ooze)'],incident:['OOZE ARCHIVES','var(--red)'],
+            explainer:['OOZEONOMICS','#5fd7ff'],manual:['OOZEONOMICS','#5fd7ff']};
+const ALL_ARTICLES=(window.ARTICLES||[]).concat(window.AUTO_ARTICLES||[]).concat(window.RECON_ARTICLES||[]);
+const slug=new URLSearchParams(location.search).get('a')||window.FORCED_SLUG||ALL_ARTICLES[0].slug;
+const found=ALL_ARTICLES.find(x=>x.slug===slug);
+const a=found||ALL_ARTICLES[0];
+const [catLabel,catCol]=CATS[a.cat]||CATS.manual;
+document.title=`${resolveClaims(a.title)} — Oozeonomics | OOZEMeter`;
+
+const dateFmt=new Date(a.date+'T12:00').toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
+/* body: paragraphs; "## " lines become h3. No ad markup until a real sponsor
+   exists — a fake ad unit on a trust-first site is a lie (board, 2026-08-02);
+   the after-¶2 placement doctrine lives in the ledger for when one does. */
+let bodyHtml='';
+for(const line of a.body){
+  if(line.startsWith('## ')){bodyHtml+=`<h3>${resolveClaims(line.slice(3))}</h3>`;continue}
+  /* a line that opens with a block tag is emitted raw — lets a piece fold its
+     own reference material behind <details> rather than making every reader
+     scroll past it */
+  if(/^<(details|div|figure|table|aside)\b/.test(line)){bodyHtml+=resolveClaims(line);continue}
+  bodyHtml+=`<p>${resolveClaims(line)}</p>`;
+}
+
+const others=ALL_ARTICLES.filter(x=>x.slug!==a.slug).slice(0,3);
+$('main').innerHTML=`
+  ${found?'':'<div class="crumbs" style="color:var(--amber);padding-top:20px">⚠ FILE NOT FOUND — showing the most recent report instead.</div>'}
+  <div class="crumbs" style="padding-bottom:20px"><a href="index.html">Facility</a> / <a href="oozeonomics.html">Oozeonomics</a> / ${resolveClaims(a.title)}</div>
+  <div class="art-eyebrow" style="color:${catCol}">${catLabel}</div>
+  <h1 class="art-title">${resolveClaims(a.title)}</h1>
+  <p class="art-dek">${resolveClaims(a.dek)}</p>
+  <div class="art-dateline">${a.auto?a.byline:'Operator dispatch · Division of Economic Containment'} · ${dateFmt} · Jar at publication: ${LIVE?TODAY_SCORE+' ('+bandOf(TODAY_SCORE).name+')':'offline'}</div>
+  <div class="keypoints"><div class="kp-h">Key Points</div><ul>${a.keyPoints.map(k=>`<li>${resolveClaims(k)}</li>`).join('')}</ul></div>
+  <div class="art-body">${bodyHtml}</div>
+  <div class="reveal" style="margin-top:44px">
+    <div class="sec-label">More Oozeonomics</div>
+    <div class="news-grid">${others.map(o=>{const[l,c]=CATS[o.cat]||CATS.manual;return `
+      <a class="news-card" href="article.html?a=${o.slug}">
+        <div class="nc-top"><span class="nc-cat" style="color:${c};border-color:${c}">${l}</span>
+        <span class="nc-date">${new Date(o.date+'T12:00').toLocaleDateString('en-US',{month:'short',day:'numeric'})}</span></div>
+        <h3>${resolveClaims(o.title)}</h3><p>${resolveClaims(o.dek)}</p></a>`}).join('')}
+    </div>
+  </div>`;
+/* AUDIT-7: Article structured data so search + AI answer engines can cite us */
+const ld={'@context':'https://schema.org','@type':'Article',headline:resolveClaims(a.title),
+  description:resolveClaims(a.dek),datePublished:a.date,
+  author:{'@type':'Organization',name:'OOZEMeter'},
+  publisher:{'@type':'Organization',name:'OOZEMeter — Division of Economic Containment',
+    url:'https://arringtonc.github.io/oozemeter'}};
+const ldTag=document.createElement('script');
+ldTag.type='application/ld+json';
+ldTag.textContent=JSON.stringify(ld);
+document.head.appendChild(ldTag);
+
+/* previous / next article */
+const sorted=[...ALL_ARTICLES].sort((x,y)=>y.date.localeCompare(x.date));
+const ai=sorted.findIndex(x=>x.slug===a.slug);
+const prevA=sorted[ai+1],nextA=sorted[ai-1];
+if(prevA||nextA)$('main').insertAdjacentHTML('beforeend',`
+  <div class="filenav">
+    ${prevA?`<a href="article.html?a=${prevA.slug}"><span class="fn-k">◂ Older</span>${resolveClaims(prevA.title)}</a>`:'<span></span>'}
+    ${nextA?`<a href="article.html?a=${nextA.slug}" style="text-align:right"><span class="fn-k">Newer ▸</span>${resolveClaims(nextA.title)}</a>`:'<span></span>'}
+  </div>`);
+
+renderFooter();
+wireReveals();
+</script>
+</body>
+</html>

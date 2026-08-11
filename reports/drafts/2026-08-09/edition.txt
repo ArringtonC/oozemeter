@@ -1,0 +1,41 @@
+PREVIEW EDITION — THE OOZE REPORT
+August 9, 2026
+DRAFT FOR REVIEW · NOT APPROVED · NOT PUBLISHED OR DELIVERED
+Evidence collected August 9, 2026
+===============================================================
+
+THE SEAL
+The meter has fresher inputs, but it does not have a new monthly seal.
+
+Household OOZE remains 26/100 for June, down 3 score points from May. That is Sticky territory — the band where normal economies live. The August 9 collection passed every integrity and release gate, but its headline period did not advance. The honest update is still 26, not a newly dressed-up July or August number.
+
+VERDICT LINE
+The June reading was calmer than 6 of every 10 months since 2003. In the 281-month record, 178 months were more stressed than 26/100.
+
+PLACEMENT LINE
+There is no new placement claim because there is no new seal. June remains three score points below May and inside the same Sticky band.
+
+WHAT MOVED
+No new scored household period has been published since June. The collector advanced several source observations on August 9, but the canonical specimen does not yet retain separate scored-period and current values. This draft therefore refuses to describe a newer observation as producing June's score or contributions.
+
+As context only, the national regular-gasoline reading was $4.08 on August 3, the 30-year mortgage rate was 6.69% on August 6, and unemployment was 4.1% for July. Initial unemployment claims averaged 198,750 over the four weeks through August 1. The Chicago Fed's financial-conditions index was -0.53 on July 31. These observations are newer than the June scoring period; none is presented here as changing the 26/100 seal.
+
+WHAT'S STILL PRESSING
+In the scored June decomposition, housing and credit cards remained tied at 6 oz each, followed by auto loans at 5 oz. Those three lines supplied 17 of the jar's 26 ounces. The retained specimen does not separately preserve the exact scored-period observed value behind every weekly line, so this draft states the limitation instead of pairing those contributions with August observations.
+
+WHAT A HOUSEHOLD WOULD NOTICE
+The newer context is familiar rather than subtle: filling the car meant seeing a national pump reading of $4.08, while a household shopping for a mortgage faced a rate near 6.69%. Those are current conditions a person could encounter. They are not a new Household OOZE score.
+
+TWO INSTRUMENTS, ONE FAIR COMPARISON
+Ward M remains 37/100 on its mostly July evidence, from an artifact generated August 1. Ward M measures market and financial-system stress, is independently calibrated, and carries zero weight in Household OOZE. The Chicago Fed NFCI is upstream in both instruments and has a 3% Household weight, but the two composites are never averaged.
+
+The latest exact shared month remains June: Ward M was 30/100 and Household OOZE was 26/100, a 4-point difference in levels. Household OOZE fell 3 score points from May. The retained Ward M artifact does not provide the prior headline needed to state Ward M's same-window direction and size of change, so this edition does not invent one.
+
+THE CLOSE
+The household seal can advance after the remaining monthly input advances beyond June and the complete scoring period passes the gates. The evidence packet does not carry a verified official release date, so this draft does not print one. The jar updates itself; you just check it.
+
+Sources: U.S. Energy Information Administration GASREGW; Freddie Mac MORTGAGE30US; U.S. Bureau of Labor Statistics UNRATE; U.S. Department of Labor ICSA; Federal Reserve Bank of Chicago NFCI; Federal Reserve Board credit-card delinquency data; and Federal Reserve Bank of New York Household Debt and Credit data. Delivery through FRED is identified in the evidence packet where applicable.
+
+Methodology v3.0.0. Source collection was current with no stale household lines. Household integrity, Ward M integrity, narrative integrity, and the methodology release gate all passed against source commit bc96b48. This is a draft update, not a new approved seal.
+
+Drafted with AI · awaiting Arrington review · Division of Economic Containment

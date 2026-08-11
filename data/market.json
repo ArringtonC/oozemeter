@@ -1,7 +1,7 @@
 {
- "generated": "2026-08-01T23:03:42.763Z",
- "score": 37,
- "raw": 31.17,
+ "generated": "2026-08-11T00:04:48.669Z",
+ "score": 27,
+ "raw": 24,
  "calibration": {
   "a": 1.4025,
   "b": -7.0116,
@@ -45,10 +45,10 @@
   "rates": {
    "name": "Rates",
    "emoji": "🏛",
-   "value": "0.73pp",
-   "stress": 27,
+   "value": "0.78pp",
+   "stress": 26,
    "delta": -1,
-   "asOf": "2026-07",
+   "asOf": "2026-08",
    "read": "An inverted curve — short rates above long — has preceded most modern recessions.",
    "source": {
     "publisher": "Federal Reserve Board yield inputs via FRED",
@@ -61,10 +61,10 @@
   "volatility": {
    "name": "Volatility",
    "emoji": "🌪",
-   "value": "17.1",
-   "stress": 24,
-   "delta": -3,
-   "asOf": "2026-07",
+   "value": "15.6",
+   "stress": 19,
+   "delta": -5,
+   "asOf": "2026-08",
    "read": "The option market's 30-day implied-volatility gauge. Spikes show repricing; low readings alone do not prove complacency.",
    "source": {
     "publisher": "Cboe",
@@ -77,9 +77,9 @@
   "credit": {
    "name": "Credit & Funding",
    "emoji": "🏦",
-   "value": "-0.54",
-   "stress": 10,
-   "delta": -2,
+   "value": "-0.53",
+   "stress": 11,
+   "delta": -1,
    "asOf": "2026-07",
    "read": "105 indicators of lending, funding, and risk appetite in one Fed index. The bridge sensor for methodology v3.",
    "source": {
@@ -93,10 +93,10 @@
   "energy": {
    "name": "Energy",
    "emoji": "🛢",
-   "value": "$80",
-   "stress": 49,
-   "delta": -7,
-   "asOf": "2026-07",
+   "value": "$82",
+   "stress": 52,
+   "delta": 1,
+   "asOf": "2026-08",
    "read": "Expensive oil squeezes everything that moves. The upstream cousin of the gas-price line.",
    "source": {
     "publisher": "U.S. Energy Information Administration",
@@ -109,10 +109,10 @@
   "dollar": {
    "name": "Dollar",
    "emoji": "💵",
-   "value": "+0.5%",
-   "stress": 27,
-   "delta": 3,
-   "asOf": "2026-07",
+   "value": "-0.8%",
+   "stress": 23,
+   "delta": -4,
+   "asOf": "2026-08",
    "read": "Rapid broad-dollar appreciation can accompany global funding stress, but is not itself a funding-stress measure.",
    "source": {
     "publisher": "Federal Reserve Board",
@@ -125,10 +125,10 @@
   "breadth": {
    "name": "Breadth",
    "emoji": "📊",
-   "value": "6/11 steady",
-   "stress": 50,
-   "delta": 0,
-   "asOf": "2026-07-31",
+   "value": "10/11 steady",
+   "stress": 13,
+   "delta": -37,
+   "asOf": "2026-08-10",
    "read": "How many of the eleven Sector Watch tickers are weakening. One weakening ticker proxy moves this; a broad selloff maxes it.",
    "source": {
     "publisher": "Sector Watch manual proxy panel",

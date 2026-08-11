@@ -1,0 +1,45 @@
+THE OOZE REPORT — JULY 2026
+DRAFT FOR REVIEW · NOT VALIDATED · NOT APPROVED · NOT PUBLISHED
+Drafted August 3, 2026 from evidence collected August 1, 2026
+===============================================================
+
+THE SEAL
+July ended with two instruments on two clocks.
+
+The latest Household OOZE reading is 26/100 for June, down 3 score points from May. That is Sticky territory — the band where normal economies live. Ward M registered 37/100 on mostly July evidence. Ward M measures market and financial-system stress; it carries zero weight in Household OOZE.
+
+The household number is still stamped June because its monthly employment and inflation inputs have not advanced together into July. Weekly lines such as gas and mortgage rates did advance. Calling the whole household reading “July” would make the date tidier and the measurement worse.
+
+VERDICT LINE
+The current evidence packet does not retain the full-history percentile needed for a constitutional verdict line. This draft makes no historical-placement claim.
+
+PLACEMENT LINE
+The current publishing payload does not compute a run of readings, so it cannot support a streak, trailing-window extreme, or band-crossing statement. One month is not a trend wearing a clever hat.
+
+WHAT MOVED
+The relief in the household jar, OOZEMeter’s weighted measure of household pressure, came from two price-sensitive lines. Pressure from gas fell 11 line-stress points with regular gasoline at $4.10 per gallon on July 27. Pressure from inflation fell 9 line-stress points with the 12-month CPI reading at 3.5% for June. Those are changes inside the component scales, not points subtracted directly from the 26/100 headline.
+
+Pressure from employment fell 2 line-stress points with unemployment at 4.2% for June. Initial unemployment claims, the second employment input, averaged 202,750 over the four weeks through July 25. The model uses the more stressed of those two employment inputs.
+
+Ward M’s July sensors mostly cooled. Gauge heat from energy fell 7 line-stress points with WTI crude averaging $80 per barrel. Gauge heat from volatility fell 3 points with the VIX averaging 17.1, while gauge heat from credit and funding fell 2 points with the Chicago Fed’s NFCI at -0.54. Gauge heat from the broad dollar moved the other way, rising 3 points with the dollar index up 0.5% from a year earlier. Market breadth held flat at 50/100 with 6 of 11 ticker proxies classified as steady on July 31.
+
+The Ward M payload does not retain a prior headline score, so this edition does not say the 37/100 gauge rose, fell, or held during July. Sensor movements are not a substitute for a missing headline comparison.
+
+WHAT’S STILL PRESSING
+Housing and credit cards tied for the largest shares of the 26-ounce household jar at 6 oz each. The 30-year mortgage rate was 6.66% on July 30; the credit-card delinquency input was 2.9% for the first quarter. Auto pressure followed at 5 oz with 7.7% of previously current auto balances entering delinquency in the first quarter.
+
+Gas supplied 4 oz with the pump price at $4.10, employment supplied 3 oz with unemployment at 4.2%, and inflation supplied 2 oz with the 12-month CPI reading at 3.5%. Financial conditions supplied 0 oz with the NFCI at -0.54. Those seven shares sum to the current 26/100 Household OOZE reading.
+
+WHAT A HOUSEHOLD WOULD NOTICE
+The lighter score does not mean every bill got cheaper. A household filling the car would see a $4.10 national pump reading, while anyone shopping for a mortgage would still face a rate near 6.66%. The month improved because pressure eased in gas and inflation inside the model; housing, credit cards, and auto obligations still carried most of the jar.
+
+TWO INSTRUMENTS, ONE FAIR COMPARISON
+The latest exact shared month is June: Ward M was 30/100 and Household OOZE was 26/100, a 4-point gap in levels. Household OOZE fell 3 score points from May; the retained Ward M evidence does not contain the prior June headline needed to state its direction and size of change on the same basis. The pair therefore shows different measured levels, not a combined score and not a claim that markets caused household pressure.
+
+THE CLOSE
+The next household seal will wait for the monthly employment and inflation inputs to advance together. The evidence packet does not include their official release calendar, so this draft does not invent a date. The jar updates itself; you just check it.
+
+Sources used in this draft: U.S. Energy Information Administration GASREGW and DCOILWTICO; Freddie Mac MORTGAGE30US; Federal Reserve Board DRCCLACBS and DTWEXBGS; Federal Reserve Bank of New York Household Debt and Credit Page 13 Data/AUTO; U.S. Bureau of Labor Statistics UNRATE and CPI via FRED; U.S. Department of Labor ICSA; Federal Reserve Bank of Chicago NFCI; Cboe VIXCLS; and the disclosed manual Sector Watch proxy panel. Review artifact: reports/editions/2026-08-03/evidence.json.
+
+Methodology v3.0.0. All source feeds current at collection. 2 source-revision events on the public record (data/revisions.json). Every figure traces to a cited public series; anchors, weights and calibration constants are published and frozen.
+Drafted by OOZEBOT · reviewed by the Division of Economic Containment

@@ -1,11 +1,11 @@
 {
- "generated": "2026-08-01T23:03:36.598Z",
+ "generated": "2026-08-11T00:04:47.643Z",
  "cadence": "manual; weekly schedule proposed but disabled pending quote-rights clearance",
- "overall": "SOFTENING",
+ "overall": "CALM",
  "breadth": {
-  "steady": 6,
-  "softening": 4,
-  "stressed": 1,
+  "steady": 10,
+  "softening": 1,
+  "stressed": 0,
   "total": 11
  },
  "source": {
@@ -29,36 +29,36 @@
      "role": "U.S. large-cap equities",
      "state": "steady",
      "dot": "🟢",
-     "m1": 0,
-     "m3": 5,
-     "asOf": "2026-07-31"
+     "m1": 2.8,
+     "m3": 5.7,
+     "asOf": "2026-08-10"
     },
     {
      "sym": "QQQ",
      "role": "Nasdaq-100 non-financial equities",
-     "state": "softening",
-     "dot": "🟡",
-     "m1": -6.6,
-     "m3": 4,
-     "asOf": "2026-07-31"
+     "state": "steady",
+     "dot": "🟢",
+     "m1": -0.3,
+     "m3": 3.7,
+     "asOf": "2026-08-10"
     },
     {
      "sym": "DIA",
      "role": "Thirty price-weighted blue chips",
      "state": "steady",
      "dot": "🟢",
-     "m1": 0.4,
-     "m3": 7.3,
-     "asOf": "2026-07-31"
+     "m1": 2.8,
+     "m3": 8.7,
+     "asOf": "2026-08-10"
     },
     {
      "sym": "IWM",
      "role": "U.S. small-cap equities",
-     "state": "softening",
-     "dot": "🟡",
-     "m1": -3.1,
-     "m3": 7,
-     "asOf": "2026-07-31"
+     "state": "steady",
+     "dot": "🟢",
+     "m1": 0.9,
+     "m3": 6.3,
+     "asOf": "2026-08-10"
     }
    ]
   },
@@ -70,27 +70,27 @@
      "role": "S&P 500 financial equities",
      "state": "steady",
      "dot": "🟢",
-     "m1": 6.2,
-     "m3": 9.7,
-     "asOf": "2026-07-31"
+     "m1": 4.1,
+     "m3": 12.1,
+     "asOf": "2026-08-10"
     },
     {
      "sym": "XLI",
      "role": "S&P 500 industrial equities",
-     "state": "softening",
-     "dot": "🟡",
-     "m1": -2.9,
-     "m3": 5.8,
-     "asOf": "2026-07-31"
+     "state": "steady",
+     "dot": "🟢",
+     "m1": 1.9,
+     "m3": 6.1,
+     "asOf": "2026-08-10"
     },
     {
      "sym": "IYT",
      "role": "Listed transportation equities",
-     "state": "softening",
-     "dot": "🟡",
-     "m1": -2.1,
-     "m3": 6.1,
-     "asOf": "2026-07-31"
+     "state": "steady",
+     "dot": "🟢",
+     "m1": -1.4,
+     "m3": 7.6,
+     "asOf": "2026-08-10"
     }
    ]
   },
@@ -102,18 +102,18 @@
      "role": "S&P 500 consumer-discretionary equities",
      "state": "steady",
      "dot": "🟢",
-     "m1": -1,
-     "m3": -0.6,
-     "asOf": "2026-07-31"
+     "m1": 2.4,
+     "m3": -0.2,
+     "asOf": "2026-08-10"
     },
     {
      "sym": "XLP",
      "role": "S&P 500 consumer-staples equities",
      "state": "steady",
      "dot": "🟢",
-     "m1": 2.4,
-     "m3": 2.6,
-     "asOf": "2026-07-31"
+     "m1": 2.1,
+     "m3": 1.2,
+     "asOf": "2026-08-10"
     }
    ]
   },
@@ -123,11 +123,11 @@
     {
      "sym": "SMH",
      "role": "U.S.-listed semiconductor equities",
-     "state": "stressed",
-     "dot": "🔴",
-     "m1": -17.6,
-     "m3": 8.2,
-     "asOf": "2026-07-31"
+     "state": "softening",
+     "dot": "🟡",
+     "m1": -6.3,
+     "m3": 5.4,
+     "asOf": "2026-08-10"
     }
    ]
   },
@@ -139,9 +139,9 @@
      "role": "S&P 500 health-care equities",
      "state": "steady",
      "dot": "🟢",
-     "m1": 2.5,
-     "m3": 13.8,
-     "asOf": "2026-07-31"
+     "m1": 3.9,
+     "m3": 16.4,
+     "asOf": "2026-08-10"
     }
    ]
   }
@@ -149,7 +149,7 @@
  "oozebot": {
   "byline": "OOZEBOT",
   "cadence": "manual",
-  "asOf": "2026-07-31",
-  "paragraph": "Sector Watch is SOFTENING: 6 of 11 tickers are steady, 4 softening, and 1 stressed. SMH has the weakest 22-session price change at −17.6%; XLF is strongest at +6.2%. These measured states use the published 22-session thresholds and do not affect the household Ooze Score."
+  "asOf": "2026-08-10",
+  "paragraph": "Sector Watch is CALM: 10 of 11 tickers are steady, 1 softening, and 0 stressed. SMH has the weakest 22-session price change at −6.3%; XLF is strongest at +4.1%. These measured states use the published 22-session thresholds and do not affect the household Ooze Score."
  }
 }
