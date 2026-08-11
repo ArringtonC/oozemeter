@@ -1,0 +1,497 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inspiration Board — Ooze Report signal & contradiction UI</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800;900&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#070b06;--bg2:#0b110a;--panel:#0e150c;--panel2:#121a10;
+  --line:rgba(163,255,18,.14);--line-hard:rgba(163,255,18,.32);
+  --text:#e6f2da;--muted:#8ba07c;--dim:#708363;
+  --ooze:#a3ff12;--amber:#ffb02e;--red:#ff4d3d;--green:#4dffa1;--ward:#5fd7ff;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;--display:'Unbounded',sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--mono);line-height:1.7;
+  background-image:linear-gradient(rgba(163,255,18,.022) 1px,transparent 1px),linear-gradient(90deg,rgba(163,255,18,.022) 1px,transparent 1px);
+  background-size:48px 48px;font-size:14px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+header{border-bottom:1px solid var(--line);padding:44px 0 30px;margin-bottom:44px}
+.kicker{font-size:.62rem;letter-spacing:.26em;color:var(--dim);text-transform:uppercase}
+h1{font-family:var(--display);font-weight:900;font-size:clamp(1.8rem,4vw,2.9rem);letter-spacing:-.03em;margin:12px 0 14px;line-height:1.1}
+h2{font-family:var(--display);font-weight:800;font-size:1.15rem;letter-spacing:-.01em;margin:0 0 6px}
+.lede{color:var(--muted);max-width:74ch;font-size:.92rem}
+.note{border-left:3px solid var(--amber);background:rgba(255,176,46,.06);padding:16px 20px;margin:26px 0;font-size:.84rem;color:var(--text);max-width:82ch}
+.note b{color:var(--amber);display:block;font-family:var(--display);font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;margin-bottom:8px}
+section{margin:0 0 64px}
+.fam{border:1px solid var(--line-hard);border-radius:14px;background:var(--panel);padding:0;margin-bottom:30px;overflow:hidden}
+.fam-h{padding:20px 24px;border-bottom:1px solid var(--line);background:var(--panel2);display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.fam-h .n{font-family:var(--display);font-weight:900;font-size:1.4rem;color:var(--ooze);line-height:1}
+.fam-h .sub{color:var(--dim);font-size:.72rem;flex:1;min-width:220px}
+.refs{padding:6px 24px 22px}
+.ref{padding:20px 0;border-bottom:1px solid var(--line)}
+.ref:last-child{border-bottom:none}
+.ref-t{font-family:var(--display);font-weight:700;font-size:.86rem;margin-bottom:3px}
+.ref-src{font-size:.66rem;color:var(--dim);margin-bottom:10px}
+.ref-src a{color:var(--ward);text-decoration:none}
+.ref-what{color:var(--muted);font-size:.8rem;margin-bottom:12px}
+.borrow{border-left:2px solid var(--ooze);padding:9px 14px;background:rgba(163,255,18,.045);font-size:.82rem}
+.borrow b{color:var(--ooze);font-size:.58rem;letter-spacing:.2em;display:block;margin-bottom:5px;font-family:var(--display)}
+.demo{margin:14px 0 0;border:1px dashed var(--line-hard);border-radius:10px;padding:18px 20px;background:#050803}
+.demo-l{font-size:.55rem;letter-spacing:.22em;color:var(--dim);text-transform:uppercase;margin-bottom:12px}
+.kill{border-left-color:var(--red);background:rgba(255,77,61,.05)}
+.kill b{color:var(--red)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:800px){.grid2{grid-template-columns:1fr}}
+.tag{display:inline-block;font-size:.55rem;letter-spacing:.16em;padding:3px 9px;border-radius:3px;border:1px solid var(--line-hard);color:var(--dim);text-transform:uppercase;margin-left:6px;vertical-align:middle}
+.tag.seen{border-color:rgba(77,255,161,.4);color:var(--green)}
+.tag.known{border-color:rgba(95,215,255,.4);color:var(--ward)}
+/* ---- demo widgets: the actual design moves, in Ooze's language ---- */
+.d-claim{font-family:var(--display);font-weight:800;font-size:1.15rem;line-height:1.3;letter-spacing:-.01em}
+.d-ev{display:flex;gap:22px;margin-top:14px;flex-wrap:wrap}
+.d-ev div{font-size:.66rem;color:var(--dim)}
+.d-ev b{display:block;font-family:var(--display);font-size:.9rem;color:var(--text);font-weight:700}
+.band{position:relative;height:74px;margin:6px 0 4px}
+.band .exp{position:absolute;left:0;right:0;top:18px;height:30px;background:rgba(163,255,18,.09);border-top:1px dashed rgba(163,255,18,.3);border-bottom:1px dashed rgba(163,255,18,.3)}
+.band .lbl{position:absolute;right:4px;top:22px;font-size:.54rem;color:var(--dim);letter-spacing:.1em}
+.band svg{position:relative;width:100%;height:74px;display:block}
+.split{display:grid;grid-template-columns:1fr auto 1fr;gap:0;align-items:stretch;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.split .s{padding:14px 16px}
+.split .s.up{background:rgba(77,255,161,.05)}
+.split .s.dn{background:rgba(255,77,61,.05)}
+.split .vs{display:flex;align-items:center;padding:0 12px;background:var(--panel2);font-family:var(--display);font-size:.6rem;letter-spacing:.18em;color:var(--amber);border-left:1px solid var(--line);border-right:1px solid var(--line)}
+.split .k{font-size:.58rem;letter-spacing:.16em;color:var(--dim);text-transform:uppercase}
+.split .v{font-family:var(--display);font-weight:800;font-size:1.05rem;margin-top:3px}
+.split .m{font-size:.66rem;color:var(--muted);margin-top:5px}
+.statlist{font-size:.74rem}
+.statlist div{display:flex;justify-content:space-between;gap:14px;padding:7px 0;border-bottom:1px solid var(--line)}
+.statlist div:last-child{border:none}
+.statlist .st{font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap}
+.st.ok{color:var(--dim)}.st.mix{color:var(--amber)}.st.dis{color:var(--red)}
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.tiles div{border:1px solid var(--line);border-radius:6px;padding:10px;text-align:center}
+.tiles b{display:block;font-family:var(--display);font-size:1rem}
+.tiles span{font-size:.55rem;color:var(--dim);letter-spacing:.1em}
+.rank{width:100%;border-collapse:collapse;font-size:.76rem}
+.rank th{text-align:left;font-family:var(--display);font-size:.58rem;letter-spacing:.16em;color:var(--dim);text-transform:uppercase;padding:10px 12px;border-bottom:1px solid var(--line-hard)}
+.rank td{padding:11px 12px;border-bottom:1px solid var(--line);color:var(--muted);vertical-align:top}
+.rank td:first-child{color:var(--text);font-family:var(--display);font-weight:700;font-size:.78rem;white-space:nowrap}
+.ask{border:1px solid var(--ooze);border-radius:14px;padding:26px 28px;background:rgba(163,255,18,.04)}
+.ask ol{margin:12px 0 0;padding-left:20px}
+.ask li{margin-bottom:12px;font-size:.85rem}
+footer{border-top:1px solid var(--line);margin-top:60px;padding:26px 0 60px;color:var(--dim);font-size:.7rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker">Ooze Report · Design Exploration · Phase 1 of 2</div>
+  <h1>Inspiration board:<br>making a contradiction obvious in five seconds</h1>
+  <p class="lede">A checkpoint before any mockups exist. Veto anything here and the mockups
+  never inherit it. Nothing in this document touches production code — this file lives in
+  <code>mockups/</code>, is not linked from the site, and is not in the sitemap.</p>
+</header>
+
+<section>
+  <h2>The problem, stated once</h2>
+  <p class="lede" style="margin-bottom:22px">June → July 2026. Four numbers about the same
+  labour market, pointing two different ways.</p>
+
+  <div class="split" style="max-width:760px">
+    <div class="s up">
+      <div class="k">The headline</div>
+      <div class="v" style="color:var(--green)">Unemployment 4.2% → 4.1%</div>
+      <div class="m">Reads as improvement. Our score treated it as one.</div>
+    </div>
+    <div class="vs">BUT</div>
+    <div class="s dn">
+      <div class="k">Underneath</div>
+      <div class="v" style="color:var(--red)">−23,000 jobs</div>
+      <div class="m">Participation 61.5 → 61.4. Employment-population 59.0 → 58.9.</div>
+    </div>
+  </div>
+
+  <div class="note">
+    <b>Why this is a design problem, not only a data problem</b>
+    The mechanism is one sentence — people who stop looking for work leave the unemployment
+    calculation, so the rate improves while the labour market doesn't. But a reader has to
+    already know that to see it. Every reference below is judged on one question: does it
+    help someone who does not study economics notice the contradiction before they read a
+    paragraph?
+  </div>
+</section>
+
+<section>
+  <div class="note" style="border-left-color:var(--ward);background:rgba(95,215,255,.06)">
+    <b style="color:var(--ward)">How these references were gathered — read this</b>
+    I browsed Dribbble directly in a real browser and looked at the designs, rather than
+    reading text about them. Every reference marked <span class="tag seen">SEEN</span> is
+    something I actually viewed and evaluated; the designer name and search are given so you
+    can pull it up in seconds. References marked <span class="tag known">CONVENTION</span>
+    are established practice in a named field rather than a specific shot — no invented
+    citations, no fabricated shot IDs. Where I could not verify something, it is not here.
+  </div>
+</section>
+
+<!-- ============ FAMILY A ============ -->
+<section>
+  <div class="fam">
+    <div class="fam-h">
+      <span class="n">A</span>
+      <div>
+        <h2>Editorial — the claim outranks the data</h2>
+        <div class="sub">Publication layout, where interpretation is the largest thing on the page and numbers are demoted to evidence beneath it.</div>
+      </div>
+    </div>
+    <div class="refs">
+
+      <div class="ref">
+        <div class="ref-t">Mansi Chauhan — “Most Risk Emerges Before Finance Can Respond”<span class="tag seen">Seen</span></div>
+        <div class="ref-src">Dribbble · <a href="https://dribbble.com/search/data-storytelling" target="_blank">search: data storytelling</a></div>
+        <div class="ref-what">A muted olive/cream report screen whose <em>headline is a finding</em>, not a
+        label. Charts sit below it, small, doing the work of proving the sentence. Nothing on the
+        screen competes with the claim.</div>
+        <div class="borrow"><b>The move to borrow</b>The section header is the conclusion, written as a sentence.
+        “Employment looks weaker than the headline suggests” — not “Employment.” Charts become footnotes to a claim.</div>
+        <div class="demo">
+          <div class="demo-l">The move, in Ooze's language</div>
+          <div class="d-claim">The headline improved.<br>The labour market didn't.</div>
+          <div class="d-ev">
+            <div>UNEMPLOYMENT<b style="color:var(--green)">4.1% ↓</b></div>
+            <div>PAYROLLS<b style="color:var(--red)">−23,000</b></div>
+            <div>PARTICIPATION<b style="color:var(--red)">61.4% ↓</b></div>
+            <div>EMPLOYED SHARE<b style="color:var(--red)">58.9% ↓</b></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ref">
+        <div class="ref-t">Paperpillar — “TIME PASSED / THE PASSION DIDN'T”<span class="tag seen">Seen</span></div>
+        <div class="ref-src">Dribbble · <a href="https://dribbble.com/search/magazine%20editorial%20layout" target="_blank">search: magazine editorial layout</a></div>
+        <div class="ref-what">An oversized hand-set headline in two clauses, the second reversing the first.
+        The headline <em>is</em> the content; everything else is caption.</div>
+        <div class="borrow"><b>The move to borrow</b>The two-clause reversal is literally our story's grammar:
+        <em>“X improved. Y didn't.”</em> Make that construction the standing headline form for every MIXED or
+        DISTORTED signal. It is memorable, repeatable weekly, and needs no economics.</div>
+      </div>
+
+      <div class="ref">
+        <div class="ref-t">Tom Birch — dark editorial spreads<span class="tag seen">Seen</span></div>
+        <div class="ref-src">Dribbble · <a href="https://dribbble.com/search/magazine%20editorial%20layout" target="_blank">search: magazine editorial layout</a></div>
+        <div class="ref-what">Near-black pages, white multi-column type, a contents list set as a
+        typographic index. No decoration at all. Confident because it is restrained.</div>
+        <div class="borrow"><b>The move to borrow</b>Proof that dark + typographic reads as
+        <em>publication</em> rather than <em>terminal</em>. The difference is column measure and generous
+        leading — dashboards pack, publications breathe. Ooze already has the palette; it needs the spacing.</div>
+      </div>
+
+      <div class="ref">
+        <div class="ref-t">ArtVersion — “Family Matters” report spread<span class="tag seen">Seen</span></div>
+        <div class="ref-src">Dribbble · <a href="https://dribbble.com/search/annual%20report%20data%20editorial" target="_blank">search: annual report data editorial</a></div>
+        <div class="ref-what">Print spread where a handful of percentages are set in circles as
+        <em>callouts</em> over imagery, with a bar chart alongside carrying the detail.</div>
+        <div class="borrow"><b>The move to borrow</b>Two tiers of number: three or four <em>callout</em> figures
+        a reader is meant to remember, and everything else demoted to a chart they can ignore. Ooze currently
+        gives all seven lines equal typographic weight.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAMILY B ============ -->
+<section>
+  <div class="fam">
+    <div class="fam-h">
+      <span class="n">B</span>
+      <div>
+        <h2>Instrumentation — disagreement as a first-class state</h2>
+        <div class="sub">Monitoring, aviation and medical displays, where “these two instruments disagree” is a designed condition rather than an edge case. On-brand for a containment lab.</div>
+      </div>
+    </div>
+    <div class="refs">
+
+      <div class="ref">
+        <div class="ref-t">Nikita Iarygin — alert builder with an expected band<span class="tag seen">Seen</span></div>
+        <div class="ref-src">Dribbble · <a href="https://dribbble.com/search/anomaly-detection" target="_blank">search: anomaly detection</a></div>
+        <div class="ref-what">A line chart with a shaded <em>expected range</em> behind it. The series
+        runs inside the band, then breaks out — and the breakout is the whole message. You read the
+        anomaly without reading a number.</div>
+        <div class="borrow"><b>The move to borrow</b>Show what we <em>expected</em> alongside what happened.
+        Unemployment falling is only strange because payrolls normally rise with it. Draw the expectation and
+        the violation in one object.</div>
+        <div class="demo">
+          <div class="demo-l">The move, in Ooze's language</div>
+          <div class="band">
+            <div class="exp"></div><div class="lbl">EXPECTED IF THE LABOUR MARKET WERE IMPROVING</div>
+            <svg viewBox="0 0 600 74" preserveAspectRatio="none">
+              <polyline points="0,44 100,42 200,40 300,38 380,36" fill="none" stroke="#708363" stroke-width="2" stroke-dasharray="4 4"/>
+              <polyline points="380,36 460,52 540,62 600,66" fill="none" stroke="#ff4d3d" stroke-width="2.5"/>
+              <circle cx="600" cy="66" r="4" fill="#ff4d3d"/>
+            </svg>
+          </div>
+          <div style="font-size:.7rem;color:var(--muted)">Payrolls left the expected band while the headline
+          rate kept improving. <span style="color:var(--red)">The red segment is the contradiction.</span></div>
+        </div>
+      </div>
+
+      <div class="ref">
+        <div class="ref-t">AppSignal — “Triggered Alerts” list<span class="tag seen">Seen</span></div>
+        <div class="ref-src">Dribbble · <a href="https://dribbble.com/search/anomaly-detection" target="_blank">search: anomaly detection</a></div>
+        <div class="ref-what">A plain text list of alerts with word-states — <em>Warning, Ongoing,
+        Cooling down, Ended</em> — and almost no colour or chartwork. It stays calm while reporting problems.</div>
+        <div class="borrow"><b>The move to borrow</b>A <em>word</em> taxonomy instead of a colour taxonomy.
+        Our three states (Confirmed / Mixed / Distorted) can be carried by typography and position alone,
+        which is also the accessibility answer.</div>
+        <div class="demo">
+          <div class="demo-l">The move, in Ooze's language</div>
+          <div class="statlist">
+            <div><span>Employment</span><span class="st dis">Headline may mislead</span></div>
+            <div><span>Inflation</span><span class="st ok">Confirmed · improving</span></div>
+            <div><span>Gas</span><span class="st ok">Confirmed · improving</span></div>
+            <div><span>Oil</span><span class="st mix">Two readings</span></div>
+            <div><span>Credit</span><span class="st ok">Confirmed · stable</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ref">
+        <div class="ref-t">Instrument-disagree warnings (aviation)<span class="tag known">Convention</span></div>
+        <div class="ref-src">Established cockpit practice — e.g. <em>IAS DISAGREE</em>, <em>ALT DISAGREE</em>
+        annunciations on transport aircraft, raised when redundant sensors diverge</div>
+        <div class="ref-what">When two sources of the same quantity disagree, the aircraft does not silently
+        pick one and it does not average them. It raises a <em>named condition telling the pilot the
+        instruments disagree</em>, because that fact is itself the safety-critical information.</div>
+        <div class="borrow"><b>The move to borrow</b>The single most transferable idea on this board.
+        Our jar silently picked one source — the unemployment rate — and reported improvement.
+        “DISAGREE” should be a publishable state of an indicator, displayed as prominently as a value.</div>
+      </div>
+
+      <div class="ref">
+        <div class="ref-t">Status-page severity language<span class="tag known">Convention</span></div>
+        <div class="ref-src">Widely used across public status pages (operational / degraded / partial outage)</div>
+        <div class="ref-what">A graded vocabulary that reports trouble without alarm, and crucially has a
+        state for <em>working but not fully trustworthy</em> — “degraded performance.”</div>
+        <div class="borrow"><b>The move to borrow</b>Ooze needs the equivalent of “degraded”: the number is
+        published, and its reliability is qualified, in the same glance. That is exactly what
+        a Distorted signal is.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAMILY C ============ -->
+<section>
+  <div class="fam">
+    <div class="fam-h">
+      <span class="n">C</span>
+      <div>
+        <h2>Explanatory — reveal the hidden variable</h2>
+        <div class="sub">Interfaces whose job is comprehension of a mechanism. The “ohhh” moment is the deliverable.</div>
+      </div>
+    </div>
+    <div class="refs">
+
+      <div class="ref">
+        <div class="ref-t">Avnish Poonia — anomalies highlighted inside the sheet<span class="tag seen">Seen</span></div>
+        <div class="ref-src">Dribbble · <a href="https://dribbble.com/search/anomaly-detection" target="_blank">search: anomaly detection</a></div>
+        <div class="ref-what">Rather than extracting anomalies into a separate panel, the offending cells are
+        marked <em>in place</em> inside the spreadsheet, so you see the outlier and its context together.</div>
+        <div class="borrow"><b>The move to borrow</b>Do not exile the contradiction to a sidebar. Mark it on
+        the ledger where the indicator already lives, so the reader sees which line is suspect while looking
+        at all of them.</div>
+      </div>
+
+      <div class="ref">
+        <div class="ref-t">Explorable explanations — the revealed term<span class="tag known">Convention</span></div>
+        <div class="ref-src">Established practice in explorable/interactive explanation (Bret Victor's
+        “Explorable Explanations”; the genre that followed it)</div>
+        <div class="ref-what">A paradox is set up, then resolved by revealing a variable the reader could
+        not see. The revelation is staged — expectation first, violation second, hidden term third.</div>
+        <div class="borrow"><b>The move to borrow</b>The three-beat structure for our employment story:
+        <em>(1)</em> unemployment fell, <em>(2)</em> but jobs fell too, <em>(3)</em> because people stopped
+        being counted. Beat three is the payoff and it should be a designed reveal, not a footnote.</div>
+        <div class="demo">
+          <div class="demo-l">The move, in Ooze's language — three beats</div>
+          <div style="font-family:var(--display);font-size:.8rem;line-height:2">
+            <div><span style="color:var(--dim)">1 —</span> Unemployment fell to 4.1%.</div>
+            <div><span style="color:var(--dim)">2 —</span> <span style="color:var(--amber)">But the economy lost 23,000 jobs.</span></div>
+            <div><span style="color:var(--dim)">3 —</span> <span style="color:var(--ooze)">Because people who stop looking stop being counted.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ref">
+        <div class="ref-t">Annotated-chart convention in data journalism<span class="tag known">Convention</span></div>
+        <div class="ref-src">Standard practice at major graphics desks — the reading of the chart is
+        written onto the chart</div>
+        <div class="ref-what">Rather than a titled chart plus a caption elsewhere, the interpretation is
+        placed directly on the plot at the moment it applies.</div>
+        <div class="borrow"><b>The move to borrow</b>If Ooze ever draws a line, the sentence goes on the
+        line. No chart ships without its reading attached — which also enforces the house rule that
+        interpretation must be labelled as interpretation.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAMILY D ============ -->
+<section>
+  <div class="fam">
+    <div class="fam-h">
+      <span class="n">D</span>
+      <div>
+        <h2>The negative space — what we must not build</h2>
+        <div class="sub">Gathered deliberately. This family exists to stop the other three producing something pretty and wrong.</div>
+      </div>
+    </div>
+    <div class="refs">
+
+      <div class="ref">
+        <div class="ref-t">The dark monitoring dashboard, as a genre<span class="tag seen">Seen</span></div>
+        <div class="ref-src">Dribbble · <a href="https://dribbble.com/search/monitoring%20dashboard%20dark" target="_blank">search: monitoring dashboard dark</a> — an entire page of them</div>
+        <div class="ref-what">Row upon row of equal-sized KPI tiles and small line charts. Every metric
+        rendered at the same visual weight.</div>
+        <div class="borrow kill"><b>Why it fails our problem</b><em>Metric equality.</em> If everything is the
+        same size, nothing tells you where to look — and our entire job is to say “look here, this one is
+        lying.” A dashboard that treats all seven Ooze lines identically cannot express that.</div>
+        <div class="demo">
+          <div class="demo-l">What we are rejecting</div>
+          <div class="tiles">
+            <div><b>4.1%</b><span>UNEMP</span></div>
+            <div><b>3.5%</b><span>CPI</span></div>
+            <div><b>$4.08</b><span>GAS</span></div>
+            <div><b>6.69%</b><span>MORT</span></div>
+          </div>
+          <div style="font-size:.68rem;color:var(--dim);margin-top:10px">Four facts, equal weight, no story.
+          The reader learns nothing they could repeat.</div>
+        </div>
+      </div>
+
+      <div class="ref">
+        <div class="ref-t">Red/green as the semantic system<span class="tag known">Structural finding</span></div>
+        <div class="ref-src">Observed across nearly every finance/analytics shot reviewed</div>
+        <div class="ref-what">Colour used to encode <em>good vs bad</em>, applied per-metric.</div>
+        <div class="borrow kill"><b>Why it fails our problem</b>Our employment case is a <em>green headline
+        over red internals</em>. A good/bad colour system collapses that into one valence and destroys the
+        finding. We need to encode <em>agreement vs disagreement</em> — concordance, not virtue. That is a
+        different axis and it needs a different visual channel: position, rule-weight, and the word itself.</div>
+      </div>
+
+      <div class="ref">
+        <div class="ref-t">Template “comparison” graphics<span class="tag seen">Seen</span></div>
+        <div class="ref-src">Dribbble · <a href="https://dribbble.com/search/comparison%20chart%20annotation" target="_blank">search: comparison chart annotation</a></div>
+        <div class="ref-what">Searching explicitly for annotated comparison returned almost entirely
+        generic dashboards and slide templates — side-by-side columns that compare <em>products</em>,
+        not <em>signals that disagree about the same thing</em>.</div>
+        <div class="borrow kill"><b>Why this matters more than it looks</b>This is the most useful negative
+        result on the board: <strong>the design field has largely not solved “two measurements of one thing
+        disagree.”</strong> There is no convention to copy. Whatever we build here is genuinely
+        distinctive — and we should take the instrumentation answer (Family B) seriously precisely
+        because engineering solved it and design didn't.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ THE OIL CASE ============ -->
+<section>
+  <h2>The harder case, held separately: oil</h2>
+  <p class="lede" style="margin-bottom:18px">Employment is one signal <em>lying</em>. Oil is one signal
+  telling <em>two true stories at once</em> — cheaper fuel genuinely helps a household budget, and falling
+  oil can simultaneously warn of weakening demand. Nothing in any family above solves this cleanly, and
+  a single card with one status word cannot hold it.</p>
+  <div class="split" style="max-width:760px">
+    <div class="s up">
+      <div class="k">For your wallet</div>
+      <div class="v" style="color:var(--green)">Genuinely good</div>
+      <div class="m">Lower pump prices reduce household pressure. This is not a caveat — it is real relief.</div>
+    </div>
+    <div class="vs">AND</div>
+    <div class="s dn">
+      <div class="k">For the economy</div>
+      <div class="v" style="color:var(--amber)">Worth watching</div>
+      <div class="m">If the fall is demand-driven rather than supply-driven, it is a warning, not a gift.</div>
+    </div>
+  </div>
+  <div class="note" style="margin-top:20px">
+    <b>The design question to answer in the mockups</b>
+    Does a dual-reading indicator get one card that splits, two cards that cross-reference, or a
+    different component type entirely? Whichever direction handles oil most gracefully is probably the
+    right architecture, because oil is the harder of the two cases.
+  </div>
+</section>
+
+<!-- ============ WHAT I'D BUILD ============ -->
+<section>
+  <h2>The three ideas I'd build mockups around</h2>
+  <table class="rank">
+    <tr><th>Idea</th><th>Where it comes from</th><th>Why it earns a direction</th></tr>
+    <tr>
+      <td>DISAGREE as a<br>published state</td>
+      <td>Family B — aviation instrument-disagree</td>
+      <td>Solves the exact failure. Our jar picked one source and reported improvement; an aircraft would have annunciated the disagreement. Makes the contradiction a first-class thing the product can say, not a paragraph it has to write.</td>
+    </tr>
+    <tr>
+      <td>Claim on top,<br>evidence beneath</td>
+      <td>Family A — Mansi Chauhan, Paperpillar</td>
+      <td>Delivers the five-second read with no new components. The two-clause headline (“X improved. Y didn't.”) is a repeatable weekly form that survives any month's data.</td>
+    </tr>
+    <tr>
+      <td>Expected vs actual,<br>drawn once</td>
+      <td>Family B — the anomaly band; Family C — the revealed term</td>
+      <td>The only idea that shows <em>why</em> something is strange rather than asserting it. Highest risk of becoming a chart nobody reads, which is exactly why it should be tested in a mockup rather than argued about.</td>
+    </tr>
+  </table>
+</section>
+
+<!-- ============ RISK ============ -->
+<section>
+  <div class="note">
+    <b>The biggest risk in this whole exploration</b>
+    That “What doesn't add up?” becomes a component and not a product identity. If it is a card, it will
+    be empty most weeks and will read as filler — most months genuinely have no contradiction, and
+    manufacturing one to fill the slot would be the worst possible outcome for a publication whose
+    entire differentiator is not overstating what it knows. If it is the identity, then the honest empty
+    state — <em>“Nothing contradicts this week. The signals agree.”</em> — is itself a valuable weekly
+    message, and the product has a reason to exist between monthly seals. The mockups should test the
+    empty state as seriously as the loud one.
+  </div>
+</section>
+
+<!-- ============ ASK ============ -->
+<section>
+  <div class="ask">
+    <h2 style="color:var(--ooze)">What I need from you before building mockups</h2>
+    <ol>
+      <li><strong>Veto references.</strong> Anything above you don't want inherited — say the name and it
+      never appears in a mockup.</li>
+      <li><strong>Confirm or reject the aviation framing.</strong> It is the strongest idea here and the most
+      opinionated: it would make “these instruments disagree” a permanent, named state of the product.
+      It also leans hard into the containment-lab identity. If that feels like too much lore, better to
+      know now than after four mockups.</li>
+      <li><strong>Tell me if oil should drive the architecture.</strong> I think the dual-reading case is the
+      harder constraint and should shape the component model. You may disagree — employment is the case
+      your boss actually raised.</li>
+      <li><strong>Add anything from your own Dribbble browsing.</strong> You can see things I can't judge —
+      what feels like <em>Ooze</em> to the person who made it. Paste links and I'll work them in.</li>
+    </ol>
+  </div>
+</section>
+
+<footer>
+  Phase 1 of 2 · No production code was modified · <code>mockups/inspiration-board.html</code><br>
+  Phase 2, after your veto: four substantially different mockup directions with desktop and mobile
+  states, the employment contradiction, a confirmed signal, oil's dual reading, progressive disclosure,
+  and a comparison screen.
+</footer>
+
+</div>
+</body>
+</html>
