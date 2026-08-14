@@ -96,6 +96,33 @@ true, and right now the vintage is not stated anywhere a reader can find.
 **What is not an option** is regenerating quietly. Note 2007-05 42→43: that month
 is cited in `research/editorial/incident-2007-08-draft.md`.
 
+## The outage had a second cause, behind the first
+
+Fixing the calibration got the run past the test step and it died in the next
+one. Worth recording, because a green test step is not a green pipeline:
+
+```
+NARRATIVE INTEGRITY: FAIL (2)
+✗ ooze-report-2026-07·kp0: raw score literal "sealed at 26"
+✗ ooze-report-2026-07·¶0:  raw score literal "drained 1 point to 26"
+```
+
+`scripts/story.js` interpolated `d.ooze` straight into prose. The narrative gate
+requires a canonical-truth token there and is right to — the article persists, so
+a later revision would strand a hardcoded `26` in a sentence while every other
+surface moved. Fixed by routing the month's own score through one `SCORE` token.
+Claude's territory; fixed in the following commit.
+
+That fix also exposed a reader surface it would have widened:
+`scripts/compile-reports.js` pushed `live.summary` / `live.story` / `live.lines`
+verbatim, so tokens reached the compiled read raw. It now resolves through
+lab.js's own resolver, refuses to run against a stale lab.js fallback history
+rather than silently rendering every token as an em-dash, and hard-fails if a
+token would still reach a reader.
+
+Timeline: succeeded Aug 10 and 11, failed Aug 12 and 13 (calibration), failed
+once more on the narrative gate, green on run 31768285803.
+
 ## What would have caught this sooner
 
 Nothing did, for the usual reason — we wrote "frozen calibration — do not
