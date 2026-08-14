@@ -19,8 +19,25 @@ const live = JSON.parse(read('data/editorial.json'));
 const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 const label = ym => {const [y,m] = ym.split('-').map(Number); return `${MONTHS[m-1]} ${y}`};
 
+/* Canonical-truth tokens must resolve before a reader sees them — a compiled
+   read is a reader surface. Reuse lab.js's own resolver rather than a second
+   copy of the rules, so this can never drift from what the site renders.
+   That resolver reads lab.js's baked fallback HISTORY, so a stale lab.js would
+   quietly render every token as an em-dash. Refuse instead of misleading. */
+const labCtx = {window: {}};
+vm.createContext(labCtx);
+vm.runInContext(read('lab.js'), labCtx);
+const resolveClaims = vm.runInContext('resolveClaims', labCtx);
+const labMonths = vm.runInContext('HISTORY', labCtx).length;
+const canonicalMonths = JSON.parse(read('data/history.json')).length;
+if (labMonths !== canonicalMonths) {
+  console.error(`lab.js HISTORY has ${labMonths} months, data/history.json has ${canonicalMonths}.`);
+  console.error('Run: node scripts/sync-fallback-history.js');
+  process.exit(1);
+}
+
 /* strip the site's bold markers; the compiled read is plain prose */
-const plain = s => String(s).replace(/\*\*/g, '');
+const plain = s => resolveClaims(String(s)).replace(/\*\*/g, '');
 
 function render(a) {
   const out = [`### ${plain(a.title)}`, '', `*${plain(a.dek)}*`, '', '**Key points**'];
@@ -77,20 +94,26 @@ doc.push(`The one report the facility published in real time (${live.monthLabel}
 doc.push('the story engine rather than the backfill generator. Same month as entry');
 doc.push(`${String(months.length).padStart(2,'0')} above — worth reading them back to back.`);
 doc.push('');
-doc.push(`**Verdict line.** ${live.verdict}`);
+doc.push(`**Verdict line.** ${plain(live.verdict)}`);
 doc.push('');
-doc.push(`**Summary.** ${live.summary}`);
+doc.push(`**Summary.** ${plain(live.summary)}`);
 doc.push('');
-doc.push(`**Story.** ${live.story}`);
+doc.push(`**Story.** ${plain(live.story)}`);
 doc.push('');
 doc.push('**Line by line.**');
-Object.entries(live.lines).forEach(([k, v]) => doc.push(`- ${v}`));
+Object.entries(live.lines).forEach(([k, v]) => doc.push(`- ${plain(v)}`));
 doc.push('');
-if (live.household) doc.push(`**What a household would notice.** ${live.household}`, '');
-if (live.confidence) doc.push(`**Confidence.** ${live.confidence}`, '');
+if (live.household) doc.push(`**What a household would notice.** ${plain(live.household)}`, '');
+if (live.confidence) doc.push(`**Confidence.** ${plain(live.confidence)}`, '');
 doc.push(`*${live.byline}*`);
 doc.push('');
 
-fs.writeFileSync(path.join(root, 'research/editorial/trailing-year-reports.md'), doc.join('\n'));
+const out = doc.join('\n');
+const leaked = out.match(/\{\{[^}]+\}\}/g);
+if (leaked) {
+  console.error(`unresolved canonical-truth tokens would reach a reader: ${[...new Set(leaked)].join(', ')}`);
+  process.exit(1);
+}
+fs.writeFileSync(path.join(root, 'research/editorial/trailing-year-reports.md'), out);
 const words = doc.join(' ').split(/\s+/).length;
 console.log(JSON.stringify({status: 'pass', months: months.length, reports: recon.length + 1, words}));

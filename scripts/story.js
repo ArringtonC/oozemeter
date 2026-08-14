@@ -65,7 +65,10 @@ const easers=weighted.filter(([,l])=>l.delta<=-3).sort((a,b)=>a[1].delta-b[1].de
 const risers=weighted.filter(([,l])=>l.delta>=3).sort((a,b)=>b[1].delta-a[1].delta);
 const delta=d.ooze-d.prevOoze;
 
-const s1=`For the average household, ${NAMES[topK]} was the largest source of financial pressure in ${d.monthLabel} — ${topL.contrib} of the month's ${d.ooze} ounces${VALUE_CLAUSE[topK]?.(topL)||''}.`;
+/* the month's own score is always a token, never a literal: these articles
+   persist, and a later source revision must re-resolve them, not strand them. */
+const SCORE=`{{s:${d.month}}}`;
+const s1=`For the average household, ${NAMES[topK]} was the largest source of financial pressure in ${d.monthLabel} — ${topL.contrib} of the month's ${SCORE} ounces${VALUE_CLAUSE[topK]?.(topL)||''}.`;
 let s2;
 if(easers.length&&risers.length)
   s2=`${cap(easers.map(([k,l])=>`${NAMES[k]} eased ${Math.abs(l.delta)} points`).join(' and '))}, while ${risers.map(([k,l])=>`${NAMES[k]} climbed ${l.delta}`).join(' and ')}.`;
@@ -77,12 +80,12 @@ else if(risers.length)
   s2=`The added pressure came from ${risers.map(([k,l])=>`${NAMES[k]} (up ${l.delta} points)`).join(' and ')}.`;
 else s2=`No intake line moved more than a point or two.`;
 const s3=delta===0
-  ?`Altogether the jar held at ${d.ooze}, keeping the national containment level in the ${band(d.ooze)} range.`
-  :`Altogether the jar ${delta<0?'drained':'rose'} ${pts(Math.abs(delta))} to ${d.ooze}, keeping the national containment level in the ${band(d.ooze)} range.`;
+  ?`Altogether the jar held at ${SCORE}, keeping the national containment level in the ${band(d.ooze)} range.`
+  :`Altogether the jar ${delta<0?'drained':'rose'} ${pts(Math.abs(delta))} to ${SCORE}, keeping the national containment level in the ${band(d.ooze)} range.`;
 const story=`${s1} ${s2} ${s3}`;
 
 /* ---- executive summary ---- */
-const summary=`The ${d.monthLabel} Ooze Level sealed at ${d.ooze} out of 100 — ${band(d.ooze)} territory, ${delta===0?'unchanged from':delta<0?`down ${Math.abs(delta)} from`:`up ${delta} from`} ${d.prevMonthLabel}. ${verdict}. The heaviest line was ${NAMES[topK]} at ${topL.contrib} ounces.`;
+const summary=`The ${d.monthLabel} Ooze Level sealed at ${SCORE} out of 100 — ${band(d.ooze)} territory, ${delta===0?'unchanged from':delta<0?`down ${Math.abs(delta)} from`:`up ${delta} from`} ${d.prevMonthLabel}. ${verdict}. The heaviest line was ${NAMES[topK]} at ${topL.contrib} ounces.`;
 
 /* ---- confidence statement ---- */
 const staleN=d.collection?.staleLines?.length||0;
@@ -122,8 +125,8 @@ const article={
   title:`The ${d.monthLabel} Ooze Report: ${d.ooze}/100`,
   dek:`${cap(NAMES[topK])} stayed the heaviest weight on household budgets${easers.length?`, while ${NAMES[easers[0][0]]}${easers[1]?` and ${NAMES[easers[1][0]]}`:''} supplied the month's relief`:''}.`,
   keyPoints:[
-    delta===0?`${d.monthLabel} sealed at ${d.ooze} (${band(d.ooze)}), unchanged from ${d.prevMonthLabel}.`
-      :`${d.monthLabel} sealed at ${d.ooze} (${band(d.ooze)}), ${delta<0?'down':'up'} ${pts(Math.abs(delta))} from ${d.prevMonthLabel}.`,
+    delta===0?`${d.monthLabel} sealed at ${SCORE} (${band(d.ooze)}), unchanged from ${d.prevMonthLabel}.`
+      :`${d.monthLabel} sealed at ${SCORE} (${band(d.ooze)}), ${delta<0?'down':'up'} ${pts(Math.abs(delta))} from ${d.prevMonthLabel}.`,
     `${verdict}.`,
     `Largest pressure: ${NAMES[topK]} (${topL.contrib} oz)${easers.length?`; biggest relief: ${NAMES[easers[0][0]]} (${easers[0][1].delta} pts)`:''}.`,
   ],
