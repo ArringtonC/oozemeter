@@ -61,7 +61,7 @@ published numbers do not move.
 
 ---
 
-## The separate finding — 13 months of unpublished revision drift
+## The separate finding — a stale artifact feeding a reader surface
 
 Regenerating `research/backtest-results.json` against today's data would change
 **16 published months** by one point. Only 3 are the calibration (above). The
@@ -75,26 +75,43 @@ built:
 2026-06 26→27                   (+ new month 2026-07 = 26)
 ```
 
-**I did not regenerate it.** The daily workflow does not run `backtest.js` and
-does not commit `research/` — it commits `data/`, `index.html`, `feed.xml`,
-`lab.js` — so nothing republishes silently and there is no urgency.
+### RESOLVED 2026-08-14 — and my first read of it was wrong
 
-But this is a decision someone has to make, and it is editorial, not
-engineering. Sixteen historical scores on a public site are wrong by a point
-relative to today's data. The Constitution's corrections policy governs it. Two
-honest options:
+I initially wrote that these were "16 published months" that readers were
+seeing. **They were not.** `data/history.json` — what the site actually
+publishes — matched a fresh backtest exactly, 0 of 282 months differing. The
+collector rebuilds it daily and the revisions are logged to
+`data/revisions.json`. The site was current the whole time.
 
-1. Regenerate and publish a correction noting the source revisions.
-2. Leave it, and state the artifact's vintage date on the page so a reader can
-   see which data it was built from.
+The stale file was `research/backtest-results.json` alone. That would have been
+harmless, except one thing reads it: `scripts/backfill-reports.js`, which
+generates `data/reconstruction-reports.js` — the **reader-visible** archive.
+That archive was built 2026-08-01 and never rebuilt, so:
 
-Option 2 is probably right — these are ex-post reconstructions already disclosed
-as "latest available revised observations," and chasing revisions forever means
-the published history never stops moving. But it needs the disclosure to be
-true, and right now the vintage is not stated anywhere a reader can find.
+```
+2025-07  24 → 23      2026-04  27 → 28
+2026-02  20 → 19      2026-05  29 → 30
+                      2026-06  26 → 27
+```
 
-**What is not an option** is regenerating quietly. Note 2007-05 42→43: that month
-is cited in `research/editorial/incident-2007-08-draft.md`.
+Five of eleven archive articles contradicted the jar on the same month for
+thirteen days. Regenerated, and corrected in public as
+`correction-2026-08-archive-vintage`.
+
+The remaining months in the old list (2003-10, 2004-05, 2005-11, 2006-05,
+2006-07, 2007-05, 2010-06, 2011-08, 2012-03, 2019-08) fall outside the
+trailing-year archive window and were never rendered anywhere a reader could
+reach. They moved in the research artifact only. **2007-05 42→43 still matters
+for `research/editorial/incident-2007-08-draft.md`** — that draft's verification
+table cites the old figure and needs rechecking before it ships.
+
+**The gate that was missing.** Nothing checked the archive — not
+`narrative-check.js`, not `integrity.js`, not any test. It is the one reader
+surface that cannot carry canonical-truth tokens, because each report apportions
+its ounces to sum to its own printed reading, so the article regenerates as a
+unit or not at all. `narrative-check.js` now compares every reconstruction
+against `data/history.json` for its month and fails the build on disagreement,
+naming the months and telling you to rerun `backfill-reports.js`.
 
 ## The outage had a second cause, behind the first
 
