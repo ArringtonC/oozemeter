@@ -14,9 +14,13 @@
       (allowlist: sentences about the calibration pegs).
    3. The canonical report permalink (editorial.articleSlug) resolves
       to a real article.
+   4. Every archive reconstruction prints the same reading the jar
+      publishes for that month. These bake literals by necessity, so
+      they are the one surface that can drift silently on a revision.
    Exit 1 on failure — wire into the cron's verify step.
    ============================================================ */
 const fs=require('fs');
+const vm=require('vm');
 const fail=[],warn=[];
 
 const history=JSON.parse(fs.readFileSync('data/history.json','utf8'));
@@ -108,6 +112,31 @@ for(const a of all){
   (a.body||[]).forEach((p,i)=>scan(p,`${a.slug}·¶${i}`));
 }
 
+/* The archive reconstructions bake their figures as literals — they cannot use
+   tokens, because each report's ounces are apportioned to sum to its printed
+   reading, so the whole article regenerates together or not at all. That makes
+   them the one reader surface that can silently fall out of step with the
+   published history when a source revises. Nothing checked them until
+   2026-08-14, and five of eleven had drifted a point. Check them here: the
+   reading a reconstruction prints must equal the reading the jar publishes. */
+let reconChecked=0;
+try{
+  const rc={window:{}};vm.createContext(rc);
+  vm.runInContext(fs.readFileSync('data/reconstruction-reports.js','utf8'),rc);
+  const recon=(rc.window.RECON_ARTICLES||[]).filter(a=>/^recon-ooze-/.test(a.slug));
+  for(const a of recon){
+    const truth=hmap.get(key(a.month));
+    if(truth==null){fail.push(`${a.slug}: month ${a.month} is missing from data/history.json`);continue}
+    for(const [field,text] of [['title',a.title],['dek',a.dek],...(a.keyPoints||[]).map((k,i)=>[`kp${i}`,k])]){
+      const m=String(text).match(/(?:jar read|reads?|scored)\s+(\d{1,3})(?:\/100)?/i);
+      if(!m)continue;
+      if(+m[1]!==Math.round(truth))
+        fail.push(`${a.slug}·${field}: archive prints ${m[1]} for ${a.month}, but the published history says ${Math.round(truth)} — rerun scripts/backfill-reports.js`);
+    }
+    reconChecked++;
+  }
+}catch(e){warn.push('reconstruction-reports.js unreadable: '+e.message)}
+
 /* permalink resolves */
 try{
   const ed=JSON.parse(fs.readFileSync('data/editorial.json','utf8'));
@@ -121,4 +150,4 @@ if(fail.length){
   fail.forEach(f=>console.error('✗',f));
   process.exit(1);
 }
-console.log(`narrative integrity: PASS — ${all.length} articles, every number canonical, permalink resolves`);
+console.log(`narrative integrity: PASS — ${all.length} articles + ${reconChecked} archive reconstructions, every number canonical, permalink resolves`);
