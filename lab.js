@@ -39,7 +39,7 @@ const INDICATORS = [
    spark:[28,30,29,33,31,36,40],
    source:{name:'EIA Weekly Retail Gasoline (via FRED)', url:'https://www.eia.gov/petroleum/gasdiesel/'},
    why:`Gasoline is the price everyone sees twice a week, posted in foot-tall numbers on every corner. When it rises, the pain is immediate: commuters, delivery businesses, and family budgets all feel it within days. Economists watch it because fuel costs leak into the price of nearly everything that moves on a truck.`,
-   vs2008:`In June 2008, the national average hit $4.11 — a record that, adjusted for inflation, still stings. Combined with the housing collapse, expensive fuel squeezed households from both sides. Today's $3.42 is elevated but nowhere near that intake line's 2008 peak pressure.`,
+   vs2008:`In June 2008, the national average hit $4.11 — a record that, adjusted for inflation, still stings. Combined with the housing collapse, expensive fuel squeezed households from both sides. Today's pump price — shown at the top of this page, from the live feed — is high in nominal terms but sits below that 2008 peak once inflation is accounted for.`,
    faqs:[
      {q:'Why do gas prices rise?', a:'Crude oil is roughly half the pump price, so global oil markets drive most moves. The rest is refining capacity, distribution, taxes, and seasonal demand — summer blends and road-trip season push prices up most years.'},
      {q:'Does the president control gas prices?', a:'Mostly no. Prices are set by global supply and demand. Policy can nudge things at the margins (reserves, permits, taxes), but no administration sets the number on the sign.'},
@@ -63,17 +63,17 @@ const INDICATORS = [
    spark:[30,34,38,42,48,55,60],
    source:{name:'NY Fed Household Debt Report', url:'https://www.newyorkfed.org'},
    why:`Credit card stress is the economy's early-warning smoke detector. Cards are the first bill households skip when budgets crack — before the car payment, long before the mortgage. Rising delinquencies mean millions of kitchen-table budgets are already failing, months before it shows up anywhere else.`,
-   vs2008:`Charge-off rates peaked above 10% in 2010 as unemployment destroyed household finances. Today's 3.2% delinquency is a fraction of that — but it has been climbing steadily from pandemic-era lows, which is exactly the kind of trend this facility exists to watch.`,
+   vs2008:`Charge-off rates peaked above 10% in 2010 as unemployment destroyed household finances. Today's delinquency rate — shown at the top of this page, from the live feed — remains a fraction of that. This line reads the level and its direction together; the current move is stated beside the reading rather than described here, because a sentence written once cannot keep up with a series that revises.`,
    faqs:[
      {q:'What is a delinquency?', a:'A payment more than 30 days late. At 90+ days it becomes "seriously delinquent," and when the bank gives up collecting, it becomes a charge-off.'},
-     {q:'Why are balances rising?', a:'Inflation raised the cost of essentials while pandemic savings ran out. Many households bridge the gap on cards — at APRs above 21%, the highest on record.'},
+     {q:'Why are balances rising?', a:'Inflation raised the cost of essentials while pandemic savings ran out. Many households bridge the gap on cards — at APRs near their historic highs.'},
      {q:'How much card debt does America carry?', a:'Over $1.1 trillion — an all-time high in nominal terms, though as a share of income it remains below the 2008 peak.'},
    ],
    related:['auto','housing','jobs']},
 
   {slug:'auto', emoji:'🚗', name:'Auto Loans', val:'7.9%', trend:'▲ average APR', dir:'up', contrib:9, weight:14.55,
    spark:[40,42,45,44,48,50,52],
-   source:{name:'NY Fed / Experian', url:'https://www.newyorkfed.org'},
+   source:{name:'NY Fed / Equifax', url:'https://www.newyorkfed.org'},
    why:`In most of America, no car means no job. That makes the auto loan the most defended payment in the household budget — families pay the car before the credit card, sometimes before the rent. So when auto delinquencies and repossessions rise, it signals stress that has already burned through every other line of defense.`,
    vs2008:`Repossessions surged past 1.9 million in 2009. Today's numbers are lower, but the average monthly payment on a new car now exceeds $730 — a record — and seven-year loan terms mean many borrowers owe more than the car is worth.`,
    faqs:[
@@ -87,7 +87,7 @@ const INDICATORS = [
    spark:[35,36,38,40,44,48,55],
    source:{name:'Bureau of Labor Statistics', url:'https://www.bls.gov'},
    why:`Employment is the heaviest-weighted intake line in the facility, and for good reason: a paycheck is the pressure valve for every other indicator. People with jobs pay their mortgages, cards, and car loans. When unemployment climbs, every other jar in the building starts bubbling within months. Recessions are, at their core, employment events.`,
-   vs2008:`Unemployment peaked at 10.0% in October 2009 — nearly 15 million Americans out of work — and took over six years to recover. April 2020 was even more violent: 14.8% in a single month. Today's 4.4% is historically low, but the direction of travel is what raises this line's pressure.`,
+   vs2008:`Unemployment peaked at 10.0% in October 2009 — nearly 15 million Americans out of work — and took over six years to recover. April 2020 was even more violent: 14.8% in a single month. Today's rate — shown at the top of this page, from the live feed — is low by the standard of both those episodes. This line reads direction as well as level, and the current move is stated beside the reading rather than fixed in this sentence.`,
    faqs:[
      {q:'What counts as unemployed?', a:'You must be jobless, available to work, and actively searching within the last four weeks. Discouraged workers who stopped looking are counted separately — a reason economists watch broader measures like U-6.'},
      {q:'What are initial jobless claims?', a:'The weekly count of new unemployment-benefit filings — the fastest-updating employment signal we have, published every Thursday.'},

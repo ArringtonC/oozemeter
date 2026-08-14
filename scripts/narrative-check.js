@@ -123,15 +123,42 @@ let reconChecked=0;
 try{
   const rc={window:{}};vm.createContext(rc);
   vm.runInContext(fs.readFileSync('data/reconstruction-reports.js','utf8'),rc);
-  const recon=(rc.window.RECON_ARTICLES||[]).filter(a=>/^recon-ooze-/.test(a.slug));
-  for(const a of recon){
-    const truth=hmap.get(key(a.month));
-    if(truth==null){fail.push(`${a.slug}: month ${a.month} is missing from data/history.json`);continue}
-    for(const [field,text] of [['title',a.title],['dek',a.dek],...(a.keyPoints||[]).map((k,i)=>[`kp${i}`,k])]){
-      const m=String(text).match(/(?:jar read|reads?|scored)\s+(\d{1,3})(?:\/100)?/i);
-      if(!m)continue;
-      if(+m[1]!==Math.round(truth))
-        fail.push(`${a.slug}·${field}: archive prints ${m[1]} for ${a.month}, but the published history says ${Math.round(truth)} — rerun scripts/backfill-reports.js`);
+  const marketMonth=m=>{const row=(marketHistory.monthly||[]).find(r=>r.month===m);return row?row.market:null};
+  /* All 23 reconstructions, not the 11 household ones — but each field must be
+     checked against the instrument it actually names. The ward reports print a
+     WARD score in their headline and a HOUSEHOLD score in their divergence
+     paragraph, so a single denominator produces confident nonsense (the first
+     pass compared ward 53 against household 24 and "found" 11 defects). */
+  for(const a of (rc.window.RECON_ARTICLES||[])){
+    if(!/^recon-/.test(a.slug))continue;
+    const household=hmap.get(key(a.month));
+    const ward=marketMonth(a.month);
+    const isWard=/^recon-ward-/.test(a.slug);
+    /* The explicit cross-instrument claim is unambiguous, so it is safe to scan
+       anywhere including body prose. */
+    for(const [field,raw] of [['dek',a.dek],...(a.keyPoints||[]).map((k,i)=>[`kp${i}`,k]),...(a.body||[]).map((b,i)=>[`¶${i}`,b])]){
+      const hh=String(raw||'').match(/household jar\s+(\d{1,3})\/100/i);
+      if(!hh)continue;
+      if(household==null)fail.push(`${a.slug}·${field}: cites a household jar reading for ${a.month}, which is missing from data/history.json`);
+      else if(+hh[1]!==Math.round(household))fail.push(`${a.slug}·${field}: prints household jar ${hh[1]} for ${a.month}, published history says ${Math.round(household)} — rerun scripts/backfill-reports.js`);
+    }
+    /* The report's own headline reading, against its own instrument. Restricted
+       to the structured fields: body prose carries definitional sentences like
+       "the ward's calmest month since 2007 reads 10", and a loose scan there
+       reports those as defects with total confidence. */
+    const truth=isWard?ward:household;
+    const src=isWard?'data/market-history.json':'data/history.json';
+    for(const [field,raw] of [['title',a.title],['dek',a.dek],...(a.keyPoints||[]).map((k,i)=>[`kp${i}`,k])]){
+      const own=String(raw||'').match(/(?:jar read|Ward M reads?|market ooze|reads?|scored)\s+(\d{1,3})(?:\/100)?/i);
+      if(!own)continue;
+      /* Absence is not disagreement. A month can be legitimately unpublishable —
+         2025-10 has no UNRATE and no CPIAUCNS at all (federal shutdown), so the
+         composite cannot be computed and the backtest correctly omits it. That
+         needs an editorial decision about the article, not a regeneration, so it
+         warns. A number that disagrees still fails. */
+      if(truth==null){warn.push(`${a.slug}·${field}: cites a reading for ${a.month}, a month ${src} does not publish — the article outlives its data`);continue}
+      if(+own[1]!==Math.round(truth))
+        fail.push(`${a.slug}·${field}: archive prints ${own[1]} for ${a.month}, but ${src} says ${Math.round(truth)} — rerun scripts/backfill-reports.js`);
     }
     reconChecked++;
   }

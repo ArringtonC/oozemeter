@@ -25,6 +25,7 @@ const path=require('path');
 const {fetchWithRetry}=require('./lib/fetch');
 const {dataRootFromEnv,writePublishedPair}=require('./lib/market-output');
 const {interpolateAnchors,parseFredMonthly}=require('./lib/market-series');
+const {FROZEN_WARD_CALIBRATION}=require('./lib/market-backtest');
 const {latestSectorObservationDate}=require('./lib/market-sector');
 
 const fred=id=>`https://fred.stlouisfed.org/series/${id}`;
@@ -38,8 +39,11 @@ const last=m=>Object.keys(m).sort().pop();
 const prevKey=k=>{const[y,mo]=k.split('-').map(Number);return `${mo===1?y-1:y}-${String(mo===1?12:mo-1).padStart(2,'0')}`};
 const yoy=(m,k)=>{const p=m[`${+k.slice(0,4)-1}${k.slice(4)}`];return p?((m[k]-p)/p*100):null};
 
-/* frozen from scripts/backtest-market.js (6-gauge composite, 2007-present) */
-const CAL={a:1.4025,b:-7.0116,rule:'ward calm 2007-present = 10, ward GFC peak = 90',
+/* Frozen Ward calibration — imported, never re-declared. A truncated local copy
+   {a:1.4025,b:-7.0116} lived here until 2026-08-14 and published a different
+   rounded score from the canonical pair on 10 distinct raw values. Same
+   two-copies failure as the household jar's calibration; fixed the same way. */
+const CAL={...FROZEN_WARD_CALIBRATION,rule:'ward calm 2007-present = 10, ward GFC peak = 90',
   episodes:[
     {name:'GFC peak',month:'2008-11',score:90},
     {name:'Euro stress',month:'2011-09',score:61},

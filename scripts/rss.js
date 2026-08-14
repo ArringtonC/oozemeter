@@ -29,7 +29,7 @@ entries.push({
   id:`${SITE}/#reading-${d.month}`,url:`${SITE}/`,
   title:`Ooze Level ${d.monthLabel}: ${d.ooze}/100 (${band(d.ooze)})`,
   date:new Date(d.generated).toISOString(),
-  summary:EDITORIAL?.rssSummary||`The ${d.monthLabel} reading sealed at ${d.ooze}, ${d.ooze-d.prevOoze>=0?'up':'down'} ${Math.abs(d.ooze-d.prevOoze)} from ${d.prevMonthLabel}.`,
+  summary:resolve(EDITORIAL?.rssSummary)||`The ${d.monthLabel} reading sealed at ${d.ooze}, ${d.ooze-d.prevOoze>=0?'up':'down'} ${Math.abs(d.ooze-d.prevOoze)} from ${d.prevMonthLabel}.`,
 });
 for(const a of ARTICLES){
   entries.push({id:`${SITE}/article.html?a=${a.slug}`,url:`${SITE}/article.html?a=${a.slug}`,
@@ -54,5 +54,14 @@ ${entries.map(e=>`  <entry>
     <summary>${esc(e.summary)}</summary>
   </entry>`).join('\n')}
 </feed>`;
+/* A feed is a reader surface and it is the one nobody re-reads. On 2026-08-14
+   this shipped the literal string {{s:2026-07}} to every subscriber, because
+   rssSummary was the one field not passed through resolve(). Refuse to write
+   rather than publish a token. */
+const leaked=feed.match(/\{\{[^}]+\}\}/g);
+if(leaked){
+  console.error(`feed.xml would ship unresolved tokens: ${[...new Set(leaked)].join(', ')}`);
+  process.exit(1);
+}
 fs.writeFileSync('feed.xml',feed);
 console.log(`feed.xml: ${entries.length} entries, newest "${entries[0].title}"`);
