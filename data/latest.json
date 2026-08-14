@@ -1,17 +1,17 @@
 {
- "generated": "2026-08-11T14:40:45.463Z",
+ "generated": "2026-08-14T03:56:14.121Z",
  "methodologyVersion": "3.0.0",
- "month": "2026-06",
- "monthLabel": "June 2026",
- "prevMonth": "2026-05",
- "prevMonthLabel": "May 2026",
+ "month": "2026-07",
+ "monthLabel": "July 2026",
+ "prevMonth": "2026-06",
+ "prevMonthLabel": "June 2026",
  "ooze": 26,
- "prevOoze": 29,
- "updatedLabel": "June 2026 reading · collected 2026-08-11",
+ "prevOoze": 27,
+ "updatedLabel": "July 2026 reading · collected 2026-08-14",
  "collection": {
   "status": "ok",
   "changed": true,
-  "inputFingerprint": "520a6e90dd0750211918b5ab089f1683c6bea7f12e19c6d21c8ddb490ee63a06",
+  "inputFingerprint": "890a54f4ae088cb188743ac6a66878d34a905ccc60d6da7fb34996d32d4db87c",
   "fingerprintSchemaVersion": 3,
   "vintageRetentionPolicy": "retain-all-unique-schema-v3-manifests",
   "freshnessStatus": "current",
@@ -34,15 +34,15 @@
     "url": "https://fred.stlouisfed.org/series/GASREGW",
     "proxy": false
    },
-   "stress": 61,
+   "stress": 58,
    "contrib": 4,
-   "delta": -11,
+   "delta": -3,
    "stale": false,
-   "updateStatus": "new-observation"
+   "updateStatus": "no-new-release"
   },
   "housing": {
-   "value": "6.69%",
-   "asOf": "2026-08-06",
+   "value": "6.67%",
+   "asOf": "2026-08-13",
    "cadence": "weekly",
    "source": {
     "publisher": "Freddie Mac",
@@ -60,10 +60,10 @@
     "proxy": true
    },
    "stress": 44,
-   "contrib": 6,
-   "delta": 1,
+   "contrib": 7,
+   "delta": 0,
    "stale": false,
-   "updateStatus": "no-new-release"
+   "updateStatus": "new-observation"
   },
   "credit": {
    "value": "2.9%",
@@ -84,22 +84,22 @@
    "updateStatus": "no-new-release"
   },
   "auto": {
-   "value": "7.7%",
-   "asOf": "2026-01-01",
+   "value": "7.9%",
+   "asOf": "2026-04-01",
    "cadence": "quarterly",
    "source": {
     "publisher": "Federal Reserve Bank of New York",
     "transport": "NY Fed HHDC workbook",
     "seriesId": "Page 13 Data / AUTO",
     "metric": "Previously current auto balance entering 30+ delinquency",
-    "url": "https://www.newyorkfed.org/medialibrary/interactives/householdcredit/data/xls/HHD_C_Report_2026Q1",
+    "url": "https://www.newyorkfed.org/medialibrary/interactives/householdcredit/data/xls/HHD_C_Report_2026Q2",
     "proxy": false
    },
-   "stress": 44,
+   "stress": 47,
    "contrib": 5,
    "delta": 0,
    "stale": false,
-   "updateStatus": "no-new-release"
+   "updateStatus": "new-observation"
   },
   "jobs": {
    "value": "4.1%",
@@ -116,19 +116,19 @@
    "secondary": {
     "publisher": "U.S. Department of Labor",
     "seriesId": "ICSA",
-    "value": 198750,
-    "asOf": "2026-08-01",
+    "value": 199000,
+    "asOf": "2026-08-08",
     "transform": "trailing four-week mean"
    },
-   "stress": 14,
-   "contrib": 3,
-   "delta": -2,
+   "stress": 13,
+   "contrib": 2,
+   "delta": -1,
    "stale": false,
    "updateStatus": "no-new-release"
   },
   "inflation": {
-   "value": "3.5%",
-   "asOf": "2026-06-01",
+   "value": "3.4%",
+   "asOf": "2026-07-01",
    "cadence": "monthly",
    "source": {
     "publisher": "U.S. Bureau of Labor Statistics",
@@ -140,15 +140,15 @@
     "seasonalAdjustment": "not seasonally adjusted",
     "transform": "same-month year-over-year percent change"
    },
-   "stress": 33,
+   "stress": 30,
    "contrib": 2,
-   "delta": -9,
+   "delta": -3,
    "stale": false,
-   "updateStatus": "no-new-release"
+   "updateStatus": "new-observation"
   },
   "financial": {
-   "value": "-0.53",
-   "asOf": "2026-07-31",
+   "value": "-0.55",
+   "asOf": "2026-08-07",
    "cadence": "weekly",
    "contributesToOoze": true,
    "source": {
@@ -160,11 +160,11 @@
     "proxy": false,
     "transform": "calendar-month mean"
    },
-   "stress": 12,
+   "stress": 10,
    "contrib": 0,
-   "delta": 0,
+   "delta": -1,
    "stale": false,
-   "updateStatus": "no-new-release"
+   "updateStatus": "new-observation"
   },
   "foreclosures": {
    "value": "1.9%",
@@ -220,15 +220,15 @@
  "movers": [
   {
    "slug": "gas",
-   "delta": -11
+   "delta": -3
   },
   {
    "slug": "inflation",
-   "delta": -9
+   "delta": -3
   },
   {
    "slug": "jobs",
-   "delta": -2
+   "delta": -1
   }
  ],
  "history": [
@@ -270,7 +270,7 @@
   ],
   [
    2003.75,
-   37
+   38
   ],
   [
    2003.833,
@@ -298,7 +298,7 @@
   ],
   [
    2004.333,
-   35
+   36
   ],
   [
    2004.417,
@@ -370,7 +370,7 @@
   ],
   [
    2005.833,
-   33
+   34
   ],
   [
    2005.917,
@@ -394,7 +394,7 @@
   ],
   [
    2006.333,
-   46
+   47
   ],
   [
    2006.417,
@@ -402,7 +402,7 @@
   ],
   [
    2006.5,
-   46
+   47
   ],
   [
    2006.583,
@@ -442,7 +442,7 @@
   ],
   [
    2007.333,
-   42
+   43
   ],
   [
    2007.417,
@@ -590,7 +590,7 @@
   ],
   [
    2010.417,
-   77
+   76
   ],
   [
    2010.5,
@@ -614,7 +614,7 @@
   ],
   [
    2010.917,
-   67
+   66
   ],
   [
    2011,
@@ -646,7 +646,7 @@
   ],
   [
    2011.583,
-   64
+   63
   ],
   [
    2011.667,
@@ -674,7 +674,7 @@
   ],
   [
    2012.167,
-   56
+   55
   ],
   [
    2012.25,
@@ -1030,7 +1030,7 @@
   ],
   [
    2019.583,
-   12
+   11
   ],
   [
    2019.667,
@@ -1314,7 +1314,7 @@
   ],
   [
    2025.5,
-   24
+   23
   ],
   [
    2025.583,
@@ -1338,7 +1338,7 @@
   ],
   [
    2026.083,
-   20
+   19
   ],
   [
    2026.167,
@@ -1346,14 +1346,18 @@
   ],
   [
    2026.25,
-   27
+   28
   ],
   [
    2026.333,
-   29
+   30
   ],
   [
    2026.417,
+   27
+  ],
+  [
+   2026.5,
    26
   ]
  ],

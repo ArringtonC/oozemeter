@@ -2,8 +2,8 @@
  "generated": "2026-08-01T23:35:18.922Z",
  "acquisitionFingerprint": "c0d1bff6ff1ba6d4f58ad1f91b139382d8e5e2e745307dc6b7f247e4d0caa906",
  "start": "2007-01",
- "end": "2026-06",
- "observations": 233,
+ "end": "2026-07",
+ "observations": 234,
  "note": "Exact shared monthly observations only, using current-revised inputs; not release-time vintages. Historical Sector Watch is a research reconstruction from successive monthly closes, while live breadth uses a 22-session daily interval requiring 23 closes. Missing household months remain gaps; no interpolation.",
  "monthly": [
   {
@@ -33,8 +33,8 @@
   {
    "month": "2007-05",
    "market": 21,
-   "household": 42,
-   "divergence": -21
+   "household": 43,
+   "divergence": -22
   },
   {
    "month": "2007-06",
@@ -255,8 +255,8 @@
   {
    "month": "2010-06",
    "market": 54,
-   "household": 77,
-   "divergence": -23
+   "household": 76,
+   "divergence": -22
   },
   {
    "month": "2010-07",
@@ -291,8 +291,8 @@
   {
    "month": "2010-12",
    "market": 24,
-   "household": 67,
-   "divergence": -43
+   "household": 66,
+   "divergence": -42
   },
   {
    "month": "2011-01",
@@ -339,8 +339,8 @@
   {
    "month": "2011-08",
    "market": 53,
-   "household": 64,
-   "divergence": -11
+   "household": 63,
+   "divergence": -10
   },
   {
    "month": "2011-09",
@@ -381,8 +381,8 @@
   {
    "month": "2012-03",
    "market": 31,
-   "household": 56,
-   "divergence": -25
+   "household": 55,
+   "divergence": -24
   },
   {
    "month": "2012-04",
@@ -915,8 +915,8 @@
   {
    "month": "2019-08",
    "market": 42,
-   "household": 12,
-   "divergence": 30
+   "household": 11,
+   "divergence": 31
   },
   {
    "month": "2019-09",
@@ -1341,8 +1341,8 @@
   {
    "month": "2025-07",
    "market": 27,
-   "household": 24,
-   "divergence": 3
+   "household": 23,
+   "divergence": 4
   },
   {
    "month": "2025-08",
@@ -1377,8 +1377,8 @@
   {
    "month": "2026-02",
    "market": 27,
-   "household": 20,
-   "divergence": 7
+   "household": 19,
+   "divergence": 8
   },
   {
    "month": "2026-03",
@@ -1389,20 +1389,26 @@
   {
    "month": "2026-04",
    "market": 32,
-   "household": 27,
-   "divergence": 5
+   "household": 28,
+   "divergence": 4
   },
   {
    "month": "2026-05",
    "market": 30,
-   "household": 29,
-   "divergence": 1
+   "household": 30,
+   "divergence": 0
   },
   {
    "month": "2026-06",
    "market": 30,
+   "household": 27,
+   "divergence": 3
+  },
+  {
+   "month": "2026-07",
+   "market": 37,
    "household": 26,
-   "divergence": 4
+   "divergence": 11
   }
  ]
 }
