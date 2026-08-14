@@ -15,6 +15,7 @@ const {collectionFingerprint}=require('./lib/fingerprint');
 const {fetchFredSeries}=require('./lib/fred');
 const {
   AUTO_30_PLUS_ANCHORS,
+  CALIBRATION_V3,
   FINANCIAL_CONDITIONS_ANCHORS,
   METHODOLOGY_V3_WEIGHTS,
   auto30PlusStress,
@@ -25,9 +26,8 @@ const {
   yearOverYear,
 }=require('./lib/methodology');
 
-/* frozen calibration — derived once on the 2003-2025 window (backtest.js),
-   calm month → 10, GFC peak Jun 2009 → 90. Do not re-derive daily. */
-const CAL={a:1.418684348943213,b:-23.96514845099034};
+/* frozen calibration — one source of truth, shared with backtest.js */
+const CAL=CALIBRATION_V3;
 const METHODOLOGY_VERSION='3.0.0';
 const FINGERPRINT_SCHEMA_VERSION=3;
 const VINTAGE_RETENTION_POLICY='retain-all-unique-schema-v3-manifests';

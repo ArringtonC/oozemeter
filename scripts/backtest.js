@@ -7,6 +7,7 @@
 
 const {
   AUTO_30_PLUS_ANCHORS,
+  CALIBRATION_V3,
   FINANCIAL_CONDITIONS_ANCHORS,
   METHODOLOGY_V3_WEIGHTS,
   auto30PlusStress,
@@ -118,12 +119,21 @@ function ffill(series,months){
 
   /* ---- calibration: two published points on the frozen 2003-2025 window ----
      calmest month → 10 (so SMOOTH is reachable) · GFC peak → 90 (the doctrine).
-     After this run the printed a/b constants get frozen into collect.js. */
+     The constants live in lib/methodology.js and are FROZEN. We still re-derive
+     them here to measure drift, but we publish with the frozen pair unless
+     OOZEMETER_RECALIBRATE=1 says a restatement is intended. Re-deriving on every
+     run would let an upstream revision move already-published history by a point
+     whenever a month sits near a rounding boundary. */
   const win=results.filter(x=>x.month>='2003-01'&&x.month<='2025-12');
   const rawCalm=Math.min(...win.map(x=>x.ooze));
   const rawGfc=Math.max(...win.filter(x=>x.month>='2007-01'&&x.month<='2010-12').map(x=>x.ooze));
-  const a=(90-10)/(rawGfc-rawCalm), b=10-a*rawCalm;
-  console.log(`\ncalibration: raw calm ${rawCalm.toFixed(1)} → 10 · raw GFC peak ${rawGfc.toFixed(1)} → 90 · a=${a.toFixed(4)} b=${b.toFixed(4)}`);
+  const derivedA=(90-10)/(rawGfc-rawCalm), derivedB=10-derivedA*rawCalm;
+  const recalibrate=process.env.OOZEMETER_RECALIBRATE==='1';
+  const {a,b}=recalibrate?{a:derivedA,b:derivedB}:CALIBRATION_V3;
+  console.log(`\ncalibration: raw calm ${rawCalm.toFixed(1)} → 10 · raw GFC peak ${rawGfc.toFixed(1)} → 90`);
+  console.log(`  frozen  a=${CALIBRATION_V3.a.toFixed(6)} b=${CALIBRATION_V3.b.toFixed(6)}`);
+  console.log(`  derived a=${derivedA.toFixed(6)} b=${derivedB.toFixed(6)} (drift a ${(derivedA-CALIBRATION_V3.a).toExponential(2)}, b ${(derivedB-CALIBRATION_V3.b).toExponential(2)})`);
+  console.log(`  publishing with the ${recalibrate?'DERIVED pair — RESTATEMENT, bump the methodology version':'frozen pair'}`);
   for(const r of results)r.ooze=Math.round(Math.max(0,Math.min(100,a*r.ooze+b)));
 
   const peak=(from,to)=>{

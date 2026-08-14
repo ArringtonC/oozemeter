@@ -18,6 +18,14 @@ const METHODOLOGY_V3_WEIGHTS = Object.freeze({
   financial: 3.00,
 });
 
+/* Frozen calibration for methodology v3.0.0 — the single source of truth for
+   both the backtest and the collector. Derived once (calm 2003-2025 → 10,
+   GFC peak → 90) and frozen deliberately: sources revise, so re-deriving on
+   every run would silently move already-published historical scores. Changing
+   these two numbers restates the public record and is a methodology version
+   bump, not a maintenance edit. Re-derive with OOZEMETER_RECALIBRATE=1. */
+const CALIBRATION_V3 = Object.freeze({a: 1.418684348943213, b: -23.96514845099034});
+
 function parseProviderNumber(rawValue, label) {
   if (typeof rawValue !== 'string' || !/^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?$/.test(rawValue)) {
     throw new Error(`Invalid ${label} numeric value: ${JSON.stringify(rawValue)}`);
@@ -223,6 +231,7 @@ function yearOverYear(monthly, month) {
 
 module.exports = {
   AUTO_30_PLUS_ANCHORS,
+  CALIBRATION_V3,
   FINANCIAL_CONDITIONS_ANCHORS,
   METHODOLOGY_V3_WEIGHTS,
   auto30PlusStress,
