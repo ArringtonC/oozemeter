@@ -43,10 +43,10 @@ v3 | Data       | Wire manufacturing feeds (INDPRO + AMTMNO, zero-weight auxilia
 v3 | Growth     | Fake signup promise removed: form is honestly closed, points at RSS (was localStorage-only "clearance granted" — a lie) | done
 v3 | Growth     | Newsletter ESP + send automation — PARKED to do-not-build (no users yet; capture before traffic is backwards). Activation path kept: paste Buttondown username into NL_USER; sender script preserved in git (f46b68a) | done
 v3 | Growth     | Analytics + events on share, subscribe, session depth | todo
-v3 | Growth     | Static per-slug pages (/gas/ not ?i=gas) + canonicals + sitemap | todo
-v3 | Design     | OG share images per band + favicon (the Jar as an object) | todo
-v3 | Design     | 404 page in facility voice | todo
-v3 | Trust      | Privacy, terms, about, attribution pages | todo
+v3 | Growth     | Static per-slug pages (/gas/ not ?i=gas) + canonicals + sitemap (verified 2026-08-14: gas/index.html carries rel=canonical, sitemap.xml 78 URLs; duplicate of the v5 Growth row below) | done
+v3 | Design     | OG share images per band + favicon (the Jar as an object) (verified 2026-08-14: scripts/og-cards.js + favicon.svg) | done
+v3 | Design     | 404 page in facility voice (verified 2026-08-14: 404.html present) | done
+v3 | Trust      | Privacy, terms, about, attribution pages (verified 2026-08-14: policies.html, terms.html, about.html) | done
 v3 | Website    | Remove empty ad slots until there is traffic | done
 v3 | Website    | Score chip in the chrome: live jar + score + band in header, every page | done
 v3 | Website    | Chip hover panel: all 8 lines with deltas, no navigation needed | done
@@ -108,7 +108,7 @@ v4 | Content    | Forum/comments — MOVED to Do-Not-Build-Yet list (needs traff
 v5 | Data       | Per-line historical backfill (replace illustrative indicator charts) | todo
 v5 | Data       | State-level live data (50 FRED series) → real rankings | todo
 v5 | Algorithm  | Incident severity ratings C1-C5 (peak × duration × recovery) | todo
-v5 | Algorithm  | Unit tests + golden-day fixtures | todo
+v5 | Algorithm  | Unit tests + golden-day fixtures (partial 2026-08-14: 31 test files pass; no tests/fixtures dir — golden-day fixtures still missing) | wip
 v5 | Algorithm  | OOZEMAXING breadth status displayed on site | todo
 v5 | Research   | Pre-2000 extension (1929-1999, fidelity tiers) | todo
 v5 | Website    | About page (about.html): one person, one robot, the rules — linked from footer + mobile nav | done
@@ -122,7 +122,7 @@ v5 | Brand      | Jar SVG master: favicon.svg + og-card.png on every page; index
 v5 | Website    | MARKET OOZE (Ward M, market.html): six-gauge provisional composite, Sector Watch proxy panel, divergence line vs the jar, experimental labeling | done
 v5 | Data       | Hosted Ward M workflow candidate: retrying collectors, coordinated JSON/JS publication with failure rollback, integrity gate, serialized publish, and failure/recovery handling; manual-only behind quote-rights gate | done
 v5 | Website    | Sector Watch on Ward M: 11-ticker overlapping equity proxy panel (SPY QQQ DIA IWM XLF XLI IYT XLY XLP SMH XLV), 22-session price-return states, source and rights disclosures | done
-v5 | Data       | scripts/collect-sectors.js: manual Sector Watch collector -> data/sectors.js|.json; source/field/timezone/return-basis provenance; scheduled use disabled pending rights clearance | done
+v5 | Data       | scripts/collect-sectors.js: manual Sector Watch collector -> data/sectors.js + .json; source/field/timezone/return-basis provenance; scheduled use disabled pending rights clearance | done
 v5 | Algorithm  | Ward M v2 (operator cut): six gauges — rates, volatility, credit, energy, dollar + BREADTH from Sector Watch (a weakening ticker proxy now moves the score); recalibrated 2007-present (GFC 90, 2022 76, COVID 71, calm 10); builders/industry/freight/BTC parked in improvements.md | done
 v5 | Website    | Ward M page reordered: Sector Watch leads, composite second, gauges collapsed under the hood | done
 v5 | Research   | /teach Rates: generated draft covers the 10y-3m spread, inversion history, false signals, and reproduction; verified against collector + sources, cross-linked from gauge files, delivered as written digest 2026-08-01 (operator: "finish this out") | done
@@ -162,7 +162,7 @@ v5 | Trust      | Board fix batch 2026-08-02 (all shipped): tab-bar active-state
 v5 | Website    | Academy navigation repaired (2026-08-02): baked breadcrumbs on all 14 lessons, household indicator pages link lessons 01-08, course maps cross-link both wings, data map lists Ward M lessons, MISSION.md dead end -> about.html | done
 v5 | Trust      | privacy.html + terms.html shipped (2026-08-02): honest zero-collection privacy policy with pre-disclosure rule for analytics/email/ads, educational-use terms with cite/share/verify grants — footer-linked site-wide, sitemapped (AdSense blocker #1 cleared) | done
 v5 | Content    | Content volume 4 -> 16 articles (2026-08-02): twelve evergreen explainers — one per intake line incl. financial + aux case studies, how-the-score-works, reading-the-bands, ward-m-explained — token-resolved numbers, /files/ static pages, feed + sitemap (50 URLs) | done
-v5 | Content    | EDITORIAL IDENTITY v1 (operator go 2026-08-02): Constitution drafted (research/editorial/OOZEMETER-EDITORIAL-CONSTITUTION.md) — mission, promise, voice, always/never, report anatomy, mechanics, chart+evidence rules, QA; LOCK GATE: no automated weekly send before v1.0 locks | wip
+v5 | Content    | EDITORIAL IDENTITY v1 (operator go 2026-08-02): Constitution LOCKED v1.0 (research/editorial/OOZEMETER-EDITORIAL-CONSTITUTION.md) + EDITION-STYLE-GUIDE.md frozen — mission, promise, voice, always/never, report anatomy, mechanics, chart+evidence rules, QA. NOTE the LOCK GATE it set is still binding: no automated weekly send is wired, deliberately | done
 v5 | Content    | June five-ways exercise done (research/editorial/june-2026-five-ways.md): Brew/Axios/Economist/Housel/OOZEMeter versions + boundary extraction; 3 amendments proposed (one governing idea per report, bullets never in body prose, neighbor test beats register) | done
 v5 | Content    | Archive reconstructions (operator ask 2026-08-02): 23 monthly reports for the trailing year — 12 household + 11 Ward M (Oct 2025 household = honest gap, skipped and explained) — generated deterministically by scripts/backfill-reports.js from the two public backtests, every figure re-derived and asserted against published scores; reconstruction disclaimer leads every report; /files/ pages + oozeonomics listing + sitemap (73 URLs) | done
 v5 | Content    | Hermes pattern study (external agent): 10-15 sequential editions x 2-3 pubs, mechanics not phrasing, deliverable = adopt/adapt/reject page argued against the Constitution (brief in Constitution SS13) | todo
@@ -170,7 +170,7 @@ v5 | Growth     | "Cite this score" affordance (advisor 2026-08-02, index-is-the
 v5 | Growth     | Press kit stub: jar SVG master, OG cards, one-line description, methodology one-pager link — a /press page or about.html section; grows only when someone actually asks | todo
 v5 | Business   | Monthly ops snapshot (V3, after GA4 has data): cron pulls GA4 Data API monthly — visitors, returners, top pages, shares — rendered as one small ops page; do not build before there is a month of real data | todo
 v5 | Business   | Weekly automation (V3): two reports go out every week — OOZE WEEKLY (household) + WARD M WEEKLY (market note), generated by the pipeline, published to site + RSS, emailed to the list | todo
-v5 | Algorithm  | METHODOLOGY v3 (SEQUENCED AFTER Ward M live experience): Financial Conditions (NFCI) enters the flagship at 3% — spec in research/METHODOLOGY-V3-SPEC.md, implementation = data session | todo
+v5 | Algorithm  | METHODOLOGY v3 (SEQUENCED AFTER Ward M live experience): Financial Conditions (NFCI) enters the flagship at 3% — spec in research/METHODOLOGY-V3-SPEC.md (verified 2026-08-14: data/latest.json publishes methodologyVersion 3.0.0, financial weight 3.00 live) | done
 v5 | Trust      | v3 disclosure copy (notes + policies + revision record #2): GFC-calibrated bet stated plainly, studies linked — BLOCKS first v3 publish — shipped 2026-08-02: bet stated plainly in notes.html (single-episode benefit, dilution, ×0.97), policies v3.0.0 row cites 180 moved values + entry #2, studies linked | done
 v5 | Website    | lab.js WEIGHTS + INDICATORS entry for the financial line; notes.html formula update (after data session ships v3) — shipped 2026-08-02: 7-entry WEIGHTS (sum 100), financial INDICATORS entry (🌡, 3%, honest FAQs), /financial/ static page, story.js narrative, notes formula annex | done
 v5 | Content    | OOZEBOT: financial line narrative + divergence sentence (measured-fact language, never forecast) | todo
