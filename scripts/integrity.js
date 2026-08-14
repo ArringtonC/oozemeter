@@ -28,8 +28,13 @@ if(latest.methodologyVersion==='3.0.0'&&/^[a-f0-9]{64}$/.test(currentFingerprint
 
 /* ---- 1. revision detector ---- */
 let prevHistory=null,prevLatest=null;
-try{prevHistory=JSON.parse(execSync('git show HEAD:data/history.json',{encoding:'utf8'}))}catch{}
-try{prevLatest=JSON.parse(execSync('git show HEAD:data/latest.json',{encoding:'utf8'}))}catch{}
+/* A swallowed failure here disables the revision detector silently: prevHistory
+   stays null, nothing is compared, and the run reports PASS having checked
+   nothing. Say so instead. */
+try{prevHistory=JSON.parse(execSync('git show HEAD:data/history.json',{encoding:'utf8',stdio:['pipe','pipe','pipe']}))}
+catch(e){warn.push(`revision detector inert: cannot read HEAD:data/history.json (${String(e.message).split('\n')[0]}) — this run compared nothing against the prior published history`)}
+try{prevLatest=JSON.parse(execSync('git show HEAD:data/latest.json',{encoding:'utf8',stdio:['pipe','pipe','pipe']}))}
+catch(e){warn.push(`headline sanity cap inert: cannot read HEAD:data/latest.json (${String(e.message).split('\n')[0]})`)}
 if(prevHistory){
   const prevMap=new Map(prevHistory.map(([t,v])=>[t.toFixed(3),v]));
   const changes=[];
@@ -41,7 +46,12 @@ if(prevHistory){
     const log=fs.existsSync('data/revisions.json')?JSON.parse(fs.readFileSync('data/revisions.json','utf8')):[];
     const duplicate=log.some(entry=>JSON.stringify(entry.changes)===JSON.stringify(changes));
     if(!duplicate){
-      const record={detected:latest.generated,changes};
+      /* Type it honestly. This detector sees that published history MOVED; it
+         does not see WHY. A source revising and the instrument re-indexing
+         itself (the CPI deflator moves and the whole gas line rescales) look
+         identical from here. Calling every one of them a "source revision" told
+         readers something we had not established. */
+      const record={detected:latest.generated,type:'history-changed-cause-unattributed',changes};
       if(prevLatest?.methodologyVersion&&prevLatest.methodologyVersion!==latest.methodologyVersion){
         const compared=history.filter(([t])=>prevMap.has(t.toFixed(3))).length;
         const band=value=>value<=20?1:value<=40?2:value<=60?3:value<=80?4:5;
@@ -133,8 +143,21 @@ if(!(latest.ooze>=0&&latest.ooze<=100))fail.push(`headline out of range: ${lates
 if(prevLatest&&Math.abs(latest.ooze-prevLatest.ooze)>30&&latest.month!==prevLatest.month)
   fail.push(`headline jumped ${prevLatest.ooze}→${latest.ooze} — exceeds the 30pt sanity cap`);
 
-/* ---- verdict ---- */
+/* ---- verdict ----
+   Record it. index.html used to stamp "Integrity gate: PASS" as a string
+   literal, so a gate that never ran and a gate that passed produced the same
+   page. The page now has to read this file to make that claim. */
 warn.forEach(w=>console.warn('⚠',w));
+const verdict={
+  status:fail.length?'fail':'pass',
+  month:latest.month,
+  headline:latest.ooze,
+  warnings:warn,
+  failures:fail,
+  generated:latest.generated,
+};
+try{fs.writeFileSync('data/gate-status.json',JSON.stringify(verdict,null,1))}
+catch(e){console.error('could not write data/gate-status.json:',e.message);process.exit(1)}
 if(fail.length){
   console.error('INTEGRITY GATE FAILED — refusing to publish:');
   fail.forEach(f=>console.error('✗',f));

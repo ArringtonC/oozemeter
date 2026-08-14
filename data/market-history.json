@@ -1,5 +1,8 @@
 {
  "generated": "2026-08-01T23:35:18.922Z",
+ "marketVintage": "2026-08-01T23:35:18.922Z",
+ "householdVintage": "2026-08-14T04:16:56.281Z",
+ "vintagesAligned": false,
  "acquisitionFingerprint": "c0d1bff6ff1ba6d4f58ad1f91b139382d8e5e2e745307dc6b7f247e4d0caa906",
  "start": "2007-01",
  "end": "2026-07",

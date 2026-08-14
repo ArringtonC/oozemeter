@@ -67,7 +67,7 @@ const INDICATORS = [
    faqs:[
      {q:'What is a delinquency?', a:'A payment more than 30 days late. At 90+ days it becomes "seriously delinquent," and when the bank gives up collecting, it becomes a charge-off.'},
      {q:'Why are balances rising?', a:'Inflation raised the cost of essentials while pandemic savings ran out. Many households bridge the gap on cards — at APRs near their historic highs.'},
-     {q:'How much card debt does America carry?', a:'Over $1.1 trillion — an all-time high in nominal terms, though as a share of income it remains below the 2008 peak.'},
+     {q:'How much card debt does America carry?', a:'More than a trillion dollars, and an all-time high in nominal terms — though as a share of income it remains below the 2008 peak. The current balance is published quarterly by the New York Fed; we do not restate it here, because a figure typed into a sentence stops tracking the series it came from.'},
    ],
    related:['auto','housing','jobs']},
 
@@ -126,7 +126,7 @@ const INDICATORS = [
    vs2008:`Mortgage delinquency surged during the Global Financial Crisis and confirms severe borrower distress, but it is not interchangeable with foreclosure filings. OOZEMeter keeps that distinction visible instead of presenting the proxy as a direct foreclosure rate.`,
    faqs:[
      {q:'Is this a foreclosure rate?', a:'No. DRSFRMACBS measures delinquent residential mortgages held by commercial banks. It is displayed only as a mortgage-distress proxy.'},
-     {q:'Why use a proxy?', a:'A consistent public national foreclosure-filings series is not available through the same open acquisition path. The proxy remains useful when its limits are explicit.'},
+     {q:'Why use a proxy?', a:'This line reads bank mortgage delinquency, which is a step earlier than foreclosure. The NY Fed household debt workbook this facility already downloads does carry national foreclosure figures; wiring them in is queued work, not an unavailable source. Saying otherwise would be an excuse dressed as a limitation.'},
      {q:'Does it affect the score twice?', a:'No. Mortgage delinquency informs Housing; this auxiliary file has zero additional weight.'},
    ],
    related:['housing','jobs','credit']},
@@ -134,10 +134,10 @@ const INDICATORS = [
   {slug:'manufacturing', emoji:'🏭', name:'Manufacturing', val:'—', trend:'auxiliary public-data sensor', dir:'up', contrib:0, weight:0,
    spark:[55,52,50,49,48,49,48],
    source:{name:'Federal Reserve Industrial Production', seriesId:'INDPRO', url:'https://fred.stlouisfed.org/series/INDPRO'},
-   why:`Factories feel the economy early. OOZEMeter's public-data path uses Federal Reserve industrial production and Census manufacturers' shipments rather than republishing licensed ISM PMI data. This remains an auxiliary sensor with zero score weight until its transformation is frozen and backtested.`,
+   why:`Factories feel the economy early. OOZEMeter's public-data path uses Federal Reserve industrial production and Census manufacturers' new orders (AMTMNO) rather than republishing licensed ISM PMI data. This remains an auxiliary sensor with zero score weight until its transformation is frozen and backtested.`,
    vs2008:`Industrial production fell sharply during the Global Financial Crisis. Unlike PMI, INDPRO measures realized output rather than survey expectations, so the two should not be labeled as the same indicator.`,
    faqs:[
-     {q:'Is this ISM PMI?', a:'No. The public candidate is Federal Reserve industrial production, with Census manufacturing shipments as context.'},
+     {q:'Is this ISM PMI?', a:'No. The public candidate is Federal Reserve industrial production, with Census manufacturers\' new orders as context. New orders, not shipments — orders are the earlier signal.'},
      {q:'Does manufacturing still matter?', a:'It’s ~11% of GDP but punches far above that weight in cyclical signal — factory orders swing early and hard, making them a preview of the broader economy.'},
      {q:'What is industrial production?', a:'The Federal Reserve’s measure of actual physical output from factories, mines, and utilities.'},
    ],
@@ -172,7 +172,7 @@ const EVENTS = [
   [2007.6,'AUG 9 2007 — BNP Paribas freezes funds. The credit crunch begins.'],
   [2008.7,'SEP 15 2008 — Lehman Brothers files. Containment failed.'],
   [2009.8,'OCT 2009 — Unemployment peaks at 10.0%.'],
-  [2020.3,'MAR–APR 2020 — 22M jobs lost; 6.87M claims in one week; unemployment 14.8%.'],
+  [2020.3,'MAR–APR 2020 — 22M jobs lost; a record 6.1M claims in one week; unemployment 14.8%.'],
   [2022.45,'JUN 2022 — CPI peaks at 9.1%, fastest since 1981.'],
   [2023.2,'MAR 2023 — SVB fails; 3 of the 4 largest U.S. bank failures in weeks.'],
   [2026,`MID-2026 — Methodology v3 live reading: ${TODAY_SCORE}/100.`],
@@ -505,9 +505,9 @@ function renderFooter(){
   document.getElementById('fsPost').href='https://twitter.com/intent/tweet?text='+encodeURIComponent(fsText());
 }
 
-function adSlot(){
-  return `<div class="ad-wrap"><div class="ad-slot">Advertisement — sponsor's beaker here</div></div>`;
-}
+/* adSlot() removed 2026-08-14: dead code, never called, and the board killed
+   the placeholder sponsor unit on 2026-08-02. A mocked-up ad on a facility that
+   promises no fake numbers is the wrong first impression to leave lying around. */
 
 /* The Morning Specimen — Buttondown behind the form. To open signups:
    create the Buttondown account, paste its username here, done. Until then

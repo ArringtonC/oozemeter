@@ -94,7 +94,7 @@ const recalibrationRuns=revisions.filter(entry=>entry.type==='methodology-recali
 const confidence=[
   `Methodology v${d.methodologyVersion||'2'}.`,
   d.collection?.freshnessStatus==='current'?'All source feeds current at collection.':`${staleN} source feed${staleN===1?'':'s'} flagged stale at collection.`,
-  sourceRevisionRuns?`${sourceRevisionRuns} source-revision event${sourceRevisionRuns===1?'':'s'} on the public record (data/revisions.json).`:'No source revisions on record.',
+  sourceRevisionRuns?`${sourceRevisionRuns} recorded change${sourceRevisionRuns===1?'':'s'} to published history on the public record (data/revisions.json); the cause of each is logged, not inferred.`:'No changes to published history on record.',
   recalibrationRuns?`${recalibrationRuns} methodology recalibration${recalibrationRuns===1?' is':'s are'} separately identified in that record.`:'No methodology recalibrations on record.',
   'Every figure traces to a cited public series; the integrity gate verified plausibility bounds and calibration anchors before publication.',
 ].join(' ');
@@ -187,8 +187,23 @@ fs.writeFileSync('data/editorial.js','window.EDITORIAL='+JSON.stringify(editoria
 /* auto-articles: keyed by month — re-runs replace, never duplicate.
    If a hand-written report (articles.js, cat report + month) already covers
    this seal, OOZEBOT stands down: the operator's voice outranks the engine. */
+/* Fail CLOSED. This file is rewritten wholesale from `autos`, so a swallowed
+   parse error meant an empty array and a one-article file — every prior monthly
+   report deleted, by a robot, unattended, with a zero exit code. A missing file
+   is a legitimate first run; a file that exists and will not parse is a reason
+   to stop, not to start over. */
 let autos=[];
-try{const w={};eval(fs.readFileSync('data/auto-articles.js','utf8').replace('window.','w.'));autos=w.AUTO_ARTICLES||[]}catch{}
+if(fs.existsSync('data/auto-articles.js')){
+  try{
+    const w={};eval(fs.readFileSync('data/auto-articles.js','utf8').replace('window.','w.'));
+    if(!Array.isArray(w.AUTO_ARTICLES))throw new Error('AUTO_ARTICLES is not an array');
+    autos=w.AUTO_ARTICLES;
+  }catch(e){
+    console.error(`data/auto-articles.js exists but will not parse: ${e.message}`);
+    console.error('Refusing to rewrite it — that would discard every archived report.');
+    process.exit(1);
+  }
+}
 autos=autos.filter(a=>a.slug!==article.slug);
 if(!handCovered)autos.push(article);
 else console.log('OOZEBOT stands down: hand-written report covers',d.monthLabel);

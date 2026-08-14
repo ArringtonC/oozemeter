@@ -15,6 +15,27 @@ const tier=s=>TIERS.find(([m])=>s<=m)[1];
 const level=s=>s<=20?1:s<=40?2:s<=60?3:s<=80?4:5;
 const cap=w=>w[0]+w.slice(1).toLowerCase();
 
+/* The placard used to assert "Integrity gate: PASS · fails closed" as a string
+   literal, so a gate that failed, a gate that never ran, and a gate that passed
+   all produced the same sentence on the page. Read the verdict the gate
+   actually recorded, and refuse to stamp a claim we cannot support. */
+let gate=null;
+try{gate=JSON.parse(fs.readFileSync('data/gate-status.json','utf8'))}catch{}
+if(!gate){
+  console.error('data/gate-status.json is missing — run scripts/integrity.js before stamping.');
+  console.error('Refusing to stamp an integrity claim this run cannot support.');
+  process.exit(1);
+}
+if(gate.status!=='pass'){
+  console.error(`integrity gate recorded status "${gate.status}" — refusing to stamp.`);
+  process.exit(1);
+}
+if(gate.month!==d.month){
+  console.error(`gate verdict covers ${gate.month} but data/latest.json publishes ${d.month} — stale gate artifact, refusing to stamp.`);
+  process.exit(1);
+}
+const gateText=`Integrity gate: PASS${gate.warnings&&gate.warnings.length?` · ${gate.warnings.length} warning${gate.warnings.length===1?'':'s'}`:''} · fails closed`;
+
 const s=d.ooze,delta=s-d.prevOoze;
 const deltaTxt=`${delta>=0?'▲ +':'▼ −'}${Math.abs(delta)} VS ${d.prevMonthLabel.toUpperCase()}`;
 const top3=Object.entries(d.lines).sort((a,b)=>b[1].contrib-a[1].contrib).slice(0,3)
@@ -41,7 +62,7 @@ sub(/id="heroTheme" data-level="\d"/,`id="heroTheme" data-level="${level(s)}"`,'
 sub(/id="heroScore">\d+</,`id="heroScore">${s}<`,'hero score');
 sub(/(id="heroStatus"[^>]*>)[^<]*</,`$1${band(s)}<`,'hero status');
 sub(/id="heroDelta">[^<]*</,`id="heroDelta">${deltaTxt}<`,'hero delta');
-sub(/id="plcSealed">[^<]*</,`id="plcSealed">Integrity gate: PASS · fails closed<`,'placard integrity');
+sub(/id="plcSealed">[^<]*</,`id="plcSealed">${gateText}<`,'placard integrity');
 sub(/class="specimen-line cine c5">[^<]*<b>[^<]*<\/b>[^<]*</,
   `class="specimen-line cine c5">🧪 Monthly specimen sealed: <b>${d.monthLabel} = ${s}</b> · intake lines refresh as their data releases <`,'specimen line');
 sub(/class="sc-score">\d+<span/,`class="sc-score">${s}<span`,'share score');
@@ -102,4 +123,8 @@ try{
   fs.writeFileSync('market.html',m);
   console.log(`stamped market.html: ${md.score}/100 ${wardBand}`);
 }catch(e){console.warn('stamp(market) skipped —',e.message)}
-if(missing>3)process.exit(1); /* structure drifted badly — fail loud for the cron */
+/* Was missing>3: up to three markers could vanish from index.html and the cron
+   would still report success, publishing a page with stale placeholders where
+   the reading should be. Any missing marker means the page did not receive a
+   number it was supposed to receive. */
+if(missing>0)process.exit(1);

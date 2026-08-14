@@ -82,7 +82,9 @@ pJar.classList.add('settled'); /* at rest until a specimen is submitted */
 /* ponytail: naive burden heuristic, not financial science — tune when real
    affordability data (income percentiles, regional COL) is wired in */
 function personalOoze(stateScore,income,housing,car,cards){
-  if(!income)return 50;
+  /* Was `return 50` — a divide-by-zero guard rendered as a real reading, jar
+     and all, and copyable into a share as "50/100 SLIPPERY". Refuse instead. */
+  if(!income||income<=0)return null;
   const housingStress=Math.min(housing/income/0.36,1)*40;   /* 36% rule → max 40 */
   const carStress=Math.min(car/income/0.15,1)*20;           /* 15% rule → max 20 */
   const cardStress=Math.min((cards*0.03)/income/0.10,1)*20; /* ~3% min payment  */
@@ -97,6 +99,14 @@ $('calcForm').addEventListener('submit',e=>{
   const stateScore=STATES.find(([n])=>n===state)[1];
   const s=personalOoze(stateScore,+$('cIncome').value,+$('cHousing').value,+$('cCar').value,+$('cCards').value);
   const result=$('calcResult');
+  if(s===null){
+    result.style.display='block';
+    $('pScore').textContent='— / 100';
+    $('pVerdict').textContent='No reading. Every figure here is a share of income, so without an income there is nothing to divide by. Enter your monthly income and run it again.';
+    $('pShare').style.display='none';
+    result.scrollIntoView({behavior:'smooth',block:'center'});
+    return;
+  }
   setJar(pJar,result,s);
   $('pScore').textContent=s+' / 100';
   /* national comparison only makes sense once the national jar has live data */

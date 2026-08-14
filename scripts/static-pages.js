@@ -79,8 +79,13 @@ for(const a of ARTICLES){
 
 /* --- sitemap --- */
 /* the ?i= / ?a= template pages stay out — their static /slug/ twins are canonical */
+/* states.html is deliberately absent: its fifty readings are simulated
+   placeholders with no data path behind them, and about.html promises "No fake
+   numbers, ever." The page stays reachable and now says SIMULATED in its title,
+   description and OG card — but we do not ask search engines to index
+   fabricated readings as measurements. Restore it when the regional data lands. */
 const ROOT=['','what-is-ooze.html','oozeonomics.html','archive.html','notes.html',
-  'personal.html','states.html','specimen-progress.html','policies.html','about.html','market.html',
+  'personal.html','specimen-progress.html','policies.html','about.html','market.html',
   'privacy.html','terms.html'];
 /* Ward M gauge files + academy lessons (public, linked from gauge pages) */
 try{

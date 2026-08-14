@@ -164,6 +164,53 @@ try{
   }
 }catch(e){warn.push('reconstruction-reports.js unreadable: '+e.message)}
 
+/* ---- lab.js INDICATORS prose ----------------------------------------------
+   lab.js:232 states the invariant: "prose never remembers unchecked numbers."
+   Nothing enforced it, and on 2026-08-14 eight statements across three
+   indicators were false — three stale values, two of which asserted the
+   opposite direction from the live feed 26 lines above them, plus a wrong
+   record APR, a wrong credit bureau, a series called shipments that is new
+   orders, and a 2020 claims figure present in no current vintage.
+
+   This checks the one thing that is mechanically checkable: a hand-written
+   "Today's <value>" in indicator copy must agree with what the live feed
+   publishes for that same line. Everything else in this prose is prose, and a
+   gate cannot referee it — which is the argument for not putting volatile
+   numbers there at all. WARN for one cycle, then flip to fail. */
+let indicatorsChecked=0;
+try{
+  const lc={window:{}};vm.createContext(lc);
+  vm.runInContext(fs.readFileSync('lab.js','utf8'),lc);
+  const inds=Object.values(vm.runInContext('INDICATORS',lc)||{});
+  const live=JSON.parse(fs.readFileSync('data/latest.json','utf8')).lines||{};
+  const num=v=>{const m=String(v||'').match(/-?[\d.]+/);return m?parseFloat(m[0]):null};
+  for(const ind of inds){
+    const feed=live[ind.slug];
+    if(!feed)continue;
+    indicatorsChecked++;
+    for(const [field,raw] of [['why',ind.why],['vs2008',ind.vs2008],...(ind.faqs||[]).map((f,i)=>[`faq${i}`,f.a])]){
+      const m=String(raw||'').match(/Today'?s\s+\$?([\d.]+)%?/i);
+      if(!m)continue;
+      const claimed=parseFloat(m[1]), actual=num(feed.value);
+      if(actual==null)continue;
+      if(Math.abs(claimed-actual)>0.05)
+        warn.push(`lab.js INDICATORS.${ind.slug}.${field}: prose says "Today's ${m[1]}" but the live feed publishes ${feed.value} — hand-written numbers in indicator copy do not track their series`);
+    }
+  }
+}catch(e){warn.push('lab.js INDICATORS unreadable: '+e.message)}
+
+/* ---- generated reader surfaces must not ship raw tokens ------------------- */
+for(const surface of ['feed.xml','data/editorial.json','index.html']){
+  try{
+    const leaked=fs.readFileSync(surface,'utf8').match(/\{\{[^}\n]{1,60}\}\}/g);
+    if(!leaked)continue;
+    /* editorial.json is a token CARRIER by design — its consumers resolve it.
+       A token reaching feed.xml or index.html has already reached a reader. */
+    if(surface==='data/editorial.json')continue;
+    fail.push(`${surface}: ships unresolved canonical-truth token(s) to readers: ${[...new Set(leaked)].join(', ')}`);
+  }catch{}
+}
+
 /* permalink resolves */
 try{
   const ed=JSON.parse(fs.readFileSync('data/editorial.json','utf8'));
@@ -177,4 +224,4 @@ if(fail.length){
   fail.forEach(f=>console.error('✗',f));
   process.exit(1);
 }
-console.log(`narrative integrity: PASS — ${all.length} articles + ${reconChecked} archive reconstructions, every number canonical, permalink resolves`);
+console.log(`narrative integrity: PASS — ${all.length} articles + ${reconChecked} archive reconstructions + ${indicatorsChecked} indicator pages, every number canonical, no tokens reach readers, permalink resolves`);

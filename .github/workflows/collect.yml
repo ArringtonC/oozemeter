@@ -28,6 +28,13 @@ jobs:
           FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
         run: |
           node scripts/collect.js
+          # Stays daily on purpose, so the ward-vs-jar chart picks up each newly
+          # sealed household month (tests/workflow.test.js:46 and the v5 Data
+          # ledger row both require it). The real defect was never the cadence —
+          # it was that the join carried ONE vintage, the market's, while its
+          # household column moved daily. It now stamps marketVintage,
+          # householdVintage and vintagesAligned, so the gap is disclosed
+          # instead of hidden.
           node scripts/build-market-divergence.js
       - name: integrity gate + public stamping
         run: |

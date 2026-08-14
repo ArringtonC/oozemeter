@@ -19,8 +19,27 @@ const market = JSON.parse(fs.readFileSync(marketPath, 'utf8'));
 const household = JSON.parse(fs.readFileSync(householdPath, 'utf8'));
 const monthly = alignHistories(market.monthly, household);
 if (!monthly.length) throw new Error('Market and household histories have no exact shared months');
+/* This file is a JOIN of two instruments refreshed on different cadences, and
+   it used to carry one `generated` — the market's — while its household column
+   tracked whatever the household backtest last produced. A reader taking
+   `generated` as the vintage of the whole file got the wrong date for half of
+   it. Stamp both sides and say when they disagree. */
+/* data/history.json is a bare array with no vintage of its own; the collector
+   run that writes it also writes latest.json, which is stamped. */
+let householdVintage = household.generated || null;
+if (!householdVintage) {
+  try {
+    householdVintage = JSON.parse(
+      fs.readFileSync(path.join(path.dirname(householdPath), 'latest.json'), 'utf8')
+    ).generated || null;
+  } catch { householdVintage = null; }
+}
 const payload = {
   generated: market.generated,
+  marketVintage: market.generated || null,
+  householdVintage,
+  vintagesAligned: !!(market.generated && householdVintage) &&
+    market.generated.slice(0, 10) === householdVintage.slice(0, 10),
   acquisitionFingerprint: market.acquisition?.fingerprint || null,
   start: monthly[0].month,
   end: monthly[monthly.length - 1].month,
