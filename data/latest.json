@@ -1,5 +1,5 @@
 {
- "generated": "2026-08-14T03:56:14.121Z",
+ "generated": "2026-08-14T04:16:56.281Z",
  "methodologyVersion": "3.0.0",
  "month": "2026-07",
  "monthLabel": "July 2026",
@@ -10,7 +10,7 @@
  "updatedLabel": "July 2026 reading · collected 2026-08-14",
  "collection": {
   "status": "ok",
-  "changed": true,
+  "changed": false,
   "inputFingerprint": "890a54f4ae088cb188743ac6a66878d34a905ccc60d6da7fb34996d32d4db87c",
   "fingerprintSchemaVersion": 3,
   "vintageRetentionPolicy": "retain-all-unique-schema-v3-manifests",
@@ -63,7 +63,7 @@
    "contrib": 7,
    "delta": 0,
    "stale": false,
-   "updateStatus": "new-observation"
+   "updateStatus": "no-new-release"
   },
   "credit": {
    "value": "2.9%",
@@ -99,7 +99,7 @@
    "contrib": 5,
    "delta": 0,
    "stale": false,
-   "updateStatus": "new-observation"
+   "updateStatus": "no-new-release"
   },
   "jobs": {
    "value": "4.1%",
@@ -144,7 +144,7 @@
    "contrib": 2,
    "delta": -3,
    "stale": false,
-   "updateStatus": "new-observation"
+   "updateStatus": "no-new-release"
   },
   "financial": {
    "value": "-0.55",
@@ -164,7 +164,7 @@
    "contrib": 0,
    "delta": -1,
    "stale": false,
-   "updateStatus": "new-observation"
+   "updateStatus": "no-new-release"
   },
   "foreclosures": {
    "value": "1.9%",
