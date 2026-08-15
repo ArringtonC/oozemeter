@@ -1,0 +1,1063 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>OOZEMeter · Phase 2 mockup — ANSWER FIRST</title>
+<style>
+/* ============================================================================
+   OOZEMETER — PHASE 2 MOCKUP — DIRECTION: ANSWER FIRST
+   Self-contained. No external fonts, no CDN, no JS required to read the page.
+
+   TOKENS: copied verbatim from lab.css :root and [data-level="2"].
+   Values are byte-identical to production. Nothing is replaced.
+   ========================================================================= */
+:root{
+  --bg:#070b06;
+  --bg2:#0b110a;
+  --panel:#0e150c;
+  --line:rgba(163,255,18,.14);
+  --line-hard:rgba(163,255,18,.32);
+  --text:#e6f2da;
+  --muted:#8ba07c;
+  --dim:#708363; /* AA contrast on --bg for small labels — NEVER on --panel */
+  --ooze:#a3ff12;
+  --ooze-deep:#5cb800;
+  --status:#ffb02e;
+  --amber:#ffb02e;
+  --red:#ff4d3d;
+  --green:#4dffa1;
+  --ward:#5fd7ff; /* DECLARED FOR PARITY. Used by NOTHING on this page. Ward M only. */
+  --glass:rgba(200,255,190,.05);
+  --radius:14px;
+  --ease:cubic-bezier(.22,1,.36,1);
+  --mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --display:'Unbounded',system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;
+}
+/* July 2026 reads 26 → band 2. Applied to the PAGE ROOT, not to a hero div.
+   (01-system-map §scope-trap: production puts data-level on #heroTheme, so the
+   share card renders #a3ff12 while the hero renders #8aff3c — two greens for one
+   number on one page. Hoisting it fixes that by construction.) */
+[data-level="2"]{--ooze:#8aff3c;--ooze-deep:#4ec800;--status:#8aff3c}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  background:var(--bg);color:var(--text);
+  font-family:var(--mono);font-size:15px;line-height:1.6;
+  overflow-x:hidden;
+}
+body::before{
+  content:"";position:fixed;inset:0;z-index:-2;
+  background:
+    radial-gradient(1100px 700px at 50% -10%,rgba(163,255,18,.05),transparent 60%),
+    repeating-linear-gradient(0deg,transparent 0 39px,rgba(163,255,18,.018) 39px 40px),
+    repeating-linear-gradient(90deg,transparent 0 39px,rgba(163,255,18,.018) 39px 40px),
+    var(--bg);
+}
+a{color:var(--ooze);text-decoration:none}
+a:hover{text-decoration:underline}
+a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visible{
+  outline:2px solid var(--ooze);outline-offset:2px;border-radius:2px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 22px}
+.narrow{max-width:820px;margin:0 auto;padding:0 22px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ---- THE TWO TYPOGRAPHIC RANKS. There is no third. (encoding law L1) -------
+   RANK 1  .statement  — a claim in words.        1.05–1.45rem, --text
+   RANK 2  .measure    — a measurement.           .75–.9rem, tabular, --muted
+   Numbers appearing INSIDE rank 1 are tinted and underlined but never resized,
+   so evidence can never outrank the claim it supports.                       */
+.statement{font-size:clamp(1.05rem,1.9vw,1.35rem);line-height:1.62;letter-spacing:0}
+.measure{font-size:.8rem;line-height:1.5;font-variant-numeric:tabular-nums;color:var(--muted);letter-spacing:.02em}
+.lbl{font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.lbl-dim{font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+
+/* ============ MOCKUP CHROME (clearly not the product) ============ */
+.chrome{border-bottom:1px dashed rgba(139,160,124,.35);background:rgba(11,17,10,.7)}
+.chrome-in{padding:26px 0 30px}
+.chrome h1{font-family:var(--display);font-weight:800;font-size:1.15rem;letter-spacing:.02em;color:var(--text);margin-bottom:4px}
+.chrome h2{font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin:22px 0 8px;font-weight:700}
+.chrome p{color:var(--muted);font-size:.86rem;max-width:76ch;margin-bottom:9px}
+.chrome li{color:var(--muted);font-size:.86rem;max-width:76ch;margin:0 0 7px 18px}
+.chrome strong{color:var(--text);font-weight:700}
+.chrome .no{color:var(--muted)}
+.chrome .no b{color:var(--text)}
+.tagbar{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 6px}
+.tag{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);
+  border:1px solid rgba(139,160,124,.3);border-radius:999px;padding:5px 10px}
+
+/* ============ SLIM PRODUCT HEADER ============ */
+.top{border-bottom:1px solid var(--line);position:relative}
+.top-in{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:15px 0;flex-wrap:wrap}
+.wordmark{font-family:var(--display);font-weight:900;font-size:1.05rem;letter-spacing:.04em;color:var(--text)}
+.wordmark em{font-style:normal;color:var(--ooze)}
+.division{font-size:.56rem;letter-spacing:.34em;color:var(--dim);text-transform:uppercase}
+.top nav{display:flex;gap:4px;flex-wrap:wrap}
+.top nav a{color:var(--muted);font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;
+  padding:13px 10px;display:inline-block;min-height:44px}
+.top nav a:hover{color:var(--ooze);text-decoration:none}
+
+/* ============ THE PAGE ============ */
+.page{padding:44px 0 10px}
+.kicker{font-size:clamp(.75rem,1.3vw,.86rem);letter-spacing:.22em;text-transform:uppercase;
+  color:var(--ooze);margin-bottom:18px}
+.hero{display:grid;grid-template-columns:minmax(0,1fr) 268px;gap:38px;align-items:start}
+@media(max-width:880px){.hero{grid-template-columns:1fr;gap:28px}}
+
+/* ---- RANK 1: THE LEDE. This is the hero of the page. ---- */
+/* measure is set in ch of the LEDE'S OWN size, so it scales with the clamp */
+.lede p{font-size:clamp(1.08rem,2.05vw,1.46rem);line-height:1.6;color:var(--text);
+  letter-spacing:-.005em;max-width:52ch}
+.lede p+p{margin-top:.7em}
+/* a figure inside the lede: marked as checkable, never resized */
+.d{color:var(--ooze);border-bottom:1px dotted rgba(138,255,60,.5);white-space:nowrap;
+  font-variant-numeric:tabular-nums}
+
+/* ---- the dissent gutter. Sits OUTSIDE the sentence and outside the numeral.
+        Same slot, same anatomy, in BOTH states. (encoding law L4 / L5) ---- */
+.dissent{display:grid;grid-template-columns:22px minmax(0,1fr);gap:10px;align-items:start;
+  margin-top:22px;padding:13px 16px 6px 10px;border-left:2px solid var(--muted);
+  background:rgba(200,255,190,.03);border-radius:0 8px 8px 0;max-width:730px}
+.dissent .g{font-size:.95rem;line-height:1.45;text-align:center;color:var(--muted)}
+.dissent .t{font-size:.85rem;line-height:1.55;color:var(--muted)}
+.dissent .t b{color:var(--text);font-weight:600;display:block}
+/* the link is its own line so a 44px target cannot distort the paragraph's line box */
+.dissent a{display:inline-block;padding:12px 0;font-size:.8rem;letter-spacing:.06em}
+.dissent[data-fires="1"]{border-left-color:var(--red)}
+.dissent[data-fires="1"] .g{color:var(--red)}
+.dissent[data-fires="1"] .t b{color:var(--text)}
+
+/* ---- the evidence strip: every figure named in the lede, sourced, no hover ---- */
+.ev{margin-top:24px;border-top:1px solid var(--line);max-width:820px}
+.ev h3{font-size:.75rem;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);padding:12px 0 4px}
+.ev dl{display:grid;grid-template-columns:auto minmax(0,1fr);gap:2px 16px;font-size:.78rem;
+  font-variant-numeric:tabular-nums}
+.ev dt{color:var(--text);padding:6px 0;white-space:nowrap}
+.ev dd{color:var(--muted);padding:6px 0;min-width:0}
+.ev dd span{color:var(--dim)}
+@media(max-width:620px){
+  .ev dl{grid-template-columns:1fr;gap:0}
+  .ev dt{padding:9px 0 0}
+  .ev dd{padding:0 0 9px;border-bottom:1px solid var(--line)}
+}
+
+/* ---- THE READING PLATE — the figure, demoted to a supporting mark ---- */
+.plate{border:1px solid var(--line-hard);border-radius:var(--radius);background:var(--panel);
+  padding:18px 18px 16px;position:sticky;top:18px}
+@media(max-width:880px){.plate{position:static}}
+.plate .cap{font-size:.75rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);
+  padding-bottom:12px;border-bottom:1px solid var(--line);margin-bottom:14px}
+.readrow{display:flex;align-items:center;gap:14px}
+.jar{width:38px;height:54px;border:1px solid var(--line-hard);border-top:none;border-radius:3px 3px 7px 7px;
+  position:relative;overflow:hidden;background:var(--glass);flex:none}
+.jar i{position:absolute;left:0;right:0;bottom:0;border-radius:0 0 6px 6px;
+  background:linear-gradient(180deg,var(--ooze),var(--ooze-deep))}
+.jar::after{content:"";position:absolute;left:0;right:0;top:0;height:6px;border-top:1px solid var(--line-hard)}
+.score{font-family:var(--mono);font-weight:700;font-size:2.1rem;line-height:1;color:var(--ooze);
+  font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.score small{font-size:.95rem;color:var(--muted);font-weight:400;letter-spacing:.02em}
+.band{display:inline-flex;align-items:center;min-height:44px;padding:11px 15px;margin-top:12px;
+  border:1px solid var(--line-hard);border-radius:8px;font-size:.78rem;letter-spacing:.16em;
+  color:var(--status);text-transform:uppercase}
+.band:hover{text-decoration:none;border-color:var(--ooze)}
+.gloss{font-size:.82rem;color:var(--muted);margin-top:11px;line-height:1.5}
+.plate .vd{font-size:.86rem;color:var(--text);margin-top:14px;padding-top:13px;border-top:1px solid var(--line);line-height:1.5}
+.plate .mv{font-size:.78rem;color:var(--muted);margin-top:11px;font-variant-numeric:tabular-nums}
+.plate .stamp{font-size:.75rem;letter-spacing:.04em;color:var(--dim);margin-top:14px;padding-top:12px;
+  border-top:1px solid var(--line);line-height:1.5}
+
+/* ============ THE COMPOSITION LEDGER ============ */
+section.block{margin-top:56px}
+.blockhead{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  border-bottom:1px solid var(--line-hard);padding-bottom:11px;margin-bottom:6px}
+.blockhead h2{font-size:.86rem;letter-spacing:.18em;text-transform:uppercase;color:var(--text);font-weight:700}
+.blockhead .st{font-size:.78rem;letter-spacing:.1em;color:var(--muted)}
+.blockhead .st.fires{color:var(--red)}
+.leadin{font-size:.92rem;color:var(--muted);margin:14px 0 20px;max-width:80ch;line-height:1.6}
+
+.scrollx{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{border-collapse:collapse;width:100%;min-width:600px;font-variant-numeric:tabular-nums}
+caption{text-align:left;font-size:.78rem;color:var(--muted);padding:0 0 12px;line-height:1.5}
+th{text-align:left;font-size:.75rem;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);
+  font-weight:400;padding:0 14px 9px 0;border-bottom:1px solid var(--line);white-space:nowrap}
+th.n,td.n{text-align:right;padding-right:0}
+td{padding:13px 14px 13px 0;border-bottom:1px solid var(--line);font-size:.86rem;color:var(--muted);vertical-align:baseline}
+tr.rank td{font-size:.95rem}
+tr.rank td.name{color:var(--text)}
+tr.tail td{font-size:.8rem}
+td.name{white-space:nowrap}
+td.obs{color:var(--text);white-space:nowrap}
+td.oz{color:var(--text);white-space:nowrap}
+tr.tail td.obs,tr.tail td.oz{color:var(--muted)}
+td.chg{white-space:nowrap}
+.up{color:var(--amber)}
+.down{color:var(--green)}
+.flat{color:var(--muted)}
+/* share rule: length = share of 26. A rule, not a chart. The number is printed too. */
+.share{display:block;height:2px;margin-top:7px;background:var(--ooze);opacity:.55;border-radius:2px}
+tr.total td{border-bottom:none;border-top:1px solid var(--line-hard);color:var(--text);
+  font-size:.86rem;padding-top:14px}
+tr.total td.lblc{letter-spacing:.13em;text-transform:uppercase;font-size:.75rem;color:var(--muted)}
+.gut{display:inline-block;width:1.3em;color:var(--red)}
+.gut.quiet{color:var(--muted)}
+.mark{border-bottom:1px dotted var(--red);color:var(--text)}
+.mark sup{font-size:.64em;letter-spacing:.08em;color:var(--red);margin-left:6px;text-transform:uppercase;
+  border:1px solid rgba(255,77,61,.5);border-radius:3px;padding:1px 4px;vertical-align:middle;top:0}
+
+.aux{margin-top:20px;border:1px solid var(--line);border-radius:10px;padding:14px 16px;background:rgba(11,17,10,.55)}
+.aux .h{font-size:.75rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:9px}
+.aux .r{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:6px 16px;font-size:.8rem;
+  color:var(--muted);padding:8px 0;border-top:1px solid var(--line);font-variant-numeric:tabular-nums}
+.aux .r:first-of-type{border-top:none}
+.aux .r b{color:var(--text);font-weight:400}
+.aux .z{color:var(--muted);white-space:nowrap}
+.aux .note{font-size:.78rem;color:var(--muted);margin-top:11px;line-height:1.5}
+@media(max-width:560px){.aux .r{grid-template-columns:1fr auto}}
+
+.movers{margin-top:20px;font-size:.8rem;color:var(--muted);font-variant-numeric:tabular-nums;line-height:1.7}
+.movers .h{font-size:.75rem;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);display:block;margin-bottom:4px}
+.more{display:inline-block;padding:12px 0;margin-top:14px;font-size:.78rem;letter-spacing:.13em;text-transform:uppercase}
+
+/* ============ THE CROSS-CHECK MODULE ============ */
+.cc{border:1px solid var(--line-hard);border-radius:var(--radius);background:var(--panel);
+  padding:22px 22px 20px;margin-top:6px}
+.cc[data-state="fires"]{border-color:rgba(255,77,61,.45)}
+.cc-head{display:flex;align-items:baseline;justify-content:space-between;gap:14px;flex-wrap:wrap;
+  padding-bottom:14px;border-bottom:1px solid var(--line)}
+.cc-head h3{font-size:.86rem;letter-spacing:.18em;text-transform:uppercase;color:var(--text);font-weight:700}
+.cc-head .state{font-size:.78rem;letter-spacing:.1em;color:var(--muted);display:flex;align-items:center;gap:8px}
+.cc[data-state="fires"] .cc-head .state{color:var(--red)}
+.cc p{font-size:.94rem;line-height:1.62;color:var(--text);margin-top:16px;max-width:64ch}
+.cc p.sub{color:var(--muted);font-size:.86rem}
+.cc p.firewall{color:var(--muted);font-size:.82rem;border-left:2px solid var(--line-hard);padding-left:12px;
+  margin-top:20px;max-width:64ch}
+.cc details{margin-top:20px;border-top:1px solid var(--line);padding-top:6px}
+.cc summary{cursor:pointer;list-style:none;font-size:.78rem;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--ooze);padding:14px 0;min-height:44px;display:flex;align-items:center;gap:8px}
+.cc summary::-webkit-details-marker{display:none}
+.cc summary::after{content:"▸";color:var(--muted)}
+.cc details[open] summary::after{content:"▾"}
+.cc pre{font-size:.76rem;line-height:1.62;color:var(--muted);overflow-x:auto;padding:6px 0 16px;
+  -webkit-overflow-scrolling:touch;white-space:pre}
+.cc pre b{color:var(--text);font-weight:400}
+
+table.roster{min-width:660px}
+table.roster td.res{color:var(--text);white-space:nowrap}
+table.roster tr[data-fires="1"] td{color:var(--text)}
+table.roster tr[data-fires="1"] td.res{color:var(--red)}
+table.roster td.g{width:1.6em;padding-right:8px;color:var(--muted);text-align:center}
+table.roster tr[data-fires="1"] td.g{color:var(--red)}
+
+/* responsive table collapse — stack, never shrink the type (02-comprehension §4.4) */
+@media(max-width:720px){
+  table,thead,tbody,tr,td{display:block;width:100%}
+  table{min-width:0}
+  thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  tr{border-bottom:1px solid var(--line);padding:12px 0}
+  td{border-bottom:none;padding:3px 0;text-align:left!important}
+  td::before{content:attr(data-l);display:block;font-size:.72rem;letter-spacing:.13em;
+    text-transform:uppercase;color:var(--dim);margin-bottom:2px}
+  td.name::before,td.g::before{display:none}
+  td.name{font-size:1rem;color:var(--text);padding-bottom:6px}
+  td:empty{display:none}                       /* no orphan label on the total row's blank cell */
+  caption{display:block;width:100%}            /* a block table collapses its caption otherwise */
+  /* keep the state glyph on the same line as the line name rather than orphaning it */
+  table.roster td.g{display:inline-block;width:auto;padding:3px 8px 3px 0;vertical-align:top}
+  table.roster td.name{display:inline-block;width:auto}
+  tr.total{border-bottom:none;border-top:1px solid var(--line-hard)}
+  .scrollx{overflow-x:visible}
+  .share{max-width:220px}
+}
+
+/* ============ FOOTER OF THE PAGE COMP ============ */
+.foot{margin-top:46px;border-top:1px solid var(--line);padding:22px 0 8px}
+.foot p{font-size:.78rem;color:var(--muted);line-height:1.6;max-width:78ch}
+.foot p+p{margin-top:9px}
+.foot .k{color:var(--dim)}
+
+/* ============ STATE DIVIDER (mockup chrome) ============ */
+.divider{margin:76px 0 0;border-top:1px dashed rgba(139,160,124,.4);
+  border-bottom:1px dashed rgba(139,160,124,.4);background:rgba(11,17,10,.75);padding:26px 0}
+.divider h2{font-family:var(--display);font-weight:800;font-size:1rem;color:var(--text);margin-bottom:8px}
+.divider p{font-size:.84rem;color:var(--muted);max-width:80ch;margin-bottom:8px}
+.divider p b{color:var(--text)}
+.warnbox{border-left:2px solid var(--amber);padding:10px 0 10px 14px;margin-top:12px}
+.warnbox p{color:var(--muted);margin:0}
+.warnbox b{color:var(--amber)}
+
+/* diff table in the appendix */
+.diff{width:100%;min-width:520px}
+.diff td,.diff th{font-size:.8rem}
+.diff td.same{color:var(--muted)}
+.diff td.addd{color:var(--text)}
+
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body data-level="2">
+
+<!-- ===================== MOCKUP CHROME — READ FIRST ===================== -->
+<div class="chrome">
+  <div class="wrap chrome-in">
+    <h1>Phase 2 mockup — <span style="color:var(--ooze)">ANSWER FIRST</span></h1>
+    <div class="lbl-dim">OOZEMeter homepage · July 2026 payload · one of four phase-2 directions</div>
+
+    <h2>Why this direction</h2>
+    <p>The panel scored integrity 8.8 and first-time comprehension 3.5. That gap is not an authoring
+    problem — <strong>the paragraph that explains the month already exists, already passes the
+    narrative gate, and renders nowhere.</strong> So this direction does the one thing that closes the
+    gap directly: it makes <code>EDITORIAL.story</code> the hero of the page and demotes the figure to
+    a supporting plate. A stranger reads the finding before the number, in the generator's own words,
+    at reading size.</p>
+    <p>The stated risk of this direction is that it stops feeling like an instrument and starts
+    feeling like a blog. Three things beat that, and they are the actual design work here:
+    <strong>(1)</strong> the lede is set in the instrument's own monospace face, not a reading face —
+    it reads as a printout, not a column; <strong>(2)</strong> every figure inside the lede is tinted,
+    underlined, and repeated in a permanently-visible source strip six lines below it, so no claim is
+    ever more than one glance from its citation; <strong>(3)</strong> immediately under the lede sits
+    the arithmetic — a ledger of what the reading is made of, ranked by contribution, whose column
+    foots to the printed whole. A blog does not show its work below the fold. This one shows it above.</p>
+
+    <h2>What I deliberately did NOT do</h2>
+    <ul>
+      <li class="no"><b>No second composite, no confidence interval, no per-line sparkline, no
+      personalization, no second cross-check per line.</b> The audit killed all five. <code>INDICATORS[].spark</code>
+      stays deleted rather than implemented.</li>
+      <li class="no"><b>I did not write a single new sentence of data prose.</b> Every claim on the
+      product surface is verbatim from <code>data/editorial.json</code>, the Editorial Constitution, or
+      copy already drafted and Constitution-checked in <code>research/forensic/07-ux.md</code> §4.3 and
+      <code>mockups/phase2/02-comprehension.md</code> §4.2. Appendix B lists which string came from
+      where. Phase 2's own finding is that this is a rendering gap; inventing better copy would be
+      solving the wrong problem, and hand-written numbers are what §10 forbids.</li>
+      <li class="no"><b>I did not render the household paragraph</b> ("what a household would
+      notice"), even though it is Reader Promise §2 item 3 and it is generated today. Its live July
+      text contains <em>"steady employment kept paychecks coming"</em> — the exact false positive the
+      cross-check module exists to mark. Publishing it needs the generator to emit a markable clause;
+      publishing it unmarked would put a known falsehood at reading size. Named as a slot in the
+      backlog, not faked here.</li>
+      <li class="no"><b>I did not sort anything by <code>Math.abs(delta)</code>.</b> Biggest movers get
+      one small, separately-labelled strip under the ledger. They are never the sort key of the main
+      list (encoding law L2).</li>
+      <li class="no"><b>I did not put a named next-release date on the page.</b> The Constitution asks
+      for one; the payload does not carry one and I will not invent a date. The slot renders
+      <code>updatedLabel</code> verbatim and the gap is logged.</li>
+      <li class="no"><b>No boot sequence, no count-up, no reveal stagger, no motion of any kind.</b>
+      The boot costs 2,220 ms of a 30-second budget establishing genre, and
+      <code>startCountUp()</code> is <code>requestAnimationFrame</code>-driven so
+      <code>prefers-reduced-motion</code> cannot stop it. Answer-first means the answer is on screen at
+      first paint.</li>
+      <li class="no"><b>No green tick on the quiet state, no siren on the loud one.</b> A green tick is a lie of
+      scope and overloads <code>--green</code>, which already means "stress fell" on this site.</li>
+      <li class="no"><b><code>--ward</code> appears in <code>:root</code> and is used by nothing.</b>
+      No household surface on this page carries it — not the dissent mark, not an evidence link, not a
+      state chip.</li>
+      <li class="no"><b>No hover-only information anywhere.</b> Every gloss, unit and source is
+      visible without interaction. The one <code>&lt;details&gt;</code> on the page contains Level-5
+      evidence only, and nothing above it depends on opening it (L8).</li>
+    </ul>
+
+    <h2>Fonts</h2>
+    <p>CSP blocks CDNs, so <strong>no webfont loads here.</strong> The <code>--mono</code> and
+    <code>--display</code> token strings are byte-identical to <code>lab.css</code>; with IBM Plex Mono
+    and Unbounded absent they fall through to the system monospace and system sans stacks I appended.
+    In production the lede renders in IBM Plex Mono, which is the face this layout is designed for.</p>
+
+    <div class="tagbar">
+      <span class="tag">Loud + empty states, same anatomy</span>
+      <span class="tag">Contributor-ranked, not mover-ranked</span>
+      <span class="tag">Two type ranks</span>
+      <span class="tag">Zero motion</span>
+      <span class="tag">--ward unused</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ===================================================================== -->
+<!-- ============ STATE A — THE QUIET STATE (designed first) ============= -->
+<!-- ===================================================================== -->
+
+<header class="top">
+  <div class="wrap top-in">
+    <div>
+      <div class="wordmark">OOZE<em>METER</em></div>
+      <div class="division">Division of Economic Containment</div>
+    </div>
+    <nav aria-label="Main">
+      <a href="#">The reading</a>
+      <a href="#">Every line</a>
+      <a href="#">How it is built</a>
+      <a href="#">Archive</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap page" id="top">
+
+  <p class="kicker">How squeezed U.S. households are &middot; July 2026</p>
+
+  <div class="hero">
+
+    <!-- ================= RANK 1 — THE LEDE ================= -->
+    <div>
+      <article class="lede">
+        <p>For the average household, housing was the largest source of financial pressure in July
+        2026 — <span class="d">7 of the month's 26 ounces</span> with the 30-year mortgage at
+        <span class="d">6.67%</span>. The relief came from the two lines everyone feels first: gas
+        prices (<span class="d">down 3 points</span>) and inflation (<span class="d">down 3
+        points</span>). Altogether the jar drained <span class="d">1 point</span> to
+        <span class="d">26</span>, keeping the national containment level in the Sticky range.</p>
+      </article>
+
+      <!-- the dissent gutter — same slot, same anatomy, in both states -->
+      <div class="dissent" data-fires="0">
+        <span class="g" aria-hidden="true">&middot;</span>
+        <span class="t"><b>All seven cross-checks agree with the lines in this reading.</b>
+          Each compares a figure the jar reads against a figure the score does not use.<br>
+          <a href="#checks-quiet">See the checks &#9656;</a></span>
+      </div>
+
+      <!-- every figure named above, sourced, always visible -->
+      <div class="ev">
+        <h3>Every figure in that paragraph</h3>
+        <dl>
+          <dt>7 oz of 26</dt>
+          <dd>Housing's share of the July 2026 reading <span>· data/latest.json → lines.housing.contrib · the seven weighted shares sum to 26</span></dd>
+
+          <dt>6.67%</dt>
+          <dd>30-year fixed mortgage rate <span>· Freddie Mac via FRED <code>MORTGAGE30US</code> · as of 2026-08-13</span></dd>
+
+          <dt>down 3 points (gas)</dt>
+          <dd>Pump price $4.01 <span>· U.S. Energy Information Administration via FRED <code>GASREGW</code> · as of 2026-08-10</span></dd>
+
+          <dt>down 3 points (inflation)</dt>
+          <dd>CPI-U all items, 3.4% year over year <span>· U.S. Bureau of Labor Statistics via FRED <code>CPIAUCNS</code> · as of 2026-07-01</span></dd>
+
+          <dt>down 1 point → 26</dt>
+          <dd>June 2026 sealed at 27; July 2026 sealed at 26 <span>· written as the token <code>{{s:2026-07}}</code> and resolved by <code>resolveClaims()</code> at render, never typed</span></dd>
+        </dl>
+      </div>
+    </div>
+
+    <!-- ================= THE FIGURE, DEMOTED ================= -->
+    <aside class="plate" aria-label="July 2026 reading">
+      <div class="cap">July 2026 reading</div>
+      <div class="readrow">
+        <div class="jar" role="img" aria-label="Containment jar, ooze level 26 of 100">
+          <i style="height:26%"></i>
+        </div>
+        <div>
+          <div class="score">26<small>/100</small></div>
+          <div class="mv"><span class="down">&#9660;</span> down 1 point vs June 2026</div>
+        </div>
+      </div>
+      <a class="band" href="#">Sticky</a>
+      <p class="gloss">That is Sticky territory — the band where normal economies live.</p>
+      <p class="vd">Calmer than 6 of every 10 months since 2003</p>
+      <p class="stamp">July 2026 reading · collected 2026-08-14<br>Methodology v3.0.0 · integrity gate: PASS, fails closed</p>
+    </aside>
+  </div>
+
+  <!-- ================= THE COMPOSITION LEDGER ================= -->
+  <section class="block" id="ledger-quiet">
+    <div class="blockhead">
+      <h2>What the reading is made of</h2>
+      <span class="st">Ranked by weight in the reading</span>
+    </div>
+    <p class="leadin">Ordered by how much of the reading each line is responsible for — not by how
+    much it moved. Every weighted line is listed and the ounce column foots to the reading, so the
+    arithmetic can be checked without leaving the page.</p>
+
+    <div class="scrollx">
+      <table>
+        <caption>Every weighted intake line, July 2026. The ounce column foots to the published reading.</caption>
+        <thead>
+          <tr>
+            <th scope="col">Line</th>
+            <th scope="col">Observed value</th>
+            <th scope="col">Share of the reading</th>
+            <th scope="col">Change vs June, in points</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="rank">
+            <td class="name" data-l="Line">Housing<span class="share" style="width:26.9%"></span></td>
+            <td class="obs" data-l="Observed">6.67% <span style="color:var(--dim)">30-yr mortgage</span></td>
+            <td class="oz" data-l="Share">7 oz of 26</td>
+            <td class="chg flat" data-l="Change">— unchanged</td>
+          </tr>
+          <tr class="rank">
+            <td class="name" data-l="Line">Credit cards<span class="share" style="width:23.1%"></span></td>
+            <td class="obs" data-l="Observed">2.9% <span style="color:var(--dim)">card delinquency</span></td>
+            <td class="oz" data-l="Share">6 oz of 26</td>
+            <td class="chg flat" data-l="Change">— unchanged</td>
+          </tr>
+          <tr class="rank">
+            <td class="name" data-l="Line">Auto loans<span class="share" style="width:19.2%"></span></td>
+            <td class="obs" data-l="Observed">7.9% <span style="color:var(--dim)">auto-loan delinquency</span></td>
+            <td class="oz" data-l="Share">5 oz of 26</td>
+            <td class="chg flat" data-l="Change">— unchanged</td>
+          </tr>
+          <tr class="rank">
+            <td class="name" data-l="Line">Gas<span class="share" style="width:15.4%"></span></td>
+            <td class="obs" data-l="Observed">$4.01 <span style="color:var(--dim)">pump price</span></td>
+            <td class="oz" data-l="Share">4 oz of 26</td>
+            <td class="chg down" data-l="Change">&#9660; down 3 points</td>
+          </tr>
+
+          <tr class="tail">
+            <td class="name" data-l="Line">Employment</td>
+            <td class="obs" data-l="Observed">4.1% <span style="color:var(--dim)">unemployment</span></td>
+            <td class="oz" data-l="Share">2 oz of 26</td>
+            <td class="chg down" data-l="Change">&#9660; down 1 point</td>
+          </tr>
+          <tr class="tail">
+            <td class="name" data-l="Line">Inflation</td>
+            <td class="obs" data-l="Observed">3.4% <span style="color:var(--dim)">yearly price growth</span></td>
+            <td class="oz" data-l="Share">2 oz of 26</td>
+            <td class="chg down" data-l="Change">&#9660; down 3 points</td>
+          </tr>
+          <tr class="tail">
+            <td class="name" data-l="Line">Financial conditions</td>
+            <td class="obs" data-l="Observed">&minus;0.55 <span style="color:var(--dim)">Chicago Fed index</span></td>
+            <td class="oz" data-l="Share">0 oz of 26<span style="display:block;color:var(--dim);font-size:.75rem">weighted &middot; rounds to zero</span></td>
+            <td class="chg down" data-l="Change">&#9660; down 1 point</td>
+          </tr>
+
+          <tr class="total">
+            <td class="lblc" data-l="Total">Sealed reading</td>
+            <td data-l="Observed"></td>
+            <td data-l="Share">26 oz of 26</td>
+            <td data-l="Change">&#9660; down 1 point</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="movers"><span class="h">Largest moves this month — a separate question</span>
+      Gas &#9660; 3 points &middot; Inflation &#9660; 3 points<br>
+      <span style="color:var(--dim)">Movement and weight are different questions. This strip answers
+      the first; the ledger above answers the second, and only the second is a sort key.</span></p>
+
+    <div class="aux">
+      <div class="h">Auxiliary sensors · observed, no score weight</div>
+      <div class="r"><b>Mortgage distress</b> <span>1.9% mortgage delinquency</span> <span class="z">0 oz · no score weight</span></div>
+      <div class="r"><b>Manufacturing</b> <span>1.1% year over year</span> <span class="z">0 oz · no score weight</span></div>
+      <p class="note">These two are collected and published but carry no weight in the score. They are
+      not part of the reading and can never move it. "Financial conditions" in the ledger above is a
+      different kind of zero: it is weighted, and this month its share rounds down.</p>
+    </div>
+
+    <a class="more" href="#">View all nine intake lines &rarr;</a>
+  </section>
+
+  <!-- ================= THE CROSS-CHECK MODULE — QUIET ================= -->
+  <section class="block" id="checks-quiet">
+    <div class="cc" data-state="agree">
+      <div class="cc-head">
+        <h3>What doesn't add up?</h3>
+        <span class="state"><span aria-hidden="true">&middot;</span> The checks agree</span>
+      </div>
+
+      <p>The numbers the jar reads and the numbers it doesn't are pointing the same way this month.</p>
+      <p class="sub">7 cross-checks ran — the same ones every month, one for each line the score is
+      built from. Each compares a figure the jar reads against a figure the score does not use. None
+      of them disagreed.</p>
+
+      <div class="scrollx" style="margin-top:18px">
+        <table class="roster">
+          <caption class="sr">Seven cross-checks, July 2026. Each row compares a figure the jar reads against a figure the score does not use.</caption>
+          <thead>
+            <tr>
+              <th scope="col" class="sr">State</th>
+              <th scope="col">Line</th>
+              <th scope="col">What the jar reads</th>
+              <th scope="col">Checked against</th>
+              <th scope="col">Result</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr data-fires="0"><td class="g" aria-hidden="true">&middot;</td><td class="name" data-l="Line">Housing</td><td data-l="Jar reads">mortgage rate 6.67%</td><td data-l="Checked against">housing starts</td><td class="res" data-l="Result">agrees</td></tr>
+            <tr data-fires="0"><td class="g" aria-hidden="true">&middot;</td><td class="name" data-l="Line">Credit cards</td><td data-l="Jar reads">delinquency 2.9%</td><td data-l="Checked against">balances and card APR</td><td class="res" data-l="Result">agrees</td></tr>
+            <tr data-fires="0"><td class="g" aria-hidden="true">&middot;</td><td class="name" data-l="Line">Auto loans</td><td data-l="Jar reads">delinquency 7.9%</td><td data-l="Checked against">vehicle sales</td><td class="res" data-l="Result">agrees</td></tr>
+            <tr data-fires="0"><td class="g" aria-hidden="true">&middot;</td><td class="name" data-l="Line">Gas</td><td data-l="Jar reads">pump $4.01</td><td data-l="Checked against">crude oil</td><td class="res" data-l="Result">agrees</td></tr>
+            <tr data-fires="0"><td class="g" aria-hidden="true">&middot;</td><td class="name" data-l="Line">Employment</td><td data-l="Jar reads">unemployment 4.1%</td><td data-l="Checked against">share of adults working</td><td class="res" data-l="Result">agrees</td></tr>
+            <tr data-fires="0"><td class="g" aria-hidden="true">&middot;</td><td class="name" data-l="Line">Inflation</td><td data-l="Jar reads">headline 3.4%</td><td data-l="Checked against">core prices</td><td class="res" data-l="Result">agrees</td></tr>
+            <tr data-fires="0"><td class="g" aria-hidden="true">&middot;</td><td class="name" data-l="Line">Financial</td><td data-l="Jar reads">conditions &minus;0.55</td><td data-l="Checked against">the adjusted index</td><td class="res" data-l="Result">agrees</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="sub" style="margin-top:18px">Agreement is a reading, not a blank space. This is the
+      first edition to publish these checks; the run starts here.</p>
+
+      <p class="firewall">Cross-check series carry no score weight. This does not change the reading
+      of 26.</p>
+
+      <details>
+        <summary>See what would make each check fire</summary>
+        <pre><b>THE FIRING RULES — published, fixed, the same every month</b>
+
+  Housing        mortgage rate eases while starts fall 10% or more over 12 months
+  Credit cards   delinquency falls while balances AND card APR both climb
+  Auto loans     delinquency falls while unit sales fall 5% or more over 12 months
+  Gas            pump and crude move in opposite directions over 3 months
+  Employment     line stress falls while the employment-population ratio falls,
+                 OR participation falls 0.3 pt or more over 12 months
+  Inflation      headline eases while core climbs
+  Financial      the two conditions indices disagree in sign
+
+  Two or more firing, or any single one firing on employment, escalates the
+  state label. The rules are set before the month, not after it.</pre>
+      </details>
+    </div>
+  </section>
+
+  <div class="foot">
+    <p>Methodology v3.0.0. All source feeds current at collection. 2 recorded changes to published
+    history on the public record (data/revisions.json); the cause of each is logged, not inferred.
+    1 methodology recalibration is separately identified in that record. Every figure traces to a
+    cited public series; the integrity gate verified plausibility bounds and calibration anchors
+    before publication.</p>
+    <p class="k">We measure. We don't forecast. · Drafted by OOZEBOT · reviewed by the Division of Economic Containment</p>
+  </div>
+</main>
+
+
+<!-- ===================================================================== -->
+<!-- ======================= STATE DIVIDER (chrome) ====================== -->
+<!-- ===================================================================== -->
+<div class="divider">
+  <div class="wrap">
+    <h2>Below: the same page, loud state</h2>
+    <p>Everything above is the quiet state, and it was built first. Nothing below removes a component —
+    the loud state is the quiet state <b>plus</b> a fired row, a fired gutter, and one expandable
+    evidence block. Appendix A diffs them component by component; a component present in one and absent
+    from the other would be a defect.</p>
+    <div class="warnbox">
+      <p><b>Honesty note — what is counterfactual above.</b> The reading, the lines, the ounces and every
+      observed value in the quiet state are July 2026's real published figures. <b>The cross-check panel
+      is not:</b> in the actual July 2026, the employment check fires. It is shown agreeing above because
+      the brief requires the empty state and most months are in it, and manufacturing a quiet month's
+      data to fill it would be worse than labelling this. No month in which all seven agree has been
+      fabricated — only this panel's state was toggled, and this paragraph is the disclosure.</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- ===================================================================== -->
+<!-- ============ STATE B — THE LOUD STATE (July 2026, as published) ===== -->
+<!-- ===================================================================== -->
+
+<header class="top">
+  <div class="wrap top-in">
+    <div>
+      <div class="wordmark">OOZE<em>METER</em></div>
+      <div class="division">Division of Economic Containment</div>
+    </div>
+    <nav aria-label="Main, loud state">
+      <a href="#">The reading</a>
+      <a href="#">Every line</a>
+      <a href="#">How it is built</a>
+      <a href="#">Archive</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap page">
+
+  <p class="kicker">How squeezed U.S. households are &middot; July 2026</p>
+
+  <div class="hero">
+    <div>
+      <article class="lede">
+        <p>For the average household, housing was the largest source of financial pressure in July
+        2026 — <span class="d">7 of the month's 26 ounces</span> with the 30-year mortgage at
+        <span class="d">6.67%</span>. The relief came from the two lines everyone feels first: gas
+        prices (<span class="d">down 3 points</span>) and inflation (<span class="d">down 3
+        points</span>). Altogether the jar drained <span class="d">1 point</span> to
+        <span class="d">26</span>, keeping the national containment level in the Sticky range.</p>
+      </article>
+
+      <!-- SAME COMPONENT, SAME POSITION. Content changes; anatomy does not. -->
+      <div class="dissent" data-fires="1">
+        <span class="g" aria-hidden="true">&#9650;</span>
+        <span class="t"><b>One check disagrees with a line in this reading — employment.</b>
+          The unemployment rate fell while the share of adults with a job also fell.<br>
+          <a href="#checks-loud">Read what doesn't add up &#9656;</a></span>
+      </div>
+
+      <div class="ev">
+        <h3>Every figure in that paragraph</h3>
+        <dl>
+          <dt>7 oz of 26</dt>
+          <dd>Housing's share of the July 2026 reading <span>· data/latest.json → lines.housing.contrib · the seven weighted shares sum to 26</span></dd>
+
+          <dt>6.67%</dt>
+          <dd>30-year fixed mortgage rate <span>· Freddie Mac via FRED <code>MORTGAGE30US</code> · as of 2026-08-13</span></dd>
+
+          <dt>down 3 points (gas)</dt>
+          <dd>Pump price $4.01 <span>· U.S. Energy Information Administration via FRED <code>GASREGW</code> · as of 2026-08-10</span></dd>
+
+          <dt>down 3 points (inflation)</dt>
+          <dd>CPI-U all items, 3.4% year over year <span>· U.S. Bureau of Labor Statistics via FRED <code>CPIAUCNS</code> · as of 2026-07-01</span></dd>
+
+          <dt>down 1 point → 26</dt>
+          <dd>June 2026 sealed at 27; July 2026 sealed at 26 <span>· written as the token <code>{{s:2026-07}}</code> and resolved by <code>resolveClaims()</code> at render, never typed</span></dd>
+        </dl>
+      </div>
+    </div>
+
+    <aside class="plate" aria-label="July 2026 reading">
+      <div class="cap">July 2026 reading</div>
+      <div class="readrow">
+        <div class="jar" role="img" aria-label="Containment jar, ooze level 26 of 100">
+          <i style="height:26%"></i>
+        </div>
+        <div>
+          <div class="score">26<small>/100</small></div>
+          <div class="mv"><span class="down">&#9660;</span> down 1 point vs June 2026</div>
+        </div>
+      </div>
+      <a class="band" href="#">Sticky</a>
+      <p class="gloss">That is Sticky territory — the band where normal economies live.</p>
+      <p class="vd">Calmer than 6 of every 10 months since 2003</p>
+      <p class="stamp">July 2026 reading · collected 2026-08-14<br>Methodology v3.0.0 · integrity gate: PASS, fails closed</p>
+    </aside>
+  </div>
+
+  <section class="block" id="ledger-loud">
+    <div class="blockhead">
+      <h2>What the reading is made of</h2>
+      <span class="st fires">One line marked &middot; employment</span>
+    </div>
+    <p class="leadin">Ordered by how much of the reading each line is responsible for — not by how
+    much it moved. Every weighted line is listed and the ounce column foots to the reading, so the
+    arithmetic can be checked without leaving the page.</p>
+
+    <div class="scrollx">
+      <table>
+        <caption>Every weighted intake line, July 2026. The ounce column foots to the published reading.
+        A marked row is disputed by a cross-check; the mark does not change the row's value or the reading.</caption>
+        <thead>
+          <tr>
+            <th scope="col">Line</th>
+            <th scope="col">Observed value</th>
+            <th scope="col">Share of the reading</th>
+            <th scope="col">Change vs June, in points</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="rank">
+            <td class="name" data-l="Line">Housing<span class="share" style="width:26.9%"></span></td>
+            <td class="obs" data-l="Observed">6.67% <span style="color:var(--dim)">30-yr mortgage</span></td>
+            <td class="oz" data-l="Share">7 oz of 26</td>
+            <td class="chg flat" data-l="Change">— unchanged</td>
+          </tr>
+          <tr class="rank">
+            <td class="name" data-l="Line">Credit cards<span class="share" style="width:23.1%"></span></td>
+            <td class="obs" data-l="Observed">2.9% <span style="color:var(--dim)">card delinquency</span></td>
+            <td class="oz" data-l="Share">6 oz of 26</td>
+            <td class="chg flat" data-l="Change">— unchanged</td>
+          </tr>
+          <tr class="rank">
+            <td class="name" data-l="Line">Auto loans<span class="share" style="width:19.2%"></span></td>
+            <td class="obs" data-l="Observed">7.9% <span style="color:var(--dim)">auto-loan delinquency</span></td>
+            <td class="oz" data-l="Share">5 oz of 26</td>
+            <td class="chg flat" data-l="Change">— unchanged</td>
+          </tr>
+          <tr class="rank">
+            <td class="name" data-l="Line">Gas<span class="share" style="width:15.4%"></span></td>
+            <td class="obs" data-l="Observed">$4.01 <span style="color:var(--dim)">pump price</span></td>
+            <td class="oz" data-l="Share">4 oz of 26</td>
+            <td class="chg down" data-l="Change">&#9660; down 3 points</td>
+          </tr>
+
+          <tr class="tail">
+            <td class="name" data-l="Line"><span class="gut" aria-hidden="true">&#9650;</span>Employment
+              <span class="sr">— disputed by a cross-check</span></td>
+            <td class="obs" data-l="Observed"><span class="mark">4.1% <span style="color:var(--dim)">unemployment</span><sup>disputed</sup></span></td>
+            <td class="oz" data-l="Share">2 oz of 26</td>
+            <td class="chg down" data-l="Change">&#9660; down 1 point</td>
+          </tr>
+          <tr class="tail">
+            <td class="name" data-l="Line">Inflation</td>
+            <td class="obs" data-l="Observed">3.4% <span style="color:var(--dim)">yearly price growth</span></td>
+            <td class="oz" data-l="Share">2 oz of 26</td>
+            <td class="chg down" data-l="Change">&#9660; down 3 points</td>
+          </tr>
+          <tr class="tail">
+            <td class="name" data-l="Line">Financial conditions</td>
+            <td class="obs" data-l="Observed">&minus;0.55 <span style="color:var(--dim)">Chicago Fed index</span></td>
+            <td class="oz" data-l="Share">0 oz of 26<span style="display:block;color:var(--dim);font-size:.75rem">weighted &middot; rounds to zero</span></td>
+            <td class="chg down" data-l="Change">&#9660; down 1 point</td>
+          </tr>
+
+          <tr class="total">
+            <td class="lblc" data-l="Total">Sealed reading</td>
+            <td data-l="Observed"></td>
+            <td data-l="Share">26 oz of 26</td>
+            <td data-l="Change">&#9660; down 1 point</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="movers"><span class="h">Largest moves this month — a separate question</span>
+      Gas &#9660; 3 points &middot; Inflation &#9660; 3 points<br>
+      <span style="color:var(--dim)">Movement and weight are different questions. This strip answers
+      the first; the ledger above answers the second, and only the second is a sort key.</span></p>
+
+    <div class="aux">
+      <div class="h">Auxiliary sensors · observed, no score weight</div>
+      <div class="r"><b>Mortgage distress</b> <span>1.9% mortgage delinquency</span> <span class="z">0 oz · no score weight</span></div>
+      <div class="r"><b>Manufacturing</b> <span>1.1% year over year</span> <span class="z">0 oz · no score weight</span></div>
+      <p class="note">These two are collected and published but carry no weight in the score. They are
+      not part of the reading and can never move it. "Financial conditions" in the ledger above is a
+      different kind of zero: it is weighted, and this month its share rounds down.</p>
+    </div>
+
+    <a class="more" href="#">View all nine intake lines &rarr;</a>
+  </section>
+
+  <!-- ================= THE CROSS-CHECK MODULE — LOUD ================= -->
+  <section class="block" id="checks-loud">
+    <div class="cc" data-state="fires">
+      <div class="cc-head">
+        <h3>What doesn't add up?</h3>
+        <span class="state"><span aria-hidden="true">&#9650;</span> Meaningful contradiction detected</span>
+      </div>
+
+      <p>Two job numbers point opposite ways this month.</p>
+      <p>The unemployment rate fell to 4.1%. Over the same month the share of American adults with a
+      job fell to 58.9%, and the share either working or looking fell to 61.4%.</p>
+      <p>Both can be true at once. The unemployment rate only counts people who are looking for work.
+      In July, 264,000 people stopped looking, so they left the count. Fewer people looking makes the
+      rate go down even when fewer people are working.</p>
+      <p>The jar reads the unemployment rate. It does not read the number of people working. So this
+      month's employment line — 2 of the jar's 26 ounces — is measuring the friendlier of the two
+      facts.</p>
+
+      <div class="scrollx" style="margin-top:22px">
+        <table class="roster">
+          <caption class="sr">Seven cross-checks, July 2026. One disagrees.</caption>
+          <thead>
+            <tr>
+              <th scope="col" class="sr">State</th>
+              <th scope="col">Line</th>
+              <th scope="col">What the jar reads</th>
+              <th scope="col">Checked against</th>
+              <th scope="col">Result</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr data-fires="0"><td class="g" aria-hidden="true">&middot;</td><td class="name" data-l="Line">Housing</td><td data-l="Jar reads">mortgage rate 6.67%</td><td data-l="Checked against">housing starts</td><td class="res" data-l="Result">agrees</td></tr>
+            <tr data-fires="0"><td class="g" aria-hidden="true">&middot;</td><td class="name" data-l="Line">Credit cards</td><td data-l="Jar reads">delinquency 2.9%</td><td data-l="Checked against">balances and card APR</td><td class="res" data-l="Result">agrees</td></tr>
+            <tr data-fires="0"><td class="g" aria-hidden="true">&middot;</td><td class="name" data-l="Line">Auto loans</td><td data-l="Jar reads">delinquency 7.9%</td><td data-l="Checked against">vehicle sales</td><td class="res" data-l="Result">agrees</td></tr>
+            <tr data-fires="0"><td class="g" aria-hidden="true">&middot;</td><td class="name" data-l="Line">Gas</td><td data-l="Jar reads">pump $4.01</td><td data-l="Checked against">crude oil</td><td class="res" data-l="Result">agrees</td></tr>
+            <tr data-fires="1"><td class="g" aria-hidden="true">&#9650;</td><td class="name" data-l="Line">Employment</td><td data-l="Jar reads">unemployment 4.1%</td><td data-l="Checked against">share of adults working 58.9%</td><td class="res" data-l="Result">disagrees</td></tr>
+            <tr data-fires="0"><td class="g" aria-hidden="true">&middot;</td><td class="name" data-l="Line">Inflation</td><td data-l="Jar reads">headline 3.4%</td><td data-l="Checked against">core prices</td><td class="res" data-l="Result">agrees</td></tr>
+            <tr data-fires="0"><td class="g" aria-hidden="true">&middot;</td><td class="name" data-l="Line">Financial</td><td data-l="Jar reads">conditions &minus;0.55</td><td data-l="Checked against">the adjusted index</td><td class="res" data-l="Result">agrees</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="firewall">Cross-check series carry no score weight. This does not change the reading
+      of 26.</p>
+
+      <details>
+        <summary>Show the evidence</summary>
+        <pre><b>SHOW THE EVIDENCE — Employment cross-check, July 2026</b>
+
+  <b>WHAT THE JAR READS</b>                        weight 24.25% · 2 oz of 26
+
+    UNRATE      Unemployment rate                4.1%   as of 2026-07-01
+    ICSA        Initial claims, 4-week mean   200,000   as of 2026-08-08
+
+    Transform:  stress = max( anchor(UNRATE), anchor(ICSA / 1000) )
+    Result:     stress 13 / 100        source: scripts/collect.js:108
+
+  <b>WHAT THE JAR DOES NOT READ</b>                          zero score weight
+
+    PAYEMS      Nonfarm payrolls        158,858k    Jun 158,881k    -23k
+    CE16OV      Household employment    162,177k    Jun 162,264k    -87k
+    CLF16OV     Labor force             169,094k    Jun 169,358k   -264k
+    UNEMPLOY    Unemployed                6,916k    Jun   7,094k   -178k
+    CIVPART     Participation rate          61.4%   Jun    61.5%    -0.1
+    EMRATIO     Employment-population       58.9%   Jun    59.0%    -0.1
+    U6RATE      Broad underemployment        7.9%   Jun     7.9%     0.0
+
+  <b>THE ARITHMETIC</b>
+
+    Unemployment rate = unemployed / labor force.
+      June  7,094 / 169,358 = 4.19%   published 4.2%
+      July  6,916 / 169,094 = 4.09%   published 4.1%
+
+    Counterfactual - hold the labor force at June's level:
+      July  7,181 / 169,358 = 4.24%   would publish 4.2%
+
+    The published fall from 4.2% to 4.1% is accounted for by the
+    264,000-person decline in the labor force.
+
+  <b>PLACEMENT AGAINST THE JAR'S OWN RECORD (282 months, 2003-present)</b>
+
+    CIVPART 61.4%   lower in   2 of 282 months
+    EMRATIO 58.9%   lower in  72 of 282 months
+
+  <b>LIMITS THIS FACILITY STATES BEFORE YOU DO</b>
+
+    · A single month's payroll change of -23,000 is smaller than the
+      establishment survey's own margin of error. The twelve-month
+      participation and employment-population figures above are the
+      load-bearing evidence; the one-month payroll change is not.
+    · Household-survey levels (CE16OV, CLF16OV) carry annual population
+      controls that can move the level without anyone changing jobs.
+    · These series carry zero score weight. The July reading is 26.
+    · This is a measurement, not a forecast. Nothing here says what
+      happens next.
+
+  <b>SOURCES</b>  Every series above: fred.stlouisfed.org/series/&lt;ID&gt;
+           This month's payload: data/latest.json
+           The transform: scripts/collect.js:108
+           The open defect: research/EMPLOYMENT-SIGNAL-DECISION-2026-08-11.md</pre>
+      </details>
+    </div>
+  </section>
+
+  <div class="foot">
+    <p>Methodology v3.0.0. All source feeds current at collection. 2 recorded changes to published
+    history on the public record (data/revisions.json); the cause of each is logged, not inferred.
+    1 methodology recalibration is separately identified in that record. Every figure traces to a
+    cited public series; the integrity gate verified plausibility bounds and calibration anchors
+    before publication.</p>
+    <p class="k">We measure. We don't forecast. · Drafted by OOZEBOT · reviewed by the Division of Economic Containment</p>
+  </div>
+</main>
+
+
+<!-- ===================================================================== -->
+<!-- ============================ APPENDICES ============================= -->
+<!-- ===================================================================== -->
+<div class="chrome" style="border-top:1px dashed rgba(139,160,124,.35);border-bottom:none;margin-top:70px">
+  <div class="wrap chrome-in">
+
+    <h2>Appendix A — the two states, diffed</h2>
+    <p>Encoding law L5: design the quiet state first, and the loud state is an <em>addition</em> to it.
+    The test is a diff. Every component below is present in both; only three change content, and
+    <strong>nothing is removed, disabled, collapsed or shrunk in the quiet state.</strong></p>
+    <div class="scrollx">
+      <table class="diff">
+        <thead><tr>
+          <th scope="col">Component</th><th scope="col">Quiet state</th><th scope="col">Loud state</th><th scope="col">Diff</th>
+        </tr></thead>
+        <tbody>
+          <tr><td class="name" data-l="Component">Kicker &amp; lede</td><td class="same" data-l="Quiet">identical</td><td class="same" data-l="Loud">identical</td><td class="same" data-l="Diff">none</td></tr>
+          <tr><td class="name" data-l="Component">Dissent gutter</td><td class="addd" data-l="Quiet">· all seven agree</td><td class="addd" data-l="Loud">▲ one disagrees — employment</td><td class="addd" data-l="Diff">content + gutter glyph + rule colour</td></tr>
+          <tr><td class="name" data-l="Component">Evidence strip (5 figures)</td><td class="same" data-l="Quiet">identical</td><td class="same" data-l="Loud">identical</td><td class="same" data-l="Diff">none</td></tr>
+          <tr><td class="name" data-l="Component">Reading plate</td><td class="same" data-l="Quiet">identical</td><td class="same" data-l="Loud">identical</td><td class="same" data-l="Diff">none — the mark never touches the numeral (L4)</td></tr>
+          <tr><td class="name" data-l="Component">Composition ledger</td><td class="same" data-l="Quiet">7 rows + total</td><td class="addd" data-l="Loud">7 rows + total, employment row marked</td><td class="addd" data-l="Diff">one gutter glyph, one dotted underline</td></tr>
+          <tr><td class="name" data-l="Component">Movers strip / AUX block</td><td class="same" data-l="Quiet">identical</td><td class="same" data-l="Loud">identical</td><td class="same" data-l="Diff">none</td></tr>
+          <tr><td class="name" data-l="Component">Cross-check roster</td><td class="same" data-l="Quiet">7 rows, all "agrees"</td><td class="addd" data-l="Loud">7 rows, one "disagrees"</td><td class="addd" data-l="Diff">one row's result + glyph</td></tr>
+          <tr><td class="name" data-l="Component">Module prose</td><td class="addd" data-l="Quiet">4 sentences + first-edition run line</td><td class="addd" data-l="Loud">4 paragraphs of mechanism</td><td class="addd" data-l="Diff">content only; same slot, same rank</td></tr>
+          <tr><td class="name" data-l="Component">Zero-weight firewall line</td><td class="same" data-l="Quiet">identical, verbatim</td><td class="same" data-l="Loud">identical, verbatim</td><td class="same" data-l="Diff">none — unconditional in both</td></tr>
+          <tr><td class="name" data-l="Component">Level-5 <code>&lt;details&gt;</code></td><td class="addd" data-l="Quiet">firing rules</td><td class="addd" data-l="Loud">the evidence</td><td class="addd" data-l="Diff">content; the control exists in both</td></tr>
+          <tr><td class="name" data-l="Component">Footer / confidence</td><td class="same" data-l="Quiet">identical, verbatim</td><td class="same" data-l="Loud">identical, verbatim</td><td class="same" data-l="Diff">none</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-top:14px">The quiet state's roster is the same seven rows as the loud state's.
+    That is the point: when something fires the paragraph is the evidence, and when nothing fires the
+    roster is. The quiet state is not the smaller one.</p>
+
+    <h2>Appendix B — provenance of every string on the product surface</h2>
+    <ul>
+      <li class="no"><b>The lede</b> — <code>data/editorial.json → story</code>, verbatim, with its two
+      <code>{{s:2026-07}}</code> tokens resolved. <b>Build hazard, flagged:</b> per
+      <code>00-references.md</code> A1, <code>narrative-check.js:203</code> now scans
+      <code>index.html</code> and fails the build on unresolved tokens. Stamping <code>story</code> into
+      the static file trips the gate; injecting it client-side <em>without</em>
+      <code>resolveClaims()</code> ships <code>{{s:2026-07}}</code> to readers on a green build. The
+      correct implementation is a client-side render through <code>resolveClaims()</code> (lab.js:235–249).
+      Neither shortcut is acceptable and this mockup assumes the resolver.</li>
+      <li class="no"><b>Verdict line</b> — <code>editorial.json → verdict</code>, verbatim. Unmoved and
+      unstyled from production; it is the site's strongest comprehension asset and this direction does
+      not touch it, only relocates it into the plate it glosses.</li>
+      <li class="no"><b>Band gloss</b> — Editorial Constitution §3, verbatim: <em>"That is Sticky
+      territory — the band where normal economies live."</em> The Constitution mandates it; the
+      homepage omits it today.</li>
+      <li class="no"><b>Confidence footer</b> — <code>editorial.json → confidence</code>, verbatim.</li>
+      <li class="no"><b>Ledger cells</b> — <code>data/latest.json</code> fields only: <code>value</code>,
+      <code>contrib</code>, <code>delta</code>. No prose.</li>
+      <li class="no"><b>Loud module copy</b> — <code>research/forensic/07-ux.md</code> §4.3, verbatim
+      (Constitution-checked clause by clause in that document). Authored form:
+      <code>{{x:UNRATE:value}}</code>, <code>{{x:EMRATIO:value}}</code>,
+      <code>{{x:CIVPART:value}}</code>, <code>{{x:CLF16OV:delta_abs}}</code>,
+      <code>{{line:jobs:contrib}}</code>, <code>{{s:2026-07}}</code>. Those forms need a resolver
+      extension that does not exist yet.</li>
+      <li class="no"><b>Quiet module copy</b> — <code>02-comprehension.md</code> §4.2, using its
+      <em>first-edition</em> variant. I used that variant specifically to avoid printing a streak
+      number I cannot verify. No <code>{{cc:streak}}</code> value was invented.</li>
+      <li class="no"><b>Level-5 evidence block</b> — <code>07-ux.md</code> §4.5, verbatim including its
+      LIMITS section. The LIMITS block is not decoration; it is the thing that stops this module
+      becoming a doom feed.</li>
+      <li class="no"><b>Everything else</b> (column heads, the "what the 26 is made of" heading, the
+      lead-in sentence, the AUX note, the movers label) is <b>interface copy written by me</b> and
+      contains no datum that can go stale. Where a count appears it describes components, not the
+      economy.</li>
+    </ul>
+
+    <h2>Appendix C — what this direction fixes, in one list</h2>
+    <ul>
+      <li class="no"><b>CRITICAL 1 fixed.</b> <code>EDITORIAL.story</code> is the hero. It is the first
+      content a reader meets and it is set at reading size.</li>
+      <li class="no"><b>CRITICAL 2 fixed.</b> Nothing sorts by <code>Math.abs(delta)</code>. Housing 7,
+      credit 6, auto 5, gas 4 lead the ledger — 22 of 26 ounces at full typographic rank, against the
+      printed whole, with the column footing to 26.</li>
+      <li class="no"><b>The zero-is-up bug.</b> <code>delta === 0</code> renders "— unchanged" in
+      <code>--muted</code>, not "▲0" in <code>--amber</code>. That is 18 of 26 ounces currently
+      mis-stated on the live homepage.</li>
+      <li class="no"><b>The unit collision.</b> Every signed number ships with a unit — "down 3 points",
+      "7 oz of 26" — and the observed value is never adjacent to a bare stress delta.</li>
+      <li class="no"><b>Constitution §4 on card faces.</b> Every named line carries its observed value
+      in the same row. <code>Level: 58</code> appears nowhere; stress points are internal and are not
+      printed to the reader at all on this page.</li>
+      <li class="no"><b>Three different zeros, disambiguated.</b> Financial conditions is weighted and
+      rounds to 0 oz; the two auxiliary sensors are zero-weight by design and sit outside the total.
+      Today all three render identically.</li>
+      <li class="no"><b>The scope trap.</b> <code>data-level</code> is on the page root, so one number
+      renders in one green.</li>
+      <li class="no"><b>Accessibility floor.</b> No type below .72rem and no body text below .75rem;
+      <code>--dim</code> used only on <code>--bg</code>-tinted ground, never as a datum; every
+      interactive target ≥44px (nav 44, band chip 46, summary 44, dissent link 44); real
+      <code>&lt;table&gt;</code> with <code>scope</code> and a caption; direction carried by glyph and
+      word as well as hue; tables stack rather than shrink below 720px; zero motion.</li>
+      <li class="no"><b>Reader Promise §2 items 1–2 delivered.</b> Item 3 (household) is withheld with
+      cause. Item 4 (a named date) is <b>still not delivered</b> — the payload has no next-release date
+      and I did not invent one. That is an open gap, not a solved one.</li>
+    </ul>
+
+    <h2>Appendix D — the honest weaknesses of this direction</h2>
+    <ul>
+      <li class="no"><b>The lede is grade 9.0 / Fog 13.2.</b> The verdict line it displaces from the
+      top is grade 4.5. This direction promotes the site's <em>hardest</em> sentence to the largest
+      type. It is the sentence that carries the causes, so I stand by it — but the 30-second test
+      should be re-run empirically before this ships, and if strangers stall on it the fix is a
+      generator change to <code>story</code>, not a layout change.</li>
+      <li class="no"><b>A 396-character monospace paragraph is a lot of first impression.</b> On a
+      360px phone the lede is roughly 11 lines before the reader reaches the plate. The mitigation here
+      is that the plate is sticky on desktop and immediately follows on mobile, but a returning visitor
+      who only wants the number now scrolls past a paragraph they have read.</li>
+      <li class="no"><b>The empty-state roster is counterfactual for July 2026</b> and is labelled as
+      such on the divider. A reviewer is entitled to say that a quiet state which has never actually
+      published is an unproven design.</li>
+    </ul>
+
+    <p style="margin-top:22px;color:var(--dim);font-size:.78rem">Phase 2 · direction: ANSWER FIRST ·
+    <code>mockups/phase2/mockup-answer-first.html</code> · no production file was modified.</p>
+  </div>
+</div>
+
+</body>
+</html>
