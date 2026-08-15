@@ -95,6 +95,38 @@ test('a stale diagnostic can never read as agreement', () => {
   assert.equal(CG.classifyRelationship({primaryDelta: 4, diagnosticDelta: 5, threshold: 3, primaryStale: true}), 'STALE');
 });
 
+/* ============ D3 — STORY AND GATE DISAGREED IN PRODUCTION ==========
+   2026-08-15: the manufacturing feed went stale. story.js classified the
+   jobs cross-check as MIXED (it did not consider staleness); the gate
+   recomputed STALE (it did) and blocked the daily build. The gate was right,
+   but two engines deciding one truth is the defect. They now share a
+   classifier — these tests assert they cannot drift apart again. */
+test('D3: story.js and the claim gate share one classifier', () => {
+  const storySrc = fs.readFileSync(path.join(repo, 'scripts/story.js'), 'utf8');
+  assert.match(storySrc, /require\(['"]\.\/lib\/claim-gate['"]\)/,
+    'story.js must import the canonical classifier, not reimplement it');
+  assert.ok(!/row\.result\s*=\s*row\.fired\s*\?/.test(storySrc),
+    'story.js must not re-derive the verdict with its own conditional');
+});
+
+test('D3: a stale diagnostic yields STALE, not MIXED, on the exact live inputs', () => {
+  /* employment -1, manufacturing +3, threshold 3, manufacturing stale */
+  assert.equal(CG.classifyRelationship({
+    primaryDelta: -1, diagnosticDelta: 3, threshold: 3, diagnosticStale: true}), 'STALE');
+  /* and without the staleness it is still MIXED, so the fix did not flatten D2 */
+  assert.equal(CG.classifyRelationship({
+    primaryDelta: -1, diagnosticDelta: 3, threshold: 3}), 'MIXED');
+});
+
+test('D3: a stale check never leaves the module reading as agreement', () => {
+  const cc = JSON.parse(fs.readFileSync(path.join(repo, 'data/editorial.json'), 'utf8')).crosschecks;
+  const rowStates = (cc.rows || []).map(r => r.result);
+  if (rowStates.includes('stale') || rowStates.includes('insufficient')) {
+    assert.notEqual(cc.state, 'quiet', 'an unrunnable check must not read as quiet');
+    assert.ok(!/agree/i.test(cc.label), `headline "${cc.label}" claims agreement over a stale check`);
+  }
+});
+
 /* ============ SPECIAL: FLAT MONTH ================================== */
 test('a flat month is neutral, never a signed zero', () => {
   assert.equal(CG.classifyRelationship({primaryDelta: 0, diagnosticDelta: 0, threshold: 3}), 'AGREES');

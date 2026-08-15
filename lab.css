@@ -710,6 +710,9 @@ footer a:hover{color:var(--ooze)}
    Lifted to --text rather than given a hue, so it reads as noted rather than
    alarming and the escalation stays in the glyph and the wording. */
 #crosscheck[data-cc="mixed"] .cc-glyph,#crosscheck[data-cc="mixed"] .cc-state{color:var(--text)}
+/* stale is an absence, not a verdict — it reads dimmer than quiet, never louder,
+   so a month we could not check can't be mistaken for a month that came back clean */
+#crosscheck[data-cc="stale"] .cc-glyph,#crosscheck[data-cc="stale"] .cc-state{color:var(--dim)}
 #crosscheck[data-cc="amber"] .cc-glyph,#crosscheck[data-cc="amber"] .cc-state{color:var(--amber)}
 #crosscheck[data-cc="red"] .cc-glyph,#crosscheck[data-cc="red"] .cc-state{color:var(--red)}
 #crosscheck[data-cc="nodata"] .cc-glyph,#crosscheck[data-cc="nodata"] .cc-state{color:var(--dim)}

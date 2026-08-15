@@ -41,7 +41,8 @@ for (const key of Object.keys(editorial)) {
 /* ---- the cross-check claims -------------------------------------------- */
 const cc = editorial.crosschecks;
 if (cc) {
-  const STATE_FOR = {agrees: 'AGREES', mixed: 'MIXED', disagrees: 'CONFLICT', 'not checked': 'UNCHECKED', stale: 'STALE'};
+  const STATE_FOR = {agrees: 'AGREES', mixed: 'MIXED', disagrees: 'CONFLICT',
+    'not checked': 'UNCHECKED', stale: 'STALE', insufficient: 'INSUFFICIENT'};
 
   for (const row of (cc.rows || [])) {
     const state = STATE_FOR[row.result];
@@ -110,7 +111,9 @@ if (cc) {
   const anyConflict = rowStates.includes('CONFLICT');
   const anyMixed = rowStates.includes('MIXED');
   const anyChecked = rowStates.some(s => s !== 'UNCHECKED');
-  const expectedHead = !anyChecked ? 'nodata' : anyConflict ? ['red', 'amber'] : anyMixed ? ['mixed'] : ['quiet'];
+  const anyUnrunnable = rowStates.some(s => s === 'STALE' || s === 'INSUFFICIENT');
+  const expectedHead = !anyChecked ? 'nodata' : anyConflict ? ['red', 'amber']
+    : anyMixed ? ['mixed'] : anyUnrunnable ? ['stale'] : ['quiet'];
   const heads = Array.isArray(expectedHead) ? expectedHead : [expectedHead];
   if (!heads.includes(cc.state)) {
     fail.push({rule: 'R3-STATE', message: `module state "${cc.state}" does not follow from row states [${rowStates.join(', ')}] (expected one of ${heads.join(', ')})`});

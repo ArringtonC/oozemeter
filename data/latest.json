@@ -1,5 +1,5 @@
 {
- "generated": "2026-08-15T04:08:53.793Z",
+ "generated": "2026-08-15T22:04:22.529Z",
  "methodologyVersion": "3.0.0",
  "month": "2026-07",
  "monthLabel": "July 2026",
@@ -14,8 +14,10 @@
   "inputFingerprint": "890a54f4ae088cb188743ac6a66878d34a905ccc60d6da7fb34996d32d4db87c",
   "fingerprintSchemaVersion": 3,
   "vintageRetentionPolicy": "retain-all-unique-schema-v3-manifests",
-  "freshnessStatus": "current",
-  "staleLines": []
+  "freshnessStatus": "degraded",
+  "staleLines": [
+   "manufacturing"
+  ]
  },
  "calibration": {
   "a": 1.418684348943213,
@@ -213,7 +215,7 @@
     "transform": "same-month year-over-year percent change"
    },
    "contrib": 0,
-   "stale": false,
+   "stale": true,
    "updateStatus": "no-new-release"
   }
  },

@@ -282,6 +282,11 @@ if(LIVE){
        the one a sighted proofreader never sees, which makes it the easiest place
        for a false statement to survive. */
     if(r.result==='mixed')return{mark:'~',say:'the two series on this line moved in opposite directions, below the reporting threshold',fired:'0'};
+    /* Stale and insufficient are absences of a check, not verdicts. They must
+       never inherit the tick or the word "agrees" — including here, in the
+       string only a screen reader hears. */
+    if(r.result==='stale')return{mark:'—',say:'this check could not run: a comparison series has gone stale',fired:'0'};
+    if(r.result==='insufficient')return{mark:'—',say:'this check could not run: not enough movement to compare',fired:'0'};
     return{mark:'·',say:'the cross-check on this line agrees',fired:'0'};
   };
 

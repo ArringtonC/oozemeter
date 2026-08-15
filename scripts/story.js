@@ -11,6 +11,13 @@
    OOZEBOT drafts; the numbers decide. Run after collect.js in the cron.
    ============================================================ */
 const fs=require('fs');
+/* ONE classifier, shared with the Claim Gate. story.js used to decide these
+   states itself and the gate recomputed them independently — which is exactly
+   the arrangement that let 2026-08-15 publish MIXED for a cross-check whose
+   diagnostic feed had gone stale. The gate caught it and blocked the build,
+   correctly, but two engines deciding the same truth is the defect. Truth is
+   determined here once; this file now only chooses how to say it. */
+const {classifyRelationship}=require('./lib/claim-gate');
 const d=JSON.parse(fs.readFileSync('data/latest.json','utf8'));
 const history=JSON.parse(fs.readFileSync('data/history.json','utf8'));
 let revisions=[];try{revisions=JSON.parse(fs.readFileSync('data/revisions.json','utf8'))}catch{}
@@ -155,16 +162,20 @@ const ccRows=[...weighted].sort((a,b)=>(b[1].contrib-a[1].contrib)||a[0].localeC
     result:usable?'agrees':'not checked'};
   if(usable){
     const a=l.delta,b=against.delta;
-    const opposed=(a>0&&b<0)||(a<0&&b>0);
-    row.fired=opposed&&Math.abs(a)>=CC_FIRE&&Math.abs(b)>=CC_FIRE;
-    /* Opposed but under the threshold is NOT agreement. The first version of
-       this printed "agrees" for any row that failed to fire, which put a false
-       statement on the page the day it shipped: employment moved -1 while
-       manufacturing moved +3 — genuinely opposite — and the row read "agrees".
-       Three outcomes, not two, matching the engine spec's AGREE / MIXED /
-       CONFLICT. */
-    row.opposed=opposed;
-    row.result=row.fired?'disagrees':opposed?'mixed':'agrees';
+    /* Delegated. Opposed-but-under-threshold is MIXED not agreement; a stale
+       series on either side is STALE, because a feed that stopped reporting
+       cannot corroborate anything. Both rules live in lib/claim-gate.js so the
+       gate and this generator can never reach different verdicts again. */
+    const STATE={AGREES:'agrees',MIXED:'mixed',CONFLICT:'disagrees',
+                 STALE:'stale',INSUFFICIENT:'insufficient'};
+    const canonical=classifyRelationship({
+      primaryDelta:a,diagnosticDelta:b,threshold:CC_FIRE,expected:'same',
+      primaryStale:!!l.stale,diagnosticStale:!!against.stale});
+    row.canonical=canonical;
+    row.result=STATE[canonical]||'insufficient';
+    row.fired=canonical==='CONFLICT';
+    row.opposed=(a>0&&b<0)||(a<0&&b>0);
+    row.staleSide=l.stale?NAMES[k]:against.stale?NAMES[againstKey]:null;
     row.jarMove=moveText(a);
     row.againstMove=moveText(b);
   }
@@ -172,15 +183,22 @@ const ccRows=[...weighted].sort((a,b)=>(b[1].contrib-a[1].contrib)||a[0].localeC
 });
 const ccRan=ccRows.filter(r=>r.checked).length;
 const ccUnchecked=ccRows.length-ccRan;
-const ccFired=ccRows.filter(r=>r.fired);
-const ccMixed=ccRows.filter(r=>r.opposed&&!r.fired);
+const ccFired=ccRows.filter(r=>r.canonical==='CONFLICT');
+const ccMixed=ccRows.filter(r=>r.canonical==='MIXED');
+const ccStale=ccRows.filter(r=>r.canonical==='STALE');
+const ccInsuf=ccRows.filter(r=>r.canonical==='INSUFFICIENT');
+/* Order matters and is deliberate: a contradiction outranks everything, then a
+   mixed reading, then a stale feed. Staleness ranks ABOVE quiet — a check that
+   could not run this month must never leave the module reading as agreement. */
 const ccState=ccRan===0?'nodata'
   :ccFired.length?((ccFired.length>1||ccFired.some(r=>r.slug==='jobs'))?'red':'amber')
   :ccMixed.length?'mixed'
+  :(ccStale.length||ccInsuf.length)?'stale'
   :'quiet';
 const CC_HEAD={
   quiet:{glyph:'·',label:'The checks agree'},
   mixed:{glyph:'~',label:'Mixed signals'},
+  stale:{glyph:'—',label:'Not enough to check'},
   amber:{glyph:'≠',label:'One check disagrees'},
   red:{glyph:'≠',label:'Meaningful contradiction detected'},
   nodata:{glyph:'—',label:'Cross-checks could not run'},
@@ -190,6 +208,12 @@ const ccBody=ccState==='nodata'
   :ccState==='quiet'
   ?["The numbers the jar reads and the numbers it doesn't are pointing the same way this month.",
     `${ccRan} cross-check${ccRan===1?'':'s'} ran — the same one${ccRan===1?'':'s'} every month, one for each line that has a published comparison series. Each compares a figure the jar reads against a figure the score does not use. None of them disagreed.`]
+  :ccState==='stale'
+  ?[...ccStale.flatMap(r=>[
+      `We could not check ${NAMES[r.slug]} this month. ${cap(r.staleSide||r.against.toLowerCase())} has not reported a fresh figure, and a series that stopped reporting cannot corroborate anything.`,
+      `This is not a clean bill of health and it is not a warning. It is the absence of a check. The jar's ${NAMES[r.slug]} line still carries ${r.contrib} of the month's ${SCORE} ounces; what we cannot tell you is whether the number the score does not use agrees with it.`,
+    ]),
+    ...ccInsuf.map(r=>`${cap(NAMES[r.slug])} and ${r.against.toLowerCase()} did not give us enough to compare this month — one of the two did not move at all, so there is no direction to set against the other.`)]
   :ccState==='mixed'
   ?ccMixed.flatMap(r=>[
       `${r.name} and ${r.against.toLowerCase()} moved in opposite directions this month, but not far enough for us to call it.`,
@@ -213,10 +237,12 @@ const ccRun=ccState==='nodata'
   ?'A month with no comparison series is an absence, not a finding.'
   :'Agreement is a reading, not a blank space. This is the first edition to publish these checks; the run starts here.';
 const ccCount=ccState==='nodata'?''
+  :ccState==='stale'?`${ccStale.length+ccInsuf.length} of ${ccRan} check${ccRan===1?'':'s'} could not run`
   :ccMixed.length&&!ccFired.length?`${ccMixed.length} of ${ccRan} check${ccRan===1?'':'s'} mixed`
   :`${ccFired.length} of ${ccRan} check${ccRan===1?'':'s'} disagree`;
 const crosschecks={state:ccState,glyph:CC_HEAD.glyph,label:CC_HEAD.label,count:ccCount,
-  ran:ccRan,unchecked:ccUnchecked,fired:ccFired.map(r=>r.slug),mixed:ccMixed.map(r=>r.slug),threshold:CC_FIRE,
+  ran:ccRan,unchecked:ccUnchecked,fired:ccFired.map(r=>r.slug),mixed:ccMixed.map(r=>r.slug),
+  stale:ccStale.map(r=>r.slug),insufficient:ccInsuf.map(r=>r.slug),threshold:CC_FIRE,
   body:ccBody,note:ccNote,run:ccRun,rows:ccRows};
 
 /* ---- confidence statement ---- */
