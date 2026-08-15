@@ -1,0 +1,178 @@
+[
+ {
+  "id": "U1",
+  "severity": "CRITICAL",
+  "title": "\"Over the same month\" — the only published cross-check compares two different month pairs",
+  "claim": "scripts/story.js:196 and :201 — \"The jar's employment line held roughly steady, down 1 point. Over the same month <manufacturing>, published by the Federal Reserve Board and carrying no score weight, climbed 3 points.\"",
+  "why": "delta:household:jobs = round(stress[M]) − round(stress[P]) where M is the headline month (data/latest.json currently 2026-07, P = 2026-06; scripts/collect.js:136-138). delta:household:manufacturing = round(stress at INDPRO's OWN newest month) − round(stress at the month before it) (scripts/collect.js:150-155,182). INDPRO's newest month in the live payload is 2026-06. The two moves are therefore 2026-06→2026-07 and 2026-05→2026-06.",
+  "status": "This is not merely unverifiable — from the graph plus the live payload it is FALSE right now. It is the same defect class as D2: a directional claim whose supporting arithmetic was never checked. Call it D3.",
+  "machineCheckable": true,
+  "howToVerify": "Publish the month pair each delta was computed over (deltaFromMonth / deltaToMonth per line in data/latest.json) and require CC pair legality condition (c): identical month pairs on both sides."
+ },
+ {
+  "id": "U2",
+  "severity": "MAJOR",
+  "title": "Which branch of Math.max drove jobs and housing is published nowhere",
+  "claim": "Every sentence, gutter glyph, ounce count and cross-check verdict about housing or employment.",
+  "why": "sensor:household:housing = max(interp(mortgageRate, MORTGAGE30US[M]), interp(mortgageDelinq, ffill DRSFRMACBS[M])) (scripts/collect.js:110). sensor:household:jobs = max(unemployment branch, claims branch) (scripts/collect.js:108). data/latest.json publishes the DISPLAY value only — MORTGAGE30US for housing, UNRATE for jobs — and no argmax field.",
+  "status": "In the live payload the mortgage-rate branch wins housing (6.67% → ~46 stress vs 1.9% delinquency → 23) and the unemployment branch wins jobs. Neither fact is derivable from any published artifact, and the winner can flip between months without any surface changing.",
+  "machineCheckable": true,
+  "howToVerify": "Emit `driver` and `branches` on every max-combined line, and forbid a VALUE_CLAUSE that names a branch which is not the argmax."
+ },
+ {
+  "id": "U3",
+  "severity": "MAJOR",
+  "title": "Display value and stress value are from different months, different aggregations, and sometimes a partial month",
+  "claim": "scripts/story.js:24-34 VALUE_CLAUSE glues the display value to the stress delta: \"Pressure from housing … with the 30-year mortgage at 6.67%.\"",
+  "why": "Display values are LAST OBSERVATIONS (housing 2026-08-13, gas 2026-08-10, financial 2026-08-07). Stress values are MONTHLY MEANS at the headline month M = 2026-07. The financial line's published value is the monthly mean of a month still in progress (nfciMonth = newest NFCI month, scripts/collect.js:158,174) while its stress, delta and contribution come from 2026-07.",
+  "status": "data/latest.json publishes line.asOf for the display value and nothing for the stress month, so the delta cannot be reproduced from the payload — which directly contradicts the cross-check module's own promise that \"any reader can reproduce the verdict from the raw payload\" (scripts/story.js:110-111).",
+  "machineCheckable": true
+ },
+ {
+  "id": "U4",
+  "severity": "MAJOR",
+  "title": "Flat-month semantics: forward-filled lines print \"was flat this month\" when the truth is \"no new observation\"",
+  "claim": "scripts/story.js:59 — \"Credit cards were flat this month with card delinquency at 2.9%.\"",
+  "why": "credit, auto and the delinquency branch of housing are forward-filled from quarterly observations (scripts/collect.js:95-97). Inside a quarter the stress is identical by construction, so delta = 0 by construction. moveClass(0) returns 'flat' with no access to whether an observation actually arrived. The collector already computes the distinguishing fact — line.updateStatus = 'no-new-release' | 'new-observation' (scripts/collect.js:193) — and the prose does not read it.",
+  "status": "Live: credit asOf 2026-01-01 and auto asOf 2026-04-01 both print flat sentences and both have had no new observation for months. 'Flat' asserts measured stillness; the evidence supports only unmeasured.",
+  "machineCheckable": true,
+  "note": "Explicitly in scope per the run brief — it affects narrative truth."
+ },
+ {
+  "id": "U5",
+  "severity": "MODERATE",
+  "title": "\"All source feeds current at collection\" is published about a feed whose newest observation is seven months old",
+  "claim": "scripts/story.js:228 confidence sentence, driven by data/latest.json collection.freshnessStatus.",
+  "why": "STALE_DAYS.quarterly = 250 (scripts/collect.js:60). credit's newest observation is dated 2026-01-01, ~226 days old, so stale = false and freshnessStatus = 'current'.",
+  "status": "Internally consistent and defensible — the comment at collect.js:58-59 explains the 250-day threshold — but the published word 'current' carries a meaning to a reader that 226-day-old data does not support.",
+  "machineCheckable": true,
+  "howToVerify": "Publish observation age alongside the stale boolean and phrase the claim as 'within cadence' rather than 'current'."
+ },
+ {
+  "id": "U6",
+  "severity": "MODERATE",
+  "title": "The claims month can be three-quarters a different month",
+  "claim": "jobs.secondary in data/latest.json and every employment sentence.",
+  "why": "trailingFourWeekByMonth (scripts/lib/methodology.js:200-210) keys a four-week window to the month of its LAST observation. A window ending 2026-07-04 is filed under 2026-07 while three of its four weeks fall in June.",
+  "status": "Undisclosed on every surface. Separately, the DISPLAY four-week mean (scripts/collect.js:144-145, mean of the last four observations, not month-keyed) is a different number from the SCORED one, and both are called 'trailing four-week mean'.",
+  "machineCheckable": true
+ },
+ {
+  "id": "U7",
+  "severity": "MODERATE",
+  "title": "The Ward M breadth gauge has two non-identical transforms behind one name",
+  "claim": "The divergence chart and every Ward M historical statement.",
+  "why": "Live breadth = 22-session daily interval requiring 23 valid closes (scripts/lib/market-sector.js:53). Historical breadth = successive MONTHLY closes (scripts/backtest-market.js:78-85), with a minimum of 8 of 11 tickers rather than a required 11.",
+  "status": "DISCLOSED in prose (data/market-history.json note, scripts/lib/market-gauge-content.js:116) and enforced as a string by scripts/lib/market-integrity.js:119. No artifact records which transform produced any given point, so a reader cannot separate a real regime change from a transform change at the live/backtest seam.",
+  "machineCheckable": true
+ },
+ {
+  "id": "U8",
+  "severity": "MODERATE",
+  "title": "The breadth delta cannot be reproduced from anything published",
+  "claim": "data/market.json sensors.breadth.delta — currently −37.",
+  "why": "The delta is computed against whatever data/market.json happened to contain on disk at the previous manual run (scripts/collect-market.js:117-123). Sector Watch is manual and unscheduled; no prior-run receipt is retained beyond the file being overwritten.",
+  "status": "The null-on-first-run handling is correct and Constitution-compliant. The problem is the second run onward: a −37 move is the largest number on the ward page and there is no artifact a reader can check it against.",
+  "machineCheckable": true
+ },
+ {
+  "id": "U9",
+  "severity": "MODERATE",
+  "title": "The auto line publishes a FLOW under the words \"auto-loan delinquency\"",
+  "claim": "scripts/story.js:28 — \"with auto-loan delinquency at 7.9%\"; lab.js shortMetric 'auto-loan delinquency'.",
+  "why": "The series is the NY Fed's 'Previously current auto balance entering 30+ delinquency' (scripts/collect.js:168) — a transition rate into delinquency, not the stock of delinquent balances. The collector's own metric string says so correctly; the prose does not.",
+  "status": "A reader comparing 7.9% against a published auto delinquency RATE will find a different number and conclude OOZEMeter is wrong.",
+  "machineCheckable": true,
+  "howToVerify": "Require every VALUE_CLAUSE noun phrase to be a substring-compatible restatement of the line's published source.metric."
+ },
+ {
+  "id": "U10",
+  "severity": "MODERATE",
+  "title": "The confidence sentence asserts the integrity gate ran, as a string literal",
+  "claim": "scripts/story.js:231 — \"the integrity gate verified plausibility bounds and calibration anchors before publication.\"",
+  "why": "story.js reads data/latest.json, data/history.json and data/revisions.json. It never opens data/gate-status.json.",
+  "status": "Exactly the failure class stamp.js:18-32 already fixed for the placard — a gate that failed, a gate that never ran, and a gate that passed all produce the same sentence. The placard was fixed; the editorial payload was not.",
+  "machineCheckable": true
+ },
+ {
+  "id": "U11",
+  "severity": "MODERATE",
+  "title": "\"This is the first edition to publish these checks; the run starts here\" is a literal with no counter",
+  "claim": "scripts/story.js:212-214, published as crosschecks.run and rendered at index.html #ccRun.",
+  "why": "No edition counter, no streak state, no archive read. The string is emitted unconditionally on every run.",
+  "status": "True on edition one, false on edition two, and it has already published more than once.",
+  "machineCheckable": true
+ },
+ {
+  "id": "U12",
+  "severity": "MODERATE",
+  "title": "Client-side token resolution can silently fall back to a frozen 2026-07 history array",
+  "claim": "index.html #storyBody and every {{s:YYYY-MM}} token resolved by lab.js resolveClaims.",
+  "why": "lab.js:158 carries a frozen HISTORY constant; lab.js:199 overwrites it from LIVE_DATA only if data/latest.js loaded. The hero score is STAMPED into static HTML by scripts/stamp.js and does not depend on that load.",
+  "status": "On a failed or cached data/latest.js the page can show a stamped current headline beside prose whose tokens resolved against stale history, with no visible signal. narrative-check.js verifies tokens against the SERVER-side data/history.json, so this path is invisible to CI.",
+  "machineCheckable": "partially — requires a browser-level check, not a node gate."
+ },
+ {
+  "id": "U13",
+  "severity": "MODERATE",
+  "title": "data/editorial.json is exempt from the reader-surface token scan and is a public artifact",
+  "claim": "narrative-check.js:203-211 skips data/editorial.json because it is 'a token CARRIER by design — its consumers resolve it'.",
+  "why": "The exemption is correct for index.html, which runs resolveClaims. It is an assumption about every OTHER consumer of a file published at a public URL.",
+  "status": "Unverifiable by construction: the gate cannot enumerate third-party consumers. Worth stating in the payload itself rather than only in a source comment.",
+  "machineCheckable": false
+ },
+ {
+  "id": "U14",
+  "severity": "MODERATE",
+  "title": "Cross-check pair legality is asserted by a code comment, not by a program",
+  "claim": "scripts/story.js:116-124 — 'Every pair added here must be verified absent from scripts/collect.js first.'",
+  "why": "CC_PAIRS is a hand-maintained object literal. Nothing reads collect.js, nothing traverses inputs, nothing fails.",
+  "status": "This is the gap this graph exists to close. Until a validator consumes data/dependency-graph.json, pair legality remains a human promise — and the human promise is what failed in D1.",
+  "machineCheckable": true
+ },
+ {
+  "id": "U15",
+  "severity": "MODERATE",
+  "title": "Nothing asserts the frozen calibration reproduces from its own published derivation",
+  "claim": "'One source of truth' (scripts/collect.js:29) and the calibration doctrine in scripts/lib/methodology.js:21-26.",
+  "why": "CALIBRATION_V3 stores only {a, b}. research/backtest-results.json stores {rawCalm: 23.936322767604793, rawGfc: 80.32089462877845, a, b}. a = 80/(rawGfc − rawCalm) and b = 10 − a·rawCalm both check out by hand. No test and no gate performs that check. Ward M does better: FROZEN_WARD_CALIBRATION carries rawCalm and rawGfc inline (scripts/lib/market-backtest.js:3-9).",
+  "status": "Auditable by a human today, unenforced by CI. Note the precedent: a truncated second copy of the WARD calibration lived in collect-market.js until 2026-08-14 and published a different rounded score on 10 raw values.",
+  "machineCheckable": true
+ },
+ {
+  "id": "U16",
+  "severity": "MODERATE",
+  "title": "\"The only input the two instruments have in common\" is true only at series identity",
+  "claim": "scripts/market-pages.js:32, market.html:79, scripts/lib/market-gauge-content.js:54.",
+  "why": "Traversal proves the raw-series intersection is exactly {NFCI}. It cannot prove the remaining series are economically independent: T10Y3M and MORTGAGE30US both track the rate cycle; DCOILWTICO is a principal input to GASREGW; XLF is an equity read on the same banking system NFCI measures.",
+  "status": "The claim as written is defensible and now machine-provable. Any strengthening of it toward independence would not be.",
+  "machineCheckable": "the series-identity half only"
+ },
+ {
+  "id": "U17",
+  "severity": "MINOR",
+  "title": "Two engines, two key spellings for one line",
+  "claim": "Methodology parity between scripts/collect.js and scripts/backtest.js.",
+  "why": "collect.js keys the employment line 'jobs' (lines 50, 108); backtest.js and METHODOLOGY_V3_WEIGHTS key the identical line 'employment' (backtest.js:108, methodology.js:12). The mapping exists only at collect.js:50.",
+  "status": "Both files carry the SAME Math.max/interp expressions as duplicated source, held in sync by a comment ('same math as backtest.js — keep in sync', scripts/collect.js:100). A validator keyed on stress-object keys would treat them as two different sensors.",
+  "machineCheckable": true
+ },
+ {
+  "id": "U18",
+  "severity": "MINOR",
+  "title": "AMTMNO is called \"shipments\" in the collector",
+  "claim": "Internal only today — scripts/collect.js:156-157 shipmentsMonth / shipmentsYoY.",
+  "why": "AMTMNO is Manufacturers' NEW ORDERS. lab.js:128 and notes.html:54 name it correctly; the collector variables do not.",
+  "status": "No public surface currently prints the word 'shipments'. It is one template edit from doing so, and narrative-check.js:170-179 records that a previous edition already published 'a series called shipments that is new orders'.",
+  "machineCheckable": true
+ },
+ {
+  "id": "U19",
+  "severity": "MINOR",
+  "title": "The auxiliary manufacturing and foreclosures lines are scored at their own months, not at the headline month",
+  "claim": "Any sentence placing an auxiliary reading inside the headline month.",
+  "why": "manufacturingStress is computed at INDPRO's newest month; mortgageStress at DRSFRMACBS's newest observation (scripts/collect.js:148-155). Weighted lines are computed at M. The auxiliary lines never enter stressesFor(m) at all.",
+  "status": "Root cause of U1. Also means the auxiliary sensors have no historical series inside data/history.json and cannot be backtested against the score without new work.",
+  "machineCheckable": true
+ }
+]

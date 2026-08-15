@@ -1,0 +1,125 @@
+[
+ {
+  "id": "C1",
+  "severity": "CRITICAL",
+  "title": "housing ↔ foreclosures — D1 is structurally intact; only the pairing was removed",
+  "sharedNode": "raw:fred:DRSFRMACBS",
+  "paths": [
+   "raw:fred:DRSFRMACBS → derived:monthly-mean:DRSFRMACBS → derived:forward-fill:DRSFRMACBS → sensor:household:housing (scripts/collect.js:110, the second argument to Math.max)",
+   "raw:fred:DRSFRMACBS → derived:latest-observation:DRSFRMACBS → sensor:household:foreclosures (scripts/collect.js:148-149)"
+  ],
+  "state": "The circular DATA relationship is still live. What was removed on 2026-08-14 was the CC_PAIRS entry (scripts/story.js:124) and nothing else. The prohibition survives only as a code comment (scripts/story.js:116-123) that no program reads.",
+  "whatWouldRepublishIt": "Adding housing:'foreclosures' back to CC_PAIRS. One line, one file, no gate objects.",
+  "extraTwist": "The two ends do not even read the same VINTAGE of the series: housing scores the forward-filled value at headline month M, foreclosures scores the newest raw observation and its predecessor. Same series, two vintages, two time steps — so even a naive 'they agree' test would compare incomparable numbers."
+ },
+ {
+  "id": "C2",
+  "severity": "CRITICAL",
+  "title": "gas ↔ inflation — CPIAUCNS is an input to BOTH, and to gas invisibly",
+  "sharedNode": "raw:fred:CPIAUCNS",
+  "paths": [
+   "raw:fred:CPIAUCNS → derived:monthly-mean:CPIAUCNS → derived:yoy:CPIAUCNS → sensor:household:inflation (scripts/collect.js:109)",
+   "raw:fred:CPIAUCNS → derived:monthly-mean:CPIAUCNS → derived:real-price:GAS (deflator denominator) → sensor:household:gas (scripts/collect.js:113)",
+   "raw:fred:CPIAUCNS → derived:latest-observation:CPIAUCNS (cpiNow) → derived:real-price:GAS (rebase level) → sensor:household:gas (scripts/collect.js:98,113)"
+  ],
+  "state": "LATENT. No published claim currently pairs gas against inflation, but nothing prevents it, and the shared dependency is invisible in every public artifact: data/latest.json lists gas's source as GASREGW only, with no mention of CPI.",
+  "whatWouldRepublishIt": "Any cross-check, contrast, 'these two disagree', or 'the relief came from the two lines everyone feels first' construction that treats gas and inflation as independent evidence. scripts/story.js:84-85 already groups them ('The relief came from the two lines everyone feels first') — that is presentational, not an independence claim, but it is one edit away from becoming one.",
+  "extraTwist": "cpiNow is the NEWEST CPI observation, applied to EVERY month of history. The 2003 gas stress is a function of a 2026 CPI print."
+ },
+ {
+  "id": "C3",
+  "severity": "MAJOR",
+  "title": "Every weighted line is upstream of every other line's ounce count",
+  "sharedNode": "derived:weighted-sum:household",
+  "paths": [
+   "stress:household:<any weighted line> → derived:weighted-sum:household → contribution:household:<any other weighted line> (scripts/collect.js:127-135)"
+  ],
+  "state": "LIVE AND PUBLISHED. contribₖ = floor(ooze × wₖ·stressₖ / Σw·stress), then largest-remainder to foot exactly to the headline.",
+  "whyItMatters": "The sentence 'employment was the largest source of financial pressure — 2 of the month's 26 ounces' (scripts/story.js:80) reads as a statement about employment. It is arithmetically a statement about all seven lines: if gas falls, employment's ounce count can rise without employment moving at all. Any cross-check, ranking claim, or 'largest pressure' claim built on contributions inherits every line's dependencies.",
+  "whatWouldRepublishIt": "Already published. The exposure is a future cross-check or divergence claim keyed on contributions rather than stresses."
+ },
+ {
+  "id": "C4",
+  "severity": "MAJOR",
+  "title": "Ward M credit ↔ household financial — the same NFCI series under two names in two wings",
+  "sharedNode": "raw:fred:NFCI",
+  "paths": [
+   "raw:fred:NFCI → derived:monthly-mean:NFCI (scripts/lib/fred.js) → sensor:household:financial → 3% of score:household:ooze",
+   "raw:fred:NFCI → derived:monthly-mean-ward:NFCI (scripts/lib/market-series.js, a SECOND parser) → sensor:ward:credit → one-sixth of score:ward:raw"
+  ],
+  "state": "DISCLOSED on the gauge page, the gauge chip, notes.html and market.html, and enforced by scripts/lib/release-gate.js:150-157. Correctly handled today.",
+  "residualRisk": "The disclosure is enforced by string matching on the word NFCI in four specific files. It is not enforced by traversal, so a SECOND shared series would not trip it. The parked Ward M sensor 'industry INDPRO' (scripts/collect-market.js:15) is exactly that second series, waiting.",
+  "extraTwist": "Two derived nodes over one raw node, produced by two different parsers with different validation. The monthly means could legitimately differ if one parser drops an observation the other keeps; nothing compares them."
+ },
+ {
+  "id": "C5",
+  "severity": "MAJOR",
+  "title": "The divergence series is not a comparison of two disjoint instruments",
+  "sharedNode": "raw:fred:NFCI",
+  "paths": [
+   "raw:fred:NFCI → sensor:household:financial → score:household:history → derived:divergence:market-minus-household",
+   "raw:fred:NFCI → sensor:ward:credit → score:ward:score → derived:divergence:market-minus-household"
+  ],
+  "state": "LATENT DISCLOSURE GAP. data/market-history.json's note (scripts/build-market-divergence.js:47) discloses vintage basis and the breadth-transform mismatch, and says nothing about the shared series. market.html:79 discloses the overlap in the gauge paragraph, not beside the chart.",
+  "whyItMatters": "A divergence of D between two instruments that share an input is not the same evidence as a divergence of D between two instruments that share nothing. The shared component is small (3% of one side, 16.7% of the other) but it is nonzero and it is exactly the component that moves in a funding crisis — the episodes the chart is used to narrate."
+ },
+ {
+  "id": "C6",
+  "severity": "MAJOR",
+  "title": "The revision log is partly self-generated: a new CPI print re-indexes the whole gas history, which the revision detector records as a change to published history",
+  "sharedNode": "derived:latest-observation:CPIAUCNS",
+  "paths": [
+   "raw:fred:CPIAUCNS → derived:latest-observation:CPIAUCNS → derived:real-price:GAS (every month) → score:household:history → artifact:revisions → claim:editorial:confidence"
+  ],
+  "state": "LIVE. scripts/integrity.js:50-54 already names the phenomenon ('the instrument re-indexing itself') and types the record honestly as 'history-changed-cause-unattributed'. The confidence sentence then counts those records and publishes 'N recorded changes to published history on the public record'.",
+  "whyItMatters": "The count conflates two different events — an upstream source revising a past value, and OOZEMeter rescaling its own history because a new month of CPI arrived. The gate does not distinguish them; the prose does not either. A monthly deflator rebase can inflate a public integrity statistic."
+ },
+ {
+  "id": "C7",
+  "severity": "MODERATE",
+  "title": "The calibration invariant checks the ruler against the two marks the ruler was built from",
+  "sharedNode": "constant:calibration:household:v3",
+  "paths": [
+   "constant:calibration:household:v3 → score:household:ooze → score:household:history → artifact:gate-status (integrity.js:104-110 asserts GFC peak = 90±2 and calm floor = 10±2)"
+  ],
+  "state": "LIVE. CALIBRATION_V3 was DEFINED as the affine map sending rawCalm→10 and rawGfc→90 (scripts/backtest.js:130). The gate then verifies that history still reads 90 at the GFC peak and 10 at the calm floor.",
+  "whyItMatters": "This is a genuine drift detector — it fires when the raw extremes or the argmax/argmin month move — but it is not independent verification of the calibration, and the placard it feeds ('the integrity gate verified … calibration anchors') can be read as if it were. Nothing in the repo asserts that the frozen a=1.418684348943213, b=-23.96514845099034 reproduce from the published rawCalm 23.936… / rawGfc 80.321… in research/backtest-results.json. They do; no test says so.",
+  "liveLoopIfUnfrozen": "Running with OOZEMETER_RECALIBRATE=1 closes the loop for real: a source revision moves rawCalm/rawGfc, which moves a and b, which moves every published score including the two the gate checks. The freeze is the only thing holding it open."
+ },
+ {
+  "id": "C8",
+  "severity": "MODERATE",
+  "title": "Ward M energy and household gas are economic parent and child with no graph edge",
+  "sharedNode": null,
+  "paths": [
+   "raw:fred:DCOILWTICO → sensor:ward:energy (WTI crude)",
+   "raw:fred:GASREGW → sensor:household:gas (retail regular gasoline)"
+  ],
+  "state": "NOT a computational circularity — the series are distinct and the graph proves it. It is a CAUSAL one, and the repo says so out loud: 'The upstream cousin of the gas-price line' (scripts/collect-market.js:76) and 'Gasoline is already a direct household intake line' (scripts/lib/market-gauge-content.js:78).",
+  "whyItMatters": "Series-level disjointness is the only independence this graph can prove. A future claim of the form 'the market's energy gauge and the household gas line disagree, so something is being missed' would pass every traversal test and still be close to meaningless, because crude is a principal input to the retail pump price."
+ },
+ {
+  "id": "C9",
+  "severity": "MODERATE",
+  "title": "OOZEMAXING and the band both read all seven stresses, so a breadth claim and a level claim are not independent evidence",
+  "sharedNode": "the seven weighted stress nodes",
+  "paths": [
+   "stress:household:<all seven> → flag:household:oozemaxing (scripts/collect.js:264)",
+   "stress:household:<all seven> → score:household:ooze → band:household"
+  ],
+  "state": "LATENT. Published copy pairs the band with the OOZEMAXING breadth check as though breadth corroborates level. They are two readings of one vector.",
+  "whyItMatters": "'The jar reads Slippery, and six of seven lines are above 60' is one fact stated twice, not two facts agreeing."
+ },
+ {
+  "id": "C10",
+  "severity": "MINOR",
+  "title": "jobs is internally a maximum of two labour-market series with overlapping statistical universes",
+  "sharedNode": null,
+  "paths": [
+   "raw:fred:UNRATE → sensor:household:jobs",
+   "raw:fred:ICSA → derived:trailing4wk:ICSA → sensor:household:jobs"
+  ],
+  "state": "Not circular — different publishers (BLS / DOL), different concepts (stock of unemployed / flow of new claims). Recorded because the Math.max means the sensor's identity changes month to month, and no published artifact says which branch is speaking.",
+  "whyItMatters": "See U2. A cross-check that is legal against the unemployment branch may be near-tautological against the claims branch, and the graph cannot tell which one produced this month's number."
+ }
+]

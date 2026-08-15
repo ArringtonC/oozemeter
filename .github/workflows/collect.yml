@@ -22,7 +22,7 @@ jobs:
           FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
         run: |
           command -v unzip
-          node --test --test-concurrency=1 tests/backtest.integration.test.js tests/methodology.test.js tests/fetch.test.js tests/fingerprint.test.js tests/fred.test.js tests/integrity.test.js tests/nyfed.integration.test.js tests/collector.integration.test.js tests/collector-reliability.integration.test.js tests/public-labels.test.js tests/release-gate.test.js tests/market-divergence.test.js tests/market-integrity.test.js tests/narrative-check.test.js tests/sync-fallback-history.test.js tests/workflow.test.js
+          node --test --test-concurrency=1 tests/backtest.integration.test.js tests/methodology.test.js tests/fetch.test.js tests/fingerprint.test.js tests/fred.test.js tests/integrity.test.js tests/nyfed.integration.test.js tests/collector.integration.test.js tests/collector-reliability.integration.test.js tests/public-labels.test.js tests/release-gate.test.js tests/market-divergence.test.js tests/market-integrity.test.js tests/narrative-check.test.js tests/claim-gate.test.js tests/sync-fallback-history.test.js tests/workflow.test.js
       - name: collect release-aware specimen
         env:
           FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
@@ -42,6 +42,7 @@ jobs:
           node scripts/integrity.js
           node scripts/market-integrity.js
           node scripts/story.js
+          node scripts/claim-gate.js
           node scripts/narrative-check.js
           node scripts/stamp.js
           node scripts/rss.js

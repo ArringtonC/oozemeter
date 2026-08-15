@@ -1,0 +1,5015 @@
+{
+ "schema": "oozemeter.dependency-graph/1",
+ "version": "1.0.0",
+ "generated": "2026-08-15T01:24:55.108Z",
+ "repo": {
+  "branch": "claim-gate",
+  "commit": "82bc452c57ab0ae2c81076a0e6b52f2ddc3c4395"
+ },
+ "doctrine": "OOZEMeter may say less, but it may not confidently say more than the evidence supports. Independence is never inferred from naming; it is proved by traversal over this graph.",
+ "readme": {
+  "query": "isUpstream(x, y) = there exists a directed path x -> … -> y in edges.",
+  "independence": "upstreamRawSeries(y) = { n : n.kind === \"raw_series\" and isUpstream(n, y) }. Two sensors are independent iff their upstreamRawSeries sets are disjoint.",
+  "scoredEdges": "Edges carrying scored:false reach a reader surface but not a stress value. Independence queries about SCORE must exclude them; queries about PUBLISHED CLAIMS must include them.",
+  "aliasRule": "Resolve every name through `aliases` to a node id BEFORE querying. Never compare names. `aliasCollisions` lists the tokens where name-based comparison gives the wrong answer."
+ },
+ "nodeKinds": [
+  "raw_series",
+  "derived_series",
+  "sensor",
+  "stress_value",
+  "weight",
+  "contribution",
+  "score",
+  "band",
+  "constant",
+  "artifact",
+  "editorial_claim",
+  "ui_surface"
+ ],
+ "nodes": [
+  {
+   "id": "raw:fred:UNRATE",
+   "kind": "raw_series",
+   "label": "Civilian unemployment rate",
+   "seriesId": "UNRATE",
+   "publisher": "U.S. Bureau of Labor Statistics",
+   "transport": "FRED (keyed API, documented CSV fallback)",
+   "nativeCadence": "monthly",
+   "wings": [
+    "household"
+   ],
+   "url": "https://fred.stlouisfed.org/series/UNRATE"
+  },
+  {
+   "id": "raw:fred:ICSA",
+   "kind": "raw_series",
+   "label": "Initial jobless claims",
+   "seriesId": "ICSA",
+   "publisher": "U.S. Department of Labor",
+   "transport": "FRED (keyed API, documented CSV fallback)",
+   "nativeCadence": "weekly",
+   "wings": [
+    "household"
+   ],
+   "url": "https://fred.stlouisfed.org/series/ICSA"
+  },
+  {
+   "id": "raw:fred:CPIAUCNS",
+   "kind": "raw_series",
+   "label": "CPI-U all items, not seasonally adjusted",
+   "seriesId": "CPIAUCNS",
+   "publisher": "U.S. Bureau of Labor Statistics",
+   "transport": "FRED (keyed API, documented CSV fallback)",
+   "nativeCadence": "monthly",
+   "wings": [
+    "household"
+   ],
+   "url": "https://fred.stlouisfed.org/series/CPIAUCNS",
+   "caution": "Feeds TWO household sensors: inflation (year-over-year) and gas (deflator + global rebase level)."
+  },
+  {
+   "id": "raw:fred:MORTGAGE30US",
+   "kind": "raw_series",
+   "label": "30-year fixed mortgage rate",
+   "seriesId": "MORTGAGE30US",
+   "publisher": "Freddie Mac",
+   "transport": "FRED (keyed API, documented CSV fallback)",
+   "nativeCadence": "weekly",
+   "wings": [
+    "household"
+   ],
+   "url": "https://fred.stlouisfed.org/series/MORTGAGE30US"
+  },
+  {
+   "id": "raw:fred:DRSFRMACBS",
+   "kind": "raw_series",
+   "label": "Residential mortgage delinquency at commercial banks",
+   "seriesId": "DRSFRMACBS",
+   "publisher": "Federal Reserve Board",
+   "transport": "FRED (keyed API, documented CSV fallback)",
+   "nativeCadence": "quarterly",
+   "wings": [
+    "household"
+   ],
+   "url": "https://fred.stlouisfed.org/series/DRSFRMACBS",
+   "caution": "Feeds the WEIGHTED housing line AND the zero-weight foreclosures line. This is defect D1."
+  },
+  {
+   "id": "raw:fred:DRCCLACBS",
+   "kind": "raw_series",
+   "label": "Credit-card loan delinquency at commercial banks",
+   "seriesId": "DRCCLACBS",
+   "publisher": "Federal Reserve Board",
+   "transport": "FRED (keyed API, documented CSV fallback)",
+   "nativeCadence": "quarterly",
+   "wings": [
+    "household"
+   ],
+   "url": "https://fred.stlouisfed.org/series/DRCCLACBS"
+  },
+  {
+   "id": "raw:fred:GASREGW",
+   "kind": "raw_series",
+   "label": "U.S. regular gasoline retail price",
+   "seriesId": "GASREGW",
+   "publisher": "U.S. Energy Information Administration",
+   "transport": "FRED (keyed API, documented CSV fallback)",
+   "nativeCadence": "weekly",
+   "wings": [
+    "household"
+   ],
+   "url": "https://fred.stlouisfed.org/series/GASREGW"
+  },
+  {
+   "id": "raw:fred:NFCI",
+   "kind": "raw_series",
+   "label": "National Financial Conditions Index",
+   "seriesId": "NFCI",
+   "publisher": "Federal Reserve Bank of Chicago",
+   "transport": "FRED (keyed API, documented CSV fallback)",
+   "nativeCadence": "weekly",
+   "wings": [
+    "household",
+    "ward"
+   ],
+   "url": "https://fred.stlouisfed.org/series/NFCI",
+   "caution": "The ONLY raw series shared by the household jar and Ward M. Fetched twice through two different parsers."
+  },
+  {
+   "id": "raw:fred:INDPRO",
+   "kind": "raw_series",
+   "label": "Total industrial production",
+   "seriesId": "INDPRO",
+   "publisher": "Federal Reserve Board",
+   "transport": "FRED (keyed API, documented CSV fallback)",
+   "nativeCadence": "monthly",
+   "wings": [
+    "household"
+   ],
+   "url": "https://fred.stlouisfed.org/series/INDPRO",
+   "caution": "Also named as a PARKED Ward M sensor (\"industry INDPRO\", scripts/collect-market.js:15). Un-parking it would create a second cross-wing shared series."
+  },
+  {
+   "id": "raw:fred:AMTMNO",
+   "kind": "raw_series",
+   "label": "Manufacturers' new orders, total manufacturing",
+   "seriesId": "AMTMNO",
+   "publisher": "U.S. Census Bureau",
+   "transport": "FRED (keyed API, documented CSV fallback)",
+   "nativeCadence": "monthly",
+   "wings": [
+    "household"
+   ],
+   "url": "https://fred.stlouisfed.org/series/AMTMNO",
+   "caution": "Display-only. Collector variables call it shipmentsMonth/shipmentsYoY (scripts/collect.js:156-157) — AMTMNO is NEW ORDERS, not shipments."
+  },
+  {
+   "id": "raw:nyfed:HHDC_AUTO_30PLUS",
+   "kind": "raw_series",
+   "label": "Previously current auto balance entering 30+ delinquency",
+   "seriesId": "NYFED_AUTO_30PLUS",
+   "publisher": "Federal Reserve Bank of New York",
+   "transport": "NY Fed HHDC xlsx workbook, worksheet \"Page 13 Data\", column AUTO",
+   "nativeCadence": "quarterly",
+   "wings": [
+    "household"
+   ],
+   "caution": "A FLOW (transition into 30+), not a stock delinquency rate. Published prose calls it \"auto-loan delinquency\"."
+  },
+  {
+   "id": "raw:fred:T10Y3M",
+   "kind": "raw_series",
+   "label": "10-year minus 3-month Treasury spread",
+   "seriesId": "T10Y3M",
+   "publisher": "Federal Reserve Board yield inputs via FRED",
+   "transport": "FRED (keyed API, documented CSV fallback)",
+   "nativeCadence": "daily",
+   "wings": [
+    "ward"
+   ],
+   "url": "https://fred.stlouisfed.org/series/T10Y3M"
+  },
+  {
+   "id": "raw:fred:VIXCLS",
+   "kind": "raw_series",
+   "label": "VIX close",
+   "seriesId": "VIXCLS",
+   "publisher": "Cboe",
+   "transport": "FRED (keyed API, documented CSV fallback)",
+   "nativeCadence": "daily",
+   "wings": [
+    "ward"
+   ],
+   "url": "https://fred.stlouisfed.org/series/VIXCLS"
+  },
+  {
+   "id": "raw:fred:DCOILWTICO",
+   "kind": "raw_series",
+   "label": "WTI crude spot, Cushing OK",
+   "seriesId": "DCOILWTICO",
+   "publisher": "U.S. Energy Information Administration",
+   "transport": "FRED (keyed API, documented CSV fallback)",
+   "nativeCadence": "daily",
+   "wings": [
+    "ward"
+   ],
+   "url": "https://fred.stlouisfed.org/series/DCOILWTICO"
+  },
+  {
+   "id": "raw:fred:DTWEXBGS",
+   "kind": "raw_series",
+   "label": "Broad nominal U.S. dollar index",
+   "seriesId": "DTWEXBGS",
+   "publisher": "Federal Reserve Board",
+   "transport": "FRED (keyed API, documented CSV fallback)",
+   "nativeCadence": "daily",
+   "wings": [
+    "ward"
+   ],
+   "url": "https://fred.stlouisfed.org/series/DTWEXBGS"
+  },
+  {
+   "id": "raw:yahoo:SPY",
+   "kind": "raw_series",
+   "label": "SPY quote.close",
+   "seriesId": "SPY",
+   "publisher": "Exchange close via Yahoo Finance chart endpoint",
+   "transport": "https://query1.finance.yahoo.com/v8/finance/chart/{ticker} (undocumented; quote rights unresolved)",
+   "nativeCadence": "daily",
+   "wings": [
+    "ward"
+   ],
+   "caution": "Price return, distributions not reinvested. Live gauge uses 22-session daily interval; the research backtest uses successive MONTHLY closes — two non-identical transforms behind one gauge name."
+  },
+  {
+   "id": "raw:yahoo:QQQ",
+   "kind": "raw_series",
+   "label": "QQQ quote.close",
+   "seriesId": "QQQ",
+   "publisher": "Exchange close via Yahoo Finance chart endpoint",
+   "transport": "https://query1.finance.yahoo.com/v8/finance/chart/{ticker} (undocumented; quote rights unresolved)",
+   "nativeCadence": "daily",
+   "wings": [
+    "ward"
+   ],
+   "caution": "Price return, distributions not reinvested. Live gauge uses 22-session daily interval; the research backtest uses successive MONTHLY closes — two non-identical transforms behind one gauge name."
+  },
+  {
+   "id": "raw:yahoo:DIA",
+   "kind": "raw_series",
+   "label": "DIA quote.close",
+   "seriesId": "DIA",
+   "publisher": "Exchange close via Yahoo Finance chart endpoint",
+   "transport": "https://query1.finance.yahoo.com/v8/finance/chart/{ticker} (undocumented; quote rights unresolved)",
+   "nativeCadence": "daily",
+   "wings": [
+    "ward"
+   ],
+   "caution": "Price return, distributions not reinvested. Live gauge uses 22-session daily interval; the research backtest uses successive MONTHLY closes — two non-identical transforms behind one gauge name."
+  },
+  {
+   "id": "raw:yahoo:IWM",
+   "kind": "raw_series",
+   "label": "IWM quote.close",
+   "seriesId": "IWM",
+   "publisher": "Exchange close via Yahoo Finance chart endpoint",
+   "transport": "https://query1.finance.yahoo.com/v8/finance/chart/{ticker} (undocumented; quote rights unresolved)",
+   "nativeCadence": "daily",
+   "wings": [
+    "ward"
+   ],
+   "caution": "Price return, distributions not reinvested. Live gauge uses 22-session daily interval; the research backtest uses successive MONTHLY closes — two non-identical transforms behind one gauge name."
+  },
+  {
+   "id": "raw:yahoo:XLF",
+   "kind": "raw_series",
+   "label": "XLF quote.close",
+   "seriesId": "XLF",
+   "publisher": "Exchange close via Yahoo Finance chart endpoint",
+   "transport": "https://query1.finance.yahoo.com/v8/finance/chart/{ticker} (undocumented; quote rights unresolved)",
+   "nativeCadence": "daily",
+   "wings": [
+    "ward"
+   ],
+   "caution": "Price return, distributions not reinvested. Live gauge uses 22-session daily interval; the research backtest uses successive MONTHLY closes — two non-identical transforms behind one gauge name."
+  },
+  {
+   "id": "raw:yahoo:XLI",
+   "kind": "raw_series",
+   "label": "XLI quote.close",
+   "seriesId": "XLI",
+   "publisher": "Exchange close via Yahoo Finance chart endpoint",
+   "transport": "https://query1.finance.yahoo.com/v8/finance/chart/{ticker} (undocumented; quote rights unresolved)",
+   "nativeCadence": "daily",
+   "wings": [
+    "ward"
+   ],
+   "caution": "Price return, distributions not reinvested. Live gauge uses 22-session daily interval; the research backtest uses successive MONTHLY closes — two non-identical transforms behind one gauge name."
+  },
+  {
+   "id": "raw:yahoo:IYT",
+   "kind": "raw_series",
+   "label": "IYT quote.close",
+   "seriesId": "IYT",
+   "publisher": "Exchange close via Yahoo Finance chart endpoint",
+   "transport": "https://query1.finance.yahoo.com/v8/finance/chart/{ticker} (undocumented; quote rights unresolved)",
+   "nativeCadence": "daily",
+   "wings": [
+    "ward"
+   ],
+   "caution": "Price return, distributions not reinvested. Live gauge uses 22-session daily interval; the research backtest uses successive MONTHLY closes — two non-identical transforms behind one gauge name."
+  },
+  {
+   "id": "raw:yahoo:XLY",
+   "kind": "raw_series",
+   "label": "XLY quote.close",
+   "seriesId": "XLY",
+   "publisher": "Exchange close via Yahoo Finance chart endpoint",
+   "transport": "https://query1.finance.yahoo.com/v8/finance/chart/{ticker} (undocumented; quote rights unresolved)",
+   "nativeCadence": "daily",
+   "wings": [
+    "ward"
+   ],
+   "caution": "Price return, distributions not reinvested. Live gauge uses 22-session daily interval; the research backtest uses successive MONTHLY closes — two non-identical transforms behind one gauge name."
+  },
+  {
+   "id": "raw:yahoo:XLP",
+   "kind": "raw_series",
+   "label": "XLP quote.close",
+   "seriesId": "XLP",
+   "publisher": "Exchange close via Yahoo Finance chart endpoint",
+   "transport": "https://query1.finance.yahoo.com/v8/finance/chart/{ticker} (undocumented; quote rights unresolved)",
+   "nativeCadence": "daily",
+   "wings": [
+    "ward"
+   ],
+   "caution": "Price return, distributions not reinvested. Live gauge uses 22-session daily interval; the research backtest uses successive MONTHLY closes — two non-identical transforms behind one gauge name."
+  },
+  {
+   "id": "raw:yahoo:SMH",
+   "kind": "raw_series",
+   "label": "SMH quote.close",
+   "seriesId": "SMH",
+   "publisher": "Exchange close via Yahoo Finance chart endpoint",
+   "transport": "https://query1.finance.yahoo.com/v8/finance/chart/{ticker} (undocumented; quote rights unresolved)",
+   "nativeCadence": "daily",
+   "wings": [
+    "ward"
+   ],
+   "caution": "Price return, distributions not reinvested. Live gauge uses 22-session daily interval; the research backtest uses successive MONTHLY closes — two non-identical transforms behind one gauge name."
+  },
+  {
+   "id": "raw:yahoo:XLV",
+   "kind": "raw_series",
+   "label": "XLV quote.close",
+   "seriesId": "XLV",
+   "publisher": "Exchange close via Yahoo Finance chart endpoint",
+   "transport": "https://query1.finance.yahoo.com/v8/finance/chart/{ticker} (undocumented; quote rights unresolved)",
+   "nativeCadence": "daily",
+   "wings": [
+    "ward"
+   ],
+   "caution": "Price return, distributions not reinvested. Live gauge uses 22-session daily interval; the research backtest uses successive MONTHLY closes — two non-identical transforms behind one gauge name."
+  },
+  {
+   "id": "derived:monthly-mean:UNRATE",
+   "kind": "derived_series",
+   "label": "UNRATE calendar-month arithmetic mean",
+   "transform": "monthly-mean",
+   "at": "scripts/lib/fred.js:38-41"
+  },
+  {
+   "id": "derived:monthly-mean:CPIAUCNS",
+   "kind": "derived_series",
+   "label": "CPIAUCNS calendar-month arithmetic mean",
+   "transform": "monthly-mean",
+   "at": "scripts/lib/fred.js:38-41"
+  },
+  {
+   "id": "derived:monthly-mean:MORTGAGE30US",
+   "kind": "derived_series",
+   "label": "MORTGAGE30US calendar-month arithmetic mean",
+   "transform": "monthly-mean",
+   "at": "scripts/lib/fred.js:38-41"
+  },
+  {
+   "id": "derived:monthly-mean:DRSFRMACBS",
+   "kind": "derived_series",
+   "label": "DRSFRMACBS calendar-month arithmetic mean",
+   "transform": "monthly-mean",
+   "at": "scripts/lib/fred.js:38-41"
+  },
+  {
+   "id": "derived:monthly-mean:DRCCLACBS",
+   "kind": "derived_series",
+   "label": "DRCCLACBS calendar-month arithmetic mean",
+   "transform": "monthly-mean",
+   "at": "scripts/lib/fred.js:38-41"
+  },
+  {
+   "id": "derived:monthly-mean:GASREGW",
+   "kind": "derived_series",
+   "label": "GASREGW calendar-month arithmetic mean",
+   "transform": "monthly-mean",
+   "at": "scripts/lib/fred.js:38-41"
+  },
+  {
+   "id": "derived:monthly-mean:INDPRO",
+   "kind": "derived_series",
+   "label": "INDPRO calendar-month arithmetic mean",
+   "transform": "monthly-mean",
+   "at": "scripts/lib/fred.js:38-41"
+  },
+  {
+   "id": "derived:monthly-mean:AMTMNO",
+   "kind": "derived_series",
+   "label": "AMTMNO calendar-month arithmetic mean",
+   "transform": "monthly-mean",
+   "at": "scripts/lib/fred.js:38-41"
+  },
+  {
+   "id": "derived:monthly-mean:NFCI",
+   "kind": "derived_series",
+   "label": "NFCI calendar-month arithmetic mean",
+   "transform": "monthly-mean",
+   "at": "scripts/lib/fred.js:38-41",
+   "note": "Household copy. Ward M computes its own monthly mean through a SEPARATE parser (scripts/lib/market-series.js:29-34)."
+  },
+  {
+   "id": "derived:trailing4wk:ICSA",
+   "kind": "derived_series",
+   "label": "Initial claims, trailing four-week mean keyed to the month of the 4th observation",
+   "transform": "trailing-4wk-mean",
+   "at": "scripts/lib/methodology.js:200-210",
+   "caution": "The window may straddle months: up to three of the four weeks can belong to the PRIOR calendar month. The monthly key is the month of the last observation only."
+  },
+  {
+   "id": "derived:claims-4wk-display:ICSA",
+   "kind": "derived_series",
+   "label": "Mean of the last four weekly claims observations (display only)",
+   "transform": "mean-of-last-4-observations",
+   "at": "scripts/collect.js:144-145",
+   "caution": "A SECOND, different four-week mean from derived:trailing4wk:ICSA. This one is not month-keyed and is published as lines.jobs.secondary.value; it never touches the score."
+  },
+  {
+   "id": "derived:nyfed-quarter-to-month:AUTO",
+   "kind": "derived_series",
+   "label": "NY Fed AUTO quarter label mapped to quarter-start month",
+   "transform": "quarter-to-month",
+   "at": "scripts/lib/methodology.js:133-139"
+  },
+  {
+   "id": "derived:forward-fill:DRSFRMACBS",
+   "kind": "derived_series",
+   "label": "DRSFRMACBS forward-filled to every month 2003-01..now",
+   "transform": "forward-fill",
+   "at": "scripts/collect.js:67,95",
+   "caution": "Ex-post reconstruction. Every month between two quarterly observations carries the OLDER observation, so a stress delta can be identically zero for two months and then step."
+  },
+  {
+   "id": "derived:forward-fill:DRCCLACBS",
+   "kind": "derived_series",
+   "label": "DRCCLACBS forward-filled to every month 2003-01..now",
+   "transform": "forward-fill",
+   "at": "scripts/collect.js:67,96",
+   "caution": "Ex-post reconstruction. Every month between two quarterly observations carries the OLDER observation, so a stress delta can be identically zero for two months and then step."
+  },
+  {
+   "id": "derived:forward-fill:NYFED_AUTO_30PLUS",
+   "kind": "derived_series",
+   "label": "NYFED_AUTO_30PLUS forward-filled to every month 2003-01..now",
+   "transform": "forward-fill",
+   "at": "scripts/collect.js:67,97",
+   "caution": "Ex-post reconstruction. Every month between two quarterly observations carries the OLDER observation, so a stress delta can be identically zero for two months and then step."
+  },
+  {
+   "id": "derived:yoy:CPIAUCNS",
+   "kind": "derived_series",
+   "label": "CPI-U same-month year-over-year percent change",
+   "transform": "year-over-year",
+   "at": "scripts/lib/methodology.js:224-230",
+   "inputMonths": [
+    "m",
+    "m-12"
+   ]
+  },
+  {
+   "id": "derived:latest-observation:CPIAUCNS",
+   "kind": "derived_series",
+   "label": "cpiNow — the newest CPI-U observation value, used as the rebase level for the whole gas history",
+   "transform": "latest-observation",
+   "at": "scripts/collect.js:98 (backtest.js:92 uses the last monthly MEAN — equivalent for a monthly series, but a second code path)",
+   "caution": "GLOBAL. Every historical gas stress is expressed in TODAY-dollars, so one new CPI print re-indexes the entire gas line and can move published history. integrity.js:50-54 names this \"the instrument re-indexing itself\"."
+  },
+  {
+   "id": "derived:real-price:GAS",
+   "kind": "derived_series",
+   "label": "Gas price in current dollars: GASREGW[m] × cpiNow ÷ CPIAUCNS[m]",
+   "transform": "cpi-deflate-and-rebase",
+   "at": "scripts/collect.js:113 / scripts/backtest.js:113",
+   "caution": "THE TRANSITIVE DEPENDENCY MOST READERS WOULD MISS: CPI is an input to the gas sensor, twice."
+  },
+  {
+   "id": "derived:yoy:INDPRO",
+   "kind": "derived_series",
+   "label": "Industrial production same-month year-over-year percent change",
+   "transform": "year-over-year",
+   "at": "scripts/collect.js:152-153",
+   "caution": "Evaluated at INDPRO's OWN latest month, not at the headline score month M."
+  },
+  {
+   "id": "derived:yoy:AMTMNO",
+   "kind": "derived_series",
+   "label": "Manufacturers' new orders same-month year-over-year percent change",
+   "transform": "year-over-year",
+   "at": "scripts/collect.js:156-157",
+   "scored": false
+  },
+  {
+   "id": "derived:latest-observation:DRSFRMACBS",
+   "kind": "derived_series",
+   "label": "Newest mortgage-delinquency observation and the one before it",
+   "transform": "latest-observation-pair",
+   "at": "scripts/collect.js:147-149",
+   "caution": "The foreclosures line scores the LAST OBSERVATION and its predecessor — a QUARTER-over-quarter move — while the housing line scores the FORWARD-FILLED value at the headline month M. Same raw series, two different vintages and two different time steps."
+  },
+  {
+   "id": "derived:monthly-mean-ward:T10Y3M",
+   "kind": "derived_series",
+   "label": "T10Y3M calendar-month arithmetic mean (Ward M parser)",
+   "transform": "monthly-mean",
+   "at": "scripts/lib/market-series.js:29-34"
+  },
+  {
+   "id": "derived:monthly-mean-ward:VIXCLS",
+   "kind": "derived_series",
+   "label": "VIXCLS calendar-month arithmetic mean (Ward M parser)",
+   "transform": "monthly-mean",
+   "at": "scripts/lib/market-series.js:29-34"
+  },
+  {
+   "id": "derived:monthly-mean-ward:NFCI",
+   "kind": "derived_series",
+   "label": "NFCI calendar-month arithmetic mean (Ward M parser)",
+   "transform": "monthly-mean",
+   "at": "scripts/lib/market-series.js:29-34",
+   "caution": "ALIAS: same raw series as derived:monthly-mean:NFCI, computed by a second parser with different validation. Two derived nodes, one raw node."
+  },
+  {
+   "id": "derived:monthly-mean-ward:DCOILWTICO",
+   "kind": "derived_series",
+   "label": "DCOILWTICO calendar-month arithmetic mean (Ward M parser)",
+   "transform": "monthly-mean",
+   "at": "scripts/lib/market-series.js:29-34"
+  },
+  {
+   "id": "derived:monthly-mean-ward:DTWEXBGS",
+   "kind": "derived_series",
+   "label": "DTWEXBGS calendar-month arithmetic mean (Ward M parser)",
+   "transform": "monthly-mean",
+   "at": "scripts/lib/market-series.js:29-34"
+  },
+  {
+   "id": "derived:yoy:DTWEXBGS",
+   "kind": "derived_series",
+   "label": "Broad dollar index year-over-year percent change",
+   "transform": "year-over-year",
+   "at": "scripts/collect-market.js:40"
+  },
+  {
+   "id": "derived:session-change-22:SPY",
+   "kind": "derived_series",
+   "label": "SPY 22-session price change",
+   "transform": "22-session-change",
+   "at": "scripts/lib/market-sector.js:53"
+  },
+  {
+   "id": "derived:state:SPY",
+   "kind": "derived_series",
+   "label": "SPY state: steady / softening / stressed",
+   "transform": "threshold-classify",
+   "at": "scripts/collect-sectors.js:44",
+   "rule": ">= -2% steady; >= -7% and < -2% softening; < -7% stressed"
+  },
+  {
+   "id": "derived:session-change-22:QQQ",
+   "kind": "derived_series",
+   "label": "QQQ 22-session price change",
+   "transform": "22-session-change",
+   "at": "scripts/lib/market-sector.js:53"
+  },
+  {
+   "id": "derived:state:QQQ",
+   "kind": "derived_series",
+   "label": "QQQ state: steady / softening / stressed",
+   "transform": "threshold-classify",
+   "at": "scripts/collect-sectors.js:44",
+   "rule": ">= -2% steady; >= -7% and < -2% softening; < -7% stressed"
+  },
+  {
+   "id": "derived:session-change-22:DIA",
+   "kind": "derived_series",
+   "label": "DIA 22-session price change",
+   "transform": "22-session-change",
+   "at": "scripts/lib/market-sector.js:53"
+  },
+  {
+   "id": "derived:state:DIA",
+   "kind": "derived_series",
+   "label": "DIA state: steady / softening / stressed",
+   "transform": "threshold-classify",
+   "at": "scripts/collect-sectors.js:44",
+   "rule": ">= -2% steady; >= -7% and < -2% softening; < -7% stressed"
+  },
+  {
+   "id": "derived:session-change-22:IWM",
+   "kind": "derived_series",
+   "label": "IWM 22-session price change",
+   "transform": "22-session-change",
+   "at": "scripts/lib/market-sector.js:53"
+  },
+  {
+   "id": "derived:state:IWM",
+   "kind": "derived_series",
+   "label": "IWM state: steady / softening / stressed",
+   "transform": "threshold-classify",
+   "at": "scripts/collect-sectors.js:44",
+   "rule": ">= -2% steady; >= -7% and < -2% softening; < -7% stressed"
+  },
+  {
+   "id": "derived:session-change-22:XLF",
+   "kind": "derived_series",
+   "label": "XLF 22-session price change",
+   "transform": "22-session-change",
+   "at": "scripts/lib/market-sector.js:53"
+  },
+  {
+   "id": "derived:state:XLF",
+   "kind": "derived_series",
+   "label": "XLF state: steady / softening / stressed",
+   "transform": "threshold-classify",
+   "at": "scripts/collect-sectors.js:44",
+   "rule": ">= -2% steady; >= -7% and < -2% softening; < -7% stressed"
+  },
+  {
+   "id": "derived:session-change-22:XLI",
+   "kind": "derived_series",
+   "label": "XLI 22-session price change",
+   "transform": "22-session-change",
+   "at": "scripts/lib/market-sector.js:53"
+  },
+  {
+   "id": "derived:state:XLI",
+   "kind": "derived_series",
+   "label": "XLI state: steady / softening / stressed",
+   "transform": "threshold-classify",
+   "at": "scripts/collect-sectors.js:44",
+   "rule": ">= -2% steady; >= -7% and < -2% softening; < -7% stressed"
+  },
+  {
+   "id": "derived:session-change-22:IYT",
+   "kind": "derived_series",
+   "label": "IYT 22-session price change",
+   "transform": "22-session-change",
+   "at": "scripts/lib/market-sector.js:53"
+  },
+  {
+   "id": "derived:state:IYT",
+   "kind": "derived_series",
+   "label": "IYT state: steady / softening / stressed",
+   "transform": "threshold-classify",
+   "at": "scripts/collect-sectors.js:44",
+   "rule": ">= -2% steady; >= -7% and < -2% softening; < -7% stressed"
+  },
+  {
+   "id": "derived:session-change-22:XLY",
+   "kind": "derived_series",
+   "label": "XLY 22-session price change",
+   "transform": "22-session-change",
+   "at": "scripts/lib/market-sector.js:53"
+  },
+  {
+   "id": "derived:state:XLY",
+   "kind": "derived_series",
+   "label": "XLY state: steady / softening / stressed",
+   "transform": "threshold-classify",
+   "at": "scripts/collect-sectors.js:44",
+   "rule": ">= -2% steady; >= -7% and < -2% softening; < -7% stressed"
+  },
+  {
+   "id": "derived:session-change-22:XLP",
+   "kind": "derived_series",
+   "label": "XLP 22-session price change",
+   "transform": "22-session-change",
+   "at": "scripts/lib/market-sector.js:53"
+  },
+  {
+   "id": "derived:state:XLP",
+   "kind": "derived_series",
+   "label": "XLP state: steady / softening / stressed",
+   "transform": "threshold-classify",
+   "at": "scripts/collect-sectors.js:44",
+   "rule": ">= -2% steady; >= -7% and < -2% softening; < -7% stressed"
+  },
+  {
+   "id": "derived:session-change-22:SMH",
+   "kind": "derived_series",
+   "label": "SMH 22-session price change",
+   "transform": "22-session-change",
+   "at": "scripts/lib/market-sector.js:53"
+  },
+  {
+   "id": "derived:state:SMH",
+   "kind": "derived_series",
+   "label": "SMH state: steady / softening / stressed",
+   "transform": "threshold-classify",
+   "at": "scripts/collect-sectors.js:44",
+   "rule": ">= -2% steady; >= -7% and < -2% softening; < -7% stressed"
+  },
+  {
+   "id": "derived:session-change-22:XLV",
+   "kind": "derived_series",
+   "label": "XLV 22-session price change",
+   "transform": "22-session-change",
+   "at": "scripts/lib/market-sector.js:53"
+  },
+  {
+   "id": "derived:state:XLV",
+   "kind": "derived_series",
+   "label": "XLV state: steady / softening / stressed",
+   "transform": "threshold-classify",
+   "at": "scripts/collect-sectors.js:44",
+   "rule": ">= -2% steady; >= -7% and < -2% softening; < -7% stressed"
+  },
+  {
+   "id": "derived:breadth-counts",
+   "kind": "derived_series",
+   "label": "Sector Watch counts: steady / softening / stressed / total=11",
+   "transform": "count",
+   "at": "scripts/collect-sectors.js:53-69"
+  },
+  {
+   "id": "derived:weakness-share",
+   "kind": "derived_series",
+   "label": "Weakness share = (0.5 × softening + stressed) ÷ 11 × 100",
+   "transform": "weighted-share",
+   "at": "scripts/collect-market.js:111"
+  },
+  {
+   "id": "derived:sector-overall",
+   "kind": "derived_series",
+   "label": "Sector Watch overall label: CALM / MIXED / SOFTENING / STRESSED",
+   "transform": "threshold-classify",
+   "at": "scripts/collect-sectors.js:67"
+  },
+  {
+   "id": "sensor:household:jobs",
+   "kind": "sensor",
+   "label": "Employment",
+   "wing": "household",
+   "slug": "jobs",
+   "weight": 24.25,
+   "weightKey": "employment (backtest.js) / jobs (collect.js) — SAME LINE, TWO KEYS",
+   "displayValue": "UNRATE last observation",
+   "combiner": "Math.max",
+   "at": "scripts/collect.js:108"
+  },
+  {
+   "id": "stress:household:jobs",
+   "kind": "stress_value",
+   "label": "Employment stress 0-100",
+   "wing": "household",
+   "slug": "jobs"
+  },
+  {
+   "id": "sensor:household:housing",
+   "kind": "sensor",
+   "label": "Housing",
+   "wing": "household",
+   "slug": "housing",
+   "weight": 19.4,
+   "displayValue": "MORTGAGE30US last observation",
+   "combiner": "Math.max",
+   "at": "scripts/collect.js:110",
+   "caution": "DEFECT D1 ORIGIN. The displayed value is the mortgage RATE only; the stress may be driven entirely by the delinquency branch."
+  },
+  {
+   "id": "stress:household:housing",
+   "kind": "stress_value",
+   "label": "Housing stress 0-100",
+   "wing": "household",
+   "slug": "housing"
+  },
+  {
+   "id": "sensor:household:credit",
+   "kind": "sensor",
+   "label": "Credit Cards",
+   "wing": "household",
+   "slug": "credit",
+   "weight": 19.4,
+   "displayValue": "DRCCLACBS last observation",
+   "at": "scripts/collect.js:111"
+  },
+  {
+   "id": "stress:household:credit",
+   "kind": "stress_value",
+   "label": "Credit Cards stress 0-100",
+   "wing": "household",
+   "slug": "credit"
+  },
+  {
+   "id": "sensor:household:auto",
+   "kind": "sensor",
+   "label": "Auto Loans",
+   "wing": "household",
+   "slug": "auto",
+   "weight": 14.55,
+   "displayValue": "NY Fed AUTO last observation",
+   "at": "scripts/collect.js:112"
+  },
+  {
+   "id": "stress:household:auto",
+   "kind": "stress_value",
+   "label": "Auto Loans stress 0-100",
+   "wing": "household",
+   "slug": "auto"
+  },
+  {
+   "id": "sensor:household:gas",
+   "kind": "sensor",
+   "label": "Gas Prices",
+   "wing": "household",
+   "slug": "gas",
+   "weight": 9.7,
+   "displayValue": "GASREGW last observation (NOMINAL)",
+   "at": "scripts/collect.js:113",
+   "caution": "The displayed pump price is nominal; the scored value is CPI-deflated and rebased to the newest CPI print."
+  },
+  {
+   "id": "stress:household:gas",
+   "kind": "stress_value",
+   "label": "Gas Prices stress 0-100",
+   "wing": "household",
+   "slug": "gas"
+  },
+  {
+   "id": "sensor:household:inflation",
+   "kind": "sensor",
+   "label": "Inflation",
+   "wing": "household",
+   "slug": "inflation",
+   "weight": 9.7,
+   "displayValue": "CPI YoY at CPI last month",
+   "at": "scripts/collect.js:109"
+  },
+  {
+   "id": "stress:household:inflation",
+   "kind": "stress_value",
+   "label": "Inflation stress 0-100",
+   "wing": "household",
+   "slug": "inflation"
+  },
+  {
+   "id": "sensor:household:financial",
+   "kind": "sensor",
+   "label": "Financial Conditions",
+   "wing": "household",
+   "slug": "financial",
+   "weight": 3,
+   "displayValue": "NFCI monthly mean at NFCI last month (may be a PARTIAL month)",
+   "at": "scripts/collect.js:114",
+   "caution": "Display month (nfciMonth = newest NFCI month) and stress month (headline month M) differ."
+  },
+  {
+   "id": "stress:household:financial",
+   "kind": "stress_value",
+   "label": "Financial Conditions stress 0-100",
+   "wing": "household",
+   "slug": "financial"
+  },
+  {
+   "id": "sensor:household:foreclosures",
+   "kind": "sensor",
+   "label": "Mortgage Distress",
+   "wing": "household",
+   "slug": "foreclosures",
+   "weight": 0,
+   "auxiliary": true,
+   "calibrationStatus": "provisional-auxiliary",
+   "at": "scripts/collect.js:177-180",
+   "caution": "Reads DRSFRMACBS — the same series as housing's second branch. NOT independent of housing."
+  },
+  {
+   "id": "stress:household:foreclosures",
+   "kind": "stress_value",
+   "label": "Mortgage Distress stress 0-100",
+   "wing": "household",
+   "slug": "foreclosures"
+  },
+  {
+   "id": "sensor:household:manufacturing",
+   "kind": "sensor",
+   "label": "Manufacturing",
+   "wing": "household",
+   "slug": "manufacturing",
+   "weight": 0,
+   "auxiliary": true,
+   "calibrationStatus": "provisional-auxiliary",
+   "at": "scripts/collect.js:181-185",
+   "caution": "Scored on INDPRO only. AMTMNO is displayed as secondary and carries NO weight in the stress value."
+  },
+  {
+   "id": "stress:household:manufacturing",
+   "kind": "stress_value",
+   "label": "Manufacturing stress 0-100",
+   "wing": "household",
+   "slug": "manufacturing"
+  },
+  {
+   "id": "sensor:ward:rates",
+   "kind": "sensor",
+   "label": "Rates",
+   "wing": "ward",
+   "slug": "rates",
+   "weight": 16.666666666666668,
+   "equalWeighted": true,
+   "at": "scripts/collect-market.js:56-84,111-129"
+  },
+  {
+   "id": "stress:ward:rates",
+   "kind": "stress_value",
+   "label": "Rates stress 0-100",
+   "wing": "ward",
+   "slug": "rates"
+  },
+  {
+   "id": "sensor:ward:volatility",
+   "kind": "sensor",
+   "label": "Volatility",
+   "wing": "ward",
+   "slug": "volatility",
+   "weight": 16.666666666666668,
+   "equalWeighted": true,
+   "at": "scripts/collect-market.js:56-84,111-129"
+  },
+  {
+   "id": "stress:ward:volatility",
+   "kind": "stress_value",
+   "label": "Volatility stress 0-100",
+   "wing": "ward",
+   "slug": "volatility"
+  },
+  {
+   "id": "sensor:ward:credit",
+   "kind": "sensor",
+   "label": "Credit & Funding",
+   "wing": "ward",
+   "slug": "credit",
+   "weight": 16.666666666666668,
+   "equalWeighted": true,
+   "at": "scripts/collect-market.js:56-84,111-129",
+   "caution": "Same raw series (NFCI) as household sensor:household:financial. NAME COLLISION: \"credit\" also names a household sensor that reads DRCCLACBS."
+  },
+  {
+   "id": "stress:ward:credit",
+   "kind": "stress_value",
+   "label": "Credit & Funding stress 0-100",
+   "wing": "ward",
+   "slug": "credit"
+  },
+  {
+   "id": "sensor:ward:energy",
+   "kind": "sensor",
+   "label": "Energy",
+   "wing": "ward",
+   "slug": "energy",
+   "weight": 16.666666666666668,
+   "equalWeighted": true,
+   "at": "scripts/collect-market.js:56-84,111-129"
+  },
+  {
+   "id": "stress:ward:energy",
+   "kind": "stress_value",
+   "label": "Energy stress 0-100",
+   "wing": "ward",
+   "slug": "energy"
+  },
+  {
+   "id": "sensor:ward:dollar",
+   "kind": "sensor",
+   "label": "Dollar",
+   "wing": "ward",
+   "slug": "dollar",
+   "weight": 16.666666666666668,
+   "equalWeighted": true,
+   "at": "scripts/collect-market.js:56-84,111-129"
+  },
+  {
+   "id": "stress:ward:dollar",
+   "kind": "stress_value",
+   "label": "Dollar stress 0-100",
+   "wing": "ward",
+   "slug": "dollar"
+  },
+  {
+   "id": "sensor:ward:breadth",
+   "kind": "sensor",
+   "label": "Breadth",
+   "wing": "ward",
+   "slug": "breadth",
+   "weight": 16.666666666666668,
+   "equalWeighted": true,
+   "at": "scripts/collect-market.js:56-84,111-129"
+  },
+  {
+   "id": "stress:ward:breadth",
+   "kind": "stress_value",
+   "label": "Breadth stress 0-100",
+   "wing": "ward",
+   "slug": "breadth"
+  },
+  {
+   "id": "constant:calibration:household:v3",
+   "kind": "constant",
+   "label": "CALIBRATION_V3 a=1.418684348943213 b=-23.96514845099034 (FROZEN)",
+   "at": "scripts/lib/methodology.js:27",
+   "note": "Derived once from the 7 weighted lines over 2003-2025 (calm=10, GFC peak=90) and frozen. No auxiliary series contributed. Changing it restates published history."
+  },
+  {
+   "id": "constant:calibration:ward",
+   "kind": "constant",
+   "label": "FROZEN_WARD_CALIBRATION a=1.402462618842267 b=-7.011551886296619",
+   "at": "scripts/lib/market-backtest.js:3-9",
+   "note": "A truncated local copy {a:1.4025,b:-7.0116} lived in collect-market.js until 2026-08-14 and published a different rounded score on 10 raw values. Same two-copies failure class as the household calibration."
+  },
+  {
+   "id": "weight:household:jobs",
+   "kind": "weight",
+   "label": "METHODOLOGY_V3_WEIGHTS.employment",
+   "at": "scripts/lib/methodology.js:11-19",
+   "value": 24.25
+  },
+  {
+   "id": "weight:household:housing",
+   "kind": "weight",
+   "label": "METHODOLOGY_V3_WEIGHTS.housing",
+   "at": "scripts/lib/methodology.js:11-19",
+   "value": 19.4
+  },
+  {
+   "id": "weight:household:credit",
+   "kind": "weight",
+   "label": "METHODOLOGY_V3_WEIGHTS.credit",
+   "at": "scripts/lib/methodology.js:11-19",
+   "value": 19.4
+  },
+  {
+   "id": "weight:household:auto",
+   "kind": "weight",
+   "label": "METHODOLOGY_V3_WEIGHTS.auto",
+   "at": "scripts/lib/methodology.js:11-19",
+   "value": 14.55
+  },
+  {
+   "id": "weight:household:gas",
+   "kind": "weight",
+   "label": "METHODOLOGY_V3_WEIGHTS.gas",
+   "at": "scripts/lib/methodology.js:11-19",
+   "value": 9.7
+  },
+  {
+   "id": "weight:household:inflation",
+   "kind": "weight",
+   "label": "METHODOLOGY_V3_WEIGHTS.inflation",
+   "at": "scripts/lib/methodology.js:11-19",
+   "value": 9.7
+  },
+  {
+   "id": "weight:household:financial",
+   "kind": "weight",
+   "label": "METHODOLOGY_V3_WEIGHTS.financial",
+   "at": "scripts/lib/methodology.js:11-19",
+   "value": 3
+  },
+  {
+   "id": "weight:household:foreclosures",
+   "kind": "weight",
+   "label": "foreclosures scoreWeight = 0",
+   "at": "scripts/collect.js:179,183",
+   "value": 0
+  },
+  {
+   "id": "weight:household:manufacturing",
+   "kind": "weight",
+   "label": "manufacturing scoreWeight = 0",
+   "at": "scripts/collect.js:179,183",
+   "value": 0
+  },
+  {
+   "id": "derived:weighted-sum:household",
+   "kind": "derived_series",
+   "label": "wsum = Σ weightₖ × stressₖ over the seven weighted lines",
+   "at": "scripts/collect.js:118,127",
+   "caution": "THE NORMALIZER. Every contribution is a share of this sum, so contribₖ depends on ALL SEVEN lines, not just line k."
+  },
+  {
+   "id": "score:household:composite",
+   "kind": "score",
+   "label": "Raw composite = wsum ÷ 100",
+   "at": "scripts/collect.js:118"
+  },
+  {
+   "id": "score:household:ooze",
+   "kind": "score",
+   "label": "Ooze Score 0-100 (headline, month M = last complete month)",
+   "at": "scripts/collect.js:117,124"
+  },
+  {
+   "id": "score:household:prevOoze",
+   "kind": "score",
+   "label": "Prior-month Ooze Score (month P)",
+   "at": "scripts/collect.js:124"
+  },
+  {
+   "id": "score:household:history",
+   "kind": "score",
+   "label": "data/history.json — every complete month, calibrated",
+   "at": "scripts/collect.js:252-253,270"
+  },
+  {
+   "id": "delta:household:ooze",
+   "kind": "derived_series",
+   "label": "Headline delta = ooze − prevOoze",
+   "at": "scripts/story.js:76"
+  },
+  {
+   "id": "contribution:household:jobs",
+   "kind": "contribution",
+   "label": "jobs ounces",
+   "at": "scripts/collect.js:129-135",
+   "method": "floor(ooze × wₖstressₖ / wsum) then largest-remainder to foot exactly to ooze"
+  },
+  {
+   "id": "delta:household:jobs",
+   "kind": "derived_series",
+   "label": "jobs stress delta",
+   "at": "scripts/collect.js:136-138",
+   "timeStep": "round(stress[M]) − round(stress[P]) — headline month step"
+  },
+  {
+   "id": "contribution:household:housing",
+   "kind": "contribution",
+   "label": "housing ounces",
+   "at": "scripts/collect.js:129-135",
+   "method": "floor(ooze × wₖstressₖ / wsum) then largest-remainder to foot exactly to ooze"
+  },
+  {
+   "id": "delta:household:housing",
+   "kind": "derived_series",
+   "label": "housing stress delta",
+   "at": "scripts/collect.js:136-138",
+   "timeStep": "round(stress[M]) − round(stress[P]) — headline month step"
+  },
+  {
+   "id": "contribution:household:credit",
+   "kind": "contribution",
+   "label": "credit ounces",
+   "at": "scripts/collect.js:129-135",
+   "method": "floor(ooze × wₖstressₖ / wsum) then largest-remainder to foot exactly to ooze"
+  },
+  {
+   "id": "delta:household:credit",
+   "kind": "derived_series",
+   "label": "credit stress delta",
+   "at": "scripts/collect.js:136-138",
+   "timeStep": "round(stress[M]) − round(stress[P]) — headline month step"
+  },
+  {
+   "id": "contribution:household:auto",
+   "kind": "contribution",
+   "label": "auto ounces",
+   "at": "scripts/collect.js:129-135",
+   "method": "floor(ooze × wₖstressₖ / wsum) then largest-remainder to foot exactly to ooze"
+  },
+  {
+   "id": "delta:household:auto",
+   "kind": "derived_series",
+   "label": "auto stress delta",
+   "at": "scripts/collect.js:136-138",
+   "timeStep": "round(stress[M]) − round(stress[P]) — headline month step"
+  },
+  {
+   "id": "contribution:household:gas",
+   "kind": "contribution",
+   "label": "gas ounces",
+   "at": "scripts/collect.js:129-135",
+   "method": "floor(ooze × wₖstressₖ / wsum) then largest-remainder to foot exactly to ooze"
+  },
+  {
+   "id": "delta:household:gas",
+   "kind": "derived_series",
+   "label": "gas stress delta",
+   "at": "scripts/collect.js:136-138",
+   "timeStep": "round(stress[M]) − round(stress[P]) — headline month step"
+  },
+  {
+   "id": "contribution:household:inflation",
+   "kind": "contribution",
+   "label": "inflation ounces",
+   "at": "scripts/collect.js:129-135",
+   "method": "floor(ooze × wₖstressₖ / wsum) then largest-remainder to foot exactly to ooze"
+  },
+  {
+   "id": "delta:household:inflation",
+   "kind": "derived_series",
+   "label": "inflation stress delta",
+   "at": "scripts/collect.js:136-138",
+   "timeStep": "round(stress[M]) − round(stress[P]) — headline month step"
+  },
+  {
+   "id": "contribution:household:financial",
+   "kind": "contribution",
+   "label": "financial ounces",
+   "at": "scripts/collect.js:129-135",
+   "method": "floor(ooze × wₖstressₖ / wsum) then largest-remainder to foot exactly to ooze"
+  },
+  {
+   "id": "delta:household:financial",
+   "kind": "derived_series",
+   "label": "financial stress delta",
+   "at": "scripts/collect.js:136-138",
+   "timeStep": "round(stress[M]) − round(stress[P]) — headline month step"
+  },
+  {
+   "id": "contribution:household:foreclosures",
+   "kind": "contribution",
+   "label": "foreclosures ounces",
+   "at": "scripts/collect.js:189-190 (always 0)",
+   "method": "floor(ooze × wₖstressₖ / wsum) then largest-remainder to foot exactly to ooze"
+  },
+  {
+   "id": "delta:household:foreclosures",
+   "kind": "derived_series",
+   "label": "foreclosures stress delta",
+   "at": "scripts/collect.js:178",
+   "timeStep": "newest DRSFRMACBS observation vs the one before it — a QUARTER step"
+  },
+  {
+   "id": "contribution:household:manufacturing",
+   "kind": "contribution",
+   "label": "manufacturing ounces",
+   "at": "scripts/collect.js:189-190 (always 0)",
+   "method": "floor(ooze × wₖstressₖ / wsum) then largest-remainder to foot exactly to ooze"
+  },
+  {
+   "id": "delta:household:manufacturing",
+   "kind": "derived_series",
+   "label": "manufacturing stress delta",
+   "at": "scripts/collect.js:182",
+   "timeStep": "newest INDPRO month vs the month before it — MAY NOT BE THE HEADLINE MONTH M"
+  },
+  {
+   "id": "band:household",
+   "kind": "band",
+   "label": "Smooth / Sticky / Slippery / Oozing / Overflowing",
+   "at": "scripts/story.js:20, scripts/stamp.js:10, lab.js levelOf"
+  },
+  {
+   "id": "tier:household",
+   "kind": "band",
+   "label": "STABLE / OBSERVATION / CONTAINMENT WATCH / CONTAINMENT WARNING / OVERFLOW RISK / NATIONAL MESS",
+   "at": "scripts/stamp.js:11"
+  },
+  {
+   "id": "flag:household:oozemaxing",
+   "kind": "derived_series",
+   "label": "oozemaxing = every weighted stress ≥ 60",
+   "at": "scripts/collect.js:264"
+  },
+  {
+   "id": "score:ward:raw",
+   "kind": "score",
+   "label": "Ward raw = mean of the six gauge stresses",
+   "at": "scripts/collect-market.js:133"
+  },
+  {
+   "id": "score:ward:score",
+   "kind": "score",
+   "label": "Market Ooze 0-100",
+   "at": "scripts/collect-market.js:134"
+  },
+  {
+   "id": "band:ward",
+   "kind": "band",
+   "label": "Ward band, reusing the household BANDS scale",
+   "at": "scripts/stamp.js:113"
+  },
+  {
+   "id": "derived:divergence:market-minus-household",
+   "kind": "derived_series",
+   "label": "divergence = ward score − household score, exact shared months only",
+   "at": "scripts/lib/market-divergence.js:12-29",
+   "caution": "A JOIN of two instruments. raw:fred:NFCI is upstream of BOTH columns, so divergence is not a comparison of two disjoint measurement systems."
+  },
+  {
+   "id": "artifact:revisions",
+   "kind": "artifact",
+   "label": "data/revisions.json — logged changes to published history",
+   "at": "scripts/integrity.js:38-75"
+  },
+  {
+   "id": "artifact:gate-status",
+   "kind": "artifact",
+   "label": "data/gate-status.json — integrity verdict",
+   "at": "scripts/integrity.js:151-159"
+  },
+  {
+   "id": "artifact:vintage",
+   "kind": "artifact",
+   "label": "data/vintages/<inputFingerprint>.json",
+   "at": "scripts/collect.js:271-295"
+  },
+  {
+   "id": "claim:editorial:verdict",
+   "kind": "editorial_claim",
+   "label": "Calmer/More stressed than N of every 10 months since 2003",
+   "at": "scripts/story.js:37-40"
+  },
+  {
+   "id": "claim:editorial:line:jobs",
+   "kind": "editorial_claim",
+   "label": "Per-line sentence for jobs (moveClass verb + VALUE_CLAUSE)",
+   "at": "scripts/story.js:50-68",
+   "caution": "VALUE_CLAUSE glues the line's DISPLAY value to the line's STRESS DELTA. For gas, housing, jobs and financial these two have different as-of dates and different aggregations."
+  },
+  {
+   "id": "claim:editorial:line:housing",
+   "kind": "editorial_claim",
+   "label": "Per-line sentence for housing (moveClass verb + VALUE_CLAUSE)",
+   "at": "scripts/story.js:50-68",
+   "caution": "VALUE_CLAUSE glues the line's DISPLAY value to the line's STRESS DELTA. For gas, housing, jobs and financial these two have different as-of dates and different aggregations."
+  },
+  {
+   "id": "claim:editorial:line:credit",
+   "kind": "editorial_claim",
+   "label": "Per-line sentence for credit (moveClass verb + VALUE_CLAUSE)",
+   "at": "scripts/story.js:50-68",
+   "caution": "VALUE_CLAUSE glues the line's DISPLAY value to the line's STRESS DELTA. For gas, housing, jobs and financial these two have different as-of dates and different aggregations."
+  },
+  {
+   "id": "claim:editorial:line:auto",
+   "kind": "editorial_claim",
+   "label": "Per-line sentence for auto (moveClass verb + VALUE_CLAUSE)",
+   "at": "scripts/story.js:50-68",
+   "caution": "VALUE_CLAUSE glues the line's DISPLAY value to the line's STRESS DELTA. For gas, housing, jobs and financial these two have different as-of dates and different aggregations."
+  },
+  {
+   "id": "claim:editorial:line:gas",
+   "kind": "editorial_claim",
+   "label": "Per-line sentence for gas (moveClass verb + VALUE_CLAUSE)",
+   "at": "scripts/story.js:50-68",
+   "caution": "VALUE_CLAUSE glues the line's DISPLAY value to the line's STRESS DELTA. For gas, housing, jobs and financial these two have different as-of dates and different aggregations."
+  },
+  {
+   "id": "claim:editorial:line:inflation",
+   "kind": "editorial_claim",
+   "label": "Per-line sentence for inflation (moveClass verb + VALUE_CLAUSE)",
+   "at": "scripts/story.js:50-68",
+   "caution": "VALUE_CLAUSE glues the line's DISPLAY value to the line's STRESS DELTA. For gas, housing, jobs and financial these two have different as-of dates and different aggregations."
+  },
+  {
+   "id": "claim:editorial:line:financial",
+   "kind": "editorial_claim",
+   "label": "Per-line sentence for financial (moveClass verb + VALUE_CLAUSE)",
+   "at": "scripts/story.js:50-68",
+   "caution": "VALUE_CLAUSE glues the line's DISPLAY value to the line's STRESS DELTA. For gas, housing, jobs and financial these two have different as-of dates and different aggregations."
+  },
+  {
+   "id": "claim:editorial:line:foreclosures",
+   "kind": "editorial_claim",
+   "label": "Per-line sentence for foreclosures (moveClass verb + VALUE_CLAUSE)",
+   "at": "scripts/story.js:50-68",
+   "caution": "VALUE_CLAUSE glues the line's DISPLAY value to the line's STRESS DELTA. For gas, housing, jobs and financial these two have different as-of dates and different aggregations."
+  },
+  {
+   "id": "claim:editorial:line:manufacturing",
+   "kind": "editorial_claim",
+   "label": "Per-line sentence for manufacturing (moveClass verb + VALUE_CLAUSE)",
+   "at": "scripts/story.js:50-68",
+   "caution": "VALUE_CLAUSE glues the line's DISPLAY value to the line's STRESS DELTA. For gas, housing, jobs and financial these two have different as-of dates and different aggregations."
+  },
+  {
+   "id": "claim:editorial:story",
+   "kind": "editorial_claim",
+   "label": "The household story paragraph (s1 + s2 + s3)",
+   "at": "scripts/story.js:80-94"
+  },
+  {
+   "id": "claim:editorial:summary",
+   "kind": "editorial_claim",
+   "label": "Executive summary",
+   "at": "scripts/story.js:97"
+  },
+  {
+   "id": "claim:editorial:noticed",
+   "kind": "editorial_claim",
+   "label": "\"What a household would notice\" bridge paragraph",
+   "at": "scripts/story.js:236-251"
+  },
+  {
+   "id": "claim:editorial:confidence",
+   "kind": "editorial_claim",
+   "label": "Confidence statement",
+   "at": "scripts/story.js:226-232"
+  },
+  {
+   "id": "claim:editorial:crosscheck:pair-legality",
+   "kind": "editorial_claim",
+   "label": "Implicit claim: the comparison series carries no score weight and is not an input to the line it checks",
+   "at": "scripts/story.js:116-124 (a PROSE COMMENT, not an executable check)",
+   "caution": "CC_PAIRS is a hand-maintained literal. Nothing in code proves the pair is disjoint. This graph exists to replace that comment."
+  },
+  {
+   "id": "claim:editorial:crosscheck:same-month",
+   "kind": "editorial_claim",
+   "label": "Published claim: \"Over the same month <comparison series> …\"",
+   "at": "scripts/story.js:196,201",
+   "caution": "Not enforced anywhere. delta:household:manufacturing steps over INDPRO's own latest month pair; delta:household:jobs steps over the headline month pair."
+  },
+  {
+   "id": "claim:editorial:crosscheck:rows",
+   "kind": "editorial_claim",
+   "label": "Per-line cross-check row: checked / result (agrees | mixed | disagrees | not checked) / rule",
+   "at": "scripts/story.js:139-172"
+  },
+  {
+   "id": "claim:editorial:crosscheck:state",
+   "kind": "editorial_claim",
+   "label": "Headline state: quiet | mixed | amber | red | nodata",
+   "at": "scripts/story.js:177-187"
+  },
+  {
+   "id": "claim:editorial:crosscheck:body",
+   "kind": "editorial_claim",
+   "label": "Cross-check body paragraphs, including \"The jar reads X. It does not read Y.\"",
+   "at": "scripts/story.js:188-203"
+  },
+  {
+   "id": "claim:editorial:crosscheck:note",
+   "kind": "editorial_claim",
+   "label": "Coverage note: N of the 7 weighted lines carry no published comparison series",
+   "at": "scripts/story.js:207-209"
+  },
+  {
+   "id": "claim:editorial:crosscheck:run",
+   "kind": "editorial_claim",
+   "label": "Streak statement: \"This is the first edition to publish these checks; the run starts here.\"",
+   "at": "scripts/story.js:212-214",
+   "caution": "A STRING LITERAL with no backing counter. It has been emitted on every edition since the checks shipped, so it becomes false on edition two."
+  },
+  {
+   "id": "claim:editorial:newsletter",
+   "kind": "editorial_claim",
+   "label": "Plain-text newsletter",
+   "at": "scripts/story.js:287-306"
+  },
+  {
+   "id": "claim:editorial:rssSummary",
+   "kind": "editorial_claim",
+   "label": "RSS summary (700 chars)",
+   "at": "scripts/story.js:308"
+  },
+  {
+   "id": "claim:editorial:social",
+   "kind": "editorial_claim",
+   "label": "Social card text",
+   "at": "scripts/story.js:310"
+  },
+  {
+   "id": "claim:editorial:article",
+   "kind": "editorial_claim",
+   "label": "Monthly Ooze Report auto-article",
+   "at": "scripts/story.js:255-277"
+  },
+  {
+   "id": "claim:market:sector-note",
+   "kind": "editorial_claim",
+   "label": "OOZEBOT Sector Watch paragraph",
+   "at": "scripts/lib/market-note.js:19"
+  },
+  {
+   "id": "claim:market:shared-series-disclosure",
+   "kind": "editorial_claim",
+   "label": "\"The Chicago Fed NFCI … is the only input the two instruments have in common\"",
+   "at": "scripts/market-pages.js:32, market.html:79, scripts/lib/market-gauge-content.js:54,59",
+   "verifiableBy": "assertion cross-wing-shared-raw-series"
+  },
+  {
+   "id": "claim:market:separate-instrument",
+   "kind": "editorial_claim",
+   "label": "\"Separate instrument · 0 oz in household jar\" chip on every non-credit gauge page",
+   "at": "scripts/market-pages.js:29,33"
+  },
+  {
+   "id": "claim:market:divergence-basis",
+   "kind": "editorial_claim",
+   "label": "Divergence note: exact shared months, current-revised inputs, non-identical breadth transforms",
+   "at": "scripts/build-market-divergence.js:47",
+   "caution": "Discloses the vintage and the breadth-transform mismatch. Does NOT disclose that NFCI is upstream of both columns."
+  },
+  {
+   "id": "claim:stamp:page-furniture",
+   "kind": "editorial_claim",
+   "label": "index.html title, meta description, OG title/description, hero score, hero status, hero delta, share card, specimen line, Dataset JSON-LD",
+   "at": "scripts/stamp.js:51-88"
+  },
+  {
+   "id": "claim:stamp:integrity-placard",
+   "kind": "editorial_claim",
+   "label": "\"Integrity gate: PASS · N warnings · fails closed\"",
+   "at": "scripts/stamp.js:22-37,65"
+  },
+  {
+   "id": "claim:stamp:market-furniture",
+   "kind": "editorial_claim",
+   "label": "market.html static score + band",
+   "at": "scripts/stamp.js:111-124"
+  },
+  {
+   "id": "claim:lab:indicator-prose",
+   "kind": "editorial_claim",
+   "label": "lab.js INDICATORS why / vs2008 / faqs — hand-written per-line copy",
+   "at": "lab.js:37-157",
+   "caution": "Hand-typed values. narrative-check.js:180-200 checks ONLY \"Today's <value>\" and only WARNS. Everything else in this prose is unchecked."
+  },
+  {
+   "id": "claim:lab:no-stock-market-input",
+   "kind": "editorial_claim",
+   "label": "\"The S&P 500 is not an input to the Ooze Score at any weight.\"",
+   "at": "lab.js:110",
+   "verifiableBy": "assertion sp500-not-upstream-of-ooze"
+  },
+  {
+   "id": "claim:gauge:market-gauge-content",
+   "kind": "editorial_claim",
+   "label": "Ward M per-gauge lesson copy (measurement / limits / reproduce / faqs)",
+   "at": "scripts/lib/market-gauge-content.js"
+  },
+  {
+   "id": "ui:index.html#hero",
+   "kind": "ui_surface",
+   "label": "Homepage hero: score, band, delta, jar aria-label",
+   "at": "index.html:45-56,221"
+  },
+  {
+   "id": "ui:index.html#ozBar",
+   "kind": "ui_surface",
+   "label": "Ounce composition bar + aria-label",
+   "at": "index.html:287-291"
+  },
+  {
+   "id": "ui:index.html#canCards",
+   "kind": "ui_surface",
+   "label": "Four featured intake cards with the cross-check gutter glyph",
+   "at": "index.html:295-306"
+  },
+  {
+   "id": "ui:index.html#ccGutter-screenreader",
+   "kind": "ui_surface",
+   "label": "Screen-reader text for the cross-check gutter",
+   "at": "index.html:276-286,300,335",
+   "caution": "DEFECT D2 SURFACE. The false string \"agrees\" survived longest here because a sighted proofreader never sees it."
+  },
+  {
+   "id": "ui:index.html#crosscheck",
+   "kind": "ui_surface",
+   "label": "Cross-check section: glyph, state label, count, body, note, roster, run, rules",
+   "at": "index.html:71-95,323-343"
+  },
+  {
+   "id": "ui:index.html#storyBody",
+   "kind": "ui_surface",
+   "label": "The written monthly reading (tokens resolved client-side)",
+   "at": "index.html:317-319",
+   "caution": "resolveClaims uses lab.js HISTORY. If data/latest.js fails to load, HISTORY stays the FROZEN fallback array (lab.js:158) and {{s:M}} resolves against stale history while the STAMPED hero shows the live number."
+  },
+  {
+   "id": "ui:index.html#ledger",
+   "kind": "ui_surface",
+   "label": "Full intake ledger, AUX badges",
+   "at": "index.html:345-360"
+  },
+  {
+   "id": "ui:index.html#placard",
+   "kind": "ui_surface",
+   "label": "Integrity placard",
+   "at": "index.html plcSealed"
+  },
+  {
+   "id": "ui:indicator.html",
+   "kind": "ui_surface",
+   "label": "Per-line indicator page",
+   "at": "indicator.html, lab.js:37-157"
+  },
+  {
+   "id": "ui:article.html",
+   "kind": "ui_surface",
+   "label": "Monthly Ooze Report permalink",
+   "at": "article.html, data/auto-articles.js"
+  },
+  {
+   "id": "ui:feed.xml",
+   "kind": "ui_surface",
+   "label": "Atom feed",
+   "at": "scripts/rss.js"
+  },
+  {
+   "id": "ui:archive.html",
+   "kind": "ui_surface",
+   "label": "Archive + reconstruction reports",
+   "at": "archive.html, data/reconstruction-reports.js"
+  },
+  {
+   "id": "ui:market.html",
+   "kind": "ui_surface",
+   "label": "Ward M page: gauges, Sector Watch, divergence chart",
+   "at": "market.html"
+  },
+  {
+   "id": "ui:market/rates/index.html",
+   "kind": "ui_surface",
+   "label": "Ward M rates gauge page",
+   "at": "scripts/market-pages.js"
+  },
+  {
+   "id": "ui:market/volatility/index.html",
+   "kind": "ui_surface",
+   "label": "Ward M volatility gauge page",
+   "at": "scripts/market-pages.js"
+  },
+  {
+   "id": "ui:market/credit/index.html",
+   "kind": "ui_surface",
+   "label": "Ward M credit gauge page",
+   "at": "scripts/market-pages.js"
+  },
+  {
+   "id": "ui:market/energy/index.html",
+   "kind": "ui_surface",
+   "label": "Ward M energy gauge page",
+   "at": "scripts/market-pages.js"
+  },
+  {
+   "id": "ui:market/dollar/index.html",
+   "kind": "ui_surface",
+   "label": "Ward M dollar gauge page",
+   "at": "scripts/market-pages.js"
+  },
+  {
+   "id": "ui:market/breadth/index.html",
+   "kind": "ui_surface",
+   "label": "Ward M breadth gauge page",
+   "at": "scripts/market-pages.js"
+  },
+  {
+   "id": "ui:notes.html",
+   "kind": "ui_surface",
+   "label": "Lab Notes / methodology narrative",
+   "at": "notes.html"
+  },
+  {
+   "id": "ui:policies.html",
+   "kind": "ui_surface",
+   "label": "Methodology + revision policy",
+   "at": "policies.html"
+  },
+  {
+   "id": "ui:api:data/latest.json",
+   "kind": "ui_surface",
+   "label": "Public payload",
+   "at": "scripts/collect.js:268"
+  },
+  {
+   "id": "ui:api:data/editorial.json",
+   "kind": "ui_surface",
+   "label": "Public editorial payload (token CARRIER; exempt from the reader-surface token scan)",
+   "at": "scripts/story.js:316",
+   "caution": "narrative-check.js:209 explicitly skips data/editorial.json in the unresolved-token scan. Any consumer that does not run resolveClaims ships raw {{s:…}} to a reader."
+  },
+  {
+   "id": "ui:api:data/market.json",
+   "kind": "ui_surface",
+   "label": "Ward M payload",
+   "at": "scripts/collect-market.js:140"
+  },
+  {
+   "id": "ui:api:data/sectors.json",
+   "kind": "ui_surface",
+   "label": "Sector Watch payload",
+   "at": "scripts/collect-sectors.js:75"
+  },
+  {
+   "id": "ui:api:data/market-history.json",
+   "kind": "ui_surface",
+   "label": "Divergence series",
+   "at": "scripts/build-market-divergence.js:55"
+  },
+  {
+   "id": "ui:og-cards",
+   "kind": "ui_surface",
+   "label": "Open Graph share images",
+   "at": "scripts/og-cards.js"
+  }
+ ],
+ "edges": [
+  {
+   "from": "raw:fred:UNRATE",
+   "to": "derived:monthly-mean:UNRATE",
+   "op": "monthly-mean",
+   "at": "scripts/lib/fred.js:38-41"
+  },
+  {
+   "from": "raw:fred:CPIAUCNS",
+   "to": "derived:monthly-mean:CPIAUCNS",
+   "op": "monthly-mean",
+   "at": "scripts/lib/fred.js:38-41"
+  },
+  {
+   "from": "raw:fred:MORTGAGE30US",
+   "to": "derived:monthly-mean:MORTGAGE30US",
+   "op": "monthly-mean",
+   "at": "scripts/lib/fred.js:38-41"
+  },
+  {
+   "from": "raw:fred:DRSFRMACBS",
+   "to": "derived:monthly-mean:DRSFRMACBS",
+   "op": "monthly-mean",
+   "at": "scripts/lib/fred.js:38-41"
+  },
+  {
+   "from": "raw:fred:DRCCLACBS",
+   "to": "derived:monthly-mean:DRCCLACBS",
+   "op": "monthly-mean",
+   "at": "scripts/lib/fred.js:38-41"
+  },
+  {
+   "from": "raw:fred:GASREGW",
+   "to": "derived:monthly-mean:GASREGW",
+   "op": "monthly-mean",
+   "at": "scripts/lib/fred.js:38-41"
+  },
+  {
+   "from": "raw:fred:INDPRO",
+   "to": "derived:monthly-mean:INDPRO",
+   "op": "monthly-mean",
+   "at": "scripts/lib/fred.js:38-41"
+  },
+  {
+   "from": "raw:fred:AMTMNO",
+   "to": "derived:monthly-mean:AMTMNO",
+   "op": "monthly-mean",
+   "at": "scripts/lib/fred.js:38-41"
+  },
+  {
+   "from": "raw:fred:NFCI",
+   "to": "derived:monthly-mean:NFCI",
+   "op": "monthly-mean",
+   "at": "scripts/lib/fred.js:38-41",
+   "note": "Household copy. Ward M computes its own monthly mean through a SEPARATE parser (scripts/lib/market-series.js:29-34)."
+  },
+  {
+   "from": "raw:fred:ICSA",
+   "to": "derived:trailing4wk:ICSA",
+   "op": "trailing-4wk-mean",
+   "at": "scripts/lib/methodology.js:200-210"
+  },
+  {
+   "from": "raw:fred:ICSA",
+   "to": "derived:trailing4wk:ICSA",
+   "op": "overwrite-monthly-mean",
+   "at": "scripts/collect.js:83",
+   "note": "S.ICSA.monthly produced by fred.js is discarded and replaced."
+  },
+  {
+   "from": "raw:fred:ICSA",
+   "to": "derived:claims-4wk-display:ICSA",
+   "op": "mean-of-last-4",
+   "at": "scripts/collect.js:144-145"
+  },
+  {
+   "from": "raw:nyfed:HHDC_AUTO_30PLUS",
+   "to": "derived:nyfed-quarter-to-month:AUTO",
+   "op": "quarter-to-month",
+   "at": "scripts/lib/methodology.js:133-139"
+  },
+  {
+   "from": "derived:monthly-mean:DRSFRMACBS",
+   "to": "derived:forward-fill:DRSFRMACBS",
+   "op": "forward-fill",
+   "at": "scripts/collect.js:67,95"
+  },
+  {
+   "from": "derived:monthly-mean:DRCCLACBS",
+   "to": "derived:forward-fill:DRCCLACBS",
+   "op": "forward-fill",
+   "at": "scripts/collect.js:67,96"
+  },
+  {
+   "from": "derived:nyfed-quarter-to-month:AUTO",
+   "to": "derived:forward-fill:NYFED_AUTO_30PLUS",
+   "op": "forward-fill",
+   "at": "scripts/collect.js:67,97"
+  },
+  {
+   "from": "derived:monthly-mean:CPIAUCNS",
+   "to": "derived:yoy:CPIAUCNS",
+   "op": "yoy",
+   "at": "scripts/lib/methodology.js:224-230"
+  },
+  {
+   "from": "raw:fred:CPIAUCNS",
+   "to": "derived:latest-observation:CPIAUCNS",
+   "op": "latest-observation",
+   "at": "scripts/collect.js:98"
+  },
+  {
+   "from": "derived:monthly-mean:GASREGW",
+   "to": "derived:real-price:GAS",
+   "op": "deflate-numerator",
+   "at": "scripts/collect.js:113"
+  },
+  {
+   "from": "derived:latest-observation:CPIAUCNS",
+   "to": "derived:real-price:GAS",
+   "op": "rebase-level",
+   "at": "scripts/collect.js:113"
+  },
+  {
+   "from": "derived:monthly-mean:CPIAUCNS",
+   "to": "derived:real-price:GAS",
+   "op": "deflate-denominator",
+   "at": "scripts/collect.js:113"
+  },
+  {
+   "from": "derived:monthly-mean:INDPRO",
+   "to": "derived:yoy:INDPRO",
+   "op": "yoy",
+   "at": "scripts/collect.js:152-153"
+  },
+  {
+   "from": "derived:monthly-mean:AMTMNO",
+   "to": "derived:yoy:AMTMNO",
+   "op": "yoy",
+   "at": "scripts/collect.js:156-157"
+  },
+  {
+   "from": "raw:fred:DRSFRMACBS",
+   "to": "derived:latest-observation:DRSFRMACBS",
+   "op": "latest-observation-pair",
+   "at": "scripts/collect.js:147-149"
+  },
+  {
+   "from": "raw:fred:T10Y3M",
+   "to": "derived:monthly-mean-ward:T10Y3M",
+   "op": "monthly-mean",
+   "at": "scripts/lib/market-series.js:29-34"
+  },
+  {
+   "from": "raw:fred:VIXCLS",
+   "to": "derived:monthly-mean-ward:VIXCLS",
+   "op": "monthly-mean",
+   "at": "scripts/lib/market-series.js:29-34"
+  },
+  {
+   "from": "raw:fred:NFCI",
+   "to": "derived:monthly-mean-ward:NFCI",
+   "op": "monthly-mean",
+   "at": "scripts/lib/market-series.js:29-34"
+  },
+  {
+   "from": "raw:fred:DCOILWTICO",
+   "to": "derived:monthly-mean-ward:DCOILWTICO",
+   "op": "monthly-mean",
+   "at": "scripts/lib/market-series.js:29-34"
+  },
+  {
+   "from": "raw:fred:DTWEXBGS",
+   "to": "derived:monthly-mean-ward:DTWEXBGS",
+   "op": "monthly-mean",
+   "at": "scripts/lib/market-series.js:29-34"
+  },
+  {
+   "from": "derived:monthly-mean-ward:DTWEXBGS",
+   "to": "derived:yoy:DTWEXBGS",
+   "op": "yoy",
+   "at": "scripts/collect-market.js:40"
+  },
+  {
+   "from": "raw:yahoo:SPY",
+   "to": "derived:session-change-22:SPY",
+   "op": "session-change-22",
+   "at": "scripts/lib/market-sector.js:53"
+  },
+  {
+   "from": "derived:session-change-22:SPY",
+   "to": "derived:state:SPY",
+   "op": "threshold-classify",
+   "at": "scripts/collect-sectors.js:44"
+  },
+  {
+   "from": "derived:state:SPY",
+   "to": "derived:breadth-counts",
+   "op": "count",
+   "at": "scripts/collect-sectors.js:60"
+  },
+  {
+   "from": "raw:yahoo:QQQ",
+   "to": "derived:session-change-22:QQQ",
+   "op": "session-change-22",
+   "at": "scripts/lib/market-sector.js:53"
+  },
+  {
+   "from": "derived:session-change-22:QQQ",
+   "to": "derived:state:QQQ",
+   "op": "threshold-classify",
+   "at": "scripts/collect-sectors.js:44"
+  },
+  {
+   "from": "derived:state:QQQ",
+   "to": "derived:breadth-counts",
+   "op": "count",
+   "at": "scripts/collect-sectors.js:60"
+  },
+  {
+   "from": "raw:yahoo:DIA",
+   "to": "derived:session-change-22:DIA",
+   "op": "session-change-22",
+   "at": "scripts/lib/market-sector.js:53"
+  },
+  {
+   "from": "derived:session-change-22:DIA",
+   "to": "derived:state:DIA",
+   "op": "threshold-classify",
+   "at": "scripts/collect-sectors.js:44"
+  },
+  {
+   "from": "derived:state:DIA",
+   "to": "derived:breadth-counts",
+   "op": "count",
+   "at": "scripts/collect-sectors.js:60"
+  },
+  {
+   "from": "raw:yahoo:IWM",
+   "to": "derived:session-change-22:IWM",
+   "op": "session-change-22",
+   "at": "scripts/lib/market-sector.js:53"
+  },
+  {
+   "from": "derived:session-change-22:IWM",
+   "to": "derived:state:IWM",
+   "op": "threshold-classify",
+   "at": "scripts/collect-sectors.js:44"
+  },
+  {
+   "from": "derived:state:IWM",
+   "to": "derived:breadth-counts",
+   "op": "count",
+   "at": "scripts/collect-sectors.js:60"
+  },
+  {
+   "from": "raw:yahoo:XLF",
+   "to": "derived:session-change-22:XLF",
+   "op": "session-change-22",
+   "at": "scripts/lib/market-sector.js:53"
+  },
+  {
+   "from": "derived:session-change-22:XLF",
+   "to": "derived:state:XLF",
+   "op": "threshold-classify",
+   "at": "scripts/collect-sectors.js:44"
+  },
+  {
+   "from": "derived:state:XLF",
+   "to": "derived:breadth-counts",
+   "op": "count",
+   "at": "scripts/collect-sectors.js:60"
+  },
+  {
+   "from": "raw:yahoo:XLI",
+   "to": "derived:session-change-22:XLI",
+   "op": "session-change-22",
+   "at": "scripts/lib/market-sector.js:53"
+  },
+  {
+   "from": "derived:session-change-22:XLI",
+   "to": "derived:state:XLI",
+   "op": "threshold-classify",
+   "at": "scripts/collect-sectors.js:44"
+  },
+  {
+   "from": "derived:state:XLI",
+   "to": "derived:breadth-counts",
+   "op": "count",
+   "at": "scripts/collect-sectors.js:60"
+  },
+  {
+   "from": "raw:yahoo:IYT",
+   "to": "derived:session-change-22:IYT",
+   "op": "session-change-22",
+   "at": "scripts/lib/market-sector.js:53"
+  },
+  {
+   "from": "derived:session-change-22:IYT",
+   "to": "derived:state:IYT",
+   "op": "threshold-classify",
+   "at": "scripts/collect-sectors.js:44"
+  },
+  {
+   "from": "derived:state:IYT",
+   "to": "derived:breadth-counts",
+   "op": "count",
+   "at": "scripts/collect-sectors.js:60"
+  },
+  {
+   "from": "raw:yahoo:XLY",
+   "to": "derived:session-change-22:XLY",
+   "op": "session-change-22",
+   "at": "scripts/lib/market-sector.js:53"
+  },
+  {
+   "from": "derived:session-change-22:XLY",
+   "to": "derived:state:XLY",
+   "op": "threshold-classify",
+   "at": "scripts/collect-sectors.js:44"
+  },
+  {
+   "from": "derived:state:XLY",
+   "to": "derived:breadth-counts",
+   "op": "count",
+   "at": "scripts/collect-sectors.js:60"
+  },
+  {
+   "from": "raw:yahoo:XLP",
+   "to": "derived:session-change-22:XLP",
+   "op": "session-change-22",
+   "at": "scripts/lib/market-sector.js:53"
+  },
+  {
+   "from": "derived:session-change-22:XLP",
+   "to": "derived:state:XLP",
+   "op": "threshold-classify",
+   "at": "scripts/collect-sectors.js:44"
+  },
+  {
+   "from": "derived:state:XLP",
+   "to": "derived:breadth-counts",
+   "op": "count",
+   "at": "scripts/collect-sectors.js:60"
+  },
+  {
+   "from": "raw:yahoo:SMH",
+   "to": "derived:session-change-22:SMH",
+   "op": "session-change-22",
+   "at": "scripts/lib/market-sector.js:53"
+  },
+  {
+   "from": "derived:session-change-22:SMH",
+   "to": "derived:state:SMH",
+   "op": "threshold-classify",
+   "at": "scripts/collect-sectors.js:44"
+  },
+  {
+   "from": "derived:state:SMH",
+   "to": "derived:breadth-counts",
+   "op": "count",
+   "at": "scripts/collect-sectors.js:60"
+  },
+  {
+   "from": "raw:yahoo:XLV",
+   "to": "derived:session-change-22:XLV",
+   "op": "session-change-22",
+   "at": "scripts/lib/market-sector.js:53"
+  },
+  {
+   "from": "derived:session-change-22:XLV",
+   "to": "derived:state:XLV",
+   "op": "threshold-classify",
+   "at": "scripts/collect-sectors.js:44"
+  },
+  {
+   "from": "derived:state:XLV",
+   "to": "derived:breadth-counts",
+   "op": "count",
+   "at": "scripts/collect-sectors.js:60"
+  },
+  {
+   "from": "derived:breadth-counts",
+   "to": "derived:weakness-share",
+   "op": "weighted-share",
+   "at": "scripts/collect-market.js:111"
+  },
+  {
+   "from": "derived:breadth-counts",
+   "to": "derived:sector-overall",
+   "op": "threshold-classify",
+   "at": "scripts/collect-sectors.js:67"
+  },
+  {
+   "from": "derived:monthly-mean:UNRATE",
+   "to": "sensor:household:jobs",
+   "op": "anchor-interp[unemployment]",
+   "at": "scripts/collect.js:108"
+  },
+  {
+   "from": "derived:trailing4wk:ICSA",
+   "to": "sensor:household:jobs",
+   "op": "anchor-interp[claimsK]",
+   "at": "scripts/collect.js:108"
+  },
+  {
+   "from": "sensor:household:jobs",
+   "to": "stress:household:jobs",
+   "op": "max",
+   "at": "scripts/collect.js:108",
+   "note": "Math.max(unemployment-branch, claims-branch). Both branches are structurally upstream in every month; only one is the argmax in any given month."
+  },
+  {
+   "from": "derived:monthly-mean:MORTGAGE30US",
+   "to": "sensor:household:housing",
+   "op": "anchor-interp[mortgageRate]",
+   "at": "scripts/collect.js:110"
+  },
+  {
+   "from": "derived:forward-fill:DRSFRMACBS",
+   "to": "sensor:household:housing",
+   "op": "anchor-interp[mortgageDelinq]",
+   "at": "scripts/collect.js:110",
+   "note": "D1: the \"independent\" foreclosures diagnostic is one of housing's own two inputs."
+  },
+  {
+   "from": "sensor:household:housing",
+   "to": "stress:household:housing",
+   "op": "max",
+   "at": "scripts/collect.js:110"
+  },
+  {
+   "from": "derived:forward-fill:DRCCLACBS",
+   "to": "sensor:household:credit",
+   "op": "anchor-interp[cardDelinq]",
+   "at": "scripts/collect.js:111"
+  },
+  {
+   "from": "sensor:household:credit",
+   "to": "stress:household:credit",
+   "op": "anchor-interp",
+   "at": "scripts/collect.js:111"
+  },
+  {
+   "from": "derived:forward-fill:NYFED_AUTO_30PLUS",
+   "to": "sensor:household:auto",
+   "op": "anchor-interp[auto30Plus]",
+   "at": "scripts/collect.js:112"
+  },
+  {
+   "from": "sensor:household:auto",
+   "to": "stress:household:auto",
+   "op": "anchor-interp",
+   "at": "scripts/lib/methodology.js:212-222"
+  },
+  {
+   "from": "derived:real-price:GAS",
+   "to": "sensor:household:gas",
+   "op": "anchor-interp[gasReal]",
+   "at": "scripts/collect.js:113"
+  },
+  {
+   "from": "sensor:household:gas",
+   "to": "stress:household:gas",
+   "op": "anchor-interp",
+   "at": "scripts/collect.js:113"
+  },
+  {
+   "from": "derived:yoy:CPIAUCNS",
+   "to": "sensor:household:inflation",
+   "op": "anchor-interp[inflationYoY]",
+   "at": "scripts/collect.js:109"
+  },
+  {
+   "from": "sensor:household:inflation",
+   "to": "stress:household:inflation",
+   "op": "anchor-interp",
+   "at": "scripts/collect.js:109"
+  },
+  {
+   "from": "derived:monthly-mean:NFCI",
+   "to": "sensor:household:financial",
+   "op": "anchor-interp[financialConditions]",
+   "at": "scripts/collect.js:114"
+  },
+  {
+   "from": "sensor:household:financial",
+   "to": "stress:household:financial",
+   "op": "anchor-interp",
+   "at": "scripts/lib/methodology.js:51-53"
+  },
+  {
+   "from": "derived:latest-observation:DRSFRMACBS",
+   "to": "sensor:household:foreclosures",
+   "op": "anchor-interp[mortgageDelinq]",
+   "at": "scripts/collect.js:148-149"
+  },
+  {
+   "from": "sensor:household:foreclosures",
+   "to": "stress:household:foreclosures",
+   "op": "anchor-interp",
+   "at": "scripts/collect.js:178"
+  },
+  {
+   "from": "derived:yoy:INDPRO",
+   "to": "sensor:household:manufacturing",
+   "op": "anchor-interp[MANUFACTURING_YOY_ANCHORS]",
+   "at": "scripts/collect.js:154-155"
+  },
+  {
+   "from": "derived:yoy:AMTMNO",
+   "to": "sensor:household:manufacturing",
+   "op": "display-only",
+   "at": "scripts/collect.js:185",
+   "note": "PUBLISHED BUT NOT SCORED. This edge must be excluded from any stress-level independence query; it is included here because it reaches a reader surface.",
+   "scored": false
+  },
+  {
+   "from": "sensor:household:manufacturing",
+   "to": "stress:household:manufacturing",
+   "op": "anchor-interp",
+   "at": "scripts/collect.js:154"
+  },
+  {
+   "from": "derived:monthly-mean-ward:T10Y3M",
+   "to": "sensor:ward:rates",
+   "op": "anchor-interp",
+   "at": "scripts/collect-market.js:94"
+  },
+  {
+   "from": "sensor:ward:rates",
+   "to": "stress:ward:rates",
+   "op": "anchor-interp+round",
+   "at": "scripts/collect-market.js:94-95"
+  },
+  {
+   "from": "derived:monthly-mean-ward:VIXCLS",
+   "to": "sensor:ward:volatility",
+   "op": "anchor-interp",
+   "at": "scripts/collect-market.js:94"
+  },
+  {
+   "from": "sensor:ward:volatility",
+   "to": "stress:ward:volatility",
+   "op": "anchor-interp+round",
+   "at": "scripts/collect-market.js:94-95"
+  },
+  {
+   "from": "derived:monthly-mean-ward:NFCI",
+   "to": "sensor:ward:credit",
+   "op": "anchor-interp",
+   "at": "scripts/collect-market.js:94"
+  },
+  {
+   "from": "sensor:ward:credit",
+   "to": "stress:ward:credit",
+   "op": "anchor-interp+round",
+   "at": "scripts/collect-market.js:94-95"
+  },
+  {
+   "from": "derived:monthly-mean-ward:DCOILWTICO",
+   "to": "sensor:ward:energy",
+   "op": "anchor-interp",
+   "at": "scripts/collect-market.js:94"
+  },
+  {
+   "from": "sensor:ward:energy",
+   "to": "stress:ward:energy",
+   "op": "anchor-interp+round",
+   "at": "scripts/collect-market.js:94-95"
+  },
+  {
+   "from": "derived:yoy:DTWEXBGS",
+   "to": "sensor:ward:dollar",
+   "op": "anchor-interp",
+   "at": "scripts/collect-market.js:94"
+  },
+  {
+   "from": "sensor:ward:dollar",
+   "to": "stress:ward:dollar",
+   "op": "anchor-interp+round",
+   "at": "scripts/collect-market.js:94-95"
+  },
+  {
+   "from": "derived:weakness-share",
+   "to": "sensor:ward:breadth",
+   "op": "anchor-interp",
+   "at": "scripts/collect-market.js:94"
+  },
+  {
+   "from": "sensor:ward:breadth",
+   "to": "stress:ward:breadth",
+   "op": "anchor-interp+round",
+   "at": "scripts/collect-market.js:94-95"
+  },
+  {
+   "from": "stress:household:jobs",
+   "to": "derived:weighted-sum:household",
+   "op": "weight-multiply-and-sum",
+   "at": "scripts/collect.js:118,127"
+  },
+  {
+   "from": "weight:household:jobs",
+   "to": "derived:weighted-sum:household",
+   "op": "weight-multiply-and-sum",
+   "at": "scripts/collect.js:118,127"
+  },
+  {
+   "from": "stress:household:housing",
+   "to": "derived:weighted-sum:household",
+   "op": "weight-multiply-and-sum",
+   "at": "scripts/collect.js:118,127"
+  },
+  {
+   "from": "weight:household:housing",
+   "to": "derived:weighted-sum:household",
+   "op": "weight-multiply-and-sum",
+   "at": "scripts/collect.js:118,127"
+  },
+  {
+   "from": "stress:household:credit",
+   "to": "derived:weighted-sum:household",
+   "op": "weight-multiply-and-sum",
+   "at": "scripts/collect.js:118,127"
+  },
+  {
+   "from": "weight:household:credit",
+   "to": "derived:weighted-sum:household",
+   "op": "weight-multiply-and-sum",
+   "at": "scripts/collect.js:118,127"
+  },
+  {
+   "from": "stress:household:auto",
+   "to": "derived:weighted-sum:household",
+   "op": "weight-multiply-and-sum",
+   "at": "scripts/collect.js:118,127"
+  },
+  {
+   "from": "weight:household:auto",
+   "to": "derived:weighted-sum:household",
+   "op": "weight-multiply-and-sum",
+   "at": "scripts/collect.js:118,127"
+  },
+  {
+   "from": "stress:household:gas",
+   "to": "derived:weighted-sum:household",
+   "op": "weight-multiply-and-sum",
+   "at": "scripts/collect.js:118,127"
+  },
+  {
+   "from": "weight:household:gas",
+   "to": "derived:weighted-sum:household",
+   "op": "weight-multiply-and-sum",
+   "at": "scripts/collect.js:118,127"
+  },
+  {
+   "from": "stress:household:inflation",
+   "to": "derived:weighted-sum:household",
+   "op": "weight-multiply-and-sum",
+   "at": "scripts/collect.js:118,127"
+  },
+  {
+   "from": "weight:household:inflation",
+   "to": "derived:weighted-sum:household",
+   "op": "weight-multiply-and-sum",
+   "at": "scripts/collect.js:118,127"
+  },
+  {
+   "from": "stress:household:financial",
+   "to": "derived:weighted-sum:household",
+   "op": "weight-multiply-and-sum",
+   "at": "scripts/collect.js:118,127"
+  },
+  {
+   "from": "weight:household:financial",
+   "to": "derived:weighted-sum:household",
+   "op": "weight-multiply-and-sum",
+   "at": "scripts/collect.js:118,127"
+  },
+  {
+   "from": "derived:weighted-sum:household",
+   "to": "score:household:composite",
+   "op": "divide-100",
+   "at": "scripts/collect.js:118"
+  },
+  {
+   "from": "score:household:composite",
+   "to": "score:household:ooze",
+   "op": "calibrate+clamp+round",
+   "at": "scripts/collect.js:117,124"
+  },
+  {
+   "from": "constant:calibration:household:v3",
+   "to": "score:household:ooze",
+   "op": "calibrate",
+   "at": "scripts/collect.js:117"
+  },
+  {
+   "from": "score:household:composite",
+   "to": "score:household:prevOoze",
+   "op": "calibrate+clamp+round[month P]",
+   "at": "scripts/collect.js:124"
+  },
+  {
+   "from": "score:household:composite",
+   "to": "score:household:history",
+   "op": "calibrate-per-month",
+   "at": "scripts/collect.js:252-253"
+  },
+  {
+   "from": "score:household:ooze",
+   "to": "delta:household:ooze",
+   "op": "subtract",
+   "at": "scripts/story.js:76"
+  },
+  {
+   "from": "score:household:prevOoze",
+   "to": "delta:household:ooze",
+   "op": "subtract",
+   "at": "scripts/story.js:76"
+  },
+  {
+   "from": "stress:household:jobs",
+   "to": "contribution:household:jobs",
+   "op": "proportional-share",
+   "at": "scripts/collect.js:129-131"
+  },
+  {
+   "from": "weight:household:jobs",
+   "to": "contribution:household:jobs",
+   "op": "proportional-share",
+   "at": "scripts/collect.js:129-131"
+  },
+  {
+   "from": "derived:weighted-sum:household",
+   "to": "contribution:household:jobs",
+   "op": "normalize",
+   "at": "scripts/collect.js:130",
+   "note": "Coupling: this makes every other weighted line transitively upstream of THIS line's ounces."
+  },
+  {
+   "from": "score:household:ooze",
+   "to": "contribution:household:jobs",
+   "op": "scale-to-headline",
+   "at": "scripts/collect.js:130"
+  },
+  {
+   "from": "stress:household:jobs",
+   "to": "delta:household:jobs",
+   "op": "subtract-rounded",
+   "at": "scripts/collect.js:136-138"
+  },
+  {
+   "from": "stress:household:housing",
+   "to": "contribution:household:housing",
+   "op": "proportional-share",
+   "at": "scripts/collect.js:129-131"
+  },
+  {
+   "from": "weight:household:housing",
+   "to": "contribution:household:housing",
+   "op": "proportional-share",
+   "at": "scripts/collect.js:129-131"
+  },
+  {
+   "from": "derived:weighted-sum:household",
+   "to": "contribution:household:housing",
+   "op": "normalize",
+   "at": "scripts/collect.js:130",
+   "note": "Coupling: this makes every other weighted line transitively upstream of THIS line's ounces."
+  },
+  {
+   "from": "score:household:ooze",
+   "to": "contribution:household:housing",
+   "op": "scale-to-headline",
+   "at": "scripts/collect.js:130"
+  },
+  {
+   "from": "stress:household:housing",
+   "to": "delta:household:housing",
+   "op": "subtract-rounded",
+   "at": "scripts/collect.js:136-138"
+  },
+  {
+   "from": "stress:household:credit",
+   "to": "contribution:household:credit",
+   "op": "proportional-share",
+   "at": "scripts/collect.js:129-131"
+  },
+  {
+   "from": "weight:household:credit",
+   "to": "contribution:household:credit",
+   "op": "proportional-share",
+   "at": "scripts/collect.js:129-131"
+  },
+  {
+   "from": "derived:weighted-sum:household",
+   "to": "contribution:household:credit",
+   "op": "normalize",
+   "at": "scripts/collect.js:130",
+   "note": "Coupling: this makes every other weighted line transitively upstream of THIS line's ounces."
+  },
+  {
+   "from": "score:household:ooze",
+   "to": "contribution:household:credit",
+   "op": "scale-to-headline",
+   "at": "scripts/collect.js:130"
+  },
+  {
+   "from": "stress:household:credit",
+   "to": "delta:household:credit",
+   "op": "subtract-rounded",
+   "at": "scripts/collect.js:136-138"
+  },
+  {
+   "from": "stress:household:auto",
+   "to": "contribution:household:auto",
+   "op": "proportional-share",
+   "at": "scripts/collect.js:129-131"
+  },
+  {
+   "from": "weight:household:auto",
+   "to": "contribution:household:auto",
+   "op": "proportional-share",
+   "at": "scripts/collect.js:129-131"
+  },
+  {
+   "from": "derived:weighted-sum:household",
+   "to": "contribution:household:auto",
+   "op": "normalize",
+   "at": "scripts/collect.js:130",
+   "note": "Coupling: this makes every other weighted line transitively upstream of THIS line's ounces."
+  },
+  {
+   "from": "score:household:ooze",
+   "to": "contribution:household:auto",
+   "op": "scale-to-headline",
+   "at": "scripts/collect.js:130"
+  },
+  {
+   "from": "stress:household:auto",
+   "to": "delta:household:auto",
+   "op": "subtract-rounded",
+   "at": "scripts/collect.js:136-138"
+  },
+  {
+   "from": "stress:household:gas",
+   "to": "contribution:household:gas",
+   "op": "proportional-share",
+   "at": "scripts/collect.js:129-131"
+  },
+  {
+   "from": "weight:household:gas",
+   "to": "contribution:household:gas",
+   "op": "proportional-share",
+   "at": "scripts/collect.js:129-131"
+  },
+  {
+   "from": "derived:weighted-sum:household",
+   "to": "contribution:household:gas",
+   "op": "normalize",
+   "at": "scripts/collect.js:130",
+   "note": "Coupling: this makes every other weighted line transitively upstream of THIS line's ounces."
+  },
+  {
+   "from": "score:household:ooze",
+   "to": "contribution:household:gas",
+   "op": "scale-to-headline",
+   "at": "scripts/collect.js:130"
+  },
+  {
+   "from": "stress:household:gas",
+   "to": "delta:household:gas",
+   "op": "subtract-rounded",
+   "at": "scripts/collect.js:136-138"
+  },
+  {
+   "from": "stress:household:inflation",
+   "to": "contribution:household:inflation",
+   "op": "proportional-share",
+   "at": "scripts/collect.js:129-131"
+  },
+  {
+   "from": "weight:household:inflation",
+   "to": "contribution:household:inflation",
+   "op": "proportional-share",
+   "at": "scripts/collect.js:129-131"
+  },
+  {
+   "from": "derived:weighted-sum:household",
+   "to": "contribution:household:inflation",
+   "op": "normalize",
+   "at": "scripts/collect.js:130",
+   "note": "Coupling: this makes every other weighted line transitively upstream of THIS line's ounces."
+  },
+  {
+   "from": "score:household:ooze",
+   "to": "contribution:household:inflation",
+   "op": "scale-to-headline",
+   "at": "scripts/collect.js:130"
+  },
+  {
+   "from": "stress:household:inflation",
+   "to": "delta:household:inflation",
+   "op": "subtract-rounded",
+   "at": "scripts/collect.js:136-138"
+  },
+  {
+   "from": "stress:household:financial",
+   "to": "contribution:household:financial",
+   "op": "proportional-share",
+   "at": "scripts/collect.js:129-131"
+  },
+  {
+   "from": "weight:household:financial",
+   "to": "contribution:household:financial",
+   "op": "proportional-share",
+   "at": "scripts/collect.js:129-131"
+  },
+  {
+   "from": "derived:weighted-sum:household",
+   "to": "contribution:household:financial",
+   "op": "normalize",
+   "at": "scripts/collect.js:130",
+   "note": "Coupling: this makes every other weighted line transitively upstream of THIS line's ounces."
+  },
+  {
+   "from": "score:household:ooze",
+   "to": "contribution:household:financial",
+   "op": "scale-to-headline",
+   "at": "scripts/collect.js:130"
+  },
+  {
+   "from": "stress:household:financial",
+   "to": "delta:household:financial",
+   "op": "subtract-rounded",
+   "at": "scripts/collect.js:136-138"
+  },
+  {
+   "from": "stress:household:foreclosures",
+   "to": "delta:household:foreclosures",
+   "op": "subtract-rounded",
+   "at": "scripts/collect.js:136-138"
+  },
+  {
+   "from": "stress:household:manufacturing",
+   "to": "delta:household:manufacturing",
+   "op": "subtract-rounded",
+   "at": "scripts/collect.js:136-138"
+  },
+  {
+   "from": "score:household:ooze",
+   "to": "band:household",
+   "op": "threshold-classify",
+   "at": "scripts/story.js:20"
+  },
+  {
+   "from": "score:household:ooze",
+   "to": "tier:household",
+   "op": "threshold-classify",
+   "at": "scripts/stamp.js:11"
+  },
+  {
+   "from": "stress:household:jobs",
+   "to": "flag:household:oozemaxing",
+   "op": "all-at-least-60",
+   "at": "scripts/collect.js:264"
+  },
+  {
+   "from": "stress:household:housing",
+   "to": "flag:household:oozemaxing",
+   "op": "all-at-least-60",
+   "at": "scripts/collect.js:264"
+  },
+  {
+   "from": "stress:household:credit",
+   "to": "flag:household:oozemaxing",
+   "op": "all-at-least-60",
+   "at": "scripts/collect.js:264"
+  },
+  {
+   "from": "stress:household:auto",
+   "to": "flag:household:oozemaxing",
+   "op": "all-at-least-60",
+   "at": "scripts/collect.js:264"
+  },
+  {
+   "from": "stress:household:gas",
+   "to": "flag:household:oozemaxing",
+   "op": "all-at-least-60",
+   "at": "scripts/collect.js:264"
+  },
+  {
+   "from": "stress:household:inflation",
+   "to": "flag:household:oozemaxing",
+   "op": "all-at-least-60",
+   "at": "scripts/collect.js:264"
+  },
+  {
+   "from": "stress:household:financial",
+   "to": "flag:household:oozemaxing",
+   "op": "all-at-least-60",
+   "at": "scripts/collect.js:264"
+  },
+  {
+   "from": "stress:ward:rates",
+   "to": "score:ward:raw",
+   "op": "mean-of-six",
+   "at": "scripts/collect-market.js:133"
+  },
+  {
+   "from": "stress:ward:volatility",
+   "to": "score:ward:raw",
+   "op": "mean-of-six",
+   "at": "scripts/collect-market.js:133"
+  },
+  {
+   "from": "stress:ward:credit",
+   "to": "score:ward:raw",
+   "op": "mean-of-six",
+   "at": "scripts/collect-market.js:133"
+  },
+  {
+   "from": "stress:ward:energy",
+   "to": "score:ward:raw",
+   "op": "mean-of-six",
+   "at": "scripts/collect-market.js:133"
+  },
+  {
+   "from": "stress:ward:dollar",
+   "to": "score:ward:raw",
+   "op": "mean-of-six",
+   "at": "scripts/collect-market.js:133"
+  },
+  {
+   "from": "stress:ward:breadth",
+   "to": "score:ward:raw",
+   "op": "mean-of-six",
+   "at": "scripts/collect-market.js:133"
+  },
+  {
+   "from": "score:ward:raw",
+   "to": "score:ward:score",
+   "op": "calibrate+clamp+round",
+   "at": "scripts/collect-market.js:134"
+  },
+  {
+   "from": "constant:calibration:ward",
+   "to": "score:ward:score",
+   "op": "calibrate",
+   "at": "scripts/collect-market.js:46,134"
+  },
+  {
+   "from": "score:ward:score",
+   "to": "band:ward",
+   "op": "threshold-classify",
+   "at": "scripts/stamp.js:113"
+  },
+  {
+   "from": "score:ward:score",
+   "to": "derived:divergence:market-minus-household",
+   "op": "join+subtract",
+   "at": "scripts/build-market-divergence.js:20"
+  },
+  {
+   "from": "score:household:history",
+   "to": "derived:divergence:market-minus-household",
+   "op": "join+subtract",
+   "at": "scripts/build-market-divergence.js:20"
+  },
+  {
+   "from": "score:household:history",
+   "to": "artifact:revisions",
+   "op": "diff-vs-git-HEAD",
+   "at": "scripts/integrity.js:34,38-44"
+  },
+  {
+   "from": "score:household:ooze",
+   "to": "artifact:gate-status",
+   "op": "plausibility-and-calibration-checks",
+   "at": "scripts/integrity.js:104-144"
+  },
+  {
+   "from": "score:household:history",
+   "to": "artifact:gate-status",
+   "op": "calibration-invariants",
+   "at": "scripts/integrity.js:104-110"
+  },
+  {
+   "from": "raw:fred:UNRATE",
+   "to": "artifact:vintage",
+   "op": "fingerprint",
+   "at": "scripts/collect.js:198-201,229"
+  },
+  {
+   "from": "raw:fred:ICSA",
+   "to": "artifact:vintage",
+   "op": "fingerprint",
+   "at": "scripts/collect.js:198-201,229"
+  },
+  {
+   "from": "raw:fred:CPIAUCNS",
+   "to": "artifact:vintage",
+   "op": "fingerprint",
+   "at": "scripts/collect.js:198-201,229"
+  },
+  {
+   "from": "raw:fred:MORTGAGE30US",
+   "to": "artifact:vintage",
+   "op": "fingerprint",
+   "at": "scripts/collect.js:198-201,229"
+  },
+  {
+   "from": "raw:fred:DRSFRMACBS",
+   "to": "artifact:vintage",
+   "op": "fingerprint",
+   "at": "scripts/collect.js:198-201,229"
+  },
+  {
+   "from": "raw:fred:DRCCLACBS",
+   "to": "artifact:vintage",
+   "op": "fingerprint",
+   "at": "scripts/collect.js:198-201,229"
+  },
+  {
+   "from": "raw:fred:GASREGW",
+   "to": "artifact:vintage",
+   "op": "fingerprint",
+   "at": "scripts/collect.js:198-201,229"
+  },
+  {
+   "from": "raw:fred:NFCI",
+   "to": "artifact:vintage",
+   "op": "fingerprint",
+   "at": "scripts/collect.js:198-201,229"
+  },
+  {
+   "from": "raw:fred:INDPRO",
+   "to": "artifact:vintage",
+   "op": "fingerprint",
+   "at": "scripts/collect.js:198-201,229"
+  },
+  {
+   "from": "raw:fred:AMTMNO",
+   "to": "artifact:vintage",
+   "op": "fingerprint",
+   "at": "scripts/collect.js:198-201,229"
+  },
+  {
+   "from": "raw:nyfed:HHDC_AUTO_30PLUS",
+   "to": "artifact:vintage",
+   "op": "fingerprint",
+   "at": "scripts/collect.js:202-209"
+  },
+  {
+   "from": "score:household:ooze",
+   "to": "claim:editorial:verdict",
+   "op": "template",
+   "at": "scripts/story.js:37-40"
+  },
+  {
+   "from": "score:household:history",
+   "to": "claim:editorial:verdict",
+   "op": "template",
+   "at": "scripts/story.js:37-40"
+  },
+  {
+   "from": "delta:household:jobs",
+   "to": "claim:editorial:line:jobs",
+   "op": "template",
+   "at": "scripts/story.js:56-64"
+  },
+  {
+   "from": "sensor:household:jobs",
+   "to": "claim:editorial:line:jobs",
+   "op": "display-value-template",
+   "at": "scripts/story.js:24-34"
+  },
+  {
+   "from": "delta:household:housing",
+   "to": "claim:editorial:line:housing",
+   "op": "template",
+   "at": "scripts/story.js:56-64"
+  },
+  {
+   "from": "sensor:household:housing",
+   "to": "claim:editorial:line:housing",
+   "op": "display-value-template",
+   "at": "scripts/story.js:24-34"
+  },
+  {
+   "from": "delta:household:credit",
+   "to": "claim:editorial:line:credit",
+   "op": "template",
+   "at": "scripts/story.js:56-64"
+  },
+  {
+   "from": "sensor:household:credit",
+   "to": "claim:editorial:line:credit",
+   "op": "display-value-template",
+   "at": "scripts/story.js:24-34"
+  },
+  {
+   "from": "delta:household:auto",
+   "to": "claim:editorial:line:auto",
+   "op": "template",
+   "at": "scripts/story.js:56-64"
+  },
+  {
+   "from": "sensor:household:auto",
+   "to": "claim:editorial:line:auto",
+   "op": "display-value-template",
+   "at": "scripts/story.js:24-34"
+  },
+  {
+   "from": "delta:household:gas",
+   "to": "claim:editorial:line:gas",
+   "op": "template",
+   "at": "scripts/story.js:56-64"
+  },
+  {
+   "from": "sensor:household:gas",
+   "to": "claim:editorial:line:gas",
+   "op": "display-value-template",
+   "at": "scripts/story.js:24-34"
+  },
+  {
+   "from": "delta:household:inflation",
+   "to": "claim:editorial:line:inflation",
+   "op": "template",
+   "at": "scripts/story.js:56-64"
+  },
+  {
+   "from": "sensor:household:inflation",
+   "to": "claim:editorial:line:inflation",
+   "op": "display-value-template",
+   "at": "scripts/story.js:24-34"
+  },
+  {
+   "from": "delta:household:financial",
+   "to": "claim:editorial:line:financial",
+   "op": "template",
+   "at": "scripts/story.js:56-64"
+  },
+  {
+   "from": "sensor:household:financial",
+   "to": "claim:editorial:line:financial",
+   "op": "display-value-template",
+   "at": "scripts/story.js:24-34"
+  },
+  {
+   "from": "delta:household:foreclosures",
+   "to": "claim:editorial:line:foreclosures",
+   "op": "template",
+   "at": "scripts/story.js:56-64"
+  },
+  {
+   "from": "sensor:household:foreclosures",
+   "to": "claim:editorial:line:foreclosures",
+   "op": "display-value-template",
+   "at": "scripts/story.js:24-34"
+  },
+  {
+   "from": "delta:household:manufacturing",
+   "to": "claim:editorial:line:manufacturing",
+   "op": "template",
+   "at": "scripts/story.js:56-64"
+  },
+  {
+   "from": "sensor:household:manufacturing",
+   "to": "claim:editorial:line:manufacturing",
+   "op": "display-value-template",
+   "at": "scripts/story.js:24-34"
+  },
+  {
+   "from": "contribution:household:jobs",
+   "to": "claim:editorial:story",
+   "op": "template",
+   "at": "scripts/story.js:80"
+  },
+  {
+   "from": "delta:household:jobs",
+   "to": "claim:editorial:story",
+   "op": "template",
+   "at": "scripts/story.js:82-89"
+  },
+  {
+   "from": "contribution:household:housing",
+   "to": "claim:editorial:story",
+   "op": "template",
+   "at": "scripts/story.js:80"
+  },
+  {
+   "from": "delta:household:housing",
+   "to": "claim:editorial:story",
+   "op": "template",
+   "at": "scripts/story.js:82-89"
+  },
+  {
+   "from": "contribution:household:credit",
+   "to": "claim:editorial:story",
+   "op": "template",
+   "at": "scripts/story.js:80"
+  },
+  {
+   "from": "delta:household:credit",
+   "to": "claim:editorial:story",
+   "op": "template",
+   "at": "scripts/story.js:82-89"
+  },
+  {
+   "from": "contribution:household:auto",
+   "to": "claim:editorial:story",
+   "op": "template",
+   "at": "scripts/story.js:80"
+  },
+  {
+   "from": "delta:household:auto",
+   "to": "claim:editorial:story",
+   "op": "template",
+   "at": "scripts/story.js:82-89"
+  },
+  {
+   "from": "contribution:household:gas",
+   "to": "claim:editorial:story",
+   "op": "template",
+   "at": "scripts/story.js:80"
+  },
+  {
+   "from": "delta:household:gas",
+   "to": "claim:editorial:story",
+   "op": "template",
+   "at": "scripts/story.js:82-89"
+  },
+  {
+   "from": "contribution:household:inflation",
+   "to": "claim:editorial:story",
+   "op": "template",
+   "at": "scripts/story.js:80"
+  },
+  {
+   "from": "delta:household:inflation",
+   "to": "claim:editorial:story",
+   "op": "template",
+   "at": "scripts/story.js:82-89"
+  },
+  {
+   "from": "contribution:household:financial",
+   "to": "claim:editorial:story",
+   "op": "template",
+   "at": "scripts/story.js:80"
+  },
+  {
+   "from": "delta:household:financial",
+   "to": "claim:editorial:story",
+   "op": "template",
+   "at": "scripts/story.js:82-89"
+  },
+  {
+   "from": "score:household:ooze",
+   "to": "claim:editorial:story",
+   "op": "token{{s:M}}",
+   "at": "scripts/story.js:79,92-93"
+  },
+  {
+   "from": "band:household",
+   "to": "claim:editorial:story",
+   "op": "template",
+   "at": "scripts/story.js:92-93"
+  },
+  {
+   "from": "claim:editorial:verdict",
+   "to": "claim:editorial:summary",
+   "op": "template",
+   "at": "scripts/story.js:97"
+  },
+  {
+   "from": "band:household",
+   "to": "claim:editorial:summary",
+   "op": "template",
+   "at": "scripts/story.js:97"
+  },
+  {
+   "from": "delta:household:ooze",
+   "to": "claim:editorial:summary",
+   "op": "template",
+   "at": "scripts/story.js:97"
+  },
+  {
+   "from": "delta:household:gas",
+   "to": "claim:editorial:noticed",
+   "op": "threshold-template",
+   "at": "scripts/story.js:239-244"
+  },
+  {
+   "from": "delta:household:inflation",
+   "to": "claim:editorial:noticed",
+   "op": "threshold-template",
+   "at": "scripts/story.js:239-244"
+  },
+  {
+   "from": "delta:household:jobs",
+   "to": "claim:editorial:noticed",
+   "op": "threshold-template",
+   "at": "scripts/story.js:239-244"
+  },
+  {
+   "from": "stress:household:jobs",
+   "to": "claim:editorial:noticed",
+   "op": "threshold-template",
+   "at": "scripts/story.js:243"
+  },
+  {
+   "from": "delta:household:ooze",
+   "to": "claim:editorial:noticed",
+   "op": "threshold-template",
+   "at": "scripts/story.js:236"
+  },
+  {
+   "from": "artifact:revisions",
+   "to": "claim:editorial:confidence",
+   "op": "count",
+   "at": "scripts/story.js:224-225"
+  },
+  {
+   "from": "artifact:gate-status",
+   "to": "claim:editorial:confidence",
+   "op": "assertion",
+   "at": "scripts/story.js:231",
+   "note": "The sentence \"the integrity gate verified plausibility bounds and calibration anchors before publication\" is a STRING LITERAL in story.js — it does not read data/gate-status.json. Same failure class stamp.js:18-32 already fixed for the placard."
+  },
+  {
+   "from": "delta:household:jobs",
+   "to": "claim:editorial:crosscheck:rows",
+   "op": "compare-direction-and-magnitude",
+   "at": "scripts/story.js:157-167"
+  },
+  {
+   "from": "delta:household:manufacturing",
+   "to": "claim:editorial:crosscheck:rows",
+   "op": "compare-direction-and-magnitude",
+   "at": "scripts/story.js:157-167"
+  },
+  {
+   "from": "sensor:household:jobs",
+   "to": "claim:editorial:crosscheck:pair-legality",
+   "op": "hand-asserted",
+   "at": "scripts/story.js:124"
+  },
+  {
+   "from": "sensor:household:manufacturing",
+   "to": "claim:editorial:crosscheck:pair-legality",
+   "op": "hand-asserted",
+   "at": "scripts/story.js:124"
+  },
+  {
+   "from": "claim:editorial:crosscheck:pair-legality",
+   "to": "claim:editorial:crosscheck:rows",
+   "op": "precondition",
+   "at": "scripts/story.js:142"
+  },
+  {
+   "from": "claim:editorial:crosscheck:same-month",
+   "to": "claim:editorial:crosscheck:body",
+   "op": "precondition",
+   "at": "scripts/story.js:196,201"
+  },
+  {
+   "from": "contribution:household:jobs",
+   "to": "claim:editorial:crosscheck:rows",
+   "op": "row-ordering",
+   "at": "scripts/story.js:139"
+  },
+  {
+   "from": "contribution:household:housing",
+   "to": "claim:editorial:crosscheck:rows",
+   "op": "row-ordering",
+   "at": "scripts/story.js:139"
+  },
+  {
+   "from": "contribution:household:credit",
+   "to": "claim:editorial:crosscheck:rows",
+   "op": "row-ordering",
+   "at": "scripts/story.js:139"
+  },
+  {
+   "from": "contribution:household:auto",
+   "to": "claim:editorial:crosscheck:rows",
+   "op": "row-ordering",
+   "at": "scripts/story.js:139"
+  },
+  {
+   "from": "contribution:household:gas",
+   "to": "claim:editorial:crosscheck:rows",
+   "op": "row-ordering",
+   "at": "scripts/story.js:139"
+  },
+  {
+   "from": "contribution:household:inflation",
+   "to": "claim:editorial:crosscheck:rows",
+   "op": "row-ordering",
+   "at": "scripts/story.js:139"
+  },
+  {
+   "from": "contribution:household:financial",
+   "to": "claim:editorial:crosscheck:rows",
+   "op": "row-ordering",
+   "at": "scripts/story.js:139"
+  },
+  {
+   "from": "claim:editorial:crosscheck:rows",
+   "to": "claim:editorial:crosscheck:state",
+   "op": "aggregate",
+   "at": "scripts/story.js:173-180"
+  },
+  {
+   "from": "claim:editorial:crosscheck:state",
+   "to": "claim:editorial:crosscheck:body",
+   "op": "branch",
+   "at": "scripts/story.js:188-203"
+  },
+  {
+   "from": "score:household:ooze",
+   "to": "claim:editorial:crosscheck:body",
+   "op": "token{{s:M}}",
+   "at": "scripts/story.js:202"
+  },
+  {
+   "from": "claim:editorial:crosscheck:rows",
+   "to": "claim:editorial:crosscheck:note",
+   "op": "count",
+   "at": "scripts/story.js:207-209"
+  },
+  {
+   "from": "claim:editorial:story",
+   "to": "claim:editorial:newsletter",
+   "op": "compose",
+   "at": "scripts/story.js:255-310"
+  },
+  {
+   "from": "claim:editorial:verdict",
+   "to": "claim:editorial:newsletter",
+   "op": "compose",
+   "at": "scripts/story.js:255-310"
+  },
+  {
+   "from": "score:household:ooze",
+   "to": "claim:editorial:newsletter",
+   "op": "literal-or-token",
+   "at": "scripts/story.js:255-310"
+  },
+  {
+   "from": "claim:editorial:story",
+   "to": "claim:editorial:rssSummary",
+   "op": "compose",
+   "at": "scripts/story.js:255-310"
+  },
+  {
+   "from": "claim:editorial:verdict",
+   "to": "claim:editorial:rssSummary",
+   "op": "compose",
+   "at": "scripts/story.js:255-310"
+  },
+  {
+   "from": "score:household:ooze",
+   "to": "claim:editorial:rssSummary",
+   "op": "literal-or-token",
+   "at": "scripts/story.js:255-310"
+  },
+  {
+   "from": "claim:editorial:story",
+   "to": "claim:editorial:social",
+   "op": "compose",
+   "at": "scripts/story.js:255-310"
+  },
+  {
+   "from": "claim:editorial:verdict",
+   "to": "claim:editorial:social",
+   "op": "compose",
+   "at": "scripts/story.js:255-310"
+  },
+  {
+   "from": "score:household:ooze",
+   "to": "claim:editorial:social",
+   "op": "literal-or-token",
+   "at": "scripts/story.js:255-310"
+  },
+  {
+   "from": "claim:editorial:story",
+   "to": "claim:editorial:article",
+   "op": "compose",
+   "at": "scripts/story.js:255-310"
+  },
+  {
+   "from": "claim:editorial:verdict",
+   "to": "claim:editorial:article",
+   "op": "compose",
+   "at": "scripts/story.js:255-310"
+  },
+  {
+   "from": "score:household:ooze",
+   "to": "claim:editorial:article",
+   "op": "literal-or-token",
+   "at": "scripts/story.js:255-310"
+  },
+  {
+   "from": "claim:editorial:confidence",
+   "to": "claim:editorial:article",
+   "op": "compose",
+   "at": "scripts/story.js:273-274"
+  },
+  {
+   "from": "claim:editorial:noticed",
+   "to": "claim:editorial:article",
+   "op": "compose",
+   "at": "scripts/story.js:267-268"
+  },
+  {
+   "from": "derived:breadth-counts",
+   "to": "claim:market:sector-note",
+   "op": "template",
+   "at": "scripts/lib/market-note.js:19"
+  },
+  {
+   "from": "derived:sector-overall",
+   "to": "claim:market:sector-note",
+   "op": "template",
+   "at": "scripts/lib/market-note.js:19"
+  },
+  {
+   "from": "derived:session-change-22:SPY",
+   "to": "claim:market:sector-note",
+   "op": "extremes",
+   "at": "scripts/lib/market-note.js:15-19"
+  },
+  {
+   "from": "derived:session-change-22:QQQ",
+   "to": "claim:market:sector-note",
+   "op": "extremes",
+   "at": "scripts/lib/market-note.js:15-19"
+  },
+  {
+   "from": "derived:session-change-22:DIA",
+   "to": "claim:market:sector-note",
+   "op": "extremes",
+   "at": "scripts/lib/market-note.js:15-19"
+  },
+  {
+   "from": "derived:session-change-22:IWM",
+   "to": "claim:market:sector-note",
+   "op": "extremes",
+   "at": "scripts/lib/market-note.js:15-19"
+  },
+  {
+   "from": "derived:session-change-22:XLF",
+   "to": "claim:market:sector-note",
+   "op": "extremes",
+   "at": "scripts/lib/market-note.js:15-19"
+  },
+  {
+   "from": "derived:session-change-22:XLI",
+   "to": "claim:market:sector-note",
+   "op": "extremes",
+   "at": "scripts/lib/market-note.js:15-19"
+  },
+  {
+   "from": "derived:session-change-22:IYT",
+   "to": "claim:market:sector-note",
+   "op": "extremes",
+   "at": "scripts/lib/market-note.js:15-19"
+  },
+  {
+   "from": "derived:session-change-22:XLY",
+   "to": "claim:market:sector-note",
+   "op": "extremes",
+   "at": "scripts/lib/market-note.js:15-19"
+  },
+  {
+   "from": "derived:session-change-22:XLP",
+   "to": "claim:market:sector-note",
+   "op": "extremes",
+   "at": "scripts/lib/market-note.js:15-19"
+  },
+  {
+   "from": "derived:session-change-22:SMH",
+   "to": "claim:market:sector-note",
+   "op": "extremes",
+   "at": "scripts/lib/market-note.js:15-19"
+  },
+  {
+   "from": "derived:session-change-22:XLV",
+   "to": "claim:market:sector-note",
+   "op": "extremes",
+   "at": "scripts/lib/market-note.js:15-19"
+  },
+  {
+   "from": "raw:fred:NFCI",
+   "to": "claim:market:shared-series-disclosure",
+   "op": "assertion-subject",
+   "at": "scripts/market-pages.js:32"
+  },
+  {
+   "from": "sensor:ward:rates",
+   "to": "claim:market:separate-instrument",
+   "op": "assertion-subject",
+   "at": "scripts/market-pages.js:29"
+  },
+  {
+   "from": "sensor:ward:volatility",
+   "to": "claim:market:separate-instrument",
+   "op": "assertion-subject",
+   "at": "scripts/market-pages.js:29"
+  },
+  {
+   "from": "sensor:ward:energy",
+   "to": "claim:market:separate-instrument",
+   "op": "assertion-subject",
+   "at": "scripts/market-pages.js:29"
+  },
+  {
+   "from": "sensor:ward:dollar",
+   "to": "claim:market:separate-instrument",
+   "op": "assertion-subject",
+   "at": "scripts/market-pages.js:29"
+  },
+  {
+   "from": "sensor:ward:breadth",
+   "to": "claim:market:separate-instrument",
+   "op": "assertion-subject",
+   "at": "scripts/market-pages.js:29"
+  },
+  {
+   "from": "derived:divergence:market-minus-household",
+   "to": "claim:market:divergence-basis",
+   "op": "template",
+   "at": "scripts/build-market-divergence.js:47"
+  },
+  {
+   "from": "score:household:ooze",
+   "to": "claim:stamp:page-furniture",
+   "op": "stamp",
+   "at": "scripts/stamp.js:51-70"
+  },
+  {
+   "from": "band:household",
+   "to": "claim:stamp:page-furniture",
+   "op": "stamp",
+   "at": "scripts/stamp.js:51-69"
+  },
+  {
+   "from": "tier:household",
+   "to": "claim:stamp:page-furniture",
+   "op": "stamp",
+   "at": "scripts/stamp.js:69"
+  },
+  {
+   "from": "contribution:household:jobs",
+   "to": "claim:stamp:page-furniture",
+   "op": "top-3",
+   "at": "scripts/stamp.js:41-42"
+  },
+  {
+   "from": "contribution:household:housing",
+   "to": "claim:stamp:page-furniture",
+   "op": "top-3",
+   "at": "scripts/stamp.js:41-42"
+  },
+  {
+   "from": "contribution:household:credit",
+   "to": "claim:stamp:page-furniture",
+   "op": "top-3",
+   "at": "scripts/stamp.js:41-42"
+  },
+  {
+   "from": "contribution:household:auto",
+   "to": "claim:stamp:page-furniture",
+   "op": "top-3",
+   "at": "scripts/stamp.js:41-42"
+  },
+  {
+   "from": "contribution:household:gas",
+   "to": "claim:stamp:page-furniture",
+   "op": "top-3",
+   "at": "scripts/stamp.js:41-42"
+  },
+  {
+   "from": "contribution:household:inflation",
+   "to": "claim:stamp:page-furniture",
+   "op": "top-3",
+   "at": "scripts/stamp.js:41-42"
+  },
+  {
+   "from": "contribution:household:financial",
+   "to": "claim:stamp:page-furniture",
+   "op": "top-3",
+   "at": "scripts/stamp.js:41-42"
+  },
+  {
+   "from": "contribution:household:foreclosures",
+   "to": "claim:stamp:page-furniture",
+   "op": "top-3",
+   "at": "scripts/stamp.js:41-42"
+  },
+  {
+   "from": "contribution:household:manufacturing",
+   "to": "claim:stamp:page-furniture",
+   "op": "top-3",
+   "at": "scripts/stamp.js:41-42"
+  },
+  {
+   "from": "artifact:gate-status",
+   "to": "claim:stamp:integrity-placard",
+   "op": "read-verdict",
+   "at": "scripts/stamp.js:22-37"
+  },
+  {
+   "from": "score:ward:score",
+   "to": "claim:stamp:market-furniture",
+   "op": "stamp",
+   "at": "scripts/stamp.js:119-120"
+  },
+  {
+   "from": "band:ward",
+   "to": "claim:stamp:market-furniture",
+   "op": "stamp",
+   "at": "scripts/stamp.js:120"
+  },
+  {
+   "from": "sensor:household:jobs",
+   "to": "claim:lab:indicator-prose",
+   "op": "hand-written",
+   "at": "lab.js:37-157"
+  },
+  {
+   "from": "sensor:household:housing",
+   "to": "claim:lab:indicator-prose",
+   "op": "hand-written",
+   "at": "lab.js:37-157"
+  },
+  {
+   "from": "sensor:household:credit",
+   "to": "claim:lab:indicator-prose",
+   "op": "hand-written",
+   "at": "lab.js:37-157"
+  },
+  {
+   "from": "sensor:household:auto",
+   "to": "claim:lab:indicator-prose",
+   "op": "hand-written",
+   "at": "lab.js:37-157"
+  },
+  {
+   "from": "sensor:household:gas",
+   "to": "claim:lab:indicator-prose",
+   "op": "hand-written",
+   "at": "lab.js:37-157"
+  },
+  {
+   "from": "sensor:household:inflation",
+   "to": "claim:lab:indicator-prose",
+   "op": "hand-written",
+   "at": "lab.js:37-157"
+  },
+  {
+   "from": "sensor:household:financial",
+   "to": "claim:lab:indicator-prose",
+   "op": "hand-written",
+   "at": "lab.js:37-157"
+  },
+  {
+   "from": "sensor:household:foreclosures",
+   "to": "claim:lab:indicator-prose",
+   "op": "hand-written",
+   "at": "lab.js:37-157"
+  },
+  {
+   "from": "sensor:household:manufacturing",
+   "to": "claim:lab:indicator-prose",
+   "op": "hand-written",
+   "at": "lab.js:37-157"
+  },
+  {
+   "from": "score:household:ooze",
+   "to": "claim:lab:no-stock-market-input",
+   "op": "assertion-subject",
+   "at": "lab.js:110"
+  },
+  {
+   "from": "sensor:ward:rates",
+   "to": "claim:gauge:market-gauge-content",
+   "op": "hand-written",
+   "at": "scripts/lib/market-gauge-content.js"
+  },
+  {
+   "from": "sensor:ward:volatility",
+   "to": "claim:gauge:market-gauge-content",
+   "op": "hand-written",
+   "at": "scripts/lib/market-gauge-content.js"
+  },
+  {
+   "from": "sensor:ward:credit",
+   "to": "claim:gauge:market-gauge-content",
+   "op": "hand-written",
+   "at": "scripts/lib/market-gauge-content.js"
+  },
+  {
+   "from": "sensor:ward:energy",
+   "to": "claim:gauge:market-gauge-content",
+   "op": "hand-written",
+   "at": "scripts/lib/market-gauge-content.js"
+  },
+  {
+   "from": "sensor:ward:dollar",
+   "to": "claim:gauge:market-gauge-content",
+   "op": "hand-written",
+   "at": "scripts/lib/market-gauge-content.js"
+  },
+  {
+   "from": "sensor:ward:breadth",
+   "to": "claim:gauge:market-gauge-content",
+   "op": "hand-written",
+   "at": "scripts/lib/market-gauge-content.js"
+  },
+  {
+   "from": "claim:stamp:page-furniture",
+   "to": "ui:index.html#hero",
+   "op": "render",
+   "at": "scripts/stamp.js:59-64"
+  },
+  {
+   "from": "score:household:ooze",
+   "to": "ui:index.html#hero",
+   "op": "client-render",
+   "at": "index.html:221"
+  },
+  {
+   "from": "contribution:household:jobs",
+   "to": "ui:index.html#ozBar",
+   "op": "render",
+   "at": "index.html:287-291"
+  },
+  {
+   "from": "contribution:household:housing",
+   "to": "ui:index.html#ozBar",
+   "op": "render",
+   "at": "index.html:287-291"
+  },
+  {
+   "from": "contribution:household:credit",
+   "to": "ui:index.html#ozBar",
+   "op": "render",
+   "at": "index.html:287-291"
+  },
+  {
+   "from": "contribution:household:auto",
+   "to": "ui:index.html#ozBar",
+   "op": "render",
+   "at": "index.html:287-291"
+  },
+  {
+   "from": "contribution:household:gas",
+   "to": "ui:index.html#ozBar",
+   "op": "render",
+   "at": "index.html:287-291"
+  },
+  {
+   "from": "contribution:household:inflation",
+   "to": "ui:index.html#ozBar",
+   "op": "render",
+   "at": "index.html:287-291"
+  },
+  {
+   "from": "contribution:household:financial",
+   "to": "ui:index.html#ozBar",
+   "op": "render",
+   "at": "index.html:287-291"
+  },
+  {
+   "from": "claim:editorial:crosscheck:rows",
+   "to": "ui:index.html#canCards",
+   "op": "gutter-glyph",
+   "at": "index.html:276-286"
+  },
+  {
+   "from": "claim:editorial:crosscheck:rows",
+   "to": "ui:index.html#ccGutter-screenreader",
+   "op": "render",
+   "at": "index.html:276-286"
+  },
+  {
+   "from": "claim:editorial:crosscheck:state",
+   "to": "ui:index.html#crosscheck",
+   "op": "render",
+   "at": "index.html:323-343"
+  },
+  {
+   "from": "claim:editorial:crosscheck:body",
+   "to": "ui:index.html#crosscheck",
+   "op": "render",
+   "at": "index.html:323-343"
+  },
+  {
+   "from": "claim:editorial:crosscheck:note",
+   "to": "ui:index.html#crosscheck",
+   "op": "render",
+   "at": "index.html:323-343"
+  },
+  {
+   "from": "claim:editorial:crosscheck:run",
+   "to": "ui:index.html#crosscheck",
+   "op": "render",
+   "at": "index.html:323-343"
+  },
+  {
+   "from": "claim:editorial:crosscheck:rows",
+   "to": "ui:index.html#crosscheck",
+   "op": "render",
+   "at": "index.html:323-343"
+  },
+  {
+   "from": "claim:editorial:story",
+   "to": "ui:index.html#storyBody",
+   "op": "resolve-tokens+render",
+   "at": "index.html:317, lab.js:228-242"
+  },
+  {
+   "from": "contribution:household:jobs",
+   "to": "ui:index.html#ledger",
+   "op": "render",
+   "at": "index.html:345-360"
+  },
+  {
+   "from": "delta:household:jobs",
+   "to": "ui:index.html#ledger",
+   "op": "render",
+   "at": "index.html:345-360"
+  },
+  {
+   "from": "contribution:household:housing",
+   "to": "ui:index.html#ledger",
+   "op": "render",
+   "at": "index.html:345-360"
+  },
+  {
+   "from": "delta:household:housing",
+   "to": "ui:index.html#ledger",
+   "op": "render",
+   "at": "index.html:345-360"
+  },
+  {
+   "from": "contribution:household:credit",
+   "to": "ui:index.html#ledger",
+   "op": "render",
+   "at": "index.html:345-360"
+  },
+  {
+   "from": "delta:household:credit",
+   "to": "ui:index.html#ledger",
+   "op": "render",
+   "at": "index.html:345-360"
+  },
+  {
+   "from": "contribution:household:auto",
+   "to": "ui:index.html#ledger",
+   "op": "render",
+   "at": "index.html:345-360"
+  },
+  {
+   "from": "delta:household:auto",
+   "to": "ui:index.html#ledger",
+   "op": "render",
+   "at": "index.html:345-360"
+  },
+  {
+   "from": "contribution:household:gas",
+   "to": "ui:index.html#ledger",
+   "op": "render",
+   "at": "index.html:345-360"
+  },
+  {
+   "from": "delta:household:gas",
+   "to": "ui:index.html#ledger",
+   "op": "render",
+   "at": "index.html:345-360"
+  },
+  {
+   "from": "contribution:household:inflation",
+   "to": "ui:index.html#ledger",
+   "op": "render",
+   "at": "index.html:345-360"
+  },
+  {
+   "from": "delta:household:inflation",
+   "to": "ui:index.html#ledger",
+   "op": "render",
+   "at": "index.html:345-360"
+  },
+  {
+   "from": "contribution:household:financial",
+   "to": "ui:index.html#ledger",
+   "op": "render",
+   "at": "index.html:345-360"
+  },
+  {
+   "from": "delta:household:financial",
+   "to": "ui:index.html#ledger",
+   "op": "render",
+   "at": "index.html:345-360"
+  },
+  {
+   "from": "contribution:household:foreclosures",
+   "to": "ui:index.html#ledger",
+   "op": "render",
+   "at": "index.html:345-360"
+  },
+  {
+   "from": "delta:household:foreclosures",
+   "to": "ui:index.html#ledger",
+   "op": "render",
+   "at": "index.html:345-360"
+  },
+  {
+   "from": "contribution:household:manufacturing",
+   "to": "ui:index.html#ledger",
+   "op": "render",
+   "at": "index.html:345-360"
+  },
+  {
+   "from": "delta:household:manufacturing",
+   "to": "ui:index.html#ledger",
+   "op": "render",
+   "at": "index.html:345-360"
+  },
+  {
+   "from": "claim:stamp:integrity-placard",
+   "to": "ui:index.html#placard",
+   "op": "render",
+   "at": "scripts/stamp.js:65"
+  },
+  {
+   "from": "claim:lab:indicator-prose",
+   "to": "ui:indicator.html",
+   "op": "render",
+   "at": "lab.js:37-157"
+  },
+  {
+   "from": "claim:editorial:line:jobs",
+   "to": "ui:indicator.html",
+   "op": "render",
+   "at": "scripts/story.js:67"
+  },
+  {
+   "from": "claim:editorial:line:housing",
+   "to": "ui:indicator.html",
+   "op": "render",
+   "at": "scripts/story.js:67"
+  },
+  {
+   "from": "claim:editorial:line:credit",
+   "to": "ui:indicator.html",
+   "op": "render",
+   "at": "scripts/story.js:67"
+  },
+  {
+   "from": "claim:editorial:line:auto",
+   "to": "ui:indicator.html",
+   "op": "render",
+   "at": "scripts/story.js:67"
+  },
+  {
+   "from": "claim:editorial:line:gas",
+   "to": "ui:indicator.html",
+   "op": "render",
+   "at": "scripts/story.js:67"
+  },
+  {
+   "from": "claim:editorial:line:inflation",
+   "to": "ui:indicator.html",
+   "op": "render",
+   "at": "scripts/story.js:67"
+  },
+  {
+   "from": "claim:editorial:line:financial",
+   "to": "ui:indicator.html",
+   "op": "render",
+   "at": "scripts/story.js:67"
+  },
+  {
+   "from": "claim:editorial:line:foreclosures",
+   "to": "ui:indicator.html",
+   "op": "render",
+   "at": "scripts/story.js:67"
+  },
+  {
+   "from": "claim:editorial:line:manufacturing",
+   "to": "ui:indicator.html",
+   "op": "render",
+   "at": "scripts/story.js:67"
+  },
+  {
+   "from": "claim:editorial:article",
+   "to": "ui:article.html",
+   "op": "render",
+   "at": "scripts/story.js:343"
+  },
+  {
+   "from": "claim:editorial:rssSummary",
+   "to": "ui:feed.xml",
+   "op": "render",
+   "at": "scripts/rss.js"
+  },
+  {
+   "from": "score:household:history",
+   "to": "ui:archive.html",
+   "op": "render",
+   "at": "scripts/narrative-check.js:122-165"
+  },
+  {
+   "from": "score:ward:score",
+   "to": "ui:market.html",
+   "op": "render",
+   "at": "scripts/stamp.js:119"
+  },
+  {
+   "from": "claim:market:sector-note",
+   "to": "ui:market.html",
+   "op": "render",
+   "at": "market.html"
+  },
+  {
+   "from": "derived:divergence:market-minus-household",
+   "to": "ui:market.html",
+   "op": "render",
+   "at": "market.html"
+  },
+  {
+   "from": "claim:market:divergence-basis",
+   "to": "ui:market.html",
+   "op": "render",
+   "at": "market.html"
+  },
+  {
+   "from": "stress:ward:rates",
+   "to": "ui:market/rates/index.html",
+   "op": "render",
+   "at": "scripts/market-pages.js"
+  },
+  {
+   "from": "claim:gauge:market-gauge-content",
+   "to": "ui:market/rates/index.html",
+   "op": "render",
+   "at": "scripts/market-pages.js"
+  },
+  {
+   "from": "claim:market:separate-instrument",
+   "to": "ui:market/rates/index.html",
+   "op": "render",
+   "at": "scripts/market-pages.js:29-33"
+  },
+  {
+   "from": "stress:ward:volatility",
+   "to": "ui:market/volatility/index.html",
+   "op": "render",
+   "at": "scripts/market-pages.js"
+  },
+  {
+   "from": "claim:gauge:market-gauge-content",
+   "to": "ui:market/volatility/index.html",
+   "op": "render",
+   "at": "scripts/market-pages.js"
+  },
+  {
+   "from": "claim:market:separate-instrument",
+   "to": "ui:market/volatility/index.html",
+   "op": "render",
+   "at": "scripts/market-pages.js:29-33"
+  },
+  {
+   "from": "stress:ward:credit",
+   "to": "ui:market/credit/index.html",
+   "op": "render",
+   "at": "scripts/market-pages.js"
+  },
+  {
+   "from": "claim:gauge:market-gauge-content",
+   "to": "ui:market/credit/index.html",
+   "op": "render",
+   "at": "scripts/market-pages.js"
+  },
+  {
+   "from": "claim:market:shared-series-disclosure",
+   "to": "ui:market/credit/index.html",
+   "op": "render",
+   "at": "scripts/market-pages.js:29-33"
+  },
+  {
+   "from": "stress:ward:energy",
+   "to": "ui:market/energy/index.html",
+   "op": "render",
+   "at": "scripts/market-pages.js"
+  },
+  {
+   "from": "claim:gauge:market-gauge-content",
+   "to": "ui:market/energy/index.html",
+   "op": "render",
+   "at": "scripts/market-pages.js"
+  },
+  {
+   "from": "claim:market:separate-instrument",
+   "to": "ui:market/energy/index.html",
+   "op": "render",
+   "at": "scripts/market-pages.js:29-33"
+  },
+  {
+   "from": "stress:ward:dollar",
+   "to": "ui:market/dollar/index.html",
+   "op": "render",
+   "at": "scripts/market-pages.js"
+  },
+  {
+   "from": "claim:gauge:market-gauge-content",
+   "to": "ui:market/dollar/index.html",
+   "op": "render",
+   "at": "scripts/market-pages.js"
+  },
+  {
+   "from": "claim:market:separate-instrument",
+   "to": "ui:market/dollar/index.html",
+   "op": "render",
+   "at": "scripts/market-pages.js:29-33"
+  },
+  {
+   "from": "stress:ward:breadth",
+   "to": "ui:market/breadth/index.html",
+   "op": "render",
+   "at": "scripts/market-pages.js"
+  },
+  {
+   "from": "claim:gauge:market-gauge-content",
+   "to": "ui:market/breadth/index.html",
+   "op": "render",
+   "at": "scripts/market-pages.js"
+  },
+  {
+   "from": "claim:market:separate-instrument",
+   "to": "ui:market/breadth/index.html",
+   "op": "render",
+   "at": "scripts/market-pages.js:29-33"
+  },
+  {
+   "from": "claim:market:shared-series-disclosure",
+   "to": "ui:notes.html",
+   "op": "render",
+   "at": "notes.html:65-66"
+  },
+  {
+   "from": "artifact:revisions",
+   "to": "ui:policies.html",
+   "op": "render",
+   "at": "scripts/lib/release-gate.js:176-190"
+  },
+  {
+   "from": "score:household:ooze",
+   "to": "ui:api:data/latest.json",
+   "op": "publish",
+   "at": "scripts/collect.js:268"
+  },
+  {
+   "from": "claim:editorial:story",
+   "to": "ui:api:data/editorial.json",
+   "op": "publish",
+   "at": "scripts/story.js:316"
+  },
+  {
+   "from": "claim:editorial:crosscheck:rows",
+   "to": "ui:api:data/editorial.json",
+   "op": "publish",
+   "at": "scripts/story.js:316"
+  },
+  {
+   "from": "score:ward:score",
+   "to": "ui:api:data/market.json",
+   "op": "publish",
+   "at": "scripts/collect-market.js:140"
+  },
+  {
+   "from": "derived:breadth-counts",
+   "to": "ui:api:data/sectors.json",
+   "op": "publish",
+   "at": "scripts/collect-sectors.js:75"
+  },
+  {
+   "from": "derived:divergence:market-minus-household",
+   "to": "ui:api:data/market-history.json",
+   "op": "publish",
+   "at": "scripts/build-market-divergence.js:55"
+  },
+  {
+   "from": "score:household:ooze",
+   "to": "ui:og-cards",
+   "op": "render",
+   "at": "scripts/og-cards.js"
+  }
+ ],
+ "aliases": {
+  "UNRATE": [
+   "raw:fred:UNRATE"
+  ],
+  "unemployment": [
+   "raw:fred:UNRATE"
+  ],
+  "Unemployment": [
+   "raw:fred:UNRATE"
+  ],
+  "Civilian unemployment rate": [
+   "raw:fred:UNRATE"
+  ],
+  "unemployment rate": [
+   "raw:fred:UNRATE"
+  ],
+  "ICSA": [
+   "raw:fred:ICSA"
+  ],
+  "claims": [
+   "raw:fred:ICSA"
+  ],
+  "claimsK": [
+   "raw:fred:ICSA"
+  ],
+  "initial jobless claims": [
+   "raw:fred:ICSA"
+  ],
+  "weekly claims": [
+   "raw:fred:ICSA"
+  ],
+  "jobs.secondary": [
+   "raw:fred:ICSA"
+  ],
+  "CPIAUCNS": [
+   "raw:fred:CPIAUCNS"
+  ],
+  "CPI": [
+   "raw:fred:CPIAUCNS"
+  ],
+  "CPI-U": [
+   "raw:fred:CPIAUCNS"
+  ],
+  "CPI-U all items": [
+   "raw:fred:CPIAUCNS"
+  ],
+  "yearly price growth": [
+   "raw:fred:CPIAUCNS"
+  ],
+  "the CPI deflator": [
+   "raw:fred:CPIAUCNS"
+  ],
+  "cpiNow": [
+   "raw:fred:CPIAUCNS"
+  ],
+  "MORTGAGE30US": [
+   "raw:fred:MORTGAGE30US"
+  ],
+  "30-year mortgage": [
+   "raw:fred:MORTGAGE30US"
+  ],
+  "30yr mortgage rate": [
+   "raw:fred:MORTGAGE30US"
+  ],
+  "mortgage rate": [
+   "raw:fred:MORTGAGE30US"
+  ],
+  "mortgageRate": [
+   "raw:fred:MORTGAGE30US"
+  ],
+  "DRSFRMACBS": [
+   "raw:fred:DRSFRMACBS"
+  ],
+  "mortgage delinquency": [
+   "raw:fred:DRSFRMACBS"
+  ],
+  "mortgageDelinq": [
+   "raw:fred:DRSFRMACBS"
+  ],
+  "Residential mortgage delinquency at commercial banks": [
+   "raw:fred:DRSFRMACBS"
+  ],
+  "Federal Reserve Mortgage Delinquency": [
+   "raw:fred:DRSFRMACBS"
+  ],
+  "mortgage distress": [
+   "raw:fred:DRSFRMACBS"
+  ],
+  "Mortgage Distress": [
+   "raw:fred:DRSFRMACBS"
+  ],
+  "foreclosures": [
+   "raw:fred:DRSFRMACBS"
+  ],
+  "Foreclosures": [
+   "raw:fred:DRSFRMACBS"
+  ],
+  "single-family mortgage delinquency rate": [
+   "raw:fred:DRSFRMACBS"
+  ],
+  "housing.secondary": [
+   "raw:fred:DRSFRMACBS"
+  ],
+  "DRCCLACBS": [
+   "raw:fred:DRCCLACBS"
+  ],
+  "cardDelinq": [
+   "raw:fred:DRCCLACBS"
+  ],
+  "card delinquency": [
+   "raw:fred:DRCCLACBS"
+  ],
+  "credit cards": [
+   "raw:fred:DRCCLACBS"
+  ],
+  "Credit Cards": [
+   "raw:fred:DRCCLACBS"
+  ],
+  "Credit-card loan delinquency at commercial banks": [
+   "raw:fred:DRCCLACBS"
+  ],
+  "GASREGW": [
+   "raw:fred:GASREGW"
+  ],
+  "gas": [
+   "raw:fred:GASREGW"
+  ],
+  "Gas Prices": [
+   "raw:fred:GASREGW"
+  ],
+  "pump price": [
+   "raw:fred:GASREGW"
+  ],
+  "U.S. regular gasoline retail price": [
+   "raw:fred:GASREGW"
+  ],
+  "gasReal": [
+   "raw:fred:GASREGW"
+  ],
+  "NFCI": [
+   "raw:fred:NFCI"
+  ],
+  "financial": [
+   "raw:fred:NFCI"
+  ],
+  "Financial Conditions": [
+   "raw:fred:NFCI"
+  ],
+  "financialConditions": [
+   "raw:fred:NFCI"
+  ],
+  "National Financial Conditions Index": [
+   "raw:fred:NFCI"
+  ],
+  "Chicago Fed NFCI": [
+   "raw:fred:NFCI"
+  ],
+  "the Chicago Fed's conditions index": [
+   "raw:fred:NFCI"
+  ],
+  "Credit & Funding": [
+   "raw:fred:NFCI"
+  ],
+  "the methodology-v3 bridge": [
+   "raw:fred:NFCI"
+  ],
+  "credit (Ward M gauge slug)": [
+   "raw:fred:NFCI"
+  ],
+  "INDPRO": [
+   "raw:fred:INDPRO"
+  ],
+  "manufacturing": [
+   "raw:fred:INDPRO"
+  ],
+  "Manufacturing": [
+   "raw:fred:INDPRO"
+  ],
+  "industrial production": [
+   "raw:fred:INDPRO"
+  ],
+  "Total industrial production year-over-year change": [
+   "raw:fred:INDPRO"
+  ],
+  "industry (parked Ward M sensor)": [
+   "raw:fred:INDPRO"
+  ],
+  "AMTMNO": [
+   "raw:fred:AMTMNO"
+  ],
+  "manufacturers' new orders": [
+   "raw:fred:AMTMNO"
+  ],
+  "new orders": [
+   "raw:fred:AMTMNO"
+  ],
+  "shipmentsYoY (MISNOMER in scripts/collect.js:157)": [
+   "raw:fred:AMTMNO"
+  ],
+  "shipmentsMonth (MISNOMER in scripts/collect.js:156)": [
+   "raw:fred:AMTMNO"
+  ],
+  "manufacturing.secondary": [
+   "raw:fred:AMTMNO"
+  ],
+  "NYFED_AUTO_30PLUS": [
+   "raw:nyfed:HHDC_AUTO_30PLUS"
+  ],
+  "auto": [
+   "raw:nyfed:HHDC_AUTO_30PLUS"
+  ],
+  "Auto Loans": [
+   "raw:nyfed:HHDC_AUTO_30PLUS"
+  ],
+  "auto-loan delinquency": [
+   "raw:nyfed:HHDC_AUTO_30PLUS"
+  ],
+  "auto30Plus": [
+   "raw:nyfed:HHDC_AUTO_30PLUS"
+  ],
+  "Page 13 Data / AUTO": [
+   "raw:nyfed:HHDC_AUTO_30PLUS"
+  ],
+  "Previously current auto balance entering 30+ delinquency": [
+   "raw:nyfed:HHDC_AUTO_30PLUS"
+  ],
+  "AUTO": [
+   "raw:nyfed:HHDC_AUTO_30PLUS"
+  ],
+  "T10Y3M": [
+   "raw:fred:T10Y3M"
+  ],
+  "rates": [
+   "raw:fred:T10Y3M"
+  ],
+  "Rates": [
+   "raw:fred:T10Y3M"
+  ],
+  "yield curve": [
+   "raw:fred:T10Y3M"
+  ],
+  "10-year minus 3-month Treasury spread": [
+   "raw:fred:T10Y3M"
+  ],
+  "VIXCLS": [
+   "raw:fred:VIXCLS"
+  ],
+  "volatility": [
+   "raw:fred:VIXCLS"
+  ],
+  "Volatility": [
+   "raw:fred:VIXCLS"
+  ],
+  "VIX": [
+   "raw:fred:VIXCLS"
+  ],
+  "the fear gauge": [
+   "raw:fred:VIXCLS"
+  ],
+  "DCOILWTICO": [
+   "raw:fred:DCOILWTICO"
+  ],
+  "energy": [
+   "raw:fred:DCOILWTICO"
+  ],
+  "Energy": [
+   "raw:fred:DCOILWTICO"
+  ],
+  "WTI": [
+   "raw:fred:DCOILWTICO"
+  ],
+  "WTI crude": [
+   "raw:fred:DCOILWTICO"
+  ],
+  "oil": [
+   "raw:fred:DCOILWTICO"
+  ],
+  "DTWEXBGS": [
+   "raw:fred:DTWEXBGS"
+  ],
+  "dollar": [
+   "raw:fred:DTWEXBGS"
+  ],
+  "Dollar": [
+   "raw:fred:DTWEXBGS"
+  ],
+  "broad dollar index": [
+   "raw:fred:DTWEXBGS"
+  ],
+  "SPY": [
+   "raw:yahoo:SPY"
+  ],
+  "QQQ": [
+   "raw:yahoo:QQQ"
+  ],
+  "DIA": [
+   "raw:yahoo:DIA"
+  ],
+  "IWM": [
+   "raw:yahoo:IWM"
+  ],
+  "XLF": [
+   "raw:yahoo:XLF"
+  ],
+  "XLI": [
+   "raw:yahoo:XLI"
+  ],
+  "IYT": [
+   "raw:yahoo:IYT"
+  ],
+  "XLY": [
+   "raw:yahoo:XLY"
+  ],
+  "XLP": [
+   "raw:yahoo:XLP"
+  ],
+  "SMH": [
+   "raw:yahoo:SMH"
+  ],
+  "XLV": [
+   "raw:yahoo:XLV"
+  ],
+  "SECTOR-BREADTH": [
+   "derived:weakness-share"
+  ],
+  "breadth": [
+   "derived:weakness-share"
+  ],
+  "Breadth": [
+   "derived:weakness-share"
+  ],
+  "Sector Watch": [
+   "derived:weakness-share"
+  ],
+  "sector breadth": [
+   "derived:weakness-share"
+  ]
+ },
+ "aliasCollisions": [
+  {
+   "token": "credit",
+   "resolvesTo": [
+    "sensor:household:credit (raw:fred:DRCCLACBS)",
+    "sensor:ward:credit (raw:fred:NFCI)"
+   ],
+   "risk": "HIGH — one word, two sensors, two different raw series, two different wings. A slug-keyed validator will silently answer the wrong question."
+  },
+  {
+   "token": "Financial Conditions / Credit & Funding",
+   "resolvesTo": [
+    "sensor:household:financial",
+    "sensor:ward:credit"
+   ],
+   "risk": "HIGH — two different names for the SAME raw series (NFCI) in two wings. Name-based independence checking passes; series-based checking fails."
+  },
+  {
+   "token": "jobs / employment",
+   "resolvesTo": [
+    "sensor:household:jobs"
+   ],
+   "risk": "MEDIUM — collect.js keys the line \"jobs\" (scripts/collect.js:50,108) while backtest.js keys the identical line \"employment\" (scripts/backtest.js:108) and METHODOLOGY_V3_WEIGHTS keys it \"employment\". One line, three key spellings across the two engines that must stay in sync."
+  },
+  {
+   "token": "foreclosures",
+   "resolvesTo": [
+    "sensor:household:foreclosures (raw:fred:DRSFRMACBS)"
+   ],
+   "risk": "MEDIUM — the slug says foreclosures; the series is mortgage DELINQUENCY. lab.js:120 discloses it; the slug does not."
+  },
+  {
+   "token": "manufacturing / industry",
+   "resolvesTo": [
+    "sensor:household:manufacturing (raw:fred:INDPRO)",
+    "PARKED sensor:ward:industry (raw:fred:INDPRO)"
+   ],
+   "risk": "MEDIUM — un-parking the Ward M industry sensor (scripts/collect-market.js:15) creates a SECOND cross-wing shared series and falsifies \"the only input the two instruments have in common\"."
+  },
+  {
+   "token": "gas / energy",
+   "resolvesTo": [
+    "sensor:household:gas (raw:fred:GASREGW)",
+    "sensor:ward:energy (raw:fred:DCOILWTICO)"
+   ],
+   "risk": "LOW — different series, adjacent names. Ward copy calls WTI \"the upstream cousin of the gas-price line\" (scripts/collect-market.js:76). No graph edge exists; the relationship is economic, not computational."
+  },
+  {
+   "token": "housing",
+   "resolvesTo": [
+    "sensor:household:housing — MAX(MORTGAGE30US, DRSFRMACBS)"
+   ],
+   "risk": "HIGH — the published DISPLAY value is MORTGAGE30US alone, so \"housing\" in prose names a two-input maximum while showing one input."
+  },
+  {
+   "token": "shipments",
+   "resolvesTo": [
+    "raw:fred:AMTMNO"
+   ],
+   "risk": "MEDIUM — collector variable names call new orders \"shipments\". A future prose surface reading that variable name would publish the wrong metric name."
+  }
+ ],
+ "assertions": [
+  {
+   "id": "D1-reproduces",
+   "kind": "upstream",
+   "from": "raw:fred:DRSFRMACBS",
+   "to": "sensor:household:housing",
+   "expect": true,
+   "why": "Defect D1. scripts/collect.js:110 — housing = max(interp(mortgageRate, MORTGAGE30US), interp(mortgageDelinq, DRSFRMACBS)). Any cross-check pairing housing against foreclosures is circular."
+  },
+  {
+   "id": "D1-comparison-side",
+   "kind": "upstream",
+   "from": "raw:fred:DRSFRMACBS",
+   "to": "sensor:household:foreclosures",
+   "expect": true,
+   "why": "The other end of D1. Both ends true ⇒ the pair shares a raw series ⇒ ILLEGAL cross-check."
+  },
+  {
+   "id": "jobs-manufacturing-legal",
+   "kind": "upstream",
+   "from": "raw:fred:INDPRO",
+   "to": "sensor:household:jobs",
+   "expect": false,
+   "why": "INDPRO must NOT be upstream of jobs. jobs = max(UNRATE, ICSA-4wk) only. This is what makes jobs:manufacturing a legal pair."
+  },
+  {
+   "id": "jobs-manufacturing-legal-reverse",
+   "kind": "disjoint-raw",
+   "a": "sensor:household:jobs",
+   "b": "sensor:household:manufacturing",
+   "expect": true,
+   "why": "Full disjointness both directions: {UNRATE, ICSA} ∩ {INDPRO, AMTMNO} = ∅."
+  },
+  {
+   "id": "gas-depends-on-cpi",
+   "kind": "upstream",
+   "from": "raw:fred:CPIAUCNS",
+   "to": "sensor:household:gas",
+   "expect": true,
+   "why": "The transitive deflator dependency. GASREGW is CPI-deflated AND rebased to the newest CPI print (scripts/collect.js:113)."
+  },
+  {
+   "id": "gas-inflation-illegal",
+   "kind": "disjoint-raw",
+   "a": "sensor:household:gas",
+   "b": "sensor:household:inflation",
+   "expect": false,
+   "why": "gas and inflation both read CPIAUCNS. Pairing them in any cross-check, contrast or \"these two disagree\" claim would be D1 again."
+  },
+  {
+   "id": "nfci-shared-household",
+   "kind": "upstream",
+   "from": "raw:fred:NFCI",
+   "to": "sensor:household:financial",
+   "expect": true
+  },
+  {
+   "id": "nfci-shared-ward",
+   "kind": "upstream",
+   "from": "raw:fred:NFCI",
+   "to": "sensor:ward:credit",
+   "expect": true
+  },
+  {
+   "id": "cross-wing-shared-raw-series",
+   "kind": "shared-raw-set",
+   "a": "score:household:ooze",
+   "b": "score:ward:score",
+   "expect": [
+    "raw:fred:NFCI"
+   ],
+   "why": "Proves market.html:79 / market-pages.js:32: \"they overlap in exactly one place\". True at series identity. NOT a claim of economic orthogonality."
+  },
+  {
+   "id": "ward-credit-not-household-credit",
+   "kind": "disjoint-raw",
+   "a": "sensor:household:credit",
+   "b": "sensor:ward:credit",
+   "expect": true,
+   "why": "The name collision does NOT correspond to a shared series. Household credit reads DRCCLACBS; ward credit reads NFCI."
+  },
+  {
+   "id": "sp500-not-upstream-of-ooze",
+   "kind": "upstream-any",
+   "from": [
+    "raw:yahoo:SPY",
+    "raw:yahoo:QQQ",
+    "raw:yahoo:DIA",
+    "raw:yahoo:IWM",
+    "raw:yahoo:XLF",
+    "raw:yahoo:XLI",
+    "raw:yahoo:IYT",
+    "raw:yahoo:XLY",
+    "raw:yahoo:XLP",
+    "raw:yahoo:SMH",
+    "raw:yahoo:XLV"
+   ],
+   "to": "score:household:ooze",
+   "expect": false,
+   "why": "Backs lab.js:110 \"The S&P 500 is not an input to the Ooze Score at any weight.\""
+  },
+  {
+   "id": "ward-not-upstream-of-ooze",
+   "kind": "upstream",
+   "from": "score:ward:score",
+   "to": "score:household:ooze",
+   "expect": false,
+   "why": "Backs \"Ward M … does not affect the Ooze Score\" (scripts/collect-market.js:138)."
+  },
+  {
+   "id": "amtmno-not-scored",
+   "kind": "upstream",
+   "from": "raw:fred:AMTMNO",
+   "to": "stress:household:manufacturing",
+   "expect": false,
+   "scoredEdgesOnly": true,
+   "why": "AMTMNO is display-only. It reaches the reader surface but not the stress value."
+  },
+  {
+   "id": "contribution-coupling",
+   "kind": "upstream",
+   "from": "raw:fred:GASREGW",
+   "to": "contribution:household:jobs",
+   "expect": true,
+   "why": "The largest-remainder split normalizes by wsum, so every weighted line is upstream of every OTHER line's ounce count. \"Employment was N of the month's M ounces\" is a claim about all seven lines."
+  },
+  {
+   "id": "divergence-not-independent",
+   "kind": "shared-raw-set",
+   "a": "score:ward:score",
+   "b": "score:household:history",
+   "expect": [
+    "raw:fred:NFCI"
+   ],
+   "why": "The divergence series is not a comparison of two disjoint measurement systems."
+  }
+ ],
+ "crosscheckPolicy": {
+  "rule": "A cross-check between weighted line L and comparison sensor C is LEGAL only if (a) C carries zero score weight, (b) upstreamRawSeries(L) ∩ upstreamRawSeries(C) = ∅, and (c) delta(L) and delta(C) are computed over the SAME month pair.",
+  "published": {
+   "jobs": "manufacturing"
+  },
+  "legalBySeriesDisjointness": {
+   "jobs": [
+    "foreclosures",
+    "manufacturing"
+   ],
+   "housing": [
+    "manufacturing"
+   ],
+   "credit": [
+    "foreclosures",
+    "manufacturing"
+   ],
+   "auto": [
+    "foreclosures",
+    "manufacturing"
+   ],
+   "gas": [
+    "foreclosures",
+    "manufacturing"
+   ],
+   "inflation": [
+    "foreclosures",
+    "manufacturing"
+   ],
+   "financial": [
+    "foreclosures",
+    "manufacturing"
+   ]
+  },
+  "illegalBySeriesDisjointness": {
+   "housing": [
+    "foreclosures"
+   ]
+  },
+  "failsConditionC": {
+   "note": "NO currently published pair satisfies condition (c). delta:household:manufacturing steps over INDPRO's own latest month pair; delta:household:foreclosures steps over a QUARTER; delta of every weighted line steps over the headline month pair M vs P.",
+   "affected": [
+    "jobs:manufacturing (published, live)"
+   ]
+  }
+ },
+ "hiddenCircularRelationships": [
+  {
+   "id": "C1",
+   "severity": "CRITICAL",
+   "title": "housing ↔ foreclosures — D1 is structurally intact; only the pairing was removed",
+   "sharedNode": "raw:fred:DRSFRMACBS",
+   "paths": [
+    "raw:fred:DRSFRMACBS → derived:monthly-mean:DRSFRMACBS → derived:forward-fill:DRSFRMACBS → sensor:household:housing (scripts/collect.js:110, the second argument to Math.max)",
+    "raw:fred:DRSFRMACBS → derived:latest-observation:DRSFRMACBS → sensor:household:foreclosures (scripts/collect.js:148-149)"
+   ],
+   "state": "The circular DATA relationship is still live. What was removed on 2026-08-14 was the CC_PAIRS entry (scripts/story.js:124) and nothing else. The prohibition survives only as a code comment (scripts/story.js:116-123) that no program reads.",
+   "whatWouldRepublishIt": "Adding housing:'foreclosures' back to CC_PAIRS. One line, one file, no gate objects.",
+   "extraTwist": "The two ends do not even read the same VINTAGE of the series: housing scores the forward-filled value at headline month M, foreclosures scores the newest raw observation and its predecessor. Same series, two vintages, two time steps — so even a naive 'they agree' test would compare incomparable numbers."
+  },
+  {
+   "id": "C2",
+   "severity": "CRITICAL",
+   "title": "gas ↔ inflation — CPIAUCNS is an input to BOTH, and to gas invisibly",
+   "sharedNode": "raw:fred:CPIAUCNS",
+   "paths": [
+    "raw:fred:CPIAUCNS → derived:monthly-mean:CPIAUCNS → derived:yoy:CPIAUCNS → sensor:household:inflation (scripts/collect.js:109)",
+    "raw:fred:CPIAUCNS → derived:monthly-mean:CPIAUCNS → derived:real-price:GAS (deflator denominator) → sensor:household:gas (scripts/collect.js:113)",
+    "raw:fred:CPIAUCNS → derived:latest-observation:CPIAUCNS (cpiNow) → derived:real-price:GAS (rebase level) → sensor:household:gas (scripts/collect.js:98,113)"
+   ],
+   "state": "LATENT. No published claim currently pairs gas against inflation, but nothing prevents it, and the shared dependency is invisible in every public artifact: data/latest.json lists gas's source as GASREGW only, with no mention of CPI.",
+   "whatWouldRepublishIt": "Any cross-check, contrast, 'these two disagree', or 'the relief came from the two lines everyone feels first' construction that treats gas and inflation as independent evidence. scripts/story.js:84-85 already groups them ('The relief came from the two lines everyone feels first') — that is presentational, not an independence claim, but it is one edit away from becoming one.",
+   "extraTwist": "cpiNow is the NEWEST CPI observation, applied to EVERY month of history. The 2003 gas stress is a function of a 2026 CPI print."
+  },
+  {
+   "id": "C3",
+   "severity": "MAJOR",
+   "title": "Every weighted line is upstream of every other line's ounce count",
+   "sharedNode": "derived:weighted-sum:household",
+   "paths": [
+    "stress:household:<any weighted line> → derived:weighted-sum:household → contribution:household:<any other weighted line> (scripts/collect.js:127-135)"
+   ],
+   "state": "LIVE AND PUBLISHED. contribₖ = floor(ooze × wₖ·stressₖ / Σw·stress), then largest-remainder to foot exactly to the headline.",
+   "whyItMatters": "The sentence 'employment was the largest source of financial pressure — 2 of the month's 26 ounces' (scripts/story.js:80) reads as a statement about employment. It is arithmetically a statement about all seven lines: if gas falls, employment's ounce count can rise without employment moving at all. Any cross-check, ranking claim, or 'largest pressure' claim built on contributions inherits every line's dependencies.",
+   "whatWouldRepublishIt": "Already published. The exposure is a future cross-check or divergence claim keyed on contributions rather than stresses."
+  },
+  {
+   "id": "C4",
+   "severity": "MAJOR",
+   "title": "Ward M credit ↔ household financial — the same NFCI series under two names in two wings",
+   "sharedNode": "raw:fred:NFCI",
+   "paths": [
+    "raw:fred:NFCI → derived:monthly-mean:NFCI (scripts/lib/fred.js) → sensor:household:financial → 3% of score:household:ooze",
+    "raw:fred:NFCI → derived:monthly-mean-ward:NFCI (scripts/lib/market-series.js, a SECOND parser) → sensor:ward:credit → one-sixth of score:ward:raw"
+   ],
+   "state": "DISCLOSED on the gauge page, the gauge chip, notes.html and market.html, and enforced by scripts/lib/release-gate.js:150-157. Correctly handled today.",
+   "residualRisk": "The disclosure is enforced by string matching on the word NFCI in four specific files. It is not enforced by traversal, so a SECOND shared series would not trip it. The parked Ward M sensor 'industry INDPRO' (scripts/collect-market.js:15) is exactly that second series, waiting.",
+   "extraTwist": "Two derived nodes over one raw node, produced by two different parsers with different validation. The monthly means could legitimately differ if one parser drops an observation the other keeps; nothing compares them."
+  },
+  {
+   "id": "C5",
+   "severity": "MAJOR",
+   "title": "The divergence series is not a comparison of two disjoint instruments",
+   "sharedNode": "raw:fred:NFCI",
+   "paths": [
+    "raw:fred:NFCI → sensor:household:financial → score:household:history → derived:divergence:market-minus-household",
+    "raw:fred:NFCI → sensor:ward:credit → score:ward:score → derived:divergence:market-minus-household"
+   ],
+   "state": "LATENT DISCLOSURE GAP. data/market-history.json's note (scripts/build-market-divergence.js:47) discloses vintage basis and the breadth-transform mismatch, and says nothing about the shared series. market.html:79 discloses the overlap in the gauge paragraph, not beside the chart.",
+   "whyItMatters": "A divergence of D between two instruments that share an input is not the same evidence as a divergence of D between two instruments that share nothing. The shared component is small (3% of one side, 16.7% of the other) but it is nonzero and it is exactly the component that moves in a funding crisis — the episodes the chart is used to narrate."
+  },
+  {
+   "id": "C6",
+   "severity": "MAJOR",
+   "title": "The revision log is partly self-generated: a new CPI print re-indexes the whole gas history, which the revision detector records as a change to published history",
+   "sharedNode": "derived:latest-observation:CPIAUCNS",
+   "paths": [
+    "raw:fred:CPIAUCNS → derived:latest-observation:CPIAUCNS → derived:real-price:GAS (every month) → score:household:history → artifact:revisions → claim:editorial:confidence"
+   ],
+   "state": "LIVE. scripts/integrity.js:50-54 already names the phenomenon ('the instrument re-indexing itself') and types the record honestly as 'history-changed-cause-unattributed'. The confidence sentence then counts those records and publishes 'N recorded changes to published history on the public record'.",
+   "whyItMatters": "The count conflates two different events — an upstream source revising a past value, and OOZEMeter rescaling its own history because a new month of CPI arrived. The gate does not distinguish them; the prose does not either. A monthly deflator rebase can inflate a public integrity statistic."
+  },
+  {
+   "id": "C7",
+   "severity": "MODERATE",
+   "title": "The calibration invariant checks the ruler against the two marks the ruler was built from",
+   "sharedNode": "constant:calibration:household:v3",
+   "paths": [
+    "constant:calibration:household:v3 → score:household:ooze → score:household:history → artifact:gate-status (integrity.js:104-110 asserts GFC peak = 90±2 and calm floor = 10±2)"
+   ],
+   "state": "LIVE. CALIBRATION_V3 was DEFINED as the affine map sending rawCalm→10 and rawGfc→90 (scripts/backtest.js:130). The gate then verifies that history still reads 90 at the GFC peak and 10 at the calm floor.",
+   "whyItMatters": "This is a genuine drift detector — it fires when the raw extremes or the argmax/argmin month move — but it is not independent verification of the calibration, and the placard it feeds ('the integrity gate verified … calibration anchors') can be read as if it were. Nothing in the repo asserts that the frozen a=1.418684348943213, b=-23.96514845099034 reproduce from the published rawCalm 23.936… / rawGfc 80.321… in research/backtest-results.json. They do; no test says so.",
+   "liveLoopIfUnfrozen": "Running with OOZEMETER_RECALIBRATE=1 closes the loop for real: a source revision moves rawCalm/rawGfc, which moves a and b, which moves every published score including the two the gate checks. The freeze is the only thing holding it open."
+  },
+  {
+   "id": "C8",
+   "severity": "MODERATE",
+   "title": "Ward M energy and household gas are economic parent and child with no graph edge",
+   "sharedNode": null,
+   "paths": [
+    "raw:fred:DCOILWTICO → sensor:ward:energy (WTI crude)",
+    "raw:fred:GASREGW → sensor:household:gas (retail regular gasoline)"
+   ],
+   "state": "NOT a computational circularity — the series are distinct and the graph proves it. It is a CAUSAL one, and the repo says so out loud: 'The upstream cousin of the gas-price line' (scripts/collect-market.js:76) and 'Gasoline is already a direct household intake line' (scripts/lib/market-gauge-content.js:78).",
+   "whyItMatters": "Series-level disjointness is the only independence this graph can prove. A future claim of the form 'the market's energy gauge and the household gas line disagree, so something is being missed' would pass every traversal test and still be close to meaningless, because crude is a principal input to the retail pump price."
+  },
+  {
+   "id": "C9",
+   "severity": "MODERATE",
+   "title": "OOZEMAXING and the band both read all seven stresses, so a breadth claim and a level claim are not independent evidence",
+   "sharedNode": "the seven weighted stress nodes",
+   "paths": [
+    "stress:household:<all seven> → flag:household:oozemaxing (scripts/collect.js:264)",
+    "stress:household:<all seven> → score:household:ooze → band:household"
+   ],
+   "state": "LATENT. Published copy pairs the band with the OOZEMAXING breadth check as though breadth corroborates level. They are two readings of one vector.",
+   "whyItMatters": "'The jar reads Slippery, and six of seven lines are above 60' is one fact stated twice, not two facts agreeing."
+  },
+  {
+   "id": "C10",
+   "severity": "MINOR",
+   "title": "jobs is internally a maximum of two labour-market series with overlapping statistical universes",
+   "sharedNode": null,
+   "paths": [
+    "raw:fred:UNRATE → sensor:household:jobs",
+    "raw:fred:ICSA → derived:trailing4wk:ICSA → sensor:household:jobs"
+   ],
+   "state": "Not circular — different publishers (BLS / DOL), different concepts (stock of unemployed / flow of new claims). Recorded because the Math.max means the sensor's identity changes month to month, and no published artifact says which branch is speaking.",
+   "whyItMatters": "See U2. A cross-check that is legal against the unemployment branch may be near-tautological against the claims branch, and the graph cannot tell which one produced this month's number."
+  }
+ ],
+ "currentlyUnverifiableRelationships": [
+  {
+   "id": "U1",
+   "severity": "CRITICAL",
+   "title": "\"Over the same month\" — the only published cross-check compares two different month pairs",
+   "claim": "scripts/story.js:196 and :201 — \"The jar's employment line held roughly steady, down 1 point. Over the same month <manufacturing>, published by the Federal Reserve Board and carrying no score weight, climbed 3 points.\"",
+   "why": "delta:household:jobs = round(stress[M]) − round(stress[P]) where M is the headline month (data/latest.json currently 2026-07, P = 2026-06; scripts/collect.js:136-138). delta:household:manufacturing = round(stress at INDPRO's OWN newest month) − round(stress at the month before it) (scripts/collect.js:150-155,182). INDPRO's newest month in the live payload is 2026-06. The two moves are therefore 2026-06→2026-07 and 2026-05→2026-06.",
+   "status": "This is not merely unverifiable — from the graph plus the live payload it is FALSE right now. It is the same defect class as D2: a directional claim whose supporting arithmetic was never checked. Call it D3.",
+   "machineCheckable": true,
+   "howToVerify": "Publish the month pair each delta was computed over (deltaFromMonth / deltaToMonth per line in data/latest.json) and require CC pair legality condition (c): identical month pairs on both sides."
+  },
+  {
+   "id": "U2",
+   "severity": "MAJOR",
+   "title": "Which branch of Math.max drove jobs and housing is published nowhere",
+   "claim": "Every sentence, gutter glyph, ounce count and cross-check verdict about housing or employment.",
+   "why": "sensor:household:housing = max(interp(mortgageRate, MORTGAGE30US[M]), interp(mortgageDelinq, ffill DRSFRMACBS[M])) (scripts/collect.js:110). sensor:household:jobs = max(unemployment branch, claims branch) (scripts/collect.js:108). data/latest.json publishes the DISPLAY value only — MORTGAGE30US for housing, UNRATE for jobs — and no argmax field.",
+   "status": "In the live payload the mortgage-rate branch wins housing (6.67% → ~46 stress vs 1.9% delinquency → 23) and the unemployment branch wins jobs. Neither fact is derivable from any published artifact, and the winner can flip between months without any surface changing.",
+   "machineCheckable": true,
+   "howToVerify": "Emit `driver` and `branches` on every max-combined line, and forbid a VALUE_CLAUSE that names a branch which is not the argmax."
+  },
+  {
+   "id": "U3",
+   "severity": "MAJOR",
+   "title": "Display value and stress value are from different months, different aggregations, and sometimes a partial month",
+   "claim": "scripts/story.js:24-34 VALUE_CLAUSE glues the display value to the stress delta: \"Pressure from housing … with the 30-year mortgage at 6.67%.\"",
+   "why": "Display values are LAST OBSERVATIONS (housing 2026-08-13, gas 2026-08-10, financial 2026-08-07). Stress values are MONTHLY MEANS at the headline month M = 2026-07. The financial line's published value is the monthly mean of a month still in progress (nfciMonth = newest NFCI month, scripts/collect.js:158,174) while its stress, delta and contribution come from 2026-07.",
+   "status": "data/latest.json publishes line.asOf for the display value and nothing for the stress month, so the delta cannot be reproduced from the payload — which directly contradicts the cross-check module's own promise that \"any reader can reproduce the verdict from the raw payload\" (scripts/story.js:110-111).",
+   "machineCheckable": true
+  },
+  {
+   "id": "U4",
+   "severity": "MAJOR",
+   "title": "Flat-month semantics: forward-filled lines print \"was flat this month\" when the truth is \"no new observation\"",
+   "claim": "scripts/story.js:59 — \"Credit cards were flat this month with card delinquency at 2.9%.\"",
+   "why": "credit, auto and the delinquency branch of housing are forward-filled from quarterly observations (scripts/collect.js:95-97). Inside a quarter the stress is identical by construction, so delta = 0 by construction. moveClass(0) returns 'flat' with no access to whether an observation actually arrived. The collector already computes the distinguishing fact — line.updateStatus = 'no-new-release' | 'new-observation' (scripts/collect.js:193) — and the prose does not read it.",
+   "status": "Live: credit asOf 2026-01-01 and auto asOf 2026-04-01 both print flat sentences and both have had no new observation for months. 'Flat' asserts measured stillness; the evidence supports only unmeasured.",
+   "machineCheckable": true,
+   "note": "Explicitly in scope per the run brief — it affects narrative truth."
+  },
+  {
+   "id": "U5",
+   "severity": "MODERATE",
+   "title": "\"All source feeds current at collection\" is published about a feed whose newest observation is seven months old",
+   "claim": "scripts/story.js:228 confidence sentence, driven by data/latest.json collection.freshnessStatus.",
+   "why": "STALE_DAYS.quarterly = 250 (scripts/collect.js:60). credit's newest observation is dated 2026-01-01, ~226 days old, so stale = false and freshnessStatus = 'current'.",
+   "status": "Internally consistent and defensible — the comment at collect.js:58-59 explains the 250-day threshold — but the published word 'current' carries a meaning to a reader that 226-day-old data does not support.",
+   "machineCheckable": true,
+   "howToVerify": "Publish observation age alongside the stale boolean and phrase the claim as 'within cadence' rather than 'current'."
+  },
+  {
+   "id": "U6",
+   "severity": "MODERATE",
+   "title": "The claims month can be three-quarters a different month",
+   "claim": "jobs.secondary in data/latest.json and every employment sentence.",
+   "why": "trailingFourWeekByMonth (scripts/lib/methodology.js:200-210) keys a four-week window to the month of its LAST observation. A window ending 2026-07-04 is filed under 2026-07 while three of its four weeks fall in June.",
+   "status": "Undisclosed on every surface. Separately, the DISPLAY four-week mean (scripts/collect.js:144-145, mean of the last four observations, not month-keyed) is a different number from the SCORED one, and both are called 'trailing four-week mean'.",
+   "machineCheckable": true
+  },
+  {
+   "id": "U7",
+   "severity": "MODERATE",
+   "title": "The Ward M breadth gauge has two non-identical transforms behind one name",
+   "claim": "The divergence chart and every Ward M historical statement.",
+   "why": "Live breadth = 22-session daily interval requiring 23 valid closes (scripts/lib/market-sector.js:53). Historical breadth = successive MONTHLY closes (scripts/backtest-market.js:78-85), with a minimum of 8 of 11 tickers rather than a required 11.",
+   "status": "DISCLOSED in prose (data/market-history.json note, scripts/lib/market-gauge-content.js:116) and enforced as a string by scripts/lib/market-integrity.js:119. No artifact records which transform produced any given point, so a reader cannot separate a real regime change from a transform change at the live/backtest seam.",
+   "machineCheckable": true
+  },
+  {
+   "id": "U8",
+   "severity": "MODERATE",
+   "title": "The breadth delta cannot be reproduced from anything published",
+   "claim": "data/market.json sensors.breadth.delta — currently −37.",
+   "why": "The delta is computed against whatever data/market.json happened to contain on disk at the previous manual run (scripts/collect-market.js:117-123). Sector Watch is manual and unscheduled; no prior-run receipt is retained beyond the file being overwritten.",
+   "status": "The null-on-first-run handling is correct and Constitution-compliant. The problem is the second run onward: a −37 move is the largest number on the ward page and there is no artifact a reader can check it against.",
+   "machineCheckable": true
+  },
+  {
+   "id": "U9",
+   "severity": "MODERATE",
+   "title": "The auto line publishes a FLOW under the words \"auto-loan delinquency\"",
+   "claim": "scripts/story.js:28 — \"with auto-loan delinquency at 7.9%\"; lab.js shortMetric 'auto-loan delinquency'.",
+   "why": "The series is the NY Fed's 'Previously current auto balance entering 30+ delinquency' (scripts/collect.js:168) — a transition rate into delinquency, not the stock of delinquent balances. The collector's own metric string says so correctly; the prose does not.",
+   "status": "A reader comparing 7.9% against a published auto delinquency RATE will find a different number and conclude OOZEMeter is wrong.",
+   "machineCheckable": true,
+   "howToVerify": "Require every VALUE_CLAUSE noun phrase to be a substring-compatible restatement of the line's published source.metric."
+  },
+  {
+   "id": "U10",
+   "severity": "MODERATE",
+   "title": "The confidence sentence asserts the integrity gate ran, as a string literal",
+   "claim": "scripts/story.js:231 — \"the integrity gate verified plausibility bounds and calibration anchors before publication.\"",
+   "why": "story.js reads data/latest.json, data/history.json and data/revisions.json. It never opens data/gate-status.json.",
+   "status": "Exactly the failure class stamp.js:18-32 already fixed for the placard — a gate that failed, a gate that never ran, and a gate that passed all produce the same sentence. The placard was fixed; the editorial payload was not.",
+   "machineCheckable": true
+  },
+  {
+   "id": "U11",
+   "severity": "MODERATE",
+   "title": "\"This is the first edition to publish these checks; the run starts here\" is a literal with no counter",
+   "claim": "scripts/story.js:212-214, published as crosschecks.run and rendered at index.html #ccRun.",
+   "why": "No edition counter, no streak state, no archive read. The string is emitted unconditionally on every run.",
+   "status": "True on edition one, false on edition two, and it has already published more than once.",
+   "machineCheckable": true
+  },
+  {
+   "id": "U12",
+   "severity": "MODERATE",
+   "title": "Client-side token resolution can silently fall back to a frozen 2026-07 history array",
+   "claim": "index.html #storyBody and every {{s:YYYY-MM}} token resolved by lab.js resolveClaims.",
+   "why": "lab.js:158 carries a frozen HISTORY constant; lab.js:199 overwrites it from LIVE_DATA only if data/latest.js loaded. The hero score is STAMPED into static HTML by scripts/stamp.js and does not depend on that load.",
+   "status": "On a failed or cached data/latest.js the page can show a stamped current headline beside prose whose tokens resolved against stale history, with no visible signal. narrative-check.js verifies tokens against the SERVER-side data/history.json, so this path is invisible to CI.",
+   "machineCheckable": "partially — requires a browser-level check, not a node gate."
+  },
+  {
+   "id": "U13",
+   "severity": "MODERATE",
+   "title": "data/editorial.json is exempt from the reader-surface token scan and is a public artifact",
+   "claim": "narrative-check.js:203-211 skips data/editorial.json because it is 'a token CARRIER by design — its consumers resolve it'.",
+   "why": "The exemption is correct for index.html, which runs resolveClaims. It is an assumption about every OTHER consumer of a file published at a public URL.",
+   "status": "Unverifiable by construction: the gate cannot enumerate third-party consumers. Worth stating in the payload itself rather than only in a source comment.",
+   "machineCheckable": false
+  },
+  {
+   "id": "U14",
+   "severity": "MODERATE",
+   "title": "Cross-check pair legality is asserted by a code comment, not by a program",
+   "claim": "scripts/story.js:116-124 — 'Every pair added here must be verified absent from scripts/collect.js first.'",
+   "why": "CC_PAIRS is a hand-maintained object literal. Nothing reads collect.js, nothing traverses inputs, nothing fails.",
+   "status": "This is the gap this graph exists to close. Until a validator consumes data/dependency-graph.json, pair legality remains a human promise — and the human promise is what failed in D1.",
+   "machineCheckable": true
+  },
+  {
+   "id": "U15",
+   "severity": "MODERATE",
+   "title": "Nothing asserts the frozen calibration reproduces from its own published derivation",
+   "claim": "'One source of truth' (scripts/collect.js:29) and the calibration doctrine in scripts/lib/methodology.js:21-26.",
+   "why": "CALIBRATION_V3 stores only {a, b}. research/backtest-results.json stores {rawCalm: 23.936322767604793, rawGfc: 80.32089462877845, a, b}. a = 80/(rawGfc − rawCalm) and b = 10 − a·rawCalm both check out by hand. No test and no gate performs that check. Ward M does better: FROZEN_WARD_CALIBRATION carries rawCalm and rawGfc inline (scripts/lib/market-backtest.js:3-9).",
+   "status": "Auditable by a human today, unenforced by CI. Note the precedent: a truncated second copy of the WARD calibration lived in collect-market.js until 2026-08-14 and published a different rounded score on 10 raw values.",
+   "machineCheckable": true
+  },
+  {
+   "id": "U16",
+   "severity": "MODERATE",
+   "title": "\"The only input the two instruments have in common\" is true only at series identity",
+   "claim": "scripts/market-pages.js:32, market.html:79, scripts/lib/market-gauge-content.js:54.",
+   "why": "Traversal proves the raw-series intersection is exactly {NFCI}. It cannot prove the remaining series are economically independent: T10Y3M and MORTGAGE30US both track the rate cycle; DCOILWTICO is a principal input to GASREGW; XLF is an equity read on the same banking system NFCI measures.",
+   "status": "The claim as written is defensible and now machine-provable. Any strengthening of it toward independence would not be.",
+   "machineCheckable": "the series-identity half only"
+  },
+  {
+   "id": "U17",
+   "severity": "MINOR",
+   "title": "Two engines, two key spellings for one line",
+   "claim": "Methodology parity between scripts/collect.js and scripts/backtest.js.",
+   "why": "collect.js keys the employment line 'jobs' (lines 50, 108); backtest.js and METHODOLOGY_V3_WEIGHTS key the identical line 'employment' (backtest.js:108, methodology.js:12). The mapping exists only at collect.js:50.",
+   "status": "Both files carry the SAME Math.max/interp expressions as duplicated source, held in sync by a comment ('same math as backtest.js — keep in sync', scripts/collect.js:100). A validator keyed on stress-object keys would treat them as two different sensors.",
+   "machineCheckable": true
+  },
+  {
+   "id": "U18",
+   "severity": "MINOR",
+   "title": "AMTMNO is called \"shipments\" in the collector",
+   "claim": "Internal only today — scripts/collect.js:156-157 shipmentsMonth / shipmentsYoY.",
+   "why": "AMTMNO is Manufacturers' NEW ORDERS. lab.js:128 and notes.html:54 name it correctly; the collector variables do not.",
+   "status": "No public surface currently prints the word 'shipments'. It is one template edit from doing so, and narrative-check.js:170-179 records that a previous edition already published 'a series called shipments that is new orders'.",
+   "machineCheckable": true
+  },
+  {
+   "id": "U19",
+   "severity": "MINOR",
+   "title": "The auxiliary manufacturing and foreclosures lines are scored at their own months, not at the headline month",
+   "claim": "Any sentence placing an auxiliary reading inside the headline month.",
+   "why": "manufacturingStress is computed at INDPRO's newest month; mortgageStress at DRSFRMACBS's newest observation (scripts/collect.js:148-155). Weighted lines are computed at M. The auxiliary lines never enter stressesFor(m) at all.",
+   "status": "Root cause of U1. Also means the auxiliary sensors have no historical series inside data/history.json and cannot be backtested against the score without new work.",
+   "machineCheckable": true
+  }
+ ]
+}
