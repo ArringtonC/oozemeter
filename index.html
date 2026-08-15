@@ -50,9 +50,53 @@
         </div>
       </div>
 
-      <div class="pvJ-label cine c5">Intake Canisters</div>
-      <div class="pk-cans cine c5" id="canCards"></div>
-      <div class="cine c5" style="margin-top:20px"><a class="pk-more" href="#ledger">VIEW ALL INTAKE LINES →</a></div>
+      <section class="rung cine c5" id="driving">
+        <h2 class="rung-h">What&rsquo;s driving it?</h2>
+        <p class="rung-lede">The weighted intake lines the score is built from, ranked by the ounces each one put in the jar this month.</p>
+        <div class="oz-bar" id="ozBar" role="img" aria-label="Ounce composition of this month&rsquo;s reading"></div>
+        <div class="oz-key" id="ozKey"></div>
+        <div class="pk-cans" id="canCards"></div>
+        <p class="rung-tail" id="rungTail"></p>
+        <a class="pk-more" href="#ledger">SEE ALL NINE LINES &rarr;</a>
+      </section>
+
+      <section class="rung cine c5" id="changed">
+        <h2 class="rung-h">What changed?</h2>
+        <p class="rung-body" id="storyBody"></p>
+      </section>
+
+      <!-- Rung 4 renders only when the payload carries cross-checks; it is
+           unhidden by the script below. A promise the data cannot keep is
+           worse than no module, so with no payload there is no section. -->
+      <section class="rung cine c5" id="crosscheck" hidden>
+        <h2 class="rung-h">What doesn&rsquo;t add up?</h2>
+        <div class="cc-head">
+          <span class="cc-glyph" id="ccGlyph" aria-hidden="true">&middot;</span>
+          <span class="cc-state" id="ccState"></span>
+          <span class="cc-count" id="ccCount"></span>
+        </div>
+        <div class="cc-body" id="ccBody"></div>
+        <p class="cc-note" id="ccNote"></p>
+        <div class="scrollx">
+          <table class="cc-roster">
+            <caption>The cross-checks &mdash; one row for every weighted line, every month</caption>
+            <thead><tr>
+              <th scope="col"><span class="sr-only">Result mark</span></th>
+              <th scope="col">Line</th>
+              <th scope="col">What the jar reads</th>
+              <th scope="col">Checked against</th>
+              <th scope="col">Result</th>
+            </tr></thead>
+            <tbody id="ccRoster"></tbody>
+          </table>
+        </div>
+        <p class="cc-run" id="ccRun"></p>
+        <p class="cc-firewall">Cross-check series carry no score weight. This does not change the reading of <span id="ccReading"></span>.</p>
+        <details class="cc-rules">
+          <summary>See what would make each check fire</summary>
+          <div class="cc-rulebody" id="ccRules"></div>
+        </details>
+      </section>
 
       <div class="pvJ-label wide" id="ledger">The Ledger</div>
       <div class="pk-ledger">
@@ -141,7 +185,7 @@ renderFooter();
 const BOOT_LINES=[
   ['> DIVISION OF ECONOMIC CONTAINMENT',''],
   ['> SPECIMEN US-ECON-01','LOCATED'],
-  ['> PRESSURE SENSORS ×8', LIVE?'ONLINE':'OFFLINE'],
+  [`> PRESSURE SENSORS ×${INDICATORS.length}`, LIVE?'ONLINE':'OFFLINE'],
   ['> INTEGRITY GATE',LIVE?'PASS — FAILS CLOSED':'NO SPECIMEN'],
   ['> VISITOR CLEARANCE','GRANTED'],
 ];
@@ -182,7 +226,10 @@ if(LIVE){
   const d=TODAY_SCORE-YESTERDAY;
   $('heroDelta').textContent=`${d>=0?'▲ +':'▼ −'}${Math.abs(d)} VS ${LD.prevMonthLabel.toUpperCase()}`;
   $('heroDelta').style.color=d>=0?'var(--amber)':'var(--green)';
-  if(window.EDITORIAL&&EDITORIAL.verdict){$('verdictLine').textContent=EDITORIAL.verdict}
+  /* resolveClaims, not the raw field: editorial prose is a token CARRIER by
+     design, and a verdict that one day carries a canonical-truth token must
+     not ship the braces to a reader on an otherwise green build. */
+  if(window.EDITORIAL&&EDITORIAL.verdict){$('verdictLine').textContent=resolveClaims(EDITORIAL.verdict)}
   else{
     const worse=HISTORY.filter(([,v])=>v>TODAY_SCORE).length,per10=Math.round(worse/HISTORY.length*10);
     $('verdictLine').textContent=per10>=5
@@ -191,28 +238,124 @@ if(LIVE){
   }
   $('plcSealed').textContent='Integrity gate: PASS · fails closed';
 
+  /* ---- delta, in three states rather than two -------------------------------
+     delta===0 used to take the >=0 branch, so housing, credit and auto — 18 of
+     the jar's 26 ounces — rendered as "▲0" in --amber: an up-arrow in the
+     warning colour for lines that did not move. A line that held flat says so. */
+  const deltaText=d=>d===0?'held flat':`${d>0?'▲ up':'▼ eased'} ${Math.abs(d)} point${Math.abs(d)===1?'':'s'}`;
+  const deltaWords=d=>d===0?'unchanged':`${d>0?'up':'down'} ${Math.abs(d)} point${Math.abs(d)===1?'':'s'}`;
+  const deltaTone=d=>d===0?'var(--muted)':d>0?'var(--amber)':'var(--green)';
+
+  /* ---- rung 2: what's driving it? -------------------------------------------
+     The featured lines are the four heaviest CONTRIBUTORS, not the biggest
+     movers. Sorting by Math.abs(delta) published gas 4 + inflation 2 + jobs 2 +
+     financial 0 = 8 of 26 ounces, gave a card to a line contributing nothing,
+     and left housing 7, credit 6 and auto 5 — 18 of the same 26 — with no card
+     at all. Attribution is ranked by contribution; the largest MOVE is an
+     additional labelled fact below, never the sort key. Ties break on the
+     line's weight in the formula, then on slug, so a tie month publishes a
+     stable order a reader can reproduce. */
   const W=Object.entries(LD.lines).filter(([,l])=>l.contributesToOoze!==false);
-  /* four featured canisters: biggest movers, then heaviest — real numbers only */
-  const feat=[...W].sort((a,b)=>(Math.abs(b[1].delta)-Math.abs(a[1].delta))||(b[1].stress-a[1].stress)).slice(0,4);
+  const wOf=k=>indBySlug(k)?.weight||0;
+  const byContribution=(a,b)=>(b[1].contrib-a[1].contrib)||(wOf(b[0])-wOf(a[0]))||a[0].localeCompare(b[0]);
+  const ranked=[...W].sort(byContribution);
+  const feat=ranked.slice(0,4),rest=ranked.slice(4);
+  const totalOz=W.reduce((n,[,l])=>n+l.contrib,0);
+  const featuredOz=feat.reduce((n,[,l])=>n+l.contrib,0);
+  const remainderOz=totalOz-featuredOz;
+  console.assert(totalOz===TODAY_SCORE,'weighted contributions do not foot to the reading');
+  /* the month's largest move, decided the same way every month */
+  const mover=[...ranked].sort((a,b)=>(Math.abs(b[1].delta)-Math.abs(a[1].delta))||byContribution(a,b))[0];
+
+  /* ---- the cross-check gutter: one column, every featured line, every month.
+     Driven by the payload (EDITORIAL.crosschecks). A line with no published
+     comparison series shows a dash, never a tick — an unchecked line has not
+     agreed with anything. */
+  const CC=(window.EDITORIAL&&EDITORIAL.crosschecks)||null;
+  const ccBySlug=new Map((CC?.rows||[]).map(r=>[r.slug,r]));
+  const ccGutter=slug=>{
+    const r=ccBySlug.get(slug);
+    if(!r)return{mark:'',say:'no cross-check published for this line',fired:'0'};
+    if(!r.checked)return{mark:'–',say:'no comparison series published for this line yet',fired:'0'};
+    if(r.fired)return{mark:'≠',say:'a cross-check on this line disagrees',fired:'1'};
+    /* A mixed row must not say "agrees" here either. The screen-reader string is
+       the one a sighted proofreader never sees, which makes it the easiest place
+       for a false statement to survive. */
+    if(r.result==='mixed')return{mark:'~',say:'the two series on this line moved in opposite directions, below the reporting threshold',fired:'0'};
+    return{mark:'·',say:'the cross-check on this line agrees',fired:'0'};
+  };
+
+  $('ozBar').innerHTML=ranked.map(([k,l])=>
+    `<span class="oz-seg" data-slug="${k}" style="flex:${l.contrib}">${'<i></i>'.repeat(l.contrib)}</span>`).join('');
+  $('ozBar').setAttribute('aria-label',
+    `${totalOz} ounces: ${ranked.filter(([,l])=>l.contrib>0).map(([k,l])=>`${indBySlug(k).name.toLowerCase()} ${l.contrib}`).join(', ')}`);
+  $('ozKey').innerHTML=feat.map(([k,l])=>`<span style="flex:${l.contrib}">${indBySlug(k).name} ${l.contrib}</span>`).join('')
+    +`<span style="flex:${Math.max(remainderOz,1)}">${rest.length} lighter · ${remainderOz}</span>`;
+
   $('canCards').innerHTML=feat.map(([k,l])=>{
-    const y=indBySlug(k);
-    return `<a class="pk-can" href="indicator.html?i=${k}" title="${y.name}: stress ${l.stress}/100">
-      <span class="nm">${y.name}</span>
-      <span class="can-glass"><i style="height:${l.stress}%;background:linear-gradient(180deg,${LEVELCOLORS[levelOf(l.stress)-1]},rgba(0,0,0,.25) 240%)"></i></span>
-      <span class="lv">Level: <b>${l.stress}</b></span>
-      <span class="dl" style="color:${l.delta>=0?'var(--amber)':'var(--green)'}">${l.delta>=0?'▲':'▼'}${Math.abs(l.delta)}</span>
+    const y=indBySlug(k),g=ccGutter(k);
+    const tag=mover&&mover[0]===k?'<span class="can-tag">LARGEST MOVE</span>':'';
+    return `<a class="pk-can" href="indicator.html?i=${k}">
+      <span class="cc-gutter" data-fired="${g.fired}" aria-hidden="true">${g.mark}</span>
+      <span class="sr-only">${g.say}</span>
+      <span class="nm">${y.name}${tag}</span>
+      <span class="oz"><b>${l.contrib}</b> of ${totalOz} oz</span>
+      <span class="obs">${y.shortMetric} ${l.value}</span>
+      <span class="dl" style="color:${deltaTone(l.delta)}">${deltaText(l.delta)}</span>
     </a>`}).join('');
+
+  const restText=rest.map(([k,l])=>`${indBySlug(k).name.toLowerCase()} ${l.contrib}`).join(', ');
+  const moverIsFeatured=mover&&feat.some(([k])=>k===mover[0]);
+  $('rungTail').textContent=
+    `Those four are ${featuredOz} of the month's ${totalOz} ounces. The remaining ${remainderOz} came from ${restText}. `
+    +(mover?`Largest move: ${indBySlug(mover[0]).name.toLowerCase()}, ${deltaWords(mover[1].delta)}${moverIsFeatured?' — marked above':' — listed in the ledger'}. `:'')
+    +`Lines carrying the same ounces are ordered by their weight in the formula.`;
+
+  /* ---- rung 3: what changed? EDITORIAL.story is generated every morning and
+     until now rendered nowhere a first-time reader could see it. It carries
+     canonical-truth tokens, so it resolves client-side; it is deliberately NOT
+     stamped into the static file, because stamp.js has no resolver and an
+     unresolved token in index.html reds narrative-check. */
+  if(window.EDITORIAL&&EDITORIAL.story)$('storyBody').textContent=resolveClaims(EDITORIAL.story);
+  else $('storyBody').textContent='This month’s written reading has not been generated yet.';
+
+  /* ---- rung 4: what doesn't add up? Every element renders in every state;
+     only text and one data attribute change between quiet and loud. */
+  if(CC){
+    const sec=$('crosscheck');
+    sec.hidden=false;
+    sec.dataset.cc=CC.state;
+    $('ccGlyph').textContent=CC.glyph;
+    $('ccState').textContent=CC.label;
+    $('ccCount').textContent=CC.count;
+    $('ccBody').innerHTML=(CC.body||[]).map(p=>`<p>${resolveClaims(p)}</p>`).join('');
+    $('ccNote').textContent=CC.note||'';
+    $('ccRoster').innerHTML=(CC.rows||[]).map(r=>{
+      const g=ccGutter(r.slug);
+      return `<tr><td class="cc-gutter" data-fired="${g.fired}"><span aria-hidden="true">${g.mark}</span><span class="sr-only">${g.say}</span></td>
+        <td>${r.name}</td><td>${r.jarReads}</td>
+        <td>${r.against?`${r.against} — ${r.againstPublisher}`:'no comparison series published yet'}</td>
+        <td>${r.result}</td></tr>`}).join('');
+    $('ccRun').textContent=CC.run||'';
+    $('ccReading').textContent=TODAY_SCORE;
+    $('ccRules').innerHTML=(CC.rows||[]).map(r=>`<p><b>${r.name}</b> — ${r.rule}</p>`).join('');
+  }
 
   /* the ledger carries every intake line — auxiliary sensors disclosed, never shown as zero pressure */
   const rows=Object.entries(LD.lines).map(([k,l])=>{
     const y=indBySlug(k);
-    return {slug:k,emoji:y.emoji,name:y.name,value:l.value,delta:l.delta,contributesToOoze:l.contributesToOoze!==false};
-  }).sort((a,b)=>b.contributesToOoze-a.contributesToOoze);
+    return {slug:k,emoji:y.emoji,name:y.name,value:l.value,delta:l.delta,contrib:l.contrib,
+            contributesToOoze:l.contributesToOoze!==false};
+  }).sort((a,b)=>(b.contributesToOoze-a.contributesToOoze)||(b.contrib-a.contrib)
+               ||(wOf(b.slug)-wOf(a.slug))||a.slug.localeCompare(b.slug));
   const lrow=x=>{
-    const amount=x.contributesToOoze?`${x.delta>=0?'▲':'▼'}${Math.abs(x.delta)}`:'AUX';
+    const amount=x.contributesToOoze?deltaText(x.delta):'AUX';
+    const cell=x.contributesToOoze
+      ?`<span class="dl" style="color:${deltaTone(x.delta)}">${amount}</span>`
+      :`<span class="dl"><span class="aux-badge">${amount}</span></span>`;
     return `<a class="pk-lrow" href="indicator.html?i=${x.slug}"${x.contributesToOoze?'':' title="PROVISIONAL AUXILIARY SENSOR · 0-WEIGHT · DOES NOT ALTER THE OOZE SCORE"'}>
     <span>${x.emoji}</span><span>${x.name}</span><b>${x.value}</b>
-    <span class="dl" style="color:${x.contributesToOoze?(x.delta>=0?'var(--amber)':'var(--green)'):'var(--dim)'}">${amount}</span></a>`;
+    ${cell}</a>`;
   };
   const half=Math.ceil(rows.length/2);
   $('ledgerL').innerHTML=rows.slice(0,half).map(lrow).join('');
@@ -228,7 +371,8 @@ if(LIVE){
   $('heroDelta').textContent='NO PRIOR READING';
   $('verdictLine').textContent='Sensors offline — no live data connected yet';
   $('plcSealed').textContent='Integrity gate: no specimen yet';
-  $('canCards').innerHTML='<span style="grid-column:1/-1;color:var(--dim);font-size:.7rem;letter-spacing:.2em">SENSORS OFFLINE — CANISTERS EMPTY</span>';
+  $('canCards').innerHTML='<span style="display:block;color:var(--dim);font-size:.72rem;letter-spacing:.2em">SENSORS OFFLINE — CANISTERS EMPTY</span>';
+  $('storyBody').textContent='No specimen has been collected, so there is no written reading to publish.';
   document.querySelector('.specimen-line').innerHTML='🧪 Sensors offline — <b>no live data connected yet</b>. The jar reads 0 until the first specimen is collected.';
 }
 

@@ -35,8 +35,7 @@ const BANDS = [
 const MESS_TIER='☢ NATIONAL MESS';
 
 const INDICATORS = [
-  {slug:'gas', emoji:'⛽', name:'Gas Prices', val:'$3.42', trend:'▲ +$0.02 today', dir:'up', contrib:7, weight:9.7,
-   spark:[28,30,29,33,31,36,40],
+  {slug:'gas', emoji:'⛽', name:'Gas Prices', val:'$3.42', trend:'▲ +$0.02 today', dir:'up', contrib:7, weight:9.7, shortMetric:'pump price',
    source:{name:'EIA Weekly Retail Gasoline (via FRED)', url:'https://www.eia.gov/petroleum/gasdiesel/'},
    why:`Gasoline is the price everyone sees twice a week, posted in foot-tall numbers on every corner. When it rises, the pain is immediate: commuters, delivery businesses, and family budgets all feel it within days. Economists watch it because fuel costs leak into the price of nearly everything that moves on a truck.`,
    vs2008:`In June 2008, the national average hit $4.11 — a record that, adjusted for inflation, still stings. Combined with the housing collapse, expensive fuel squeezed households from both sides. Today's pump price — shown at the top of this page, from the live feed — is high in nominal terms but sits below that 2008 peak once inflation is accounted for.`,
@@ -47,8 +46,7 @@ const INDICATORS = [
    ],
    related:['inflation','manufacturing','housing']},
 
-  {slug:'housing', emoji:'🏠', name:'Housing', val:'6.81%', trend:'▲ 30-yr mortgage rate', dir:'up', contrib:14, weight:19.4,
-   spark:[50,52,55,54,58,60,62],
+  {slug:'housing', emoji:'🏠', name:'Housing', val:'6.81%', trend:'▲ 30-yr mortgage rate', dir:'up', contrib:14, weight:19.4, shortMetric:'30-year mortgage',
    source:{name:'Freddie Mac PMMS', url:'https://www.freddiemac.com/pmms'},
    why:`Housing is most families' biggest monthly bill and biggest asset at the same time. When mortgage rates climb, affordability collapses for buyers and the whole chain slows: fewer sales, less construction, less spending on everything that fills a house. Housing led the economy into the last great crisis — this intake line gets a thick pipe.`,
    vs2008:`In 2008, this line ruptured. Subprime lending, teaser rates, and speculation sent prices to unsustainable heights; the collapse erased roughly $7 trillion in home equity and triggered a global financial crisis. Today's stress is different — high rates and low affordability, but far stricter lending and much stronger household equity.`,
@@ -59,8 +57,7 @@ const INDICATORS = [
    ],
    related:['foreclosures','credit','jobs']},
 
-  {slug:'credit', emoji:'💳', name:'Credit Cards', val:'3.2%', trend:'▲ delinquency, 2-yr high', dir:'up', contrib:13, weight:19.4,
-   spark:[30,34,38,42,48,55,60],
+  {slug:'credit', emoji:'💳', name:'Credit Cards', val:'3.2%', trend:'▲ delinquency, 2-yr high', dir:'up', contrib:13, weight:19.4, shortMetric:'card delinquency',
    source:{name:'NY Fed Household Debt Report', url:'https://www.newyorkfed.org'},
    why:`Credit card stress is the economy's early-warning smoke detector. Cards are the first bill households skip when budgets crack — before the car payment, long before the mortgage. Rising delinquencies mean millions of kitchen-table budgets are already failing, months before it shows up anywhere else.`,
    vs2008:`Charge-off rates peaked above 10% in 2010 as unemployment destroyed household finances. Today's delinquency rate — shown at the top of this page, from the live feed — remains a fraction of that. This line reads the level and its direction together; the current move is stated beside the reading rather than described here, because a sentence written once cannot keep up with a series that revises.`,
@@ -71,8 +68,7 @@ const INDICATORS = [
    ],
    related:['auto','housing','jobs']},
 
-  {slug:'auto', emoji:'🚗', name:'Auto Loans', val:'7.9%', trend:'▲ average APR', dir:'up', contrib:9, weight:14.55,
-   spark:[40,42,45,44,48,50,52],
+  {slug:'auto', emoji:'🚗', name:'Auto Loans', val:'7.9%', trend:'▲ average APR', dir:'up', contrib:9, weight:14.55, shortMetric:'auto-loan delinquency',
    source:{name:'NY Fed / Equifax', url:'https://www.newyorkfed.org'},
    why:`In most of America, no car means no job. That makes the auto loan the most defended payment in the household budget — families pay the car before the credit card, sometimes before the rent. So when auto delinquencies and repossessions rise, it signals stress that has already burned through every other line of defense.`,
    vs2008:`Repossessions surged past 1.9 million in 2009. Today's numbers are lower, but the average monthly payment on a new car now exceeds $730 — a record — and seven-year loan terms mean many borrowers owe more than the car is worth.`,
@@ -83,8 +79,7 @@ const INDICATORS = [
    ],
    related:['credit','gas','jobs']},
 
-  {slug:'jobs', emoji:'👷', name:'Unemployment', val:'4.4%', trend:'▲ +0.1 pt this month', dir:'up', contrib:15, weight:24.25,
-   spark:[35,36,38,40,44,48,55],
+  {slug:'jobs', emoji:'👷', name:'Unemployment', val:'4.4%', trend:'▲ +0.1 pt this month', dir:'up', contrib:15, weight:24.25, shortMetric:'unemployment',
    source:{name:'Bureau of Labor Statistics', url:'https://www.bls.gov'},
    why:`Employment is the heaviest-weighted intake line in the facility, and for good reason: a paycheck is the pressure valve for every other indicator. People with jobs pay their mortgages, cards, and car loans. When unemployment climbs, every other jar in the building starts bubbling within months. Recessions are, at their core, employment events.`,
    vs2008:`Unemployment peaked at 10.0% in October 2009 — nearly 15 million Americans out of work — and took over six years to recover. April 2020 was even more violent: 14.8% in a single month. Today's rate — shown at the top of this page, from the live feed — is low by the standard of both those episodes. This line reads direction as well as level, and the current move is stated beside the reading rather than fixed in this sentence.`,
@@ -95,8 +90,7 @@ const INDICATORS = [
    ],
    related:['manufacturing','credit','housing']},
 
-  {slug:'inflation', emoji:'📈', name:'Inflation', val:'3.1%', trend:'▼ CPI cooling', dir:'down', contrib:6, weight:9.7,
-   spark:[70,65,60,55,50,45,42],
+  {slug:'inflation', emoji:'📈', name:'Inflation', val:'3.1%', trend:'▼ CPI cooling', dir:'down', contrib:6, weight:9.7, shortMetric:'yearly price growth',
    source:{name:'BLS Consumer Price Index', url:'https://www.bls.gov/cpi'},
    why:`Inflation is the silent leak — it doesn't take your job or your house, it just quietly makes everything you already do more expensive. It hits hardest at the bottom, where groceries and rent consume most of the paycheck. It also drives nearly every other line: the Fed's fight against inflation is why mortgage and auto rates are high.`,
    vs2008:`Mid-2008 saw a 5.6% oil-driven spike, followed by outright deflation during the crash. The modern benchmark is June 2022: 9.1%, the fastest since 1981 — the event that triggered the steepest rate-hiking cycle in four decades, whose pressure still fills several other jars in this facility.`,
@@ -107,8 +101,7 @@ const INDICATORS = [
    ],
    related:['gas','housing','credit']},
 
-  {slug:'financial', emoji:'🌡', name:'Financial Conditions', val:'-0.54', trend:'▼ conditions loose', dir:'down', contrib:0, weight:3,
-   spark:[12,12,11,12,12,12,12],
+  {slug:'financial', emoji:'🌡', name:'Financial Conditions', val:'-0.54', trend:'▼ conditions loose', dir:'down', contrib:0, weight:3, shortMetric:'Chicago Fed index',
    source:{name:'Chicago Fed NFCI (via FRED)', seriesId:'NFCI', url:'https://fred.stlouisfed.org/series/NFCI'},
    why:`This line reads the financial system's plumbing: the Chicago Fed's National Financial Conditions Index compresses 105 measures of lending, funding, and risk appetite into one number. Positive means tighter than normal — banks pulling back, credit harder to get; negative means looser. It entered the jar in methodology v3 at 3% as a labeled bet: in backtesting it made the score climb about a month earlier during the slow credit tightening of 2007–08, and did nothing in the fast crash of 2020. Its measured benefit comes from that single historical episode, and in calm markets its arithmetic effect on the blended score is slightly negative. The full studies are public in the research archive.`,
    vs2008:`The NFCI rose far above average through 2007–08 as risk, credit, and leverage tightened together — months before household lines like unemployment confirmed the damage. That early climb in a slow, credit-driven crisis is exactly the pattern this line was added to catch. It is not a crystal ball: in fast shocks, everything moves at once and this line adds nothing.`,
@@ -119,8 +112,7 @@ const INDICATORS = [
    ],
    related:['credit','housing','jobs']},
 
-  {slug:'foreclosures', emoji:'🏦', name:'Mortgage Distress', val:'—', trend:'auxiliary delinquency proxy', dir:'down', contrib:0, weight:0,
-   spark:[20,21,20,22,21,22,22],
+  {slug:'foreclosures', emoji:'🏦', name:'Mortgage Distress', val:'—', trend:'auxiliary delinquency proxy', dir:'down', contrib:0, weight:0, shortMetric:'mortgage delinquency',
    source:{name:'Federal Reserve Mortgage Delinquency', seriesId:'DRSFRMACBS', url:'https://fred.stlouisfed.org/series/DRSFRMACBS'},
    why:`This auxiliary sensor measures residential mortgage delinquency at commercial banks. It is a mortgage-distress proxy, not a count or rate of foreclosure filings, and it does not add separate weight to the Ooze because mortgage delinquency already informs Housing.`,
    vs2008:`Mortgage delinquency surged during the Global Financial Crisis and confirms severe borrower distress, but it is not interchangeable with foreclosure filings. OOZEMeter keeps that distinction visible instead of presenting the proxy as a direct foreclosure rate.`,
@@ -131,8 +123,7 @@ const INDICATORS = [
    ],
    related:['housing','jobs','credit']},
 
-  {slug:'manufacturing', emoji:'🏭', name:'Manufacturing', val:'—', trend:'auxiliary public-data sensor', dir:'up', contrib:0, weight:0,
-   spark:[55,52,50,49,48,49,48],
+  {slug:'manufacturing', emoji:'🏭', name:'Manufacturing', val:'—', trend:'auxiliary public-data sensor', dir:'up', contrib:0, weight:0, shortMetric:'industrial production',
    source:{name:'Federal Reserve Industrial Production', seriesId:'INDPRO', url:'https://fred.stlouisfed.org/series/INDPRO'},
    why:`Factories feel the economy early. OOZEMeter's public-data path uses Federal Reserve industrial production and Census manufacturers' new orders (AMTMNO) rather than republishing licensed ISM PMI data. This remains an auxiliary sensor with zero score weight until its transformation is frozen and backtested.`,
    vs2008:`Industrial production fell sharply during the Global Financial Crisis. Unlike PMI, INDPRO measures realized output rather than survey expectations, so the two should not be labeled as the same indicator.`,
@@ -144,11 +135,13 @@ const INDICATORS = [
    related:['jobs','gas','inflation']},
 ];
 
-const MOVERS = [
-  {dir:'up',   slug:'gas',       name:'Gas Prices',      why:'Refinery outages pushed the national average higher.', pts:'+6'},
-  {dir:'up',   slug:'credit',    name:'Credit Defaults', why:'Card delinquencies hit a two-year high.',              pts:'+4'},
-  {dir:'down', slug:'inflation', name:'Inflation',       why:'Core CPI cooled for a third straight month.',          pts:'−3'},
-];
+/* MOVERS carries the collected month's movers and nothing else. The three
+   hand-written rows that used to sit here ("Refinery outages pushed the
+   national average higher", +6 / +4 / −3) were invented copy attached to
+   invented point moves; they survived every collection because the live branch
+   below only ever cleared and refilled the array. Deleted 2026-08-14 — a
+   fabricated cause is worse than a missing one. */
+const MOVERS = [];
 
 /* Methodology v3: Financial Conditions enters at 3.00; incumbents scale ×0.97.
    Sums to 100. Change only with a methodology revision (policies.html). */

@@ -42,16 +42,25 @@ const verdict=per10>=5?`Calmer than ${per10} of every 10 months since 2003`
 /* ---- per-line narratives ---- */
 const pts=n=>`${n} point${Math.abs(n)===1?'':'s'}`;
 const PLURAL=new Set(['gas','credit','auto']); /* 'gas prices','credit cards','auto loans' take plural verbs */
+/* ONE threshold ladder, several phrasings. A hand-chosen verb is a hand-typed
+   number wearing a coat, so every verb on every surface — the per-line
+   sentences below and the cross-check paragraphs further down — classifies the
+   move here and only here. */
+const moveClass=dd=>{
+  const ad=Math.abs(dd);
+  return ad===0?'flat':ad<3?'steady':ad>=8?(dd>0?'jumped':'plunged'):(dd>0?'climbed':'eased');
+};
 const base={};    /* clean sentence, used inside the article */
 const lines={};   /* + aux/stale caveats, used on indicator pages */
 for(const [k,l] of Object.entries(d.lines)){
   const n=NAMES[k]||k,dd=l.delta,ad=Math.abs(dd),clause=VALUE_CLAUSE[k]?.(l)||'';
   let s;
-  if(ad===0)s=`${cap(n)} ${PLURAL.has(k)?'were':'was'} flat this month${clause}.`;
-  else if(ad<3)s=`${cap(n)} held roughly steady — ${dd>0?'up':'down'} ${pts(ad)}${clause}.`;
-  else if(dd<=-8)s=`Pressure from ${n} fell sharply, down ${pts(ad)}${clause}.`;
-  else if(dd<0)s=`Pressure from ${n} eased, down ${pts(ad)}${clause}.`;
-  else if(dd>=8)s=`Pressure from ${n} jumped ${pts(ad)}${clause}.`;
+  const mc=moveClass(dd);
+  if(mc==='flat')s=`${cap(n)} ${PLURAL.has(k)?'were':'was'} flat this month${clause}.`;
+  else if(mc==='steady')s=`${cap(n)} held roughly steady — ${dd>0?'up':'down'} ${pts(ad)}${clause}.`;
+  else if(mc==='plunged')s=`Pressure from ${n} fell sharply, down ${pts(ad)}${clause}.`;
+  else if(mc==='eased')s=`Pressure from ${n} eased, down ${pts(ad)}${clause}.`;
+  else if(mc==='jumped')s=`Pressure from ${n} jumped ${pts(ad)}${clause}.`;
   else s=`Pressure from ${n} climbed ${pts(ad)}${clause}.`;
   if(l.stale)s+=' Its source feed is overdue, so this reading may lag.';
   base[k]=s;
@@ -86,6 +95,129 @@ const story=`${s1} ${s2} ${s3}`;
 
 /* ---- executive summary ---- */
 const summary=`The ${d.monthLabel} Ooze Level sealed at ${SCORE} out of 100 — ${band(d.ooze)} territory, ${delta===0?'unchanged from':delta<0?`down ${Math.abs(delta)} from`:`up ${delta} from`} ${d.prevMonthLabel}. ${verdict}. The heaviest line was ${NAMES[topK]} at ${topL.contrib} ounces.`;
+
+/* ---- cross-checks: "what doesn't add up?" -------------------------------
+   A cross-check compares a figure the jar READS against a figure the score
+   DOES NOT USE, and reports whether the two point the same way. A check can
+   only exist where data/latest.json actually carries a comparison series that
+   carries no score weight, so this block never invents one: the roster lists
+   all seven weighted lines either way, and a line with no published comparison
+   series is printed as a gap rather than counted as agreement.
+
+   THE FIRING RULE, published and the same every month: a check fires when the
+   jar's line and its comparison series moved in OPPOSITE directions this month
+   AND both moved at least 3 points of line stress. Both figures are the
+   `delta` fields in data/latest.json — same unit, same file — so any reader
+   can reproduce the verdict from the raw payload.
+
+   Escalation: employment escalates alone because it carries 24.25% of the
+   formula; anything else needs two. */
+const CC_FIRE=3;
+/* A cross-check is only worth publishing if the comparison series is genuinely
+   OUTSIDE the score. housing:foreclosures was neither — collect.js:110 computes
+   housing as max(mortgage-rate stress, mortgage-DELINQUENCY stress), and the
+   foreclosures line reads that same delinquency series. Publishing it would have
+   printed "The jar reads X. It does not read mortgage delinquency" beside a
+   public file where it plainly does. There is currently no zero-weight series
+   for housing that isn't already an input, so housing is honestly unchecked.
+   Every pair added here must be verified absent from scripts/collect.js first. */
+const CC_PAIRS={jobs:'manufacturing'};
+const moveText=dd=>{
+  const ad=Math.abs(dd);
+  switch(moveClass(dd)){
+    case'flat':return'held flat';
+    case'steady':return`held roughly steady, ${dd>0?'up':'down'} ${pts(ad)}`;
+    case'plunged':return`fell sharply, down ${pts(ad)}`;
+    case'eased':return`eased ${pts(ad)}`;
+    case'jumped':return`jumped ${pts(ad)}`;
+    default:return`climbed ${pts(ad)}`;
+  }
+};
+const metricOf=l=>l?.source?.metric||null;
+const publisherOf=l=>l?.source?.publisher||null;
+
+const ccRows=[...weighted].sort((a,b)=>(b[1].contrib-a[1].contrib)||a[0].localeCompare(b[0])).map(([k,l])=>{
+  const againstKey=CC_PAIRS[k];
+  const against=againstKey?d.lines[againstKey]:null;
+  const usable=!!(against&&metricOf(against)&&AUX.has(againstKey)&&typeof against.delta==='number');
+  const row={slug:k,name:cap(NAMES[k]||k),contrib:l.contrib,
+    jarReads:metricOf(l)||'—',jarPublisher:publisherOf(l)||'—',
+    checked:usable,fired:false,
+    against:usable?metricOf(against):null,
+    againstPublisher:usable?publisherOf(against):null,
+    againstSlug:usable?againstKey:null,
+    rule:usable
+      ? `Fires when ${NAMES[k]} and ${NAMES[againstKey]} move in opposite directions and both move at least ${CC_FIRE} points of line stress in the same month.`
+      : 'No comparison series is published for this line yet, so no rule can fire.',
+    /* the RESULT cell states the verdict; the CHECKED AGAINST cell states what
+       it was compared with. An unchecked line has not agreed with anything, so
+       it never gets the word "agrees" and never gets a tick. */
+    result:usable?'agrees':'not checked'};
+  if(usable){
+    const a=l.delta,b=against.delta;
+    const opposed=(a>0&&b<0)||(a<0&&b>0);
+    row.fired=opposed&&Math.abs(a)>=CC_FIRE&&Math.abs(b)>=CC_FIRE;
+    /* Opposed but under the threshold is NOT agreement. The first version of
+       this printed "agrees" for any row that failed to fire, which put a false
+       statement on the page the day it shipped: employment moved -1 while
+       manufacturing moved +3 — genuinely opposite — and the row read "agrees".
+       Three outcomes, not two, matching the engine spec's AGREE / MIXED /
+       CONFLICT. */
+    row.opposed=opposed;
+    row.result=row.fired?'disagrees':opposed?'mixed':'agrees';
+    row.jarMove=moveText(a);
+    row.againstMove=moveText(b);
+  }
+  return row;
+});
+const ccRan=ccRows.filter(r=>r.checked).length;
+const ccUnchecked=ccRows.length-ccRan;
+const ccFired=ccRows.filter(r=>r.fired);
+const ccMixed=ccRows.filter(r=>r.opposed&&!r.fired);
+const ccState=ccRan===0?'nodata'
+  :ccFired.length?((ccFired.length>1||ccFired.some(r=>r.slug==='jobs'))?'red':'amber')
+  :ccMixed.length?'mixed'
+  :'quiet';
+const CC_HEAD={
+  quiet:{glyph:'·',label:'The checks agree'},
+  mixed:{glyph:'~',label:'Mixed signals'},
+  amber:{glyph:'≠',label:'One check disagrees'},
+  red:{glyph:'≠',label:'Meaningful contradiction detected'},
+  nodata:{glyph:'—',label:'Cross-checks could not run'},
+}[ccState];
+const ccBody=ccState==='nodata'
+  ?['Cross-checks could not run this month — one or more comparison series has not released. A missing month stays missing.']
+  :ccState==='quiet'
+  ?["The numbers the jar reads and the numbers it doesn't are pointing the same way this month.",
+    `${ccRan} cross-check${ccRan===1?'':'s'} ran — the same one${ccRan===1?'':'s'} every month, one for each line that has a published comparison series. Each compares a figure the jar reads against a figure the score does not use. None of them disagreed.`]
+  :ccState==='mixed'
+  ?ccMixed.flatMap(r=>[
+      `${r.name} and ${r.against.toLowerCase()} moved in opposite directions this month, but not far enough for us to call it.`,
+      `The jar's ${NAMES[r.slug]} line ${r.jarMove}. Over the same month ${r.against.toLowerCase()}, published by ${r.againstPublisher} and carrying no score weight, ${r.againstMove}. The rule needs both to move at least ${CC_FIRE} points of line stress before we report a contradiction, and only one of them did.`,
+      `We are showing this rather than filing it under agreement, because they did not agree. Opposite directions below the threshold is a third answer, and calling it agreement would be the easier and less honest of the two options.`,
+    ])
+  :ccFired.flatMap(r=>[
+      `${r.name} and ${r.against.toLowerCase()} point opposite ways this month.`,
+      `The jar's ${NAMES[r.slug]} line ${r.jarMove}. Over the same month ${r.against.toLowerCase()}, published by ${r.againstPublisher} and carrying no score weight, ${r.againstMove}.`,
+      `The jar reads ${r.jarReads.toLowerCase()}. It does not read ${r.against.toLowerCase()}. So this month's ${NAMES[r.slug]} line — ${r.contrib} of the jar's ${SCORE} ounces — is measuring only one of the two.`,
+    ]);
+/* The coverage note is printed in every state, including the state where there
+   is nothing to disclose. A module that drops a component when the news is
+   quiet teaches a reader within two visits that quiet means unimportant. */
+const ccNote=ccUnchecked
+  ?`${ccUnchecked} of the ${ccRows.length} weighted lines carry no published comparison series yet. They are listed below and marked as unchecked — never counted as agreement.`
+  :`All ${ccRows.length} weighted lines carry a published comparison series.`;
+/* Agreement needs a run to mean anything, and no edition has published these
+   checks before, so the streak is one. Do not invent a longer one. */
+const ccRun=ccState==='nodata'
+  ?'A month with no comparison series is an absence, not a finding.'
+  :'Agreement is a reading, not a blank space. This is the first edition to publish these checks; the run starts here.';
+const ccCount=ccState==='nodata'?''
+  :ccMixed.length&&!ccFired.length?`${ccMixed.length} of ${ccRan} check${ccRan===1?'':'s'} mixed`
+  :`${ccFired.length} of ${ccRan} check${ccRan===1?'':'s'} disagree`;
+const crosschecks={state:ccState,glyph:CC_HEAD.glyph,label:CC_HEAD.label,count:ccCount,
+  ran:ccRan,unchecked:ccUnchecked,fired:ccFired.map(r=>r.slug),mixed:ccMixed.map(r=>r.slug),threshold:CC_FIRE,
+  body:ccBody,note:ccNote,run:ccRun,rows:ccRows};
 
 /* ---- confidence statement ---- */
 const staleN=d.collection?.staleLines?.length||0;
@@ -179,7 +311,7 @@ const social=`🧪 ${d.monthLabel} Ooze Level: ${d.ooze}/100 (${band(d.ooze)}) �
 
 /* ---- write outputs ---- */
 const editorial={month:d.month,monthLabel:d.monthLabel,generated:d.generated,
-  byline:BYLINE,verdict,summary,story,lines,confidence,newsletter,rssSummary,social,
+  byline:BYLINE,verdict,summary,story,lines,confidence,crosschecks,newsletter,rssSummary,social,
   articleSlug:canonicalSlug};
 fs.writeFileSync('data/editorial.json',JSON.stringify(editorial,null,1));
 fs.writeFileSync('data/editorial.js','window.EDITORIAL='+JSON.stringify(editorial)+';');
@@ -213,4 +345,5 @@ fs.writeFileSync('data/auto-articles.js','window.AUTO_ARTICLES='+JSON.stringify(
 console.log('OOZEBOT drafted:',article.title);
 console.log('verdict:',verdict);
 console.log('confidence:',confidence);
+console.log(`cross-checks: ${ccState} — ${ccRan} ran, ${ccFired.length} disagree, ${ccMixed.length} mixed, ${ccUnchecked} line(s) with no comparison series`);
 console.log(`outputs: editorial.json/.js · auto-articles.js (${autos.length} report${autos.length===1?'':'s'})`);

@@ -611,6 +611,143 @@ footer a:hover{color:var(--ooze)}
 .njar::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:#1c2617;border-bottom:1px solid var(--line-hard)}
 .njar i{position:absolute;bottom:0;left:0;right:0;border-radius:0 0 4px 4px}
 
+/* ============ THE RUNGS — the reader's question order ============
+   Three stacked sections under the reading, each headed by the question a
+   first-time visitor actually asks next: what's driving it? what changed?
+   what doesn't add up? An unbroken left hairline runs through all of them so
+   they read as one continuous object rather than three unrelated panels.
+   Existing tokens only. No new colours, no new families, --ward untouched. */
+.rung{position:relative;text-align:left;max-width:860px;margin:0 auto;
+      padding:38px 0 0 26px;border-bottom:none}
+.rung[hidden]{display:none}
+.rung::before{content:"";position:absolute;left:0;top:0;bottom:0;width:1px;background:var(--line)}
+.rung:last-of-type::before{background:linear-gradient(180deg,var(--line),transparent)}
+.rung-h{font-family:var(--display);font-weight:800;font-size:clamp(1.05rem,2.4vw,1.35rem);
+        color:var(--text);letter-spacing:.01em;margin:0 0 10px;line-height:1.2}
+.rung-lede,.rung-tail{font-size:.82rem;line-height:1.55;color:var(--muted);max-width:68ch;margin:0 0 18px}
+.rung-tail{margin:16px 0 6px}
+/* the story: mono at reading size, so it reads as a printout rather than a
+   column. One step below the headline, one step above the instrument. */
+.rung-body{font-family:var(--mono);font-size:clamp(.92rem,1.9vw,1.02rem);line-height:1.62;
+           color:var(--text);max-width:64ch;margin:0 0 20px}
+.rung .pk-more{display:inline-flex;align-items:center;min-height:44px;font-size:.72rem;letter-spacing:.2em}
+@media(max-width:700px){.rung{padding-left:18px}}
+
+/* ---- the ounce bar: 26 ticks, one per ounce. No axis, no scale to misread,
+   no interpolation. Separation is carried by opacity and by the text key
+   underneath, never by hue alone. ---- */
+.oz-bar{display:flex;gap:4px;height:24px;margin:0 0 8px}
+.oz-seg{display:flex;gap:2px;min-width:0}
+.oz-seg i{flex:1 1 auto;min-width:3px;border-radius:2px;background:var(--ooze);opacity:.92}
+.oz-seg:nth-child(2) i{opacity:.76}
+.oz-seg:nth-child(3) i{opacity:.60}
+.oz-seg:nth-child(4) i{opacity:.46}
+.oz-seg:nth-child(n+5) i{background:var(--dim);opacity:.65}
+.oz-key{display:flex;gap:4px;font-size:.74rem;color:var(--muted);letter-spacing:.04em;margin-bottom:20px}
+.oz-key span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.oz-key span:last-child{color:var(--dim)}
+@media(max-width:620px){.oz-key{display:none}}
+
+/* ---- the four heaviest lines. Was a four-up card grid, which ranks nothing;
+   now rows, because rank is vertical and the ounces are the datum. ---- */
+.pk-cans{display:block;max-width:none;margin:0}
+.pk-can{display:grid;grid-template-columns:18px minmax(0,1.25fr) 104px minmax(0,1fr) auto;
+        gap:6px 14px;align-items:baseline;
+        border:none;border-top:1px solid var(--line);border-radius:0;background:none;
+        padding:15px 2px;min-height:48px;text-align:left;color:var(--muted);transition:background .2s}
+.pk-can:first-of-type{border-top:none}
+.pk-can:hover,.pk-can:focus-visible{transform:none;border-color:var(--line);
+        background:rgba(163,255,18,.045);text-decoration:none;color:var(--muted)}
+.pk-can .nm{font-size:.88rem;color:var(--text);letter-spacing:.01em;text-transform:none}
+.pk-can .oz{font-size:.78rem;color:var(--muted);white-space:nowrap}
+.pk-can .oz b{font-family:var(--display);font-weight:800;font-size:1.4rem;color:var(--ooze);
+              margin-right:6px;font-variant-numeric:tabular-nums}
+.pk-can .obs{font-size:.76rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.pk-can .dl,.pk-lrow .dl{font-family:var(--mono);font-weight:500;font-size:.76rem;
+              letter-spacing:0;text-align:right;white-space:nowrap}
+.can-tag{display:inline-block;margin-left:9px;font-size:.72rem;letter-spacing:.16em;
+         text-transform:uppercase;color:var(--muted);border:1px solid var(--line);
+         border-radius:3px;padding:2px 6px;vertical-align:1px;white-space:nowrap}
+@media(max-width:700px){
+  .pk-can{grid-template-columns:18px minmax(0,1fr) auto;
+          grid-template-areas:"g n o" ". v d";row-gap:5px}
+  .pk-can .cc-gutter{grid-area:g}.pk-can .nm{grid-area:n}.pk-can .oz{grid-area:o;text-align:right}
+  .pk-can .obs{grid-area:v}.pk-can .dl{grid-area:d}
+  .can-tag{margin-left:0;display:block;width:max-content;margin-top:5px}
+}
+
+/* ---- the auxiliary badge: a zero-weight sensor is disclosed, never printed
+   as a line that moved zero points. ---- */
+.aux-badge{display:inline-block;font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;
+           color:var(--dim);border:1px solid var(--line);border-radius:3px;padding:1px 6px}
+
+/* the ledger's last column carried "▲ +3" and now carries "held flat" and
+   "▼ eased 3 points", so a fixed 46px well clips the sentence it exists to
+   print. The name gives up the room, because the name is the guessable part. */
+.pk-lrow{grid-template-columns:24px minmax(0,1fr) auto max-content;gap:10px}
+.pk-lrow>span:nth-child(2){overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* ---- the cross-check gutter: one column, every featured line, every month.
+   A mark that only exists when it fires is unreadable when it fires. ---- */
+.cc-gutter{font-family:var(--mono);font-size:.86rem;color:var(--dim);text-align:center;
+           width:18px;line-height:1.4}
+.cc-gutter[data-fired="1"]{color:var(--amber)}
+.cc-gutter[data-fired="2"]{color:var(--red)}
+
+/* ---- rung 4. Every element renders in every state; only the words and one
+   data attribute change between quiet and loud. The quiet state is the fuller
+   one — a module that shrinks when it has nothing to report teaches a reader
+   that quiet means unimportant. ---- */
+.cc-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;padding:12px 0;
+         border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-bottom:20px}
+.cc-glyph{font-family:var(--mono);font-size:.9rem;color:var(--muted);width:1.1em;text-align:center}
+.cc-state{font-family:var(--display);font-weight:800;font-size:.92rem;color:var(--muted)}
+.cc-count{margin-left:auto;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+/* Escalation is carried by the glyph and the words, not by brightness: --red is
+   the dimmest colour on this canvas, so the loud state cannot be made loud by
+   hue and does not try. */
+/* mixed sits between quiet and amber: opposite directions, below the threshold.
+   Lifted to --text rather than given a hue, so it reads as noted rather than
+   alarming and the escalation stays in the glyph and the wording. */
+#crosscheck[data-cc="mixed"] .cc-glyph,#crosscheck[data-cc="mixed"] .cc-state{color:var(--text)}
+#crosscheck[data-cc="amber"] .cc-glyph,#crosscheck[data-cc="amber"] .cc-state{color:var(--amber)}
+#crosscheck[data-cc="red"] .cc-glyph,#crosscheck[data-cc="red"] .cc-state{color:var(--red)}
+#crosscheck[data-cc="nodata"] .cc-glyph,#crosscheck[data-cc="nodata"] .cc-state{color:var(--dim)}
+.cc-body p{font-size:.88rem;line-height:1.65;color:var(--text);max-width:62ch;margin:0 0 14px}
+.cc-note{font-size:.78rem;line-height:1.6;color:var(--muted);max-width:62ch;margin:0 0 6px}
+.cc-roster{width:100%;min-width:560px;border-collapse:collapse;font-size:.78rem;margin:18px 0 14px}
+.cc-roster caption{text-align:left;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;
+                   color:var(--dim);padding-bottom:10px}
+.cc-roster th{text-align:left;font-weight:500;font-size:.72rem;letter-spacing:.14em;
+              text-transform:uppercase;color:var(--dim);padding:0 12px 8px 0;
+              border-bottom:1px solid var(--line);white-space:nowrap}
+.cc-roster td{padding:11px 12px 11px 0;color:var(--muted);vertical-align:top;
+              border-bottom:1px solid var(--line)}
+.cc-roster td:nth-child(2){color:var(--text);white-space:nowrap}
+.cc-roster td:last-child{color:var(--text)}
+.cc-roster td.cc-gutter{padding-right:0;text-align:center}
+.cc-run{font-size:.8rem;line-height:1.6;color:var(--muted);max-width:62ch}
+.cc-firewall{font-size:.78rem;line-height:1.6;color:var(--muted);max-width:62ch;margin-top:10px}
+.cc-rules{margin-top:14px}
+.cc-rules summary{min-height:44px;display:flex;align-items:center;gap:9px;cursor:pointer;
+                  font-size:.76rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
+                  list-style:none}
+.cc-rules summary::-webkit-details-marker{display:none}
+.cc-rules summary::before{content:"+";color:var(--ooze);font-size:.9rem;line-height:1}
+.cc-rules[open] summary::before{content:"\2212"}
+.cc-rulebody p{font-size:.78rem;line-height:1.65;color:var(--muted);max-width:66ch;margin:0 0 10px}
+.cc-rulebody b{color:var(--text);font-weight:500}
+
+/* Wide content scrolls inside its own container; the page body never does.
+   A grid item defaults to min-width:auto, so without these three the roster's
+   min-width pushes the whole left column past the viewport instead of
+   scrolling inside its own box. */
+.pvJ-left{min-width:0}
+.rung{min-width:0}
+.scrollx{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+         clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
 .art-lede{border-left:3px solid var(--ooze);background:rgba(163,255,18,.05);padding:16px 20px;margin:0 0 28px;font-size:.94rem;line-height:1.7}
 .art-lede b{color:var(--ooze);letter-spacing:.14em;font-size:.62rem;display:block;margin-bottom:7px;text-transform:uppercase;font-family:var(--display)}
 .art-fold{border:1px solid var(--line);border-radius:12px;background:var(--panel);margin:34px 0 0;padding:0 20px}
