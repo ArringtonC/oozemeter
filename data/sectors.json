@@ -1,10 +1,10 @@
 {
- "generated": "2026-08-11T00:04:47.643Z",
+ "generated": "2026-08-16T21:19:08.278Z",
  "cadence": "manual; weekly schedule proposed but disabled pending quote-rights clearance",
  "overall": "CALM",
  "breadth": {
-  "steady": 10,
-  "softening": 1,
+  "steady": 11,
+  "softening": 0,
   "stressed": 0,
   "total": 11
  },
@@ -29,36 +29,36 @@
      "role": "U.S. large-cap equities",
      "state": "steady",
      "dot": "🟢",
-     "m1": 2.8,
-     "m3": 5.7,
-     "asOf": "2026-08-10"
+     "m1": 2.9,
+     "m3": 4.6,
+     "asOf": "2026-08-14"
     },
     {
      "sym": "QQQ",
      "role": "Nasdaq-100 non-financial equities",
      "state": "steady",
      "dot": "🟢",
-     "m1": -0.3,
-     "m3": 3.7,
-     "asOf": "2026-08-10"
+     "m1": 1.9,
+     "m3": 2.3,
+     "asOf": "2026-08-14"
     },
     {
      "sym": "DIA",
      "role": "Thirty price-weighted blue chips",
      "state": "steady",
      "dot": "🟢",
-     "m1": 2.8,
-     "m3": 8.7,
-     "asOf": "2026-08-10"
+     "m1": 2.1,
+     "m3": 8,
+     "asOf": "2026-08-14"
     },
     {
      "sym": "IWM",
      "role": "U.S. small-cap equities",
      "state": "steady",
      "dot": "🟢",
-     "m1": 0.9,
-     "m3": 6.3,
-     "asOf": "2026-08-10"
+     "m1": 3.2,
+     "m3": 7.9,
+     "asOf": "2026-08-14"
     }
    ]
   },
@@ -70,27 +70,27 @@
      "role": "S&P 500 financial equities",
      "state": "steady",
      "dot": "🟢",
-     "m1": 4.1,
-     "m3": 12.1,
-     "asOf": "2026-08-10"
+     "m1": 2.8,
+     "m3": 14.1,
+     "asOf": "2026-08-14"
     },
     {
      "sym": "XLI",
      "role": "S&P 500 industrial equities",
      "state": "steady",
      "dot": "🟢",
-     "m1": 1.9,
-     "m3": 6.1,
-     "asOf": "2026-08-10"
+     "m1": 3.6,
+     "m3": 7.4,
+     "asOf": "2026-08-14"
     },
     {
      "sym": "IYT",
      "role": "Listed transportation equities",
      "state": "steady",
      "dot": "🟢",
-     "m1": -1.4,
-     "m3": 7.6,
-     "asOf": "2026-08-10"
+     "m1": -0.1,
+     "m3": 10.7,
+     "asOf": "2026-08-14"
     }
    ]
   },
@@ -102,18 +102,18 @@
      "role": "S&P 500 consumer-discretionary equities",
      "state": "steady",
      "dot": "🟢",
-     "m1": 2.4,
-     "m3": -0.2,
-     "asOf": "2026-08-10"
+     "m1": 1,
+     "m3": -0.4,
+     "asOf": "2026-08-14"
     },
     {
      "sym": "XLP",
      "role": "S&P 500 consumer-staples equities",
      "state": "steady",
      "dot": "🟢",
-     "m1": 2.1,
-     "m3": 1.2,
-     "asOf": "2026-08-10"
+     "m1": 3.1,
+     "m3": 1.6,
+     "asOf": "2026-08-14"
     }
    ]
   },
@@ -123,11 +123,11 @@
     {
      "sym": "SMH",
      "role": "U.S.-listed semiconductor equities",
-     "state": "softening",
-     "dot": "🟡",
-     "m1": -6.3,
-     "m3": 5.4,
-     "asOf": "2026-08-10"
+     "state": "steady",
+     "dot": "🟢",
+     "m1": -0.5,
+     "m3": 2.7,
+     "asOf": "2026-08-14"
     }
    ]
   },
@@ -139,9 +139,9 @@
      "role": "S&P 500 health-care equities",
      "state": "steady",
      "dot": "🟢",
-     "m1": 3.9,
-     "m3": 16.4,
-     "asOf": "2026-08-10"
+     "m1": 5.7,
+     "m3": 14.1,
+     "asOf": "2026-08-14"
     }
    ]
   }
@@ -149,7 +149,7 @@
  "oozebot": {
   "byline": "OOZEBOT",
   "cadence": "manual",
-  "asOf": "2026-08-10",
-  "paragraph": "Sector Watch is CALM: 10 of 11 tickers are steady, 1 softening, and 0 stressed. SMH has the weakest 22-session price change at −6.3%; XLF is strongest at +4.1%. These measured states use the published 22-session thresholds and do not affect the household Ooze Score."
+  "asOf": "2026-08-14",
+  "paragraph": "Sector Watch is CALM: 11 of 11 tickers are steady, 0 softening, and 0 stressed. SMH has the weakest 22-session price change at −0.5%; XLV is strongest at +5.7%. These measured states use the published 22-session thresholds and do not affect the household Ooze Score."
  }
 }

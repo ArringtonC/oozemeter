@@ -1,9 +1,9 @@
 {
- "generated": "2026-08-01T23:35:18.922Z",
- "marketVintage": "2026-08-01T23:35:18.922Z",
+ "generated": "2026-08-16T21:19:09.752Z",
+ "marketVintage": "2026-08-16T21:19:09.752Z",
  "householdVintage": "2026-08-16T17:24:31.335Z",
- "vintagesAligned": false,
- "acquisitionFingerprint": "c0d1bff6ff1ba6d4f58ad1f91b139382d8e5e2e745307dc6b7f247e4d0caa906",
+ "vintagesAligned": true,
+ "acquisitionFingerprint": "8581a5137d0a64c4365d7a515cab82776808b98caf8bf4f6930c45c2d221d52b",
  "start": "2007-01",
  "end": "2026-07",
  "observations": 234,
@@ -17,9 +17,9 @@
   },
   {
    "month": "2007-02",
-   "market": 29,
+   "market": 30,
    "household": 39,
-   "divergence": -10
+   "divergence": -9
   },
   {
    "month": "2007-03",
@@ -29,15 +29,15 @@
   },
   {
    "month": "2007-04",
-   "market": 22,
+   "market": 23,
    "household": 42,
-   "divergence": -20
+   "divergence": -19
   },
   {
    "month": "2007-05",
-   "market": 21,
+   "market": 22,
    "household": 43,
-   "divergence": -22
+   "divergence": -21
   },
   {
    "month": "2007-06",
@@ -53,9 +53,9 @@
   },
   {
    "month": "2007-08",
-   "market": 37,
+   "market": 38,
    "household": 46,
-   "divergence": -9
+   "divergence": -8
   },
   {
    "month": "2007-09",
@@ -137,9 +137,9 @@
   },
   {
    "month": "2008-10",
-   "market": 89,
+   "market": 90,
    "household": 79,
-   "divergence": 10
+   "divergence": 11
   },
   {
    "month": "2008-11",
@@ -251,9 +251,9 @@
   },
   {
    "month": "2010-05",
-   "market": 54,
+   "market": 53,
    "household": 75,
-   "divergence": -21
+   "divergence": -22
   },
   {
    "month": "2010-06",
@@ -293,9 +293,9 @@
   },
   {
    "month": "2010-12",
-   "market": 24,
+   "market": 23,
    "household": 66,
-   "divergence": -42
+   "divergence": -43
   },
   {
    "month": "2011-01",
@@ -317,9 +317,9 @@
   },
   {
    "month": "2011-04",
-   "market": 24,
+   "market": 23,
    "household": 63,
-   "divergence": -39
+   "divergence": -40
   },
   {
    "month": "2011-05",
@@ -347,39 +347,39 @@
   },
   {
    "month": "2011-09",
-   "market": 61,
+   "market": 60,
    "household": 64,
-   "divergence": -3
+   "divergence": -4
   },
   {
    "month": "2011-10",
-   "market": 40,
+   "market": 39,
    "household": 60,
-   "divergence": -20
+   "divergence": -21
   },
   {
    "month": "2011-11",
-   "market": 48,
+   "market": 47,
    "household": 59,
-   "divergence": -11
+   "divergence": -12
   },
   {
    "month": "2011-12",
-   "market": 40,
+   "market": 39,
    "household": 58,
-   "divergence": -18
+   "divergence": -19
   },
   {
    "month": "2012-01",
-   "market": 36,
+   "market": 35,
    "household": 56,
-   "divergence": -20
+   "divergence": -21
   },
   {
    "month": "2012-02",
-   "market": 34,
+   "market": 33,
    "household": 56,
-   "divergence": -22
+   "divergence": -23
   },
   {
    "month": "2012-03",
@@ -401,15 +401,15 @@
   },
   {
    "month": "2012-06",
-   "market": 40,
+   "market": 39,
    "household": 54,
-   "divergence": -14
+   "divergence": -15
   },
   {
    "month": "2012-07",
-   "market": 40,
+   "market": 39,
    "household": 53,
-   "divergence": -13
+   "divergence": -14
   },
   {
    "month": "2012-08",
@@ -425,9 +425,9 @@
   },
   {
    "month": "2012-10",
-   "market": 31,
+   "market": 30,
    "household": 50,
-   "divergence": -19
+   "divergence": -20
   },
   {
    "month": "2012-11",
@@ -479,9 +479,9 @@
   },
   {
    "month": "2013-07",
-   "market": 25,
+   "market": 24,
    "household": 46,
-   "divergence": -21
+   "divergence": -22
   },
   {
    "month": "2013-08",
@@ -665,9 +665,9 @@
   },
   {
    "month": "2016-02",
-   "market": 33,
+   "market": 32,
    "household": 22,
-   "divergence": 11
+   "divergence": 10
   },
   {
    "month": "2016-03",
@@ -689,9 +689,9 @@
   },
   {
    "month": "2016-06",
-   "market": 30,
+   "market": 29,
    "household": 25,
-   "divergence": 5
+   "divergence": 4
   },
   {
    "month": "2016-07",
@@ -905,9 +905,9 @@
   },
   {
    "month": "2019-06",
-   "market": 27,
+   "market": 26,
    "household": 14,
-   "divergence": 13
+   "divergence": 12
   },
   {
    "month": "2019-07",
@@ -1013,9 +1013,9 @@
   },
   {
    "month": "2020-12",
-   "market": 19,
+   "market": 18,
    "household": 33,
-   "divergence": -14
+   "divergence": -15
   },
   {
    "month": "2021-01",
@@ -1067,9 +1067,9 @@
   },
   {
    "month": "2021-09",
-   "market": 38,
+   "market": 37,
    "household": 20,
-   "divergence": 18
+   "divergence": 17
   },
   {
    "month": "2021-10",
@@ -1121,9 +1121,9 @@
   },
   {
    "month": "2022-06",
-   "market": 73,
+   "market": 74,
    "household": 19,
-   "divergence": 54
+   "divergence": 55
   },
   {
    "month": "2022-07",
@@ -1331,9 +1331,9 @@
   },
   {
    "month": "2025-05",
-   "market": 31,
+   "market": 30,
    "household": 24,
-   "divergence": 7
+   "divergence": 6
   },
   {
    "month": "2025-06",

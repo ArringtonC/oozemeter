@@ -1,10 +1,12 @@
 {
- "generated": "2026-08-11T00:04:48.669Z",
- "score": 27,
- "raw": 24,
+ "generated": "2026-08-16T21:19:08.671Z",
+ "score": 24,
+ "raw": 22.17,
  "calibration": {
-  "a": 1.4025,
-  "b": -7.0116,
+  "a": 1.402462618842267,
+  "b": -7.011551886296619,
+  "rawCalm": 12.129772057910289,
+  "rawGfc": 69.17229064285482,
   "rule": "ward calm 2007-present = 10, ward GFC peak = 90",
   "episodes": [
    {
@@ -45,7 +47,7 @@
   "rates": {
    "name": "Rates",
    "emoji": "🏛",
-   "value": "0.78pp",
+   "value": "0.79pp",
    "stress": 26,
    "delta": -1,
    "asOf": "2026-08",
@@ -61,9 +63,9 @@
   "volatility": {
    "name": "Volatility",
    "emoji": "🌪",
-   "value": "15.6",
-   "stress": 19,
-   "delta": -5,
+   "value": "15.3",
+   "stress": 18,
+   "delta": -6,
    "asOf": "2026-08",
    "read": "The option market's 30-day implied-volatility gauge. Spikes show repricing; low readings alone do not prove complacency.",
    "source": {
@@ -77,10 +79,10 @@
   "credit": {
    "name": "Credit & Funding",
    "emoji": "🏦",
-   "value": "-0.53",
-   "stress": 11,
-   "delta": -1,
-   "asOf": "2026-07",
+   "value": "-0.55",
+   "stress": 10,
+   "delta": 0,
+   "asOf": "2026-08",
    "read": "105 indicators of lending, funding, and risk appetite in one Fed index. The bridge sensor for methodology v3.",
    "source": {
     "publisher": "Federal Reserve Bank of Chicago",
@@ -93,9 +95,9 @@
   "energy": {
    "name": "Energy",
    "emoji": "🛢",
-   "value": "$82",
-   "stress": 52,
-   "delta": 1,
+   "value": "$80",
+   "stress": 51,
+   "delta": 0,
    "asOf": "2026-08",
    "read": "Expensive oil squeezes everything that moves. The upstream cousin of the gas-price line.",
    "source": {
@@ -125,10 +127,10 @@
   "breadth": {
    "name": "Breadth",
    "emoji": "📊",
-   "value": "10/11 steady",
-   "stress": 13,
-   "delta": -37,
-   "asOf": "2026-08-10",
+   "value": "11/11 steady",
+   "stress": 5,
+   "delta": -8,
+   "asOf": "2026-08-14",
    "read": "How many of the eleven Sector Watch tickers are weakening. One weakening ticker proxy moves this; a broad selloff maxes it.",
    "source": {
     "publisher": "Sector Watch manual proxy panel",
