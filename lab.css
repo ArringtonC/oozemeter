@@ -179,7 +179,11 @@ section{padding:74px 0;border-bottom:1px solid var(--line)}
 
 /* ============ HERO / MISSION CONTROL ============ */
 .hero{padding:0 0 30px;border-bottom:1px solid var(--line);position:relative}
-.kicker{font-size:.74rem;letter-spacing:.4em;text-transform:uppercase;color:var(--muted)}
+/* h1.kicker: the hero label is the page's h1. Browser default h1 margin and
+   font-size would shift the whole hero, so both are neutralised here — the
+   element carries the semantics, .kicker keeps carrying the look. */
+.kicker{font-size:.74rem;letter-spacing:.4em;text-transform:uppercase;color:var(--muted);
+  margin:0;font-weight:inherit}
 .big-score{font-family:var(--display);font-weight:900;font-size:clamp(4.4rem,11vw,7.4rem);line-height:1;color:var(--ooze);text-shadow:0 0 30px color-mix(in srgb,var(--ooze) 35%,transparent);font-variant-numeric:tabular-nums}
 .big-score small{font-size:.26em;color:var(--dim);font-weight:600}
 .status-row{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:8px}

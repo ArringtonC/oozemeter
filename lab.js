@@ -586,3 +586,45 @@ if(GA_ID&&typeof document!=='undefined'){
 console.assert(INDICATORS.reduce((a,x)=>a+x.contrib,0)===TODAY_SCORE,'contributions drifted from headline score');
 console.assert(WEIGHTS.reduce((a,x)=>a+x.w,0)===100,'weights ≠ 100%');
 console.assert(STATES.length===50,'need 50 states');
+
+/* ============ VISITOR MEASUREMENT — inert until configured ============
+   The site currently measures nothing, which means any traffic sent to it
+   teaches nothing. This is the wiring, deliberately switched off.
+
+   THE OPERATOR HAS ONE DECISION TO MAKE, and it is not a technical one:
+
+     privacy.html today promises two things that are in tension —
+       "No cookies are set by us."
+       "Analytics — when visitor measurement (Google Analytics 4) activates…"
+     GA4 sets cookies. Choosing it means amending the no-cookies promise and
+     adding a consent banner. Choosing a cookieless analytics provider instead
+     means amending the sentence that names GA4.
+
+   Either is fine. Publishing analytics that contradicts the live privacy page
+   is not, so this stays off until the page and the provider agree.
+
+   To activate: set provider and id below, update privacy.html in the SAME
+   commit, and the loader does the rest. */
+const ANALYTICS = {provider: null, id: null, host: null};
+
+(function loadAnalytics(){
+  if (typeof document === 'undefined') return;
+  const {provider, id, host} = ANALYTICS;
+  if (!provider || !id) return;                       // inert by default
+  if (location.hostname === 'localhost' || location.protocol === 'file:') return;
+  const s = document.createElement('script');
+  s.defer = true;
+  if (provider === 'plausible') {
+    s.src = (host || 'https://plausible.io') + '/js/script.js';
+    s.setAttribute('data-domain', id);
+  } else if (provider === 'ga4') {
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(id);
+    s.onload = () => {
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){window.dataLayer.push(arguments)}
+      gtag('js', new Date());
+      gtag('config', id, {anonymize_ip: true});
+    };
+  } else { return; }
+  document.head.appendChild(s);
+})();

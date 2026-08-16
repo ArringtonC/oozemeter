@@ -47,6 +47,9 @@ const sub=(re,rep,label)=>{
   if(re.test(h))h=h.replace(re,rep);
   else{console.warn('stamp: marker missing —',label);missing++;}
 };
+/* Prose stamped into markup is the one place here that carries author text
+   rather than a number, so it gets escaped. & first, or the others double-escape. */
+const esc=t=>String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 
 sub(/<title>[^<]*<\/title>/,
   `<title>OOZEMeter — Ooze Level ${s}/100 (${cap(band(s))}) · ${d.monthLabel}</title>`,'title');
@@ -99,6 +102,31 @@ try{
   }
   sub(/id="verdictLine">[^<]*</,`id="verdictLine">${verdict}<`,'verdict line');
 }catch(e){console.warn('stamp: verdict skipped —',e.message)}
+
+/* The written reading, stamped into static markup.
+   EDITORIAL.story is the paragraph that explains WHY the number moved, and it
+   was rendered client-side only — so social scrapers, no-JS readers and any
+   crawler that does not execute JavaScript saw an empty <p>. The single best
+   piece of copy on the page was invisible to everything that drives sharing.
+   Tokens are resolved here because a raw {{s:…}} in static HTML fails the
+   narrative gate. */
+try{
+  const ed=JSON.parse(fs.readFileSync('data/editorial.json','utf8'));
+  const hist=JSON.parse(fs.readFileSync('data/history.json','utf8'));
+  const hmap=new Map(hist.map(([t,v])=>[t.toFixed(3),v]));
+  const key=ym=>{const[y,m]=ym.split('-').map(Number);return(y+(m-1)/12).toFixed(3)};
+  const resolve=t=>String(t||'')
+    .replace(/\{\{s:(\d{4}-\d{2})\}\}/g,(_,ym)=>{const v=hmap.get(key(ym));return v==null?'—':Math.round(v)})
+    .replace(/\{\{peak:(\d{4}-\d{2})\.\.(\d{4}-\d{2})\}\}/g,(_,a,b)=>{
+      const ta=+key(a),tb=+key(b);
+      const w=hist.filter(([t])=>t>=ta-0.001&&t<=tb+0.001).map(([,v])=>v);
+      return w.length?Math.round(Math.max(...w)):'—';});
+  const story=resolve(ed.story);
+  if(story&&!/\{\{/.test(story)){
+    sub(/id="storyBody">[^<]*</,`id="storyBody">${esc(story)}<`,'story body');
+  }
+  sub(/id="heroH1Detail">[^<]*</,`id="heroH1Detail">${d.monthLabel}<`,'h1 detail');
+}catch(e){console.warn('stamp: story skipped —',e.message)}
 
 /* canonical (idempotent) */
 if(!h.includes('rel="canonical"')){

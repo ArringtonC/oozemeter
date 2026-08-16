@@ -33,7 +33,10 @@
   <div class="wrap pvJ" id="heroTheme" data-level="2">
 
     <div class="pvJ-left">
-      <div class="kicker cine c2">Today's Containment Level</div>
+      <!-- h1, not a div: the page had none at all, which cost it in search and
+           left screen readers without a document title in the content. The
+           element changes; the text and the styling do not. -->
+      <h1 class="kicker cine c2" id="heroH1">Today's Containment Level<span class="sr-only"> — U.S. household economic stress, <span id="heroH1Detail">July 2026</span></span></h1>
       <div class="big-score cine c3" style="font-size:clamp(2.8rem,8vw,4.4rem)"><span id="heroScore">26</span><small>/100</small></div>
       <div class="status-row cine c4">
         <a class="status-chip" id="heroStatus" href="what-is-ooze.html#scale" title="What does this level mean? Open the 0–100 scale">STICKY</a>
@@ -62,7 +65,7 @@
 
       <section class="rung cine c5" id="changed">
         <h2 class="rung-h">What changed?</h2>
-        <p class="rung-body" id="storyBody"></p>
+        <p class="rung-body" id="storyBody">For the average household, housing was the largest source of financial pressure in July 2026 — 7 of the month's 26 ounces with the 30-year mortgage at 6.67%. The relief came from the two lines everyone feels first: gas prices (down 3 points) and inflation (down 3 points). Altogether the jar drained 1 point to 26, keeping the national containment level in the Sticky range.</p>
       </section>
 
       <!-- Rung 4 renders only when the payload carries cross-checks; it is
@@ -203,7 +206,13 @@ boot.addEventListener('click',endBoot);
    ?boot=1 or the footer replay link brings the theater back */
 const wantBoot=new URLSearchParams(location.search).has('boot');
 if(wantBoot)localStorage.removeItem('oozeboot');
-if((!wantBoot&&localStorage.getItem('oozeboot'))||matchMedia('(prefers-reduced-motion: reduce)').matches){
+/* Arriving from search or social means the ceremony is the first thing a
+   stranger meets, and it costs ~2s before the score is visible. Returning
+   visitors already skip it, so the whole cost fell on new traffic — exactly the
+   audience it was least likely to charm. Referred visitors go straight to the
+   reading; a direct visit still gets the theatre, and ?boot=1 always replays it. */
+const referred=document.referrer&&!document.referrer.includes(location.host);
+if((!wantBoot&&(localStorage.getItem('oozeboot')||referred))||matchMedia('(prefers-reduced-motion: reduce)').matches){
   boot.style.display='none';
   requestAnimationFrame(()=>endBoot());
 }else{
