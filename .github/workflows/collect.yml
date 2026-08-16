@@ -43,6 +43,7 @@ jobs:
           node scripts/market-integrity.js
           node scripts/story.js
           node scripts/claim-gate.js
+          node gauntlet/run.js
           node scripts/narrative-check.js
           node scripts/stamp.js
           node scripts/rss.js

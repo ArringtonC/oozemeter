@@ -123,6 +123,72 @@ if (cc) {
   if (rowStates.includes('STALE') && ['quiet'].includes(cc.state)) {
     fail.push({rule: 'R6-STALENESS', message: 'a stale row is present but the module reads as agreement'});
   }
+
+  /* ---- RULE 4, applied to the strings a reader actually reads --------------
+     Found by gauntlet/critic_surface.js on its first run. The gate validated
+     `state` and left `label`, `count` and `note` unchecked — so the payload
+     could carry state:"stale" while the headline said "The checks agree", the
+     tally said "0 of 1 checks disagree", and the coverage note claimed all
+     seven lines were covered. All three passed. A reader sees the prose, not
+     the enum; guarding only the enum guards the wrong half. */
+  const counted = {
+    checked: rowStates.filter(s => s !== 'UNCHECKED').length,
+    unchecked: rowStates.filter(s => s === 'UNCHECKED').length,
+    conflict: rowStates.filter(s => s === 'CONFLICT').length,
+    mixed: rowStates.filter(s => s === 'MIXED').length,
+    unrunnable: rowStates.filter(s => s === 'STALE' || s === 'INSUFFICIENT').length,
+  };
+
+  /* the headline may only claim agreement when every check actually agreed */
+  const claimsAgreement = /\bagree/i.test(String(cc.label || ''));
+  if (claimsAgreement && cc.state !== 'quiet') {
+    fail.push({rule: 'R4-SAME-STATE', message:
+      `headline "${cc.label}" claims agreement, but the module state is "${cc.state}" ` +
+      `(rows: ${rowStates.join(', ')})`});
+  }
+
+  /* the tally must describe the rows. "N of M <verb>" is reconciled against the
+     row counts for whichever verb it uses. */
+  const tally = String(cc.count || '').match(/(\d+)\s+of\s+(\d+)\s+check/i);
+  if (tally) {
+    const [, nRaw, mRaw] = tally;
+    const n = +nRaw, m = +mRaw;
+    if (m !== counted.checked) {
+      fail.push({rule: 'R4-SAME-STATE', message:
+        `tally "${cc.count}" says ${m} check(s) ran, but ${counted.checked} row(s) were checked`});
+    }
+    const saysDisagree = /disagree/i.test(cc.count);
+    const saysUnrunnable = /could not run|stale|insufficient/i.test(cc.count);
+    const verb = saysDisagree ? counted.conflict
+      : /mixed/i.test(cc.count) ? counted.mixed
+      : saysUnrunnable ? counted.unrunnable : null;
+    if (verb !== null && n !== verb) {
+      fail.push({rule: 'R4-SAME-STATE', message:
+        `tally "${cc.count}" states ${n}, but the rows give ${verb}`});
+    }
+    /* Arithmetically true is not the same as honest. "0 of 1 checks disagree"
+       adds up when the one check never ran — and reads as a clean result. The
+       tally's VERB has to match what the month actually was, so a month nothing
+       could be checked in reports that, rather than reporting zero
+       disagreements among checks that did not happen. */
+    if (counted.unrunnable > 0 && (saysDisagree || /mixed/i.test(cc.count)) && !saysUnrunnable) {
+      fail.push({rule: 'R4-SAME-STATE', message:
+        `tally "${cc.count}" reports on disagreement, but ${counted.unrunnable} of ${counted.checked} ` +
+        `check(s) could not run — counting zero disagreements among checks that did not happen reads as a clean result`});
+    }
+  }
+
+  /* the coverage note may not claim more coverage than the roster shows */
+  const note = String(cc.note || '');
+  if (counted.unchecked > 0 && /\ball\b[^.]*comparison series/i.test(note)) {
+    fail.push({rule: 'R4-SAME-STATE', message:
+      `coverage note claims every line carries a comparison series, but ${counted.unchecked} row(s) are unchecked`});
+  }
+  const noteNum = note.match(/(\d+)\s+of\s+the\s+(\d+)\s+weighted lines carry no/i);
+  if (noteNum && +noteNum[1] !== counted.unchecked) {
+    fail.push({rule: 'R4-SAME-STATE', message:
+      `coverage note says ${noteNum[1]} line(s) uncovered, but the roster shows ${counted.unchecked}`});
+  }
 }
 
 /* ---- report -------------------------------------------------------------- */
