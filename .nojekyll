@@ -1,0 +1,13 @@
+OOZEMeter is hand-written static HTML. It has never used Jekyll, and Jekyll
+processing was pure liability: on 2026-08-14 a research document containing the
+site's own canonical-truth tokens ({{s:2026-07}}) was committed, Liquid tried to
+parse them as template syntax, and pages-build-deployment failed on every push
+for two days while daily-collection stayed green.
+
+The failure was invisible because the wrong workflow was being watched. The
+robot collected, the gates passed, the commits landed, and the site did not
+deploy.
+
+This file disables Jekyll entirely. Any file in this repository may now contain
+{{ }} without breaking the deploy, which matters because {{ }} is the token
+syntax the whole narrative gate is built on.
