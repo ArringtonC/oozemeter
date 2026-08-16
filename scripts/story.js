@@ -296,6 +296,19 @@ const article={
     ...weighted.map(([k])=>base[k]),
     '## The auxiliary sensors (observed, not scored)',
     ...[...AUX].map(k=>base[k]),
+    /* The cross-checks belong in the sealed report, not only on the homepage.
+       The report is the artifact that persists, gets archived and gets emailed;
+       a reader who opens July in six months should learn that the one live
+       check could not run that month, which the homepage told them and this
+       did not. Same canonical state, same wording, one source. */
+    '## What doesn\'t add up',
+    ...ccBody,
+    /* The module's coverage note says the unchecked lines are "listed below",
+       which is true beside the roster on the homepage and false here, where no
+       roster follows. Same fact, stated for this surface. */
+    ccUnchecked
+      ? `${ccUnchecked} of the ${ccRows.length} weighted lines carry no published comparison series yet, and an unchecked line is never counted as agreement. The full roster runs on the <a href="index.html">front page</a>.`
+      : ccNote,
     '## Confidence',
     confidence,
     'The next specimen seals when the coming month\'s jobs report and CPI land. Watch the collection assemble on the <a href="specimen-progress.html">Specimen Progress</a> page.',
