@@ -5,8 +5,29 @@ built the trust layer
 **To:** whoever picks this up
 **Repo:** `/Users/arringtoncopeland/Desktop/Projects/oozemeter` · branch `main`
 · live at https://arringtonc.github.io/oozemeter
-**Everything is pushed through `8c24707`.** Local `main` == `origin/main`.
-Live site verified serving the same payload as local.
+**Everything is pushed through `6cf4cec`.** Local `main` == `origin/main`.
+Live site verified serving the same payload as local, and the site deploys
+again (see §9 — it had been silently failing for two days).
+
+---
+
+## 0 · Resume here
+
+Nothing is half-finished. The tree is clean apart from Hermes's WIP, every gate
+is green, and the live site matches local. Pick up at whichever of these you
+have appetite for:
+
+| Next | Size | Blocked on |
+|---|---|---|
+| **The analytics decision** — see §10. Read it before installing anything. | 30 min | operator |
+| Rewrite the employment correction (§4) — drafted, and must not ship as drafted | half a day | nobody |
+| More gauntlet critics — 3 is a start, not coverage (§4) | hours | nobody |
+| A test that regenerates the dependency graph from `collect.js` | hours | nobody |
+| Custom domain | an afternoon | operator |
+
+**If you only read one thing:** `research/trust/RELEASE-READINESS.md`. It lists
+the nine paths by which a false claim could still ship, and the verdict —
+PROBABLY NOT, WITH KNOWN GAPS — should not be upgraded without earning it.
 
 ---
 
@@ -126,7 +147,9 @@ verified three causes in `research/forensic/04-july-2026-forensic.md`.
 
 ### Operator-blocked, do not chase
 
-Domain, business email, GA4 ID, Search Console, ESP account.
+Domain, business email, Search Console, ESP account, and **the analytics
+provider decision — read §10 first, because the obvious choice conflicts with a
+promise already published on `privacy.html`.**
 
 ---
 
@@ -200,7 +223,93 @@ same lesson as §2, one directory over.
 
 ---
 
-## 9 · The thing worth remembering
+## 9 · The deploy was failing invisibly for two days
+
+Worth knowing because it shaped two of the gates. From 2026-08-14 to 08-16
+`pages-build-deployment` failed on **every** push while `daily-collection`
+stayed green. The robot collected, gates passed, commits landed, and the site
+did not update. Cause: a committed research doc contained `{{s:2026-07}}` and
+Jekyll's Liquid parser choked on it.
+
+Two things came out of it, both permanent:
+
+- **`.nojekyll`** — the site is hand-written static HTML and never used Jekyll.
+  Any file may now contain `{{ }}`, which matters because that is the token
+  syntax the whole narrative gate is built on.
+- **A live-site watchdog** in `collect.yml`. After a push it polls the live site
+  for up to five minutes and fails if it is still serving the previous payload,
+  which trips the existing alert. `pages-build-deployment` is GitHub-generated
+  and cannot carry our alerting, so the loop is closed from our side.
+
+**The lesson, which is the lesson of §2 again:** a gate that only reports on
+itself is how two days of invisible publishing happened. When you add a check,
+ask what it would look like for that check to pass while the reader still gets
+nothing.
+
+---
+
+## 10 · Read before installing analytics — there is a trap
+
+The site measures **nothing**. No analytics anywhere. Traffic sent to it today
+teaches nothing, which is the main reason it is not ready to be scaled.
+
+The loader is written and **deliberately inert** at the bottom of `lab.js`:
+`const ANALYTICS = {provider: null, id: null, host: null}`. Setting a provider
+and id activates it. Do not do that without reading this section.
+
+**`privacy.html` currently makes two promises that cannot both survive:**
+
+> "No cookies are set by us."
+> "Analytics — when visitor measurement (Google Analytics 4) activates, this
+> page will say so, name what it collects, and link an opt-out."
+
+**GA4 sets cookies.** Choosing it means amending the no-cookies promise and
+adding a consent banner. Choosing a cookieless provider means amending the
+sentence that names GA4. Either is fine; shipping analytics while the live
+privacy page contradicts it is not — that is precisely the class of defect this
+repo spent a week removing.
+
+**Whichever you pick, amend `privacy.html` in the same commit.** My
+recommendation is a cookieless provider: it keeps the stronger promise, needs no
+consent banner, and "we do not track you" suits a product whose entire pitch is
+restraint. But it is the operator's call because it changes a published
+commitment.
+
+---
+
+## 11 · Readiness — shared, not scaled
+
+A full review ran on 2026-08-16. Verdict: **ready to be shared, not ready to be
+scaled.** Two blockers, both operator-side, neither engineering.
+
+**Fixed in that pass:**
+- The homepage had **zero `<h1>`**. The hero kicker is now the h1 — element
+  changed, text and styling untouched, default margin neutralised.
+- `EDITORIAL.story` was **client-rendered only**, so social scrapers and no-JS
+  crawlers saw an empty `<p>`. The best copy on the page was invisible to
+  everything that drives sharing. `stamp.js` now writes it into static markup
+  with tokens resolved.
+- The boot ceremony cost ~2.2s before the score appeared, and returning visitors
+  already skipped it — so the entire cost fell on **first-time traffic**.
+  Referred visitors now go straight to the reading; direct visits keep the
+  theatre and `?boot=1` replays it.
+
+**Still blocking traffic:**
+- **No analytics** (§10).
+- **No custom domain.** Still `arringtonc.github.io/oozemeter`. Also means every
+  link breaks the day it moves.
+
+**Measured, for comparison later:** DOM ready 181ms, load complete 527ms, FCP
+1,844ms on a first visit, 66KB over 9 resources. The site is fast; what was slow
+was self-inflicted.
+
+**Where the scores sit:** integrity moved roughly 4 → 8.8 this week.
+Comprehension moved 3.0 → 3.5. That gap is the honest summary of the product —
+the instrument is trustworthy, the explanation layer is thin.
+
+---
+
+## 12 · The thing worth remembering
 
 Adversarial review has now caught publishable falsehoods **after CI was green**,
 four times. Every one was found by re-deriving a published number from files in
