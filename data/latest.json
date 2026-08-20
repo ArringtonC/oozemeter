@@ -1,5 +1,5 @@
 {
- "generated": "2026-08-20T02:05:13.794Z",
+ "generated": "2026-08-20T14:19:09.309Z",
  "methodologyVersion": "3.0.0",
  "month": "2026-07",
  "monthLabel": "July 2026",
@@ -11,7 +11,7 @@
  "collection": {
   "status": "ok",
   "changed": true,
-  "inputFingerprint": "160ebf4ed0b7c9ddbf71ab5ac3bf331f91fa8ffa123129a6cf3d8e271be2914c",
+  "inputFingerprint": "75be8242f5e03e5b78985011eb64f115d5cf8861ff21c7b3677e022ae7f07b1e",
   "fingerprintSchemaVersion": 3,
   "vintageRetentionPolicy": "retain-all-unique-schema-v3-manifests",
   "freshnessStatus": "current",
@@ -38,7 +38,7 @@
    "contrib": 4,
    "delta": -3,
    "stale": false,
-   "updateStatus": "new-observation"
+   "updateStatus": "no-new-release"
   },
   "housing": {
    "value": "6.67%",
@@ -116,8 +116,8 @@
    "secondary": {
     "publisher": "U.S. Department of Labor",
     "seriesId": "ICSA",
-    "value": 199000,
-    "asOf": "2026-08-08",
+    "value": 204000,
+    "asOf": "2026-08-15",
     "transform": "trailing four-week mean"
    },
    "stress": 13,
@@ -164,7 +164,7 @@
    "contrib": 0,
    "delta": -1,
    "stale": false,
-   "updateStatus": "new-observation"
+   "updateStatus": "no-new-release"
   },
   "foreclosures": {
    "value": "1.9%",
@@ -214,7 +214,7 @@
    },
    "contrib": 0,
    "stale": false,
-   "updateStatus": "new-observation"
+   "updateStatus": "no-new-release"
   },
   "debtBurden": {
    "value": "20.8% of receipts",
@@ -242,7 +242,7 @@
    },
    "contrib": 0,
    "stale": false,
-   "updateStatus": "new-observation"
+   "updateStatus": "no-new-release"
   }
  },
  "movers": [
