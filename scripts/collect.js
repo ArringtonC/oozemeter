@@ -46,6 +46,19 @@ const ANCHORS={
   financialConditions:FINANCIAL_CONDITIONS_ANCHORS,
 };
 const MANUFACTURING_YOY_ANCHORS=[[-20,100],[-10,85],[-5,65],[0,35],[3,15],[6,5]];
+/* Federal debt SERVICE as a share of federal receipts — interest ÷ receipts.
+   Deliberately NOT the debt level. The level rose in 215 of 241 quarters, so it
+   is a clock: correlating it with anything measures the passage of time, and
+   against the jar it returns r=-0.554, i.e. "debt is good for households",
+   which is nonsense. The burden falls 47% of quarters and spans 10.0%-28.6%,
+   so it is a real two-sided signal.
+   Anchored on its own 317-quarter distribution (1947Q1-2026Q1), not on opinion:
+   min 10.0 · p10 12.4 · p25 14.3 · median 15.8 · p75 20.8 · p90 25.9 · max 28.6.
+   ZERO WEIGHT, and it should stay that way: against the jar it scores r=-0.034.
+   It is independent of everything we score (|r|<0.28 against every line), which
+   is why it is worth publishing — and unrelated to household stress, which is
+   why it must not be scored. See research/NATIONAL-DEBT-DECISION-2026-08-16.md */
+const DEBT_BURDEN_ANCHORS=[[10,5],[12.4,15],[14.3,30],[15.8,45],[20.8,70],[25.9,88],[28.6,100]];
 const WEIGHTS={
   jobs:METHODOLOGY_V3_WEIGHTS.employment,
   housing:METHODOLOGY_V3_WEIGHTS.housing,
@@ -77,7 +90,9 @@ const writeAtomic=(file,content)=>{
   try{previous=JSON.parse(fs.readFileSync(dataPath('latest.json'),'utf8'))}catch(error){
     if(error.code!=='ENOENT')console.warn(`previous snapshot ignored: ${error.message}`);
   }
-  const ids=['UNRATE','ICSA','CPIAUCNS','MORTGAGE30US','DRSFRMACBS','DRCCLACBS','GASREGW','NFCI','INDPRO','AMTMNO'];
+  const ids=['UNRATE','ICSA','CPIAUCNS','MORTGAGE30US','DRSFRMACBS','DRCCLACBS','GASREGW','NFCI','INDPRO','AMTMNO',
+    /* federal debt SERVICE, not the debt level — see debtBurden anchors below */
+    'A091RC1Q027SBEA','FGRECPT'];
   const S={};
   for(const id of ids){S[id]=await fetchSeries(id);process.stdout.write(id+' ')}
   S.ICSA.monthly=trailingFourWeekByMonth(S.ICSA.observations);
@@ -147,6 +162,18 @@ const writeAtomic=(file,content)=>{
   const mortgageObservations=S.DRSFRMACBS.observations;
   const mortgageStress=interp(ANCHORS.mortgageDelinq,S.DRSFRMACBS.last.value);
   const priorMortgageStress=interp(ANCHORS.mortgageDelinq,mortgageObservations[mortgageObservations.length-2].value);
+  /* debt burden: both legs are quarterly and land on the same quarter-start
+     month, so they align without forward-filling. Guard anyway — a missing leg
+     must produce no line rather than a division by an absent number. */
+  const burdenMonths=Object.keys(S.A091RC1Q027SBEA.monthly)
+    .filter(m=>S.FGRECPT.monthly[m]!=null&&S.FGRECPT.monthly[m]!==0).sort();
+  const burdenAt=m=>S.A091RC1Q027SBEA.monthly[m]/S.FGRECPT.monthly[m]*100;
+  const burdenMonth=burdenMonths[burdenMonths.length-1];
+  const priorBurdenMonth=burdenMonths[burdenMonths.length-2];
+  const debtBurden=burdenMonth?burdenAt(burdenMonth):null;
+  const debtBurdenStress=debtBurden==null?null:interp(DEBT_BURDEN_ANCHORS,debtBurden);
+  const priorDebtBurdenStress=priorBurdenMonth==null?null:interp(DEBT_BURDEN_ANCHORS,burdenAt(priorBurdenMonth));
+
   const indproMonths=Object.keys(S.INDPRO.monthly).sort();
   const indproMonth=indproMonths[indproMonths.length-1],priorIndproMonth=indproMonths[indproMonths.length-2];
   const indproYoY=yearOverYear(S.INDPRO.monthly,indproMonth);
@@ -183,6 +210,21 @@ const writeAtomic=(file,content)=>{
       scoreWeight:0,calibrationStatus:'provisional-auxiliary',
       source:{publisher:'Federal Reserve Board',transport:'FRED',seriesId:'INDPRO',metric:'Total industrial production year-over-year change',url:fred('INDPRO'),proxy:true,transform:'same-month year-over-year percent change; auxiliary manufacturing proxy only'},
       secondary:{publisher:'U.S. Census Bureau',seriesId:'AMTMNO',value:shipmentsYoY,asOf:S.AMTMNO.last.date,transform:'same-month year-over-year percent change'}},
+    /* Federal debt service. Auxiliary and zero-weight by evidence, not caution:
+       it is independent of every scored line (|r|<0.28) which is why it is worth
+       showing, and it has no measurable relationship to household stress
+       (r=-0.034 against the jar) which is why it must never be scored.
+       The value published is the BURDEN, not the $40T level — the level only
+       moves one way and therefore cannot signal anything. */
+    debtBurden: debtBurden==null ? undefined : {
+      value:`${debtBurden.toFixed(1)}% of receipts`,asOf:burdenMonth+'-01',cadence:'quarterly',
+      stress:Math.round(debtBurdenStress),
+      delta:priorDebtBurdenStress==null?0:Math.round(debtBurdenStress)-Math.round(priorDebtBurdenStress),
+      contributesToOoze:false,scoreWeight:0,calibrationStatus:'provisional-auxiliary',
+      source:{publisher:'U.S. Bureau of Economic Analysis',transport:'FRED',seriesId:'A091RC1Q027SBEA',
+        metric:'Federal interest payments as a share of federal current receipts',url:fred('A091RC1Q027SBEA'),proxy:false},
+      secondary:{publisher:'U.S. Bureau of Economic Analysis',seriesId:'FGRECPT',
+        value:S.FGRECPT.monthly[burdenMonth],asOf:burdenMonth+'-01',transform:'denominator — federal current receipts'}},
   };
   for(const k in LINES){
     const l=LINES[k];

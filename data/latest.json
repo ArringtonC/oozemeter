@@ -1,5 +1,5 @@
 {
- "generated": "2026-08-17T14:04:18.907Z",
+ "generated": "2026-08-20T02:05:13.794Z",
  "methodologyVersion": "3.0.0",
  "month": "2026-07",
  "monthLabel": "July 2026",
@@ -7,17 +7,15 @@
  "prevMonthLabel": "June 2026",
  "ooze": 26,
  "prevOoze": 27,
- "updatedLabel": "July 2026 reading · collected 2026-08-17",
+ "updatedLabel": "July 2026 reading · collected 2026-08-20",
  "collection": {
   "status": "ok",
-  "changed": false,
-  "inputFingerprint": "890a54f4ae088cb188743ac6a66878d34a905ccc60d6da7fb34996d32d4db87c",
+  "changed": true,
+  "inputFingerprint": "160ebf4ed0b7c9ddbf71ab5ac3bf331f91fa8ffa123129a6cf3d8e271be2914c",
   "fingerprintSchemaVersion": 3,
   "vintageRetentionPolicy": "retain-all-unique-schema-v3-manifests",
-  "freshnessStatus": "degraded",
-  "staleLines": [
-   "manufacturing"
-  ]
+  "freshnessStatus": "current",
+  "staleLines": []
  },
  "calibration": {
   "a": 1.418684348943213,
@@ -25,8 +23,8 @@
  },
  "lines": {
   "gas": {
-   "value": "$4.01",
-   "asOf": "2026-08-10",
+   "value": "$4.05",
+   "asOf": "2026-08-17",
    "cadence": "weekly",
    "source": {
     "publisher": "U.S. Energy Information Administration",
@@ -40,7 +38,7 @@
    "contrib": 4,
    "delta": -3,
    "stale": false,
-   "updateStatus": "no-new-release"
+   "updateStatus": "new-observation"
   },
   "housing": {
    "value": "6.67%",
@@ -149,8 +147,8 @@
    "updateStatus": "no-new-release"
   },
   "financial": {
-   "value": "-0.55",
-   "asOf": "2026-08-07",
+   "value": "-0.56",
+   "asOf": "2026-08-14",
    "cadence": "weekly",
    "contributesToOoze": true,
    "source": {
@@ -166,7 +164,7 @@
    "contrib": 0,
    "delta": -1,
    "stale": false,
-   "updateStatus": "no-new-release"
+   "updateStatus": "new-observation"
   },
   "foreclosures": {
    "value": "1.9%",
@@ -191,10 +189,10 @@
   },
   "manufacturing": {
    "value": "1.1% YoY",
-   "asOf": "2026-06-01",
+   "asOf": "2026-07-01",
    "cadence": "monthly",
-   "stress": 27,
-   "delta": 3,
+   "stress": 28,
+   "delta": 2,
    "contributesToOoze": false,
    "scoreWeight": 0,
    "calibrationStatus": "provisional-auxiliary",
@@ -215,8 +213,36 @@
     "transform": "same-month year-over-year percent change"
    },
    "contrib": 0,
-   "stale": true,
-   "updateStatus": "no-new-release"
+   "stale": false,
+   "updateStatus": "new-observation"
+  },
+  "debtBurden": {
+   "value": "20.8% of receipts",
+   "asOf": "2026-01-01",
+   "cadence": "quarterly",
+   "stress": 70,
+   "delta": 0,
+   "contributesToOoze": false,
+   "scoreWeight": 0,
+   "calibrationStatus": "provisional-auxiliary",
+   "source": {
+    "publisher": "U.S. Bureau of Economic Analysis",
+    "transport": "FRED",
+    "seriesId": "A091RC1Q027SBEA",
+    "metric": "Federal interest payments as a share of federal current receipts",
+    "url": "https://fred.stlouisfed.org/series/A091RC1Q027SBEA",
+    "proxy": false
+   },
+   "secondary": {
+    "publisher": "U.S. Bureau of Economic Analysis",
+    "seriesId": "FGRECPT",
+    "value": 5872.497,
+    "asOf": "2026-01-01",
+    "transform": "denominator — federal current receipts"
+   },
+   "contrib": 0,
+   "stale": false,
+   "updateStatus": "new-observation"
   }
  },
  "movers": [

@@ -167,14 +167,26 @@ if (cc) {
         `tally "${cc.count}" states ${n}, but the rows give ${verb}`});
     }
     /* Arithmetically true is not the same as honest. "0 of 1 checks disagree"
-       adds up when the one check never ran — and reads as a clean result. The
-       tally's VERB has to match what the month actually was, so a month nothing
-       could be checked in reports that, rather than reporting zero
-       disagreements among checks that did not happen. */
-    if (counted.unrunnable > 0 && (saysDisagree || /mixed/i.test(cc.count)) && !saysUnrunnable) {
+       adds up when the one check never ran, or came back mixed — and either way
+       it reads as a clean result. The tally's VERB has to describe what the
+       month actually was.
+
+       The first version of this rule only covered the unrunnable case, because
+       that was the live state the day it was written. gauntlet/critic_surface
+       caught the gap the moment the feed refreshed and the state moved to
+       mixed. Generalised: whatever the loudest thing in the roster is, the
+       tally has to be about that. */
+    const loudest = counted.conflict ? 'disagree'
+      : counted.mixed ? 'mixed'
+      : counted.unrunnable ? 'unrunnable' : 'agree';
+    const describes = {disagree: saysDisagree, mixed: /mixed/i.test(cc.count),
+      unrunnable: saysUnrunnable, agree: true}[loudest];
+    if (!describes) {
+      const found = {disagree: `${counted.conflict} disagreeing`, mixed: `${counted.mixed} mixed`,
+        unrunnable: `${counted.unrunnable} unrunnable`}[loudest];
       fail.push({rule: 'R4-SAME-STATE', message:
-        `tally "${cc.count}" reports on disagreement, but ${counted.unrunnable} of ${counted.checked} ` +
-        `check(s) could not run — counting zero disagreements among checks that did not happen reads as a clean result`});
+        `tally "${cc.count}" does not describe the month: the roster has ${found} check(s), ` +
+        `and a tally that reports on something else reads as a clean result`});
     }
   }
 
