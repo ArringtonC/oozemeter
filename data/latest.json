@@ -1,5 +1,5 @@
 {
- "generated": "2026-08-20T14:19:09.309Z",
+ "generated": "2026-08-21T14:17:25.494Z",
  "methodologyVersion": "3.0.0",
  "month": "2026-07",
  "monthLabel": "July 2026",
@@ -7,11 +7,11 @@
  "prevMonthLabel": "June 2026",
  "ooze": 26,
  "prevOoze": 27,
- "updatedLabel": "July 2026 reading · collected 2026-08-20",
+ "updatedLabel": "July 2026 reading · collected 2026-08-21",
  "collection": {
   "status": "ok",
   "changed": true,
-  "inputFingerprint": "75be8242f5e03e5b78985011eb64f115d5cf8861ff21c7b3677e022ae7f07b1e",
+  "inputFingerprint": "cfae2b175b9809187ba999f4bf2e0476828171c3b0d763f22d246bcaa1e23cb7",
   "fingerprintSchemaVersion": 3,
   "vintageRetentionPolicy": "retain-all-unique-schema-v3-manifests",
   "freshnessStatus": "current",
@@ -41,8 +41,8 @@
    "updateStatus": "no-new-release"
   },
   "housing": {
-   "value": "6.67%",
-   "asOf": "2026-08-13",
+   "value": "6.65%",
+   "asOf": "2026-08-20",
    "cadence": "weekly",
    "source": {
     "publisher": "Freddie Mac",
@@ -63,7 +63,7 @@
    "contrib": 7,
    "delta": 0,
    "stale": false,
-   "updateStatus": "no-new-release"
+   "updateStatus": "new-observation"
   },
   "credit": {
    "value": "2.9%",
