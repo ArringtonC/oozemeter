@@ -1,5 +1,5 @@
 {
- "generated": "2026-08-21T14:17:25.494Z",
+ "generated": "2026-08-22T13:56:34.798Z",
  "methodologyVersion": "3.0.0",
  "month": "2026-07",
  "monthLabel": "July 2026",
@@ -7,10 +7,10 @@
  "prevMonthLabel": "June 2026",
  "ooze": 26,
  "prevOoze": 27,
- "updatedLabel": "July 2026 reading · collected 2026-08-21",
+ "updatedLabel": "July 2026 reading · collected 2026-08-22",
  "collection": {
   "status": "ok",
-  "changed": true,
+  "changed": false,
   "inputFingerprint": "cfae2b175b9809187ba999f4bf2e0476828171c3b0d763f22d246bcaa1e23cb7",
   "fingerprintSchemaVersion": 3,
   "vintageRetentionPolicy": "retain-all-unique-schema-v3-manifests",
@@ -63,7 +63,7 @@
    "contrib": 7,
    "delta": 0,
    "stale": false,
-   "updateStatus": "new-observation"
+   "updateStatus": "no-new-release"
   },
   "credit": {
    "value": "2.9%",
