@@ -49,3 +49,19 @@ test('daily household seal rebuilds exact-month divergence from the latest appro
   assert.match(workflow, /git add[^\n]*data\/market-history\.json data\/market-history\.js/);
   assert.ok(workflow.indexOf('node scripts/build-market-divergence.js') < workflow.indexOf('git commit'));
 });
+
+test('source revisions regenerate the archive before any gate compares', () => {
+  /* The archive reconstructions bake literals, so a FRED revision that moves the
+     jar's history necessarily drifts them. collect.yml must rebuild backtest ->
+     reconstructions -> static pages from the same revised data BEFORE
+     narrative-check runs, and commit research/, files/ and sitemap.xml with
+     them — the artifacts the reconstructions assert against. This is the
+     2026-08-14 / 2026-08-26 drift, twice in a fortnight — pin it. */
+  assert.ok(workflow.indexOf('node scripts/backtest.js') < workflow.indexOf('node scripts/backfill-reports.js'));
+  assert.ok(workflow.indexOf('node scripts/backfill-reports.js') < workflow.indexOf('node scripts/static-pages.js'));
+  assert.ok(workflow.indexOf('node scripts/static-pages.js') < workflow.indexOf('node scripts/narrative-check.js'));
+  assert.match(workflow, /node scripts\/backtest\.js[\s\S]*node scripts\/backfill-reports\.js[\s\S]*node scripts\/narrative-check\.js/);
+  assert.match(workflow, /git add[^\n]*\bresearch\//);
+  assert.match(workflow, /git add[^\n]*\bfiles\//);
+  assert.match(workflow, /git add[^\n]*\bsitemap\.xml\b/);
+});
