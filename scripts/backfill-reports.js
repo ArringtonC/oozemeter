@@ -43,7 +43,11 @@ const BYLINE = BYLINES.archive;
 const HH_CONFIDENCE = confidenceStatement({methodologyVersion: hh.methodologyVersion, vintage: VINTAGE, kind: 'archive'});
 const MK_CONFIDENCE = confidenceStatement({methodologyVersion: 'Ward M provisional', vintage: MKVINTAGE, kind: 'archive'});
 
-const END = '2026-06';
+/* The window is the trailing year, ending at the latest month the household
+   backtest fully computes — it advances on its own as months seal, instead of
+   the archive quietly falling behind the jar (the 2026-08-26 drift). */
+const END = hh.monthly[hh.monthly.length - 1].month;
+if (!END) throw new Error('backtest has no monthly rows — cannot anchor the archive window');
 const WINDOW = []; let cur = END;
 for (let i = 0; i < 12; i++) { WINDOW.unshift(cur); cur = prevYm(cur); }
 

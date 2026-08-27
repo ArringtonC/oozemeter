@@ -70,7 +70,9 @@ body[data-alert="mess"] #pageDrips{display:block}
 #bootLog div{opacity:0;animation:bootline .1s forwards}
 @keyframes bootline{to{opacity:1}}
 #bootLog .ok{color:var(--muted)}
-#boot .skip{position:absolute;bottom:28px;font-size:.65rem;letter-spacing:.3em;color:var(--dim)}
+#boot .skip{position:absolute;bottom:28px;font-size:.65rem;letter-spacing:.3em;color:var(--dim);background:none;border:0;padding:12px;font-family:var(--mono);cursor:pointer;text-transform:uppercase}
+#boot .skip:hover{color:var(--text)}
+#boot .skip:focus-visible{outline:1px solid var(--ooze);color:var(--text)}
 
 /* ============ HEADER ============ */
 header{border-bottom:1px solid var(--line);background:linear-gradient(rgba(7,11,6,.85),rgba(7,11,6,.6));backdrop-filter:blur(6px);position:sticky;top:0;z-index:30}
@@ -766,3 +768,37 @@ footer a:hover{color:var(--ooze)}
 .art-fold .fold-body{padding-bottom:18px;border-top:1px solid var(--line);padding-top:14px}
 .art-fold .fold-body h4{font-family:var(--display);font-size:.76rem;margin:18px 0 8px}
 .art-fold .fold-body p{font-size:.78rem;color:var(--muted);line-height:1.75;margin:0 0 12px}
+
+/* ============ 2026-08-27: line history, month dossier, search, hero plain ============ */
+.hero-plain{margin:-6px 0 18px;color:var(--muted);font-size:.78rem;letter-spacing:.04em}
+
+/* per-line stress chart */
+.lh-wrap{position:relative;padding:8px 0 2px}
+.lh-wrap svg{width:100%;height:auto;display:block}
+.lh-chip{position:absolute;top:14px;left:12px;padding:5px 10px;background:var(--panel);border:1px solid var(--line);font-size:.68rem;letter-spacing:.08em;color:var(--text);opacity:0;transition:opacity .12s;pointer-events:none}
+.lh-foot{margin-top:4px;font-size:.66rem;color:var(--dim);letter-spacing:.08em}
+.lh-foot a{color:var(--muted)}
+
+/* archive month dossier */
+.mcard{margin-top:18px;padding:20px 22px;background:rgba(14,21,12,.7);border:1px solid var(--line)}
+.mcard-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.mcard-k{font-size:.6rem;letter-spacing:.28em;color:var(--dim)}
+.mcard-head h3{font-family:var(--display);font-weight:800;font-size:1.3rem;margin:4px 0 0}
+.mcard-score{font-family:var(--display);font-weight:900;font-size:2rem;line-height:1}
+.mcard-score small{font-size:.8rem;font-weight:600;color:var(--dim);margin-left:6px}
+.mcard-delta{margin:8px 0 14px;color:var(--muted);font-size:.75rem;letter-spacing:.06em}
+.mcard-h{font-size:.62rem;letter-spacing:.26em;color:var(--dim);margin:0 0 8px}
+.mcard-row{display:flex;justify-content:space-between;padding:7px 2px;border-bottom:1px solid var(--line);font-size:.8rem}
+.mcard-row b{color:var(--text)}
+.mcard-row.dim{color:var(--dim);border-bottom:none}
+.mcard-links{margin-top:16px;display:flex;gap:10px;flex-wrap:wrap}
+
+/* facility search */
+.sr-box{padding-bottom:8px;border-bottom:1px solid var(--line);margin-bottom:6px}
+.fac-search{width:100%;background:var(--panel);border:1px solid var(--line);color:var(--text);font-family:var(--mono);font-size:.78rem;padding:10px 12px;letter-spacing:.02em}
+.fac-search:focus{outline:1px solid var(--ooze)}
+.sr-list{margin-top:6px;display:flex;flex-direction:column;gap:2px;max-height:260px;overflow:auto}
+.sr-list a{display:flex;align-items:baseline;gap:8px;padding:8px 10px;border:1px solid transparent;color:var(--text);text-decoration:none;font-size:.78rem;letter-spacing:.02em}
+.sr-list a:hover,.sr-list a:focus-visible{background:rgba(163,255,18,.06);border-color:var(--line)}
+.sr-k{font-size:.56rem;letter-spacing:.22em;color:var(--ooze);flex:none;min-width:52px}
+.sr-empty{padding:10px;font-size:.72rem;color:var(--dim);letter-spacing:.04em}

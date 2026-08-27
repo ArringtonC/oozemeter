@@ -24,7 +24,7 @@
 <script type="application/ld+json" id="datasetLD">{"@context":"https://schema.org","@type":"Dataset","name":"OOZEMeter Ooze Level","description":"Monthly U.S. economic stress score (0–100) computed from public data. July 2026: 25/100.","url":"https://arringtonc.github.io/oozemeter","creator":{"@type":"Organization","name":"OOZEMeter — Division of Economic Containment","url":"https://arringtonc.github.io/oozemeter"},"temporalCoverage":"2003-01/2026-07","license":"https://github.com/ArringtonC/oozemeter","distribution":[{"@type":"DataDownload","encodingFormat":"application/json","contentUrl":"https://arringtonc.github.io/oozemeter/data/latest.json"}]}</script>
 </head>
 <body>
-<div id="boot"><div id="bootLog"></div><div class="skip">CLICK TO SKIP CLEARANCE CHECK</div></div>
+<div id="boot" role="dialog" aria-modal="true" aria-label="Facility clearance check"><div id="bootLog"></div><button class="skip" type="button">CLICK TO SKIP CLEARANCE CHECK</button></div>
 
 <div id="page">
 
@@ -43,6 +43,7 @@
         <div class="delta" id="heroDelta">▼ −1 VS JUNE 2026</div>
       </div>
       <div class="verdict cine c4" id="verdictLine">Calmer than 7 of every 10 months since 2003</div>
+      <p class="hero-plain cine c5">One score for U.S. household economic stress — built from public data, recomputed as each release lands.</p>
 
       <div class="pk-hero cine c1">
         <div class="pk-jarbox"><div class="jar" id="heroJar" role="img" aria-label="Containment jar, ooze level 25 of 100"></div></div>
@@ -60,7 +61,7 @@
         <div class="oz-key" id="ozKey"></div>
         <div class="pk-cans" id="canCards"></div>
         <p class="rung-tail" id="rungTail"></p>
-        <a class="pk-more" href="#ledger">SEE ALL NINE LINES &rarr;</a>
+        <a class="pk-more" href="#ledger">SEE ALL TEN LINES &rarr;</a>
       </section>
 
       <section class="rung cine c5" id="changed">
@@ -179,6 +180,7 @@
 <script src="data/sectors.js"></script>
 <script src="articles.js"></script>
 <script src="data/auto-articles.js"></script>
+<script src="data/reconstruction-reports.js"></script>
 <script src="lab.js"></script>
 <script>
 renderHeader('');
@@ -198,10 +200,15 @@ function endBoot(){
   boot.classList.add('done');
   localStorage.setItem('oozeboot','1');
   document.body.classList.add('intro-go');
+  /* the cleared overlay is a modal: give the page back to the keyboard and let
+     focus land on the hero, not on whatever was under the glass */
+  $('page').inert=false;
+  boot.setAttribute('aria-hidden','true');
   startCountUp();
   setTimeout(()=>setJar(heroJar,heroTheme,TODAY_SCORE),300);
 }
 boot.addEventListener('click',endBoot);
+boot.addEventListener('keydown',e=>{if(e.key==='Escape')endBoot()});
 /* ceremony plays once per browser (AUDIT-8: daily checkers get the score instantly);
    ?boot=1 or the footer replay link brings the theater back */
 const wantBoot=new URLSearchParams(location.search).has('boot');
@@ -216,6 +223,10 @@ if((!wantBoot&&(localStorage.getItem('oozeboot')||referred))||matchMedia('(prefe
   boot.style.display='none';
   requestAnimationFrame(()=>endBoot());
 }else{
+  /* while the clearance check is on screen the page behind is inert: tabbing
+     cannot land on hidden controls, and the skip button is the exit. */
+  $('page').inert=true;
+  setTimeout(()=>boot.querySelector('.skip').focus(),60);
   BOOT_LINES.forEach(([l,r],i)=>setTimeout(()=>{
     $('bootLog').insertAdjacentHTML('beforeend',`<div>${l}${r?` <span class="ok">... ${r}</span>`:''}</div>`);
     bloop(200+i*40,.05);
@@ -309,7 +320,7 @@ if(LIVE){
   $('canCards').innerHTML=feat.map(([k,l])=>{
     const y=indBySlug(k),g=ccGutter(k);
     const tag=mover&&mover[0]===k?'<span class="can-tag">LARGEST MOVE</span>':'';
-    return `<a class="pk-can" href="indicator.html?i=${k}">
+    return `<a class="pk-can" href="${indUrl(k)}">
       <span class="cc-gutter" data-fired="${g.fired}" aria-hidden="true">${g.mark}</span>
       <span class="sr-only">${g.say}</span>
       <span class="nm">${y.name}${tag}</span>
@@ -367,7 +378,7 @@ if(LIVE){
     const cell=x.contributesToOoze
       ?`<span class="dl" style="color:${deltaTone(x.delta)}">${amount}</span>`
       :`<span class="dl"><span class="aux-badge">${amount}</span></span>`;
-    return `<a class="pk-lrow" href="indicator.html?i=${x.slug}"${x.contributesToOoze?'':' title="PROVISIONAL AUXILIARY SENSOR · 0-WEIGHT · DOES NOT ALTER THE OOZE SCORE"'}>
+    return `<a class="pk-lrow" href="${indUrl(x.slug)}"${x.contributesToOoze?'':' title="PROVISIONAL AUXILIARY SENSOR · 0-WEIGHT · DOES NOT ALTER THE OOZE SCORE"'}>
     <span>${x.emoji}</span><span>${x.name}</span><b>${x.value}</b>
     ${cell}</a>`;
   };

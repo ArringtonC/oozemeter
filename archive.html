@@ -28,7 +28,7 @@
   <div class="wrap">
     <div class="crumbs" style="padding-bottom:18px"><a href="index.html">Facility</a> / The Ooze Chart</div>
     <h1 class="sec-title">The Ooze Chart</h1>
-    <p class="sec-sub" style="margin-bottom:22px">23 years of measured U.S. economic stress under methodology v3. Comparable history begins with the NY Fed auto series in 2003. This is an ex-post reconstruction using the latest revised observations, not a release-time vintage. The dots are events — <b style="color:var(--text)">click one</b>.</p>
+    <p class="sec-sub" style="margin-bottom:22px">23 years of measured U.S. economic stress under methodology v3. Comparable history begins with the NY Fed auto series in 2003. This is an ex-post reconstruction using the latest revised observations, not a release-time vintage. The dots are events — <b style="color:var(--text)">click one</b>; drag the Time Machine (or click the curve) to inspect <b style="color:var(--text)">any month</b>.</p>
 
     <div class="echart-panel">
       <div id="echartMount"></div>
@@ -70,6 +70,20 @@
         <div class="range-labels"><span>2003</span><span>2008</span><span>2015</span><span>2020</span><span>TODAY</span></div>
       </div>
     </div>
+
+    <div class="mcard" id="mcard" hidden>
+      <div class="mcard-head">
+        <div>
+          <div class="mcard-k">MONTH DOSSIER</div>
+          <h3 id="mMonth"></h3>
+        </div>
+        <div class="mcard-score" id="mScore"></div>
+      </div>
+      <p class="mcard-delta" id="mDelta"></p>
+      <div class="mcard-h">HEAVIEST LINES</div>
+      <div id="mTop"></div>
+      <div class="mcard-links" id="mLinks"></div>
+    </div>
   </div>
 </section>
 
@@ -85,6 +99,8 @@
 </div><!-- /page -->
 
 <script src="data/latest.js"></script>
+<script src="data/line-history.js"></script>
+<script src="data/reconstruction-reports.js"></script>
 <script src="lab.js"></script>
 <script>
 renderHeader('archive');
@@ -97,6 +113,10 @@ setJar(replayJar,replayTheme,TODAY_SCORE);
 const slider=$('timeSlider');
 slider.max=HISTORY[HISTORY.length-1][0];
 slider.value=slider.max;
+/* per-month composition from data/line-history.js — initialized before the
+   first renderMcard call (const in a script that is one top-to-bottom block) */
+const MONTHS=(window.LINE_HISTORY&&window.LINE_HISTORY.months)||[];
+const mIdx=new Map(MONTHS.map((m,i)=>[monthToYear(m.month).toFixed(3),i]));
 function renderReplay(){
   const yr=parseFloat(slider.value),raw=scoreAt(yr),missing=raw==null,s=missing?null:Math.round(raw);
   $('replayYear').textContent=Math.floor(yr);
@@ -108,8 +128,9 @@ function renderReplay(){
   const ev=EVENTS.find(([y])=>Math.abs(y-yr)<0.3);
   $('replayEvent').textContent=missing?'⚠ No canonical observation for this month — the official source release is absent.':(ev?ev[1]:'');
 }
-slider.addEventListener('input',renderReplay);
+slider.addEventListener('input',()=>{renderReplay();renderMcard(parseFloat(slider.value))});
 renderReplay();
+renderMcard(parseFloat(slider.value));
 function jumpTo(year){
   const from=+slider.value,t0=performance.now();
   bloop(100,.12);
@@ -123,6 +144,35 @@ function jumpTo(year){
 new IntersectionObserver(es=>es.forEach(e=>{
   if(!e.isIntersecting)setFacility(TODAY_SCORE);
 }),{threshold:0}).observe($('replay'));
+
+/* ============ MONTH DOSSIER — what actually drove it ============ */
+function renderMcard(yr){
+  const card=$('mcard');
+  const i=mIdx.get((+yr).toFixed(3));
+  if(i==null){card.hidden=true;return}
+  const m=MONTHS[i],prev=MONTHS[i-1];
+  $('mMonth').textContent=monthLabel(m.month);
+  $('mScore').innerHTML=`${m.ooze}<small>/100 · ${bandOf(m.ooze).name}</small>`;
+  $('mScore').style.color=LEVELCOLORS[levelOf(m.ooze)-1];
+  $('mDelta').textContent=prev
+    ?`${m.ooze-prev.ooze>=0?'▲ +':'▼ −'}${Math.abs(m.ooze-prev.ooze)} vs ${monthLabel(prev.month)}`
+    :'the first month of comparable history — no prior reading';
+  /* the month's ounces, apportioned by the same largest-remainder rule as the
+     live collector and the archive reconstructions — parts sum to the whole */
+  const w={};for(const x of INDICATORS)if(x.weight>0)w[x.slug]=x.weight;
+  const raw={};for(const [k,v] of Object.entries(m.stresses||{}))if(w[k]!=null)raw[k]=v*w[k];
+  const wsum=Object.values(raw).reduce((a,b)=>a+b,0)||1;
+  const exact=Object.entries(raw).map(([k,val],index)=>({k,index,value:m.ooze*val/wsum}));
+  const oz={};for(const {k,value} of exact)oz[k]=Math.floor(value);
+  let rem=m.ooze-Object.values(oz).reduce((a,b)=>a+b,0);
+  for(const {k} of exact.sort((a,b)=>(b.value%1)-(a.value%1)||a.index-b.index).slice(0,rem))oz[k]+=1;
+  const top=Object.entries(oz).filter(([,n])=>n>0).sort((a,b)=>b[1]-a[1]).slice(0,3);
+  $('mTop').innerHTML=top.map(([k,n])=>{const y=indBySlug(k);return `<div class="mcard-row"><span>${y?y.emoji+' '+y.name:k}</span><b>${n} oz</b></div>`}).join('')
+    +`<div class="mcard-row dim"><span>the rest of the month's ${m.ooze} ounces</span><b>${m.ooze-top.reduce((a,[,n])=>a+n,0)} oz</b></div>`;
+  const rec=(window.RECON_ARTICLES||[]).filter(a=>a.month===m.month);
+  $('mLinks').innerHTML=rec.map(a=>`<a class="btn" href="files/${a.slug}/index.html">Read the ${m.month} reconstruction ▸</a>`).join('');
+  card.hidden=false;
+}
 
 /* ============ EVENT DATA — plain words, real dates ============ */
 const EV=[
@@ -217,6 +267,18 @@ svg.addEventListener('pointermove',e=>{
   chLine.setAttribute('visibility','visible');
 });
 svg.addEventListener('pointerleave',()=>{chip.style.opacity=0;chLine.setAttribute('visibility','hidden')});
+/* clicking the curve itself picks the month — the month dossier follows the
+   Time Machine, so the chart and the slider are one instrument */
+svg.addEventListener('click',e=>{
+  if(e.target.closest('.evt'))return; /* event dots keep their own popup */
+  const r=svg.getBoundingClientRect();
+  const t=x0+((e.clientX-r.left)/r.width*W-L)/(W-L-R)*(x1-x0);
+  if(t<x0||t>lastT)return;
+  const near=HISTORY.reduce((a,b)=>Math.abs(b[0]-t)<Math.abs(a[0]-t)?b:a);
+  slider.value=near[0];
+  renderReplay();
+  renderMcard(near[0]);
+});
 
 /* ============ POPUP (click an event) ============ */
 const epop=$('epop');
@@ -255,8 +317,15 @@ $('epGo').addEventListener('click',()=>{
   jumpTo(EV[selI].t);
   $('replay').scrollIntoView({behavior:'smooth',block:'center'});
 });
-document.querySelectorAll('#echartMount .evt').forEach(g=>
-  g.addEventListener('click',()=>openPop(+g.dataset.i)));
+document.querySelectorAll('#echartMount .evt').forEach(g=>{
+  g.addEventListener('click',()=>openPop(+g.dataset.i));
+  /* keyboard: dots and timeline cards are buttons, not decoration */
+  g.setAttribute('tabindex','0');g.setAttribute('role','button');
+  g.setAttribute('aria-label',`${EV[+g.dataset.i].date} — ${EV[+g.dataset.i].title}. Press Enter to open.`);
+  g.addEventListener('keydown',e=>{
+    if(e.key==='Enter'||e.key===' '){e.preventDefault();openPop(+g.dataset.i)}
+  });
+});
 if(GAP_LIST.length)$('gapNote').textContent='⚠ '+GAP_LIST.join(' · ')+'. Missing months are shown as breaks, never interpolated.';
 
 /* ============ SCROLLABLE TIMELINE ============ */
@@ -266,12 +335,18 @@ $('etimeline').innerHTML=EV.map((e,i)=>`
     <h4>${e.title}</h4>
     <span class="ec-score" style="color:${BANDCOLORS[levelOf(e.s)-1]};border-color:${BANDCOLORS[levelOf(e.s)-1]}">AT THE TIME · ${e.s}</span>
   </div>`).join('');
-document.querySelectorAll('.ecard').forEach(c=>
-  c.addEventListener('click',()=>openPop(+c.dataset.i)));
+document.querySelectorAll('.ecard').forEach((c,i)=>{
+  c.addEventListener('click',()=>openPop(i));
+  c.setAttribute('tabindex','0');c.setAttribute('role','button');
+  c.setAttribute('aria-label',`${EV[i].date} — ${EV[i].title}. Press Enter to open.`);
+  c.addEventListener('keydown',e=>{
+    if(e.key==='Enter'||e.key===' '){e.preventDefault();openPop(i)}
+  });
+});
 
 /* ============ CROSS-REF ============ */
 $('allLines').innerHTML=INDICATORS.map(y=>
-  `<a href="indicator.html?i=${y.slug}"><span>${y.emoji}</span> ${y.name} <span class="r-oz">${y.contributesToOoze?`+${y.contrib}`:'AUX'}</span></a>`).join('');
+  `<a href="${indUrl(y.slug)}"><span>${y.emoji}</span> ${y.name} <span class="r-oz">${y.contributesToOoze?`+${y.contrib}`:'AUX'}</span></a>`).join('');
 
 renderFooter();
 wireReveals();

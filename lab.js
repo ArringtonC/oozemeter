@@ -133,6 +133,17 @@ const INDICATORS = [
      {q:'What is industrial production?', a:'The Federal Reserve’s measure of actual physical output from factories, mines, and utilities.'},
    ],
    related:['jobs','gas','inflation']},
+
+  {slug:'debtBurden', emoji:'💼', name:'Federal Debt Service', val:'—', trend:'auxiliary public-data sensor', dir:'up', contrib:0, weight:0, shortMetric:'interest ÷ receipts',
+   source:{name:'BEA — federal interest ÷ current receipts (via FRED)', seriesId:'A091RC1Q027SBEA · FGRECPT', url:'https://fred.stlouisfed.org/series/A091RC1Q027SBEA'},
+   why:`This auxiliary sensor measures the federal DEBT SERVICE burden — interest paid divided by federal receipts — deliberately not the debt level. The level rose in 215 of 241 quarters, so it is a clock: correlating it with anything measures the passage of time. The burden falls 47% of quarters and spans 10%–28.6% of receipts, so it is a real two-sided signal. Against the household jar it scores r=-0.034 — independent of household stress — which is why it is published and why it must remain zero-weight.`,
+   vs2008:`The burden rose with rates and deficits in and after 2008, but the comparison that matters is to household stress: the two are nearly uncorrelated. This line exists to say the debt clock loudly and to keep the debt level from being mistaken for a stress signal.`,
+   faqs:[
+     {q:'Why the burden and not the $40 trillion level?', a:'Because the level only moves in one direction. A metric that always rises cannot signal anything; a burden that rises and falls across 47% of quarters can. The decision record is public in research/NATIONAL-DEBT-DECISION-2026-08-16.md.'},
+     {q:'Why is it zero-weight?', a:'Its measured correlation with household stress is r=-0.034 — no relationship. Publishing it satisfies curiosity; scoring it would add noise to the Ooze Score.'},
+     {q:'Where does the data come from?', a:'BEA national income and product accounts: federal interest payments divided by federal current receipts. Quarterly and public on FRED.'},
+   ],
+   related:['financial','inflation','jobs']},
 ];
 
 /* MOVERS carries the collected month's movers and nothing else. The three
@@ -255,6 +266,12 @@ const levelOf=s=>s<=20?1:s<=40?2:s<=60?3:s<=80?4:5;
 const bandOf=s=>BANDS[levelOf(s)-1];
 const tierOf=s=>s>=95?MESS_TIER:bandOf(s).tier;
 const indBySlug=slug=>INDICATORS.find(x=>x.slug===slug);
+/* reader URL for an intake line — the clean /slug/ static pages are canonical;
+   the ?i= template URLs stay usable for deep links but never ship in chrome */
+const indUrl=slug=>`${slug}/index.html`;
+/* "2003-01" → 2003.0 decimal year, the format the chart arrays use */
+const monthToYear=ym=>{const[y,m]=ym.split('-').map(Number);return y+(m-1)/12};
+const monthLabel=ym=>new Date(ym+'-15').toLocaleString('en-US',{month:'long',year:'numeric'});
 
 function scoreAt(year){
   for(let i=0;i<HISTORY.length-1;i++){
@@ -345,12 +362,108 @@ function bigChart(hist){
     ${years}</svg>`;
 }
 
+/* ============ LINE HISTORY (per intake line) ============ */
+/* One line's stress through time, from data/line-history.js — the same verified
+   backtest artifact the Ooze Chart plots, so an indicator page can never
+   disagree with the archive. Renders nothing (returns false) when the line has
+   no published series: the facility does not draw sketches where data belongs. */
+function renderLineHistory(mount,slug){
+  const LH=typeof window!=='undefined'?window.LINE_HISTORY:null;
+  if(!LH||!Array.isArray(LH.months))return false;
+  const series=LH.months.map(r=>({t:monthToYear(r.month),v:r.stresses[slug]})).filter(p=>Number.isFinite(p.v));
+  if(!series.length)return false;
+  const W=960,H=240,L=12,R=12,T=14,B=22;
+  const t0=series[0].t,t1=series[series.length-1].t;
+  const X=t=>L+(t-t0)/(t1-t0||1)*(W-L-R);
+  const Y=v=>T+(100-v)/100*(H-T-B);
+  const grid=[0,25,50,75,100].map(g=>`<line x1="${L}" y1="${Y(g)}" x2="${W-R}" y2="${Y(g)}" stroke="rgba(163,255,18,.05)"/>
+    <text x="${W-R-2}" y="${Y(g)-3}" fill="#708363" font-size="8" text-anchor="end">${g}</text>`).join('');
+  const years=[];for(let y=Math.ceil(t0/5)*5;y<=t1;y+=5)years.push(
+    `<text x="${X(y)}" y="${H-6}" fill="#708363" font-size="8" text-anchor="middle">${y}</text>`);
+  const pts=series.map(p=>`${X(p.t).toFixed(1)},${Y(p.v).toFixed(1)}`).join(' ');
+  const last=series[series.length-1];
+  mount.innerHTML=`<div class="lh-wrap">
+    <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${(indBySlug(slug)||{}).name||slug} stress, ${series[0].t.toFixed(0)} to ${Math.floor(t1)}, scaled 0 to 100">
+      ${grid}${years.join('')}
+      <polygon points="${X(series[0].t)},${Y(0)} ${pts} ${X(last.t)},${Y(0)}" fill="rgba(163,255,18,.07)"/>
+      <polyline points="${pts}" fill="none" stroke="#a3ff12" stroke-width="1.5"/>
+      <line id="lhCx" y1="${T}" y2="${H-B}" stroke="rgba(230,242,218,.25)" stroke-dasharray="3 3" visibility="hidden"/>
+      <line x1="${X(last.t)}" y1="${T}" x2="${X(last.t)}" y2="${H-B}" stroke="rgba(163,255,18,.35)" stroke-dasharray="2 3"/>
+      <circle cx="${X(last.t)}" cy="${Y(last.v)}" r="3.5" fill="#a3ff12"/>
+    </svg>
+    <div class="lh-chip" id="lhChip"></div>
+    <div class="lh-foot">Stress 0–100 from published anchors · ${LH.months.length} months, ${LH.months[0].month} → ${LH.months[LH.months.length-1].month} · <a href="archive.html">compare in the Ooze Chart →</a></div>
+  </div>`;
+  const svg=mount.querySelector('svg'),chip=mount.querySelector('#lhChip'),cx=mount.querySelector('#lhCx');
+  svg.addEventListener('pointermove',e=>{
+    const r=svg.getBoundingClientRect();
+    const t=t0+((e.clientX-r.left)/r.width)*(t1-t0);
+    const near=series.reduce((a,b)=>Math.abs(b.t-t)<Math.abs(a.t-t)?b:a);
+    chip.textContent=`${monthLabel(LH.months[series.indexOf(near)].month)} · stress ${Math.round(near.v)}`;
+    chip.style.opacity=1;
+    cx.setAttribute('x1',X(near.t));cx.setAttribute('x2',X(near.t));cx.setAttribute('visibility','visible');
+  });
+  svg.addEventListener('pointerleave',()=>{chip.style.opacity=0;cx.setAttribute('visibility','hidden')});
+  return true;
+}
+
+/* ============ FACILITY SEARCH ============ */
+/* Client-side index over intake lines, articles and archive reconstructions.
+   The corpus is whatever data files the page loaded — absence shrinks the
+   results, never breaks the box. */
+function buildSearchIndex(){
+  const idx=[];
+  for(const x of INDICATORS)idx.push({kind:'LINE',label:`${x.name} — ${x.shortMetric}`,href:indUrl(x.slug),
+    text:`${x.name} ${x.shortMetric} ${x.why||''}`.toLowerCase()});
+  for(const src of ['ARTICLES','AUTO_ARTICLES','RECON_ARTICLES']){
+    const list=(typeof window!=='undefined'&&Array.isArray(window[src]))?window[src]:[];
+    for(const a of list)idx.push({kind:src==='RECON_ARTICLES'?'ARCHIVE':'FILE',label:a.title,
+      href:`files/${a.slug}/index.html`,
+      text:`${a.title} ${a.dek||''} ${a.month||''} ${a.date||''}`.toLowerCase()});
+  }
+  for(const ev of EVENTS)idx.push({kind:'EVENT',label:ev[1].split('—')[0].trim(),href:'archive.html',
+    text:`${ev[1]} ${ev[0]}`.toLowerCase()});
+  return idx;
+}
+function searchIndex(idx,q){
+  q=q.toLowerCase();
+  const hits=[];
+  for(const e of idx){
+    if(!e.text.includes(q))continue;
+    const title=e.label.toLowerCase();
+    hits.push({...e,score:title.startsWith(q)?0:title.includes(q)?1:2});
+  }
+  return hits.sort((a,b)=>a.score-b.score);
+}
+function wireSearch(root){
+  root.querySelectorAll('.fac-search').forEach(inp=>{
+    const box=inp.closest('.sr-box'),list=box.querySelector('.sr-list'),dd=inp.closest('details');
+    inp.addEventListener('focus',()=>{if(dd)dd.setAttribute('open','')});
+    const close=()=>{list.hidden=true;list.innerHTML=''};
+    const render=q=>{
+      const hits=searchIndex(window.__SRC_IDX__||[],q).slice(0,8);
+      list.innerHTML=hits.length
+        ?hits.map(h=>`<a href="${h.href}"><span class="sr-k">${h.kind}</span>${h.label}</a>`).join('')
+        :'<div class="sr-empty">No matches — try “gas”, “2008” or “mortgage”.</div>';
+      list.hidden=false;
+      list.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{close();if(dd)dd.removeAttribute('open')}));
+    };
+    inp.addEventListener('input',()=>{inp.value.trim()?render(inp.value.trim()):close()});
+    inp.addEventListener('keydown',e=>{
+      if(e.key==='Enter'){const a=list.querySelector('a');if(a){e.preventDefault();close();if(dd)dd.removeAttribute('open');location.href=a.getAttribute('href')}}
+      if(e.key==='Escape'){close();if(dd)dd.removeAttribute('open');inp.blur()}
+    });
+    inp.addEventListener('blur',()=>setTimeout(close,150));
+  });
+}
+
 /* ============ SHARED CHROME ============ */
 function renderHeader(active){
   document.body.insertAdjacentHTML('afterbegin',`
   <div id="alarmWash"></div>
   <div id="pageDrips"><i></i><i></i><i></i></div>`);
-  const indLinks=INDICATORS.map(x=>`<a href="indicator.html?i=${x.slug}"><span>${x.emoji}</span>${x.name}</a>`).join('');
+  const indLinks=INDICATORS.map(x=>`<a href="${indUrl(x.slug)}"><span>${x.emoji}</span>${x.name}</a>`).join('');
+  window.__SRC_IDX__=window.__SRC_IDX__||buildSearchIndex();
   const act=k=>k===active?' class="active"':'';
   document.getElementById('page').insertAdjacentHTML('afterbegin',`
   <header>
@@ -366,6 +479,10 @@ function renderHeader(active){
         <a href="market.html"${act('market')}>Markets</a>
         <a href="archive.html"${act('archive')}>Archive</a>
         <details class="nav-dd"><summary>Tools</summary><div class="dd-panel">
+          <div class="sr-box">
+            <input class="fac-search" type="search" placeholder="Search the facility…" aria-label="Search articles, events and intake lines" autocomplete="off">
+            <div class="sr-list" hidden></div>
+          </div>
           <a href="market.html"><span>📊</span>Market Ooze (Ward M)</a>
           <a href="personal.html"><span>🧬</span>Your Personal Ooze</a>
           <a href="states.html"><span>🗺</span>State Rankings</a>
@@ -384,7 +501,7 @@ function renderHeader(active){
           ${Object.entries(LD.lines).map(([slug,l])=>{
             const y=INDICATORS.find(i=>i.slug===slug);
             if(!y)return ''; /* a line the payload knows but this UI doesn't yet — never crash the chrome over it */
-            return `<a href="indicator.html?i=${slug}"><span style="display:flex;align-items:center;gap:8px"><span class="njar"><i style="height:${l.stress||0}%;background:${LEVELCOLORS[levelOf(l.stress||0)-1]}"></i></span>${y.name}</span><b>${l.value}</b><span class="sp-d ${l.delta>=0?'up':'down'}">${l.delta>=0?'▲':'▼'}${Math.abs(l.delta)}</span></a>`}).join('')}
+            return `<a href="${indUrl(slug)}"><span style="display:flex;align-items:center;gap:8px"><span class="njar"><i style="height:${l.stress||0}%;background:${LEVELCOLORS[levelOf(l.stress||0)-1]}"></i></span>${y.name}</span><b>${l.value}</b><span class="sp-d ${l.delta>=0?'up':'down'}">${l.delta>=0?'▲':'▼'}${Math.abs(l.delta)}</span></a>`}).join('')}
           <span class="sp-foot">${LD.monthLabel} reading · ${TODAY_SCORE}/100</span>
         </div>`:''}
         </div>
@@ -392,6 +509,10 @@ function renderHeader(active){
         <div class="live ${FEED_STATE}" title="${FEED_TITLE}"><i></i>${FEED_LABEL}</div>
         <details class="mnav"><summary aria-label="Open menu">☰</summary>
           <div class="mnav-panel">
+            <div class="sr-box">
+              <input class="fac-search" type="search" placeholder="Search the facility…" aria-label="Search articles, events and intake lines" autocomplete="off">
+              <div class="sr-list" hidden></div>
+            </div>
             <div class="mnav-h">The Jar</div>
             <a href="index.html"><span>🫙</span>Today's Reading</a>
             <a href="what-is-ooze.html"><span>🌊</span>What is Ooze?</a>
@@ -442,6 +563,7 @@ function renderHeader(active){
   document.body.insertAdjacentHTML('beforeend',`<nav class="tabbar" aria-label="Quick navigation">
     ${tabs.map(([h,ic,l])=>`<a href="${h}"${h===here?' class="active"':''}><span>${ic}</span><small>${l}</small></a>`).join('')}
   </nav>`);
+  wireSearch(document.body);
 }
 
 function renderFooter(){
@@ -460,7 +582,7 @@ function renderFooter(){
         </div>
         <div>
           <h4>Intake Lines</h4>
-          <ul>${INDICATORS.map(x=>`<li><a href="indicator.html?i=${x.slug}">${x.name}</a></li>`).join('')}</ul>
+          <ul>${INDICATORS.map(x=>`<li><a href="${indUrl(x.slug)}">${x.name}</a></li>`).join('')}</ul>
         </div>
         <div>
           <h4>Facility Map</h4>

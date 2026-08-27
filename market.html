@@ -100,7 +100,7 @@ buildJar(mktJar);
 if(MD){
   $('mktScore').textContent=MD.score;
   $('mktBand').textContent=bandOf(MD.score).name;
-  $('mktKicker').textContent=`Market Stress — Provisional · collected ${MD.generated.slice(0,10)}`;
+  $('mktKicker').textContent=`Market Stress — Provisional · collected ${MD.generated.slice(0,10)} · the household jar collects daily; this wing refreshes when its inputs release`;
   mktJar.setAttribute('aria-label',`Market containment jar, level ${MD.score} of 100`);
   setJar(mktJar,ward,MD.score);
 

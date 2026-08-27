@@ -30,6 +30,7 @@
 <script>window.FORCED_SLUG='manufacturing';document.addEventListener('click',function(e){var a=e.target.closest('a[href^="#"]');if(!a)return;e.preventDefault();var t=document.getElementById(a.getAttribute('href').slice(1));if(t)t.scrollIntoView({behavior:'smooth'});history.replaceState(null,'',location.pathname+a.getAttribute('href'))});</script>
 <script src="data/latest.js"></script>
 <script src="data/editorial.js"></script>
+<script src="data/line-history.js"></script>
 <script src="lab.js"></script>
 <script>
 renderHeader('');
@@ -55,7 +56,7 @@ $('main').innerHTML=`
     </nav>
     <a class="btn primary" href="index.html">See the Jar ▸</a>
   </div>
-  <div class="crumbs"><a href="index.html">Facility</a> / <a href="index.html#pressure">Pressure Sources</a> / ${x.name}</div>
+  <div class="crumbs"><a href="index.html">Facility</a> / <a href="index.html#driving">Pressure Sources</a> / ${x.name}</div>
 
   <div class="ind-head">
     <div class="ind-title">
@@ -79,7 +80,7 @@ $('main').innerHTML=`
   </div>`:''}
   <div class="chart-panel reveal" id="history">
     <h2>Stress History — ${x.name}</h2>
-    <div class="src" style="padding:22px 0 6px">📼 <b>HISTORY FEED — PENDING.</b> This line's own multi-decade history hasn't been published here yet, so no chart renders — the facility does not display sketches where data belongs. When the real per-line history is ready, a chart will draw from the same verified archive that powers the <a href="archive.html">incident files</a>. Until then, the raw series is public at the source: <a href="${x.source.url}" target="_blank" rel="noopener">${x.source.name}</a>.</div>
+    <div id="lhMount"></div>
   </div>
 
   <div class="prose reveal" id="why">
@@ -110,7 +111,7 @@ $('main').innerHTML=`
   <div class="reveal">
     <h2 style="font-family:var(--display);font-weight:800;font-size:1.25rem;margin:38px 0 12px">Cross-References</h2>
     <div class="related">
-      ${x.related.map(r=>{const y=indBySlug(r);return `<a href="indicator.html?i=${y.slug}"><span>${y.emoji}</span> ${y.name} <span class="r-oz">+${y.contrib}</span></a>`}).join('')}
+      ${x.related.map(r=>{const y=indBySlug(r);return `<a href="${indUrl(y.slug)}"><span>${y.emoji}</span> ${y.name} <span class="r-oz">+${y.contrib}</span></a>`}).join('')}
       <a href="personal.html"><span>🧬</span> Your Personal Ooze <span class="r-oz">?</span></a>
     </div>
   </div>
@@ -123,9 +124,15 @@ const prevX=INDICATORS[(idx-2+INDICATORS.length)%INDICATORS.length];
 const nextX=INDICATORS[idx%INDICATORS.length];
 $('main').insertAdjacentHTML('beforeend',`
   <div class="filenav">
-    <a href="indicator.html?i=${prevX.slug}"><span class="fn-k">◂ Previous file</span>${prevX.emoji} ${prevX.name}</a>
-    <a href="indicator.html?i=${nextX.slug}" style="text-align:right"><span class="fn-k">Next file ▸</span>${nextX.emoji} ${nextX.name}</a>
+    <a href="${indUrl(prevX.slug)}"><span class="fn-k">◂ Previous file</span>${prevX.emoji} ${prevX.name}</a>
+    <a href="${indUrl(nextX.slug)}" style="text-align:right"><span class="fn-k">Next file ▸</span>${nextX.emoji} ${nextX.name}</a>
   </div>`);
+
+/* per-line stress history — renders only from the published artifact */
+const lhMount=document.getElementById('lhMount');
+if(!renderLineHistory(lhMount,x.slug)){
+  lhMount.innerHTML=`<div class="src" style="padding:22px 0 6px">📼 <b>HISTORY FEED — PENDING.</b> ${x.weight?'This line has no published multi-decade history series yet — when it exists, a chart will draw from the same verified archive that powers the <a href="archive.html">incident files</a>.':`This is an auxiliary sensor (${x.weight}% weight): its multi-decade stress history is not part of the published archive yet, so no chart renders — the facility does not display sketches where data belongs.`} Until then, the raw series is public at the source: <a href="${x.source.url}" target="_blank" rel="noopener">${x.source.name}</a>.</div>`;
+}
 
 /* FAQ structured data (AUDIT-7 completion) */
 const faqLd={'@context':'https://schema.org','@type':'FAQPage',

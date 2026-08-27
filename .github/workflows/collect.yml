@@ -22,7 +22,7 @@ jobs:
           FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
         run: |
           command -v unzip
-          node --test --test-concurrency=1 tests/backtest.integration.test.js tests/methodology.test.js tests/fetch.test.js tests/fingerprint.test.js tests/fred.test.js tests/integrity.test.js tests/nyfed.integration.test.js tests/collector.integration.test.js tests/collector-reliability.integration.test.js tests/public-labels.test.js tests/release-gate.test.js tests/market-divergence.test.js tests/market-integrity.test.js tests/narrative-check.test.js tests/claim-gate.test.js tests/sync-fallback-history.test.js tests/workflow.test.js
+          node --test --test-concurrency=1 tests/backtest.integration.test.js tests/methodology.test.js tests/fetch.test.js tests/fingerprint.test.js tests/fred.test.js tests/integrity.test.js tests/nyfed.integration.test.js tests/collector.integration.test.js tests/collector-reliability.integration.test.js tests/public-labels.test.js tests/release-gate.test.js tests/market-divergence.test.js tests/market-integrity.test.js tests/narrative-check.test.js tests/claim-gate.test.js tests/sync-fallback-history.test.js tests/line-history.test.js tests/workflow.test.js
       - name: collect release-aware specimen
         env:
           FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
@@ -44,6 +44,7 @@ jobs:
           # checked. Without this, every revision fails the run: the 2026-08-14
           # and 2026-08-26 drifts, five months each time.
           node scripts/backtest.js
+          node scripts/build-line-history.js
           node scripts/backfill-reports.js
           node scripts/static-pages.js
       - name: integrity gate + public stamping
