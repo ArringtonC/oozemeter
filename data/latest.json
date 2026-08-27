@@ -1,17 +1,17 @@
 {
- "generated": "2026-08-25T14:25:38.739Z",
+ "generated": "2026-08-27T01:53:33.708Z",
  "methodologyVersion": "3.0.0",
  "month": "2026-07",
  "monthLabel": "July 2026",
  "prevMonth": "2026-06",
  "prevMonthLabel": "June 2026",
- "ooze": 26,
- "prevOoze": 27,
- "updatedLabel": "July 2026 reading · collected 2026-08-25",
+ "ooze": 25,
+ "prevOoze": 26,
+ "updatedLabel": "July 2026 reading · collected 2026-08-27",
  "collection": {
   "status": "ok",
   "changed": true,
-  "inputFingerprint": "4766f1cd155c4a3d67eb2b85ae4542880489ec3d36fac80addd7197ccb6ffa4b",
+  "inputFingerprint": "c1c2ac1c379bc5f5691f0592cc64a92b1d75946434755460a4b1d4a6e15b1e91",
   "fingerprintSchemaVersion": 3,
   "vintageRetentionPolicy": "retain-all-unique-schema-v3-manifests",
   "freshnessStatus": "current",
@@ -38,7 +38,7 @@
    "contrib": 4,
    "delta": -3,
    "stale": false,
-   "updateStatus": "new-observation"
+   "updateStatus": "no-new-release"
   },
   "housing": {
    "value": "6.65%",
@@ -56,18 +56,18 @@
     "publisher": "Federal Reserve Board",
     "seriesId": "DRSFRMACBS",
     "metric": "Residential mortgage delinquency at commercial banks",
-    "asOf": "2026-01-01",
+    "asOf": "2026-04-01",
     "proxy": true
    },
    "stress": 44,
-   "contrib": 7,
+   "contrib": 6,
    "delta": 0,
    "stale": false,
    "updateStatus": "no-new-release"
   },
   "credit": {
    "value": "2.9%",
-   "asOf": "2026-01-01",
+   "asOf": "2026-04-01",
    "cadence": "quarterly",
    "source": {
     "publisher": "Federal Reserve Board",
@@ -77,11 +77,11 @@
     "url": "https://fred.stlouisfed.org/series/DRCCLACBS",
     "proxy": false
    },
-   "stress": 38,
-   "contrib": 6,
+   "stress": 37,
+   "contrib": 5,
    "delta": 0,
    "stale": false,
-   "updateStatus": "no-new-release"
+   "updateStatus": "new-observation"
   },
   "auto": {
    "value": "7.9%",
@@ -121,7 +121,7 @@
     "transform": "trailing four-week mean"
    },
    "stress": 13,
-   "contrib": 2,
+   "contrib": 3,
    "delta": -1,
    "stale": false,
    "updateStatus": "no-new-release"
@@ -148,7 +148,7 @@
   },
   "financial": {
    "value": "-0.56",
-   "asOf": "2026-08-14",
+   "asOf": "2026-08-21",
    "cadence": "weekly",
    "contributesToOoze": true,
    "source": {
@@ -160,18 +160,18 @@
     "proxy": false,
     "transform": "calendar-month mean"
    },
-   "stress": 10,
+   "stress": 11,
    "contrib": 0,
-   "delta": -1,
+   "delta": 0,
    "stale": false,
-   "updateStatus": "no-new-release"
+   "updateStatus": "new-observation"
   },
   "foreclosures": {
    "value": "1.9%",
-   "asOf": "2026-01-01",
+   "asOf": "2026-04-01",
    "cadence": "quarterly",
-   "stress": 23,
-   "delta": 2,
+   "stress": 22,
+   "delta": -1,
    "contributesToOoze": false,
    "scoreWeight": 0,
    "calibrationStatus": "provisional-auxiliary",
@@ -185,7 +185,7 @@
    },
    "contrib": 0,
    "stale": false,
-   "updateStatus": "no-new-release"
+   "updateStatus": "new-observation"
   },
   "manufacturing": {
    "value": "1.1% YoY",
@@ -217,8 +217,8 @@
    "updateStatus": "no-new-release"
   },
   "debtBurden": {
-   "value": "20.8% of receipts",
-   "asOf": "2026-01-01",
+   "value": "20.9% of receipts",
+   "asOf": "2026-04-01",
    "cadence": "quarterly",
    "stress": 70,
    "delta": 0,
@@ -236,13 +236,13 @@
    "secondary": {
     "publisher": "U.S. Bureau of Economic Analysis",
     "seriesId": "FGRECPT",
-    "value": 5872.497,
-    "asOf": "2026-01-01",
+    "value": 5980.631,
+    "asOf": "2026-04-01",
     "transform": "denominator — federal current receipts"
    },
    "contrib": 0,
    "stale": false,
-   "updateStatus": "no-new-release"
+   "updateStatus": "new-observation"
   }
  },
  "movers": [
@@ -298,7 +298,7 @@
   ],
   [
    2003.75,
-   38
+   37
   ],
   [
    2003.833,
@@ -326,7 +326,7 @@
   ],
   [
    2004.333,
-   36
+   35
   ],
   [
    2004.417,
@@ -398,7 +398,7 @@
   ],
   [
    2005.833,
-   34
+   33
   ],
   [
    2005.917,
@@ -422,7 +422,7 @@
   ],
   [
    2006.333,
-   47
+   46
   ],
   [
    2006.417,
@@ -430,7 +430,7 @@
   ],
   [
    2006.5,
-   47
+   46
   ],
   [
    2006.583,
@@ -470,7 +470,7 @@
   ],
   [
    2007.333,
-   43
+   42
   ],
   [
    2007.417,
@@ -618,7 +618,7 @@
   ],
   [
    2010.417,
-   76
+   77
   ],
   [
    2010.5,
@@ -642,7 +642,7 @@
   ],
   [
    2010.917,
-   66
+   67
   ],
   [
    2011,
@@ -674,7 +674,7 @@
   ],
   [
    2011.583,
-   63
+   64
   ],
   [
    2011.667,
@@ -702,7 +702,7 @@
   ],
   [
    2012.167,
-   55
+   56
   ],
   [
    2012.25,
@@ -910,7 +910,7 @@
   ],
   [
    2016.5,
-   24
+   25
   ],
   [
    2016.583,
@@ -1106,7 +1106,7 @@
   ],
   [
    2020.583,
-   34
+   35
   ],
   [
    2020.667,
@@ -1326,7 +1326,7 @@
   ],
   [
    2025.167,
-   24
+   23
   ],
   [
    2025.25,
@@ -1342,11 +1342,11 @@
   ],
   [
    2025.5,
-   23
+   24
   ],
   [
    2025.583,
-   23
+   24
   ],
   [
    2025.667,
@@ -1374,19 +1374,19 @@
   ],
   [
    2026.25,
-   28
-  ],
-  [
-   2026.333,
-   30
-  ],
-  [
-   2026.417,
    27
   ],
   [
-   2026.5,
+   2026.333,
+   29
+  ],
+  [
+   2026.417,
    26
+  ],
+  [
+   2026.5,
+   25
   ]
  ],
  "oozemaxing": false

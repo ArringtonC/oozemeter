@@ -1,8 +1,11 @@
 {
  "status": "pass",
  "month": "2026-07",
- "headline": 26,
- "warnings": [],
+ "headline": 25,
+ "warnings": [
+  "revision: 19 past month(s) moved >=1pt (logged in data/revisions.json)",
+  "NFCI historical revision exceeded 0.02 in 117 month(s); max |Δ|=0.0626"
+ ],
  "failures": [],
- "generated": "2026-08-25T14:25:38.739Z"
+ "generated": "2026-08-27T01:53:33.708Z"
 }

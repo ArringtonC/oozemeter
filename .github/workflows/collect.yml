@@ -36,6 +36,16 @@ jobs:
           # householdVintage and vintagesAligned, so the gap is disclosed
           # instead of hidden.
           node scripts/build-market-divergence.js
+          # Source revisions move historical values a point at a time, and the
+          # archive reconstructions bake their figures as literals. Regenerate
+          # them from the same revised data BEFORE any gate compares — the
+          # narrative gate's own remediation names this pair — then repaint the
+          # recon pages + sitemap so readers see the same figure the gate
+          # checked. Without this, every revision fails the run: the 2026-08-14
+          # and 2026-08-26 drifts, five months each time.
+          node scripts/backtest.js
+          node scripts/backfill-reports.js
+          node scripts/static-pages.js
       - name: integrity gate + public stamping
         run: |
           node scripts/sync-fallback-history.js
@@ -53,7 +63,11 @@ jobs:
         run: |
           git config user.name "oozebot"
           git config user.email "oozebot@users.noreply.github.com"
-          git add data/market-history.json data/market-history.js data/ index.html feed.xml lab.js
+          # research/ (backtest), files/ + sitemap.xml (static pages) and data/
+          # (reconstructions + vintages) are all regenerated before the gates,
+          # and the reconstructions assert against committed artifacts — the
+          # commit must carry them together or a later rebuild reverts the pages.
+          git add data/market-history.json data/market-history.js data/ research/ files/ sitemap.xml index.html feed.xml lab.js
           if git diff --cached --quiet; then
             echo "no new data"
             echo "pushed=false" >> "$GITHUB_OUTPUT"
