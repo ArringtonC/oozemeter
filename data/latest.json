@@ -1,5 +1,5 @@
 {
- "generated": "2026-08-27T01:53:33.708Z",
+ "generated": "2026-08-27T02:01:00.040Z",
  "methodologyVersion": "3.0.0",
  "month": "2026-07",
  "monthLabel": "July 2026",
@@ -10,7 +10,7 @@
  "updatedLabel": "July 2026 reading · collected 2026-08-27",
  "collection": {
   "status": "ok",
-  "changed": true,
+  "changed": false,
   "inputFingerprint": "c1c2ac1c379bc5f5691f0592cc64a92b1d75946434755460a4b1d4a6e15b1e91",
   "fingerprintSchemaVersion": 3,
   "vintageRetentionPolicy": "retain-all-unique-schema-v3-manifests",
@@ -81,7 +81,7 @@
    "contrib": 5,
    "delta": 0,
    "stale": false,
-   "updateStatus": "new-observation"
+   "updateStatus": "no-new-release"
   },
   "auto": {
    "value": "7.9%",
@@ -164,7 +164,7 @@
    "contrib": 0,
    "delta": 0,
    "stale": false,
-   "updateStatus": "new-observation"
+   "updateStatus": "no-new-release"
   },
   "foreclosures": {
    "value": "1.9%",
@@ -185,7 +185,7 @@
    },
    "contrib": 0,
    "stale": false,
-   "updateStatus": "new-observation"
+   "updateStatus": "no-new-release"
   },
   "manufacturing": {
    "value": "1.1% YoY",
@@ -242,7 +242,7 @@
    },
    "contrib": 0,
    "stale": false,
-   "updateStatus": "new-observation"
+   "updateStatus": "no-new-release"
   }
  },
  "movers": [
