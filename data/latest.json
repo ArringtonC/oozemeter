@@ -1,5 +1,5 @@
 {
- "generated": "2026-08-27T16:16:47.039Z",
+ "generated": "2026-08-27T23:03:05.376Z",
  "methodologyVersion": "3.0.0",
  "month": "2026-07",
  "monthLabel": "July 2026",
@@ -10,7 +10,7 @@
  "updatedLabel": "July 2026 reading · collected 2026-08-27",
  "collection": {
   "status": "ok",
-  "changed": true,
+  "changed": false,
   "inputFingerprint": "ac4050a7538c230d59abf4ab414be98cc5363a202fa6feec0f4da10343ac05a3",
   "fingerprintSchemaVersion": 3,
   "vintageRetentionPolicy": "retain-all-unique-schema-v3-manifests",
@@ -63,7 +63,7 @@
    "contrib": 6,
    "delta": 0,
    "stale": false,
-   "updateStatus": "new-observation"
+   "updateStatus": "no-new-release"
   },
   "credit": {
    "value": "2.9%",
