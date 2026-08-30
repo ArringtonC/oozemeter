@@ -59,6 +59,11 @@ sub(/<meta property="og:title" content="[^"]*">/,
   `<meta property="og:title" content="OOZEMeter — Ooze Level ${s}/100 (${cap(band(s))}) · ${d.monthLabel}">`,'og title');
 sub(/<meta property="og:description" content="[^"]*">/,
   `<meta property="og:description" content="The ${d.monthLabel} Ooze Level is ${s}/100 (${cap(band(s))}), ${delta>=0?'up':'down'} ${Math.abs(delta)} from ${d.prevMonthLabel}. One score for U.S. economic stress, computed from public data.">`,'og description');
+/* share card per band: the og image matches the reading's containment level,
+   so a link preview already knows how stressed the month was */
+const BAND_FILE={1:'smooth',2:'sticky',3:'slippery',4:'oozing',5:'overflowing'}[level(s)];
+sub(/<meta property="og:image" content="[^"]*">/,
+  `<meta property="og:image" content="https://arringtonc.github.io/oozemeter/og-card-${BAND_FILE}.png">`,'og image per band');
 sub(/aria-label="Containment jar, ooze level \d+ of 100"/,
   `aria-label="Containment jar, ooze level ${s} of 100"`,'jar aria-label');
 sub(/id="heroTheme" data-level="\d"/,`id="heroTheme" data-level="${level(s)}"`,'hero level');

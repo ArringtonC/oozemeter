@@ -8,8 +8,15 @@
 const {
   AUTO_30_PLUS_ANCHORS,
   CALIBRATION_V3,
+  CARD_DELINQ_ANCHORS,
+  CLAIMS_K_ANCHORS,
   FINANCIAL_CONDITIONS_ANCHORS,
+  GAS_REAL_ANCHORS,
+  INFLATION_YOY_ANCHORS,
   METHODOLOGY_V3_WEIGHTS,
+  MORTGAGE_DELINQ_ANCHORS,
+  MORTGAGE_RATE_ANCHORS,
+  UNEMPLOYMENT_ANCHORS,
   auto30PlusStress,
   fetchNyFedAutoSeries,
   financialConditionsStress,
@@ -35,16 +42,16 @@ const SERIES = {
    absolute (90+ = depression-class). The single modern tuning target is
    GFC peak ≈ 90; everything else falls where the data puts it. */
 const ANCHORS = {
-  unemployment: [[3.5,5],[5,25],[6.5,45],[8,62],[10,78],[15,90],[25,100]],
+  unemployment: UNEMPLOYMENT_ANCHORS,
   /* weekly initial claims, thousands (trailing 4-week mean) — the fast
      signal that catches crises months before unemployment/delinquencies move */
-  claimsK:      [[200,5],[300,30],[400,60],[550,75],[700,85],[1000,95],[6000,100]],
-  inflationYoY: [[-10,95],[-5,85],[0,45],[1,25],[2,10],[3,25],[4,40],[6,60],[9,80],[14,90],[20,100]],
-  mortgageRate: [[3,10],[5,25],[7,50],[10,70],[15,90],[18.6,100]],
-  mortgageDelinq:[[1,5],[2,25],[3,45],[5,65],[8,85],[11.5,95]],
-  cardDelinq:   [[1.5,10],[2.5,30],[3.5,50],[5,70],[6.8,90],[9,100]],
+  claimsK:      CLAIMS_K_ANCHORS,
+  inflationYoY: INFLATION_YOY_ANCHORS,
+  mortgageRate: MORTGAGE_RATE_ANCHORS,
+  mortgageDelinq: MORTGAGE_DELINQ_ANCHORS,
+  cardDelinq:   CARD_DELINQ_ANCHORS,
   auto30Plus:   AUTO_30_PLUS_ANCHORS,
-  gasReal:      [[2,10],[3,35],[4,60],[5,85],[6.5,100]],
+  gasReal:      GAS_REAL_ANCHORS,
   financialConditions: FINANCIAL_CONDITIONS_ANCHORS,
 };
 const WEIGHTS = METHODOLOGY_V3_WEIGHTS;

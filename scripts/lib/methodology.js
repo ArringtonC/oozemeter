@@ -6,6 +6,15 @@ const {fetchWithRetry} = require('./fetch');
 
 const NY_FED_IFRAME = 'https://www.newyorkfed.org/householdcredit/hhdc-iframe';
 const NY_FED_ORIGIN = 'https://www.newyorkfed.org';
+const UNEMPLOYMENT_ANCHORS = Object.freeze([[3.5,5],[5,25],[6.5,45],[8,62],[10,78],[15,90],[25,100]]);
+const CLAIMS_K_ANCHORS = Object.freeze([[200,5],[300,30],[400,60],[550,75],[700,85],[1000,95],[6000,100]]);
+const INFLATION_YOY_ANCHORS = Object.freeze([[-10,95],[-5,85],[0,45],[1,25],[2,10],[3,25],[4,40],[6,60],[9,80],[14,90],[20,100]]);
+const MORTGAGE_RATE_ANCHORS = Object.freeze([[3,10],[5,25],[7,50],[10,70],[15,90],[18.6,100]]);
+const MORTGAGE_DELINQ_ANCHORS = Object.freeze([[1,5],[2,25],[3,45],[5,65],[8,85],[11.5,95]]);
+const MANUFACTURING_YOY_ANCHORS = Object.freeze([[-20,100],[-10,85],[-5,65],[0,35],[3,15],[6,5]]);
+const DEBT_BURDEN_ANCHORS = Object.freeze([[10,5],[12.4,15],[14.3,30],[15.8,45],[20.8,70],[25.9,88],[28.6,100]]);
+const CARD_DELINQ_ANCHORS = Object.freeze([[1.5,10],[2.5,30],[3.5,50],[5,70],[6.8,90],[9,100]]);
+const GAS_REAL_ANCHORS = Object.freeze([[2,10],[3,35],[4,60],[5,85],[6.5,100]]);
 const AUTO_30_PLUS_ANCHORS = [[5,5],[6,15],[7,30],[8,50],[9,70],[10,85],[11,95],[12,100]];
 const FINANCIAL_CONDITIONS_ANCHORS = [[-0.7,5],[-0.4,15],[-0.15,30],[0,40],[0.3,55],[0.8,70],[1.5,85],[3,100]];
 const METHODOLOGY_V3_WEIGHTS = Object.freeze({
@@ -232,6 +241,15 @@ function yearOverYear(monthly, month) {
 module.exports = {
   AUTO_30_PLUS_ANCHORS,
   CALIBRATION_V3,
+  DEBT_BURDEN_ANCHORS,
+  MANUFACTURING_YOY_ANCHORS,
+  CARD_DELINQ_ANCHORS,
+  CLAIMS_K_ANCHORS,
+  GAS_REAL_ANCHORS,
+  INFLATION_YOY_ANCHORS,
+  MORTGAGE_DELINQ_ANCHORS,
+  MORTGAGE_RATE_ANCHORS,
+  UNEMPLOYMENT_ANCHORS,
   FINANCIAL_CONDITIONS_ANCHORS,
   METHODOLOGY_V3_WEIGHTS,
   auto30PlusStress,

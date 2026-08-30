@@ -25,7 +25,7 @@ const ARTICLES=(ctx.window.ARTICLES||[]).concat(ctx.window.AUTO_ARTICLES||[]).co
 /* with <base>, fragment-only links would navigate to the parent — intercept them */
 const FRAG_FIX=`document.addEventListener('click',function(e){var a=e.target.closest('a[href^="#"]');if(!a)return;e.preventDefault();var t=document.getElementById(a.getAttribute('href').slice(1));if(t)t.scrollIntoView({behavior:'smooth'});history.replaceState(null,'',location.pathname+a.getAttribute('href'))});`;
 
-function bake(template,{base,slug,title,desc,url,image,staticMain}){
+function bake(template,{base,slug,title,desc,url,image,staticMain,forcedVar='FORCED_SLUG',staticAnchor="<main class=\"wrap-narrow\" id=\"main\"></main>"}){
   let h=template;
   const sub=(re,rep,label)=>{
     if(!re.test(h))throw new Error(`static-pages: anchor missing — ${label} (${url})`);
@@ -37,11 +37,15 @@ function bake(template,{base,slug,title,desc,url,image,staticMain}){
   sub(/<meta property="og:title" content="[^"]*">/,`<meta property="og:title" content="${title}">`,'og:title');
   sub(/<meta property="og:description" content="[^"]*">/,`<meta property="og:description" content="${desc}">`,'og:description');
   sub(/<meta property="og:url" content="[^"]*">/,`<meta property="og:url" content="${url}">\n<link rel="canonical" href="${url}">`,'og:url');
-  sub(/<script src="data\/latest\.js"><\/script>/,`<script>window.FORCED_SLUG='${slug}';${FRAG_FIX}</script>\n<script src="data/latest.js"></script>`,'forced slug');
+  sub(/<script src="data\/latest\.js"><\/script>/,`<script>window.${forcedVar}='${slug}';${FRAG_FIX}</script>\n<script src="data/latest.js"></script>`,'forced redirect');
   if(image)sub(/<meta property="og:image" content="[^"]*">/,`<meta property="og:image" content="${image}">`,'og:image');
   /* pre-JS content: crawlers, previews, and no-JS visitors see the real reading;
-     the page script replaces #main innerHTML wholesale on load */
-  if(staticMain)sub(/<main class="wrap-narrow" id="main"><\/main>/,`<main class="wrap-narrow" id="main">${staticMain}</main>`,'static main');
+     the page script replaces the dynamic chrome wholesale on load */
+  if(staticMain){
+    const re=new RegExp(staticAnchor.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'));
+    const close=staticAnchor.slice(staticAnchor.indexOf('<',1));
+    sub(re,staticAnchor.slice(0,staticAnchor.indexOf('>')+1)+staticMain+close,'static main');
+  }
   return h;
 }
 
@@ -64,6 +68,24 @@ for(const x of INDICATORS){
   urls.push(url);
 }
 
+/* --- states: /states/<code>/ — one SEO surface per state --- */
+try{
+  const states=JSON.parse(fs.readFileSync(path.join('data','states.json'),'utf8'));
+  const band=vm.runInContext('bandOf',ctx);
+  for(const st of states.states){
+    const url=`${SITE}/states/${st.code}/`;
+    const rank=states.states.findIndex(x=>x.code===st.code)+1;
+    fs.mkdirSync(path.join('states',st.code),{recursive:true});
+    fs.writeFileSync(path.join('states',st.code,'index.html'),bake(read('states.html'),{
+      base:'../../',slug:st.code,forcedVar:'FORCED_STATE',staticAnchor:'<div class="sec-sub" id="stateStatic"></div>',url,
+      title:`${st.name} Employment Stress | ${st.unrate}% unemployment — OOZEMeter`,
+      desc:`${st.name}: unemployment ${st.unrate}% through the published anchor curve — employment stress ${st.stress}/100 (${band(Math.round(st.stress)).name}), ranked #${rank} of ${states.states.length}. One line of seven; provisional regional wing.`,
+      staticMain:`<h1>${st.name} Employment Stress</h1><p><b>Unemployment: ${st.unrate}%</b> · stress <b>${st.stress}/100</b> · ${band(Math.round(st.stress)).name} · ranked #${rank} of ${states.states.length}</p><p><a href="../../index.html">See today's Ooze Level →</a></p>`,
+    }));
+    urls.push(url);
+  }
+}catch(e){console.warn('state pages skipped:',e.message)}
+
 /* --- articles: /files/<slug>/ --- */
 const artT=read('article.html');
 for(const a of ARTICLES){
@@ -79,14 +101,12 @@ for(const a of ARTICLES){
 
 /* --- sitemap --- */
 /* the ?i= / ?a= template pages stay out — their static /slug/ twins are canonical */
-/* states.html is deliberately absent: its fifty readings are simulated
-   placeholders with no data path behind them, and about.html promises "No fake
-   numbers, ever." The page stays reachable and now says SIMULATED in its title,
-   description and OG card — but we do not ask search engines to index
-   fabricated readings as measurements. Restore it when the regional data lands. */
+/* states.html was deliberately excluded while its readings were simulated
+   placeholders; since 2026-08-27 it publishes real unemployment stress, and
+   its per-state twins are canonical for each state. */
 const ROOT=['','what-is-ooze.html','oozeonomics.html','archive.html','notes.html',
   'personal.html','specimen-progress.html','policies.html','about.html','market.html',
-  'privacy.html','terms.html'];
+  'privacy.html','terms.html','states.html'];
 /* Ward M gauge files + academy lessons (public, linked from gauge pages) */
 try{
   for(const g of require('./lib/market-gauge-content')){

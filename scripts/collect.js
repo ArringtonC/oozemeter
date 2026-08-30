@@ -16,8 +16,17 @@ const {fetchFredSeries}=require('./lib/fred');
 const {
   AUTO_30_PLUS_ANCHORS,
   CALIBRATION_V3,
+  DEBT_BURDEN_ANCHORS,
+  MANUFACTURING_YOY_ANCHORS,
+  CARD_DELINQ_ANCHORS,
+  CLAIMS_K_ANCHORS,
   FINANCIAL_CONDITIONS_ANCHORS,
+  GAS_REAL_ANCHORS,
+  INFLATION_YOY_ANCHORS,
   METHODOLOGY_V3_WEIGHTS,
+  MORTGAGE_DELINQ_ANCHORS,
+  MORTGAGE_RATE_ANCHORS,
+  UNEMPLOYMENT_ANCHORS,
   auto30PlusStress,
   fetchNyFedAutoSeries,
   financialConditionsStress,
@@ -35,17 +44,16 @@ const DATA_DIR=process.env.OOZEMETER_DATA_DIR||'data';
 const dataPath=(...parts)=>path.join(DATA_DIR,...parts);
 
 const ANCHORS={
-  unemployment:[[3.5,5],[5,25],[6.5,45],[8,62],[10,78],[15,90],[25,100]],
-  claimsK:[[200,5],[300,30],[400,60],[550,75],[700,85],[1000,95],[6000,100]],
-  inflationYoY:[[-10,95],[-5,85],[0,45],[1,25],[2,10],[3,25],[4,40],[6,60],[9,80],[14,90],[20,100]],
-  mortgageRate:[[3,10],[5,25],[7,50],[10,70],[15,90],[18.6,100]],
-  mortgageDelinq:[[1,5],[2,25],[3,45],[5,65],[8,85],[11.5,95]],
-  cardDelinq:[[1.5,10],[2.5,30],[3.5,50],[5,70],[6.8,90],[9,100]],
+  unemployment:UNEMPLOYMENT_ANCHORS,
+  claimsK:CLAIMS_K_ANCHORS,
+  inflationYoY:INFLATION_YOY_ANCHORS,
+  mortgageRate:MORTGAGE_RATE_ANCHORS,
+  mortgageDelinq:MORTGAGE_DELINQ_ANCHORS,
+  cardDelinq:CARD_DELINQ_ANCHORS,
   auto30Plus:AUTO_30_PLUS_ANCHORS,
-  gasReal:[[2,10],[3,35],[4,60],[5,85],[6.5,100]],
+  gasReal:GAS_REAL_ANCHORS,
   financialConditions:FINANCIAL_CONDITIONS_ANCHORS,
 };
-const MANUFACTURING_YOY_ANCHORS=[[-20,100],[-10,85],[-5,65],[0,35],[3,15],[6,5]];
 /* Federal debt SERVICE as a share of federal receipts — interest ÷ receipts.
    Deliberately NOT the debt level. The level rose in 215 of 241 quarters, so it
    is a clock: correlating it with anything measures the passage of time, and
@@ -58,7 +66,6 @@ const MANUFACTURING_YOY_ANCHORS=[[-20,100],[-10,85],[-5,65],[0,35],[3,15],[6,5]]
    It is independent of everything we score (|r|<0.28 against every line), which
    is why it is worth publishing — and unrelated to household stress, which is
    why it must not be scored. See research/NATIONAL-DEBT-DECISION-2026-08-16.md */
-const DEBT_BURDEN_ANCHORS=[[10,5],[12.4,15],[14.3,30],[15.8,45],[20.8,70],[25.9,88],[28.6,100]];
 const WEIGHTS={
   jobs:METHODOLOGY_V3_WEIGHTS.employment,
   housing:METHODOLOGY_V3_WEIGHTS.housing,

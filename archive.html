@@ -38,7 +38,8 @@
         <div class="ep-date" id="epDate"></div>
         <h4 id="epTitle"></h4>
         <div class="ep-score" id="epScore"></div>
-        <div class="ep-next" id="epNext" style="font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;margin:-4px 0 10px"></div>
+        <div class="ep-next" id="epNext" style="font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;margin:-4px 0 6px"></div>
+        <div class="ep-sev" id="epSev" style="font-size:.62rem;letter-spacing:.14em;margin-bottom:8px"></div>
         <p id="epDesc"></p>
         <button class="btn primary" id="epGo">Replay this moment ▸</button>
       </div>
@@ -46,6 +47,7 @@
 
     <div id="gapNote" style="font-size:.68rem;color:var(--amber);margin-top:10px"></div>
     <div class="etimeline" id="etimeline"></div>
+    <div id="sevNote" style="font-size:.64rem;color:var(--dim);margin-top:10px;letter-spacing:.04em"></div>
   </div>
 </section>
 
@@ -291,6 +293,23 @@ function aftermath(t){
   if(at-trough>=8)return[`the year after: drained to ${Math.round(trough)}`,'var(--green)'];
   return['the year after: barely moved','var(--dim)'];
 }
+/* Incident severity (C1–C5), computed from HISTORY every visit:
+     peak in the 24 months after the event   ≥80 → 2 pts · ≥55 → 1 pt
+     months above the stressed line (55)     ≥12 → 1 pt
+     months to recover to the pre-event level ≥18 → 1 pt
+   Sum 0–4 maps C1→C5 (C5 = critical, C1 = contained). */
+function severity(t){
+  const at=scoreAt(t);
+  const win=HISTORY.filter(([y])=>y>=t&&y<=t+2.05);
+  const peak=Math.max(win.length?Math.max(...win.map(x=>x[1])):0,at||0);
+  const stressed=win.filter(([,v])=>v>=55).length;
+  const recIdx=win.findIndex(([,v])=>v<=at);
+  const recover=recIdx<0?'>24':recIdx;
+  const pts=(peak>=80?2:peak>=55?1:0)+(stressed>=12?1:0)+((recover==='>24'||recover>=18)?1:0);
+  return{label:`C${pts+1}`,peak:Math.round(peak),stressed,recover,
+    detail:`SEVERITY C${pts+1} · PEAK ${Math.round(peak)} · ${stressed} MONTHS ABOVE 55 · ${recover==='>24'?'NO RECOVERY WITHIN 24 MONTHS':recover+' MONTHS TO RECOVER'}`};
+}
+const SEVCOL=['#4dffa1','#8aff3c','#d8ff2e','#ffb02e','#ff4d3d'];
 function openPop(i){
   const e=EV[i];selI=i;
   $('epDate').textContent=e.date;
@@ -299,6 +318,9 @@ function openPop(i){
   $('epScore').style.color=BANDCOLORS[levelOf(e.s)-1];
   const [ntxt,ncol]=aftermath(e.t);
   $('epNext').textContent=ntxt;$('epNext').style.color=ncol;
+  const sev=severity(e.t);
+  $('epSev').textContent=sev.detail;
+  $('epSev').style.color=SEVCOL[+sev.label[1]-1];
   $('epDesc').textContent=resolveClaims(e.desc);
   const panel=epop.parentElement,pw=panel.offsetWidth,popW=Math.min(300,pw*.8);
   const px=X(e.t)/W*pw;
@@ -329,12 +351,16 @@ document.querySelectorAll('#echartMount .evt').forEach(g=>{
 if(GAP_LIST.length)$('gapNote').textContent='⚠ '+GAP_LIST.join(' · ')+'. Missing months are shown as breaks, never interpolated.';
 
 /* ============ SCROLLABLE TIMELINE ============ */
-$('etimeline').innerHTML=EV.map((e,i)=>`
-  <div class="ecard" data-i="${i}">
+$('etimeline').innerHTML=EV.map((e,i)=>{
+  const sev=severity(e.t);
+  return `<div class="ecard" data-i="${i}">
     <div class="ec-date">${e.date}</div>
     <h4>${e.title}</h4>
     <span class="ec-score" style="color:${BANDCOLORS[levelOf(e.s)-1]};border-color:${BANDCOLORS[levelOf(e.s)-1]}">AT THE TIME · ${e.s}</span>
-  </div>`).join('');
+    <span class="ec-sev" style="color:${SEVCOL[+sev.label[1]-1]}">${sev.label}</span>
+  </div>`;
+}).join('');
+$('sevNote').textContent='Severity C1–C5 is computed from the chart: peak in the 24 months after the event (≥80 → 2 pts, ≥55 → 1 pt) + months above 55 (≥12 → 1 pt) + months to recover to the pre-event level (≥18 → 1 pt). Sum 0–4 maps to C1–C5.';
 document.querySelectorAll('.ecard').forEach((c,i)=>{
   c.addEventListener('click',()=>openPop(i));
   c.setAttribute('tabindex','0');c.setAttribute('role','button');

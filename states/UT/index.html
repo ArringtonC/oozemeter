@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<base href="../../">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#070b06">
+<title>Utah Employment Stress | 3.6% unemployment — OOZEMeter</title>
+<meta name="description" content="Utah: unemployment 3.6% through the published anchor curve — employment stress 6.3/100 (SMOOTH), ranked #35 of 51. One line of seven; provisional regional wing.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800;900&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="OOZEMeter">
+<meta property="og:title" content="Utah Employment Stress | 3.6% unemployment — OOZEMeter">
+<meta property="og:description" content="Utah: unemployment 3.6% through the published anchor curve — employment stress 6.3/100 (SMOOTH), ranked #35 of 51. One line of seven; provisional regional wing.">
+<meta property="og:image" content="https://arringtonc.github.io/oozemeter/og-card.png">
+<meta property="og:url" content="https://arringtonc.github.io/oozemeter/states/UT/">
+<link rel="canonical" href="https://arringtonc.github.io/oozemeter/states/UT/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="lab.css">
+</head>
+<body>
+<div id="page">
+
+<section>
+  <div class="wrap">
+    <div class="crumbs" style="padding-bottom:22px"><a href="index.html">Facility</a> / State Rankings</div>
+    <div class="sec-label">Restricted Wing — Regional Containment</div>
+    <h1 class="sec-title">State Employment Stress</h1>
+    <div class="sec-sub" id="stateStatic"><h1>Utah Employment Stress</h1><p><b>Unemployment: 3.6%</b> · stress <b>6.3/100</b> · SMOOTH · ranked #35 of 51</p><p><a href="../../index.html">See today's Ooze Level →</a></p></div>
+    <p class="sec-sub" id="statesLedec">Real readings, one intake line only. Each state's unemployment rate runs through the <b>same published anchor curve</b> the national jar's employment line uses — so 3.9% maps to the same stress in Colorado and Pennsylvania alike. This is the <b>employment line of seven</b>; state-level housing, credit, auto, gas, inflation and financial feeds are queued. Until they land, a state reading is employment stress — <b>never called a full Ooze Score</b>, and never ranked above the national jar.</p>
+
+    <div class="podium" id="podium"></div>
+
+    <table class="rank-table">
+      <thead><tr><th>#</th><th>State</th><th>Pressure</th><th>Ooze</th><th>Classification</th></tr></thead>
+      <tbody id="rankBody"></tbody>
+    </table>
+  </div>
+</section>
+
+
+<section>
+  <div class="wrap reveal" id="nlMount"></div>
+</section>
+
+</div><!-- /page -->
+
+<script>window.FORCED_STATE='UT';document.addEventListener('click',function(e){var a=e.target.closest('a[href^="#"]');if(!a)return;e.preventDefault();var t=document.getElementById(a.getAttribute('href').slice(1));if(t)t.scrollIntoView({behavior:'smooth'});history.replaceState(null,'',location.pathname+a.getAttribute('href'))});</script>
+<script src="data/latest.js"></script>
+<script src="data/states.js"></script>
+<script src="lab.js"></script>
+<script>
+renderHeader('states');
+
+const stCode=new URLSearchParams(location.search).get('s')||window.FORCED_STATE||'';
+const SD=window.STATE_DATA||null;
+
+if(!SD){
+  $('statesLedec').textContent='Regional sensors offline — no state specimen has been collected yet. The national jar keeps running either way.';
+  $('podium').innerHTML='<p class="sec-sub">SENSORS OFFLINE</p>';
+  $('rankBody').innerHTML='<tr><td colspan="5" class="rank-tier">No state readings collected yet.</td></tr>';
+}else{
+  const ranked=SD.states;
+  const sel=stCode?ranked.find(x=>x.code===stCode):null;
+  if(sel)document.title=`OOZEMeter — ${sel.name} Employment Stress | ${sel.unrate}% unemployment`;
+  const fmt=n=>n%1===0?n.toFixed(0):n.toFixed(1);
+  $('podium').innerHTML=ranked.slice(0,3).map((x,i)=>`
+    <div class="incident" style="cursor:default">
+      <span class="stamp ${x.stress>80?'failed':'stressed'}">${['Most Pressurized','Runner-Up','Third Jar'][i]}</span>
+      <h3>#${i+1} ${x.name}</h3>
+      <div class="iname">${bandOf(Math.round(x.stress)).name}</div>
+      <div class="peak">Stress <b>${fmt(x.stress)}</b> / 100</div>
+    </div>`).join('');
+  $('rankBody').innerHTML=ranked.map((x,i)=>`
+    <tr${sel&&sel.code===x.code?' class="selrow"':''}>
+      <td class="rank-num">${i+1}</td>
+      <td>${x.name}${sel&&sel.code===x.code?' <span class="sr-k">YOU ARE HERE</span>':''}</td>
+      <td class="rank-bar"><div><i style="width:${x.stress}%"></i></div></td>
+      <td class="rank-score">${fmt(x.stress)}</td>
+      <td class="rank-tier">${bandOf(Math.round(x.stress)).name}</td>
+    </tr>`).join('')+`<tr><td colspan="5" class="rank-tier">⏱ Readings as of ${ranked[0].month} (BLS LAUS via FRED, state seasonally adjusted) · collected ${SD.generated.slice(0,10)} · ${SD.method.calibration} · ${SD.method.cadence}.</td></tr>`;
+}
+
+$('nlMount').innerHTML=newsletterHTML();
+wireNewsletter();
+renderFooter();
+wireReveals();
+</script>
+</body>
+</html>

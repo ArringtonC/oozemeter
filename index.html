@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="OOZEMeter">
 <meta property="og:title" content="OOZEMeter — Ooze Level 25/100 (Sticky) · July 2026">
 <meta property="og:description" content="The July 2026 Ooze Level is 25/100 (Sticky), down 1 from June 2026. One score for U.S. economic stress, computed from public data.">
-<meta property="og:image" content="https://arringtonc.github.io/oozemeter/og-card.png">
+<meta property="og:image" content="https://arringtonc.github.io/oozemeter/og-card-sticky.png">
 <link rel="canonical" href="https://arringtonc.github.io/oozemeter/">
 <meta property="og:url" content="https://arringtonc.github.io/oozemeter/">
 <meta name="twitter:card" content="summary_large_image">
@@ -44,6 +44,7 @@
       </div>
       <div class="verdict cine c4" id="verdictLine">Calmer than 7 of every 10 months since 2003</div>
       <p class="hero-plain cine c5">One score for U.S. household economic stress — built from public data, recomputed as each release lands.</p>
+      <p class="hero-drivers cine c5" id="heroDrivers"></p>
 
       <div class="pk-hero cine c1">
         <div class="pk-jarbox"><div class="jar" id="heroJar" role="img" aria-label="Containment jar, ooze level 25 of 100"></div></div>
@@ -117,6 +118,7 @@
       </div>
 
       <div class="specimen-line cine c5">🧪 Monthly specimen sealed: <b>July 2026 = 25</b> · intake lines refresh as their data releases </div>
+      <div class="oozemax-line cine c5" id="oozemaxLine"></div>
       <div class="streak-line cine c5" id="streakLine"></div>
       <div class="cine c5" style="margin-top:8px"><a href="index.html?boot=1" style="font-size:.6rem;letter-spacing:.18em;color:var(--dim);text-decoration:none">▶ REPLAY CLEARANCE CHECK</a></div>
     </div>
@@ -501,6 +503,21 @@ $('copyBtn').addEventListener('click',async e=>{
   setTimeout(()=>e.target.textContent='COPY REPORT',1800);
 });
 $('tweetBtn').href='https://twitter.com/intent/tweet?text='+encodeURIComponent(reportText);
+
+/* the five-second test: score, direction AND top drivers above the fold —
+   the drivers line is rendered into the hero, small enough for a phone */
+$('heroDrivers').textContent=LIVE
+  ?`This month: ${top3.map(x=>`${x.name} ${x.contrib} oz`).join(' · ')}`
+  :'Sensors offline — the jar reads 0 until the first specimen is collected.';
+/* OOZEMAXING is a breadth condition, not a band: shown daily, honestly */
+$('oozemaxLine').textContent=(LIVE&&LD.oozemaxing)
+  ?'☢ OOZEMAXING — every weighted line reads 60+ simultaneously. Depression-class. Never met in the comparable record since 2003.'
+  :'OOZEMAXING check: not met this month — it needs all seven weighted lines at 60+ at once.';
+if(window.APR1){
+  document.querySelector('.big-score small').textContent=' FL OZ';
+  document.querySelector('.sc-score small').textContent=' FL OZ';
+  document.title=document.title.replace(/\/100/,' FL OZ');
+}
 
 wireReveals();
 </script>

@@ -22,12 +22,15 @@ jobs:
           FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
         run: |
           command -v unzip
-          node --test --test-concurrency=1 tests/backtest.integration.test.js tests/methodology.test.js tests/fetch.test.js tests/fingerprint.test.js tests/fred.test.js tests/integrity.test.js tests/nyfed.integration.test.js tests/collector.integration.test.js tests/collector-reliability.integration.test.js tests/public-labels.test.js tests/release-gate.test.js tests/market-divergence.test.js tests/market-integrity.test.js tests/narrative-check.test.js tests/claim-gate.test.js tests/sync-fallback-history.test.js tests/line-history.test.js tests/workflow.test.js
+          node --test --test-concurrency=1 tests/backtest.integration.test.js tests/methodology.test.js tests/fetch.test.js tests/fingerprint.test.js tests/fred.test.js tests/integrity.test.js tests/nyfed.integration.test.js tests/collector.integration.test.js tests/collector-reliability.integration.test.js tests/public-labels.test.js tests/release-gate.test.js tests/market-divergence.test.js tests/market-integrity.test.js tests/narrative-check.test.js tests/claim-gate.test.js tests/sync-fallback-history.test.js tests/line-history.test.js tests/anchors-published.test.js tests/states.test.js tests/workflow.test.js
       - name: collect release-aware specimen
         env:
           FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
         run: |
           node scripts/collect.js
+          # regional wing: state unemployment through the same published
+          # anchor curve — one line of seven, labeled as such on the page
+          node scripts/collect-states.js
           # Stays daily on purpose, so the ward-vs-jar chart picks up each newly
           # sealed household month (tests/workflow.test.js:46 and the v5 Data
           # ledger row both require it). The real defect was never the cadence —
@@ -64,11 +67,12 @@ jobs:
         run: |
           git config user.name "oozebot"
           git config user.email "oozebot@users.noreply.github.com"
-          # research/ (backtest), files/ + sitemap.xml (static pages) and data/
-          # (reconstructions + vintages) are all regenerated before the gates,
-          # and the reconstructions assert against committed artifacts — the
-          # commit must carry them together or a later rebuild reverts the pages.
-          git add data/market-history.json data/market-history.js data/ research/ files/ sitemap.xml index.html feed.xml lab.js
+          # research/ (backtest), files/ + section dirs + sitemap.xml (static
+          # pages) and data/ (reconstructions + vintages) are all regenerated
+          # before the gates, and the reconstructions assert against committed
+          # artifacts — the commit must carry them together or a later rebuild
+          # reverts the pages.
+          git add data/market-history.json data/market-history.js data/ research/ files/ sitemap.xml index.html feed.xml lab.js gas/ housing/ credit/ auto/ jobs/ inflation/ financial/ foreclosures/ manufacturing/ debtBurden/ states/
           if git diff --cached --quiet; then
             echo "no new data"
             echo "pushed=false" >> "$GITHUB_OUTPUT"

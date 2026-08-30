@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OOZEMeter — Today's Ooze</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="lab.css">
+</head>
+<body>
+<div id="page">
+  <main class="widget" id="wm">
+    <a class="widget-card" href="index.html" title="Open OOZEMeter">
+      <div class="widget-jar"><div class="jar" id="wJar"></div></div>
+      <div class="widget-meta">
+        <div class="widget-word">OOZE<em>METER</em></div>
+        <div class="widget-score"><span id="wScore">—</span><small>/100</small></div>
+        <div class="widget-band" id="wBand">offline</div>
+        <div class="widget-sub" id="wSub"></div>
+      </div>
+    </a>
+  </main>
+</div>
+<script src="data/latest.js"></script>
+<script src="lab.js"></script>
+<script>
+/* the embeddable badge: score, band and monthly delta in one iframe, no
+   styling leaks, no scripts of its own beyond the site's data + lab.js */
+const WLD=window.LIVE_DATA;
+if(WLD){
+  buildJar($('wJar'));
+  setJar($('wJar'),$('wm'),WLD.ooze);
+  document.getElementById('wScore').textContent=WLD.ooze;
+  document.getElementById('wBand').textContent=bandOf(WLD.ooze).name;
+  document.getElementById('wSub').textContent=
+    `${WLD.monthLabel}: ${WLD.ooze-WLD.prevOoze>=0?'▲ +':'▼ −'}${Math.abs(WLD.ooze-WLD.prevOoze)} vs ${WLD.prevMonthLabel}`;
+  if(window.APR1)document.querySelector('.widget-score small').textContent=' FL OZ';
+}else{
+  document.getElementById('wSub').textContent='sensors offline';
+}
+</script>
+</body>
+</html>

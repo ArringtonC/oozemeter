@@ -302,6 +302,7 @@ function bloop(f=170,vol=.1){
 }
 
 /* ============ JAR COMPONENT ============ */
+let jarTaps=0;
 function buildJar(el){
   let bubbles='';
   for(let i=0;i<10;i++){
@@ -320,7 +321,17 @@ function buildJar(el){
   el.addEventListener('click',()=>{
     el.classList.remove('tapped');void el.offsetWidth;el.classList.add('tapped');
     const m=el.querySelector('.tap-msg');m.classList.add('show');
-    setTimeout(()=>m.classList.remove('show'),1800);
+    /* the tenth tap in a row files an incident against the visitor — the
+       glass is sensitive, and the report is a joke, not a claim */
+    jarTaps++;
+    if(jarTaps%10===0){
+      m.textContent=`⚠ INCIDENT REPORT FILED AGAINST VISITOR #${Math.floor(1000+Math.random()*9000)} — PLEASE DO NOT TAP THE GLASS`;
+      m.classList.add('alarm');
+      setTimeout(()=>{m.classList.remove('show','alarm')},2400);
+    }else{
+      m.textContent='⚠ Do not tap the glass';
+      setTimeout(()=>m.classList.remove('show'),1800);
+    }
     bloop(90,.15);
   });
 }
@@ -438,24 +449,105 @@ function searchIndex(idx,q){
 function wireSearch(root){
   root.querySelectorAll('.fac-search').forEach(inp=>{
     const box=inp.closest('.sr-box'),list=box.querySelector('.sr-list'),dd=inp.closest('details');
+    let active=-1;
     inp.addEventListener('focus',()=>{if(dd)dd.setAttribute('open','')});
-    const close=()=>{list.hidden=true;list.innerHTML=''};
+    const close=()=>{list.hidden=true;list.innerHTML='';active=-1};
     const render=q=>{
       const hits=searchIndex(window.__SRC_IDX__||[],q).slice(0,8);
       list.innerHTML=hits.length
-        ?hits.map(h=>`<a href="${h.href}"><span class="sr-k">${h.kind}</span>${h.label}</a>`).join('')
+        ?hits.map(h=>`<a href="${h.href}" class="sr-a"><span class="sr-k">${h.kind}</span>${h.label}</a>`).join('')
         :'<div class="sr-empty">No matches — try “gas”, “2008” or “mortgage”.</div>';
-      list.hidden=false;
-      list.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{close();if(dd)dd.removeAttribute('open')}));
+      list.hidden=false;active=-1;
+      list.querySelectorAll('a.sr-a').forEach(a=>a.addEventListener('click',()=>{close();if(dd)dd.removeAttribute('open')}));
+    };
+    const move=d=>{
+      const items=list.querySelectorAll('a.sr-a');
+      if(!items.length)return;
+      active=(active+d+items.length)%items.length;
+      items.forEach((a,i)=>a.classList.toggle('active',i===active));
+      items[active].scrollIntoView({block:'nearest'});
     };
     inp.addEventListener('input',()=>{inp.value.trim()?render(inp.value.trim()):close()});
     inp.addEventListener('keydown',e=>{
-      if(e.key==='Enter'){const a=list.querySelector('a');if(a){e.preventDefault();close();if(dd)dd.removeAttribute('open');location.href=a.getAttribute('href')}}
-      if(e.key==='Escape'){close();if(dd)dd.removeAttribute('open');inp.blur()}
+      if(e.key==='ArrowDown'){e.preventDefault();move(1)}
+      else if(e.key==='ArrowUp'){e.preventDefault();move(-1)}
+      else if(e.key==='Enter'){
+        const items=list.querySelectorAll('a.sr-a');
+        const a=items[active>=0?active:0];
+        if(a){e.preventDefault();close();if(dd)dd.removeAttribute('open');location.href=a.getAttribute('href')}
+      }
+      else if(e.key==='Escape'){close();if(dd)dd.removeAttribute('open');inp.blur()}
     });
     inp.addEventListener('blur',()=>setTimeout(close,150));
   });
 }
+
+/* ============ LAB ANTHEM — an original groove, synthesized live ============
+   No samples, no licensing: a small 90s-R&B-style loop built from oscillators
+   and filtered noise. Plays only while the audio toggle is on; stops with it. */
+let anthemT=null;
+function anthemStop(){if(anthemT){clearInterval(anthemT);anthemT=null}}
+function anthemStart(){
+  if(!AC||anthemT||!audioOn)return;
+  const ROOTS=[55,49,51.91,58.27]; /* A2 G2 Bb2 D3 — a dusky minor-ish progression */
+  const spb=60/92/2;               /* eighth notes at 92bpm */
+  let n=0,next=AC.currentTime+.08;
+  const tone=(f,t,d,type,v)=>{
+    const o=AC.createOscillator(),g=AC.createGain();
+    o.type=type;o.frequency.setValueAtTime(f,t);
+    g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(v,t+.02);
+    g.gain.exponentialRampToValueAtTime(.001,t+d);
+    o.connect(g);g.connect(AC.destination);o.start(t);o.stop(t+d+.05);
+  };
+  const hat=(t)=>{
+    const buf=AC.createBuffer(1,Math.floor(AC.sampleRate*.05),AC.sampleRate);
+    const d=buf.getChannelData(0);
+    for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*(1-i/d.length)*(1-i/d.length);
+    const src=AC.createBufferSource();src.buffer=buf;
+    const g=AC.createGain();g.gain.value=.045;
+    src.connect(g);g.connect(AC.destination);src.start(t);
+  };
+  anthemT=setInterval(()=>{
+    while(next<AC.currentTime+.7){
+      const bar=Math.floor(n/8)%16,e=n%8;
+      const f=ROOTS[bar%ROOTS.length];
+      tone(f,next,.2,'triangle',e%2===0?.055:.028);           /* bass, swinging eighths */
+      tone(f*2,next,.4,'sine',.022);                           /* pad echo above */
+      if(e===3)tone(ROOTS[(bar+2)%ROOTS.length]*2,next,.5,'sine',.014); /* passing tone */
+      if(e%2===1)hat(next);                                    /* off-beat hats */
+      next+=spb;n++;
+    }
+  },140);
+}
+
+/* ============ EASTER EGGS ============ */
+const KONAMI=['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+let kPos=0;
+function jarConfetti(){
+  document.querySelectorAll('.jar-glass').forEach(g=>{
+    for(let i=0;i<14;i++){
+      const b=document.createElement('span');
+      b.className='conf-b';
+      b.style.left=(8+(i*37)%84)+'%';
+      b.style.background=['#a3ff12','#4dffa1','#ffb02e','#ff4d3d','#c8ff2a'][i%5];
+      b.style.animationDelay=(i*.05)+'s';
+      g.appendChild(b);
+      setTimeout(()=>b.remove(),2600);
+    }
+  });
+  bloop(300,.1);
+}
+/* the VM sandboxes (narrative-check, static-pages) evaluate lab.js without a
+   DOM — the listener can only attach in a real browser */
+if(typeof document!=='undefined')document.addEventListener('keydown',e=>{
+  const k=e.key.length===1?e.key.toLowerCase():e.key;
+  kPos=(k===KONAMI[kPos])?kPos+1:(k===KONAMI[0])?1:0;
+  if(kPos===KONAMI.length){kPos=0;jarConfetti()}
+});
+/* April 1: the facility measures in fluid ounces. One day only, and the
+   joke is the label — the number stays the number. */
+const APR1=new Date().getMonth()===3&&new Date().getDate()===1;
+window.APR1=APR1;
 
 /* ============ SHARED CHROME ============ */
 function renderHeader(active){
@@ -487,6 +579,7 @@ function renderHeader(active){
           <a href="personal.html"><span>🧬</span>Your Personal Ooze</a>
           <a href="states.html"><span>🗺</span>State Rankings</a>
           <a href="specimen-progress.html"><span>⏳</span>Specimen Progress</a>
+          <a href="widget.html"><span>🪟</span>Embed the Jar</a>
         </div></details>
         <a href="notes.html"${act('notes')}>Lab Notes</a>
       </nav>
@@ -536,7 +629,7 @@ function renderHeader(active){
     audioOn=!audioOn;
     e.target.textContent=audioOn?'AUDIO ON':'AUDIO OFF';
     e.target.classList.toggle('on',audioOn);
-    bloop(220);
+    if(audioOn){bloop(220);anthemStart()}else anthemStop();
   });
   setInterval(()=>{ if(audioOn&&Math.random()<.5) bloop(120+Math.random()*90,.05); },5000);
   /* dropdowns close on outside tap — the one behavior details can't do alone */

@@ -10,50 +10,50 @@ Priority: **P0** = blocks going live honestly · **P1** = pre-launch · **P2** =
 Standing rule: the serious people exist so the fun thing can be trusted, not to make the fun thing serious. Every launch review includes the question "is it still fun?" — if the answer is no, the release waits.
 
 - [x] Protected inventory (may not be cut in any cleanup): boot clearance check · pipe bloops · "please do not tap the glass" · facility alarms/flicker/page drips · incident stamps · OOZEMAXING · the disclaimer jokes
-- [ ] **P2** Lab anthem: a funky *original* groove behind the audio toggle ("LAB ANTHEM: ON"). Note: the actual "This Is How We Do It" recording needs sync + master licenses ($$$$); even a "This Is How We Ooze It" parody cover needs composition rights to record safely. Path: commission/generate an original 90s-R&B-style soundalike now, pursue the real parody license if the site blows up
-- [ ] **P2** More easter eggs: konami code → jar confetti bubbles · tap the glass 10× → incident report filed against the visitor · 4:04 page already specced in facility voice
-- [ ] **P2** April 1: all readings displayed in "fl oz"
+- [x] **P2** Lab anthem: an *original* groove behind the audio toggle — a small 90s-R&B-style loop synthesized live with WebAudio (no samples, no licensing) Note: the actual "This Is How We Do It" recording needs sync + master licenses ($$$$); even a "This Is How We Ooze It" parody cover needs composition rights to record safely. Path: commission/generate an original 90s-R&B-style soundalike now, pursue the real parody license if the site blows up
+- [x] **P2** More easter eggs: konami code → jar confetti bubbles · tap the glass 10× → incident report filed against the visitor (4:04 page already specced in facility voice — optional extra)
+- [x] **P2** April 1: all readings displayed in "fl oz" (label-only joke; the number stays the number)
 
 ## 1. Scoring engine & data (owner: Burry)
 
 - [ ] **P0** Add ICSA weekly-claims momentum term to the employment line so fast shocks register (COVID scored 45 in the backtest because quarterly delinquency data lags; claims would have caught it)
-- [ ] **P0** Apply the single published calibration pass (scale so GFC peak = 90) and rerun the backtest; lock the resulting episode scores as official
+- [x] **P0** Apply the single published calibration pass (scale so GFC peak = 90) and rerun the backtest; lock the resulting episode scores as official — published as methodology v3 (calibration frozen + revision record on the public record)
 - [x] **P0** Replace the archive's estimated anchor curve with the real monthly backtest series (`research/backtest-results.json` → `lab.js` HISTORY)
 - [x] **P0** Convert `scripts/backtest.js` into the daily collector (`scripts/collect.js`) writing `data/latest.json` + `data/history.json`
 - [x] **P0** GitHub Actions cron: run collector daily, commit JSON, Pages redeploys (REQUIREMENTS.md §4)
 - [x] **P1** Staleness rule: each line carries `asOf`; UI flags lines older than 2× their cadence
 - [x] **P1** Unit tests: anchor interpolation, orientation (rising unemployment must raise stress), weights sum, golden-day fixture
-- [ ] **P1** Publish full anchor tables in Lab Notes (the curves in `backtest.js` ANCHORS, human-readable)
-- [ ] **P2** OOZEMAXING breadth condition computed daily and displayed (all six lines ≥ 60 — never yet met) — computed in the payload; not yet rendered
-- [ ] **P2** Incident Severity ratings (C1–C5: peak × duration × recovery) computed from the backfill, stamped on archive files
-- [ ] **P2** Decide: foreclosures & manufacturing stay auxiliary sensors or get formula weight (REQUIREMENTS.md open decision #1) — currently auxiliary by product practice, decision record open
+- [x] **P1** Publish full anchor tables in Lab Notes — all 11 curves generated from the single source (scripts/build-notes.js + tests/anchors-published.test.js)
+- [x] **P2** OOZEMAXING breadth condition displayed daily on the front page (all seven weighted lines ≥ 60 — the v3 wording, not six)
+- [x] **P2** Incident Severity ratings (C1–C5: peak × duration × recovery) computed from the chart, stamped on event cards + popups; formula published on the archive page
+- [x] **P2** Decide: foreclosures & manufacturing stay auxiliary sensors or get formula weight — recorded in research/AUXILIARY-LINES-DECISION-2026-08-27.md (stay zero-weight; conditions for change listed)
 
 ## 2. Product & focus (owner: Jobs)
 
 - [x] **P0** Flip `LIVE` to a runtime fetch of `data/latest.json` — the day the jar shows a true number is the day the product exists
-- [ ] **P1** Five-second test on the homepage: score, direction, top driver visible with zero scrolling on a phone (hero passes; re-verify the full fold after the dossier/sections shipped)
+- [x] **P1** Five-second test on the homepage: score, direction, top driver visible with zero scrolling on a phone — hero drivers line added (`#heroDrivers`); re-verify on a real device
 - [ ] **P1** Cut anything that doesn't serve the daily check habit (audit the homepage section by section; every section must earn its scroll)
-- [ ] **P1** The share card is the product's ad — make the copied/posted artifact beautiful, not just text (OG image per band)
+- [x] **P1** The share card is the product's ad — OG image per band (og-card-smooth..overflowing.png, stamp.js swaps og:image per reading)
 - [x] **P2** "Why did it change?" — every score movement must have a one-sentence explanation on the homepage (auto-generated from the movers data) — the "What changed?" rung + daily editorial story
-- [ ] **P2** Kill or commit: sound toggle — either make bloops genuinely delightful or delete the feature
+- [x] **P2** Kill or commit: sound toggle — committed: bloops + the original anthem loop, synthesized live
 
 ## 3. Design & craft (owner: Ive)
 
-- [ ] **P1** Design the OG/share image set (one per band + OOZEMAXING) — the jar as an object, photographed like a product (generic `og-card.png` + per-slug cards exist; per-band set still pending)
+- [x] **P1** Design the OG/share image set (one per band + OOZEMAXING) — per-band cards shipped from og-card.svg (scripts/build-og-cards.js); OOZEMAXING card pending the declaration ever firing
 - [x] **P1** Favicon + app icon (the jar, readable at 16px) — `favicon.svg` + `apple-touch-icon.png`
 - [ ] **P1** Type ramp audit: one scale across all six pages (some subpage headings drift)
 - [x] **P1** 404 page in facility voice ("SPECIMEN NOT FOUND") — `404.html`
 - [ ] **P2** Motion audit after live data lands: the fill animation should reflect the real delta (small change = small motion)
-- [ ] **P2** Print stylesheet for indicator pages (journalists screenshot and print these)
+- [x] **P2** Print stylesheet for indicator pages (+ every page — @media print in lab.css)
 - [ ] **P2** Dark-only is correct for the lab — but verify glare/contrast outdoors on a real phone in sunlight
 
 ## 4. Growth & distribution (owner: Zuckerberg)
 
 - [x] **P1** Custom domain + per-slug static pages — done 2026-08-27: `/slug/` pages, sitemap, canonical URLs, FAQ schema markup all live; remaining: custom domain (`oozemeter.com`) so AdSense approves + `ads.txt`
 - [ ] **P1** Newsletter: real ESP behind the existing form (Buttondown), then the daily "Morning Specimen" send generated from `latest.json`
-- [ ] **P1** Embeddable widget: `<iframe>` "Today's Ooze" badge for blogs — every embed is a backlink
+- [x] **P1** Embeddable widget: `widget.html` "Today's Ooze" badge for blogs (Tools → Embed the Jar; iframe, no styling leaks)
 - [x] **P2** Streak/habit mechanics: "you've checked the jar N days in a row" (localStorage, no accounts)
-- [ ] **P2** State pages as 50 SEO surfaces once regional feeds land
+- [x] **P2** State pages as 50 SEO surfaces — real FRED state unemployment stress (scripts/collect-states.js, daily) + 51 static `/states/<code>/` pages; regional model is the employment line only and the page says so
 - [ ] **P2** 10–20 evergreen explainers (seed: the indicator FAQ content) — required for AdSense approval anyway
 - [ ] **P2** Reddit/X launch plan around a single dated artifact: "the backtest that shows 2008 missed OOZEMAXING by one line"
 
@@ -90,6 +90,16 @@ Record: `docs/UX-REVIEW-2026-08-27.md` (review + full details, commit `95cf15d`)
 - ✅ Live-bug fix: front-page ledger crashed on `debtBurden` (10 payload lines vs 9 in `INDICATORS`) — share wiring + streak counter had been dead; line + `/debtBurden/` page shipped, "SEE ALL TEN LINES" now true
 - ✅ Boot clearance is a keyboard-accessible button (Escape, inert page behind); breadcrumb dead anchor fixed; hero plain-English one-liner; market cadence stated
 
+## Shipped 2026-08-27 (part 2) — the remaining improvements
+
+- ✅ One source of truth for every published anchor curve (scripts/lib/methodology.js; backtest.js/collect.js/collect-states.js all import it; fully published in Lab Notes, generated by scripts/build-notes.js)
+- ✅ Real state rankings: `scripts/collect-states.js` (daily, FRED) → data/states.json + 51 static `/states/<code>/` pages; the SIMULATED table is gone, the page says it measures the employment line only
+- ✅ Lab anthem (original WebAudio groove, no licensing), konami-code confetti, tap-glass-10× incident report, April-1 fl-oz
+- ✅ Incident severity C1–C5 computed from the chart and stamped on archive events (formula published on the page)
+- ✅ OOZEMAXING status line + top-driver line above the fold (five-second test)
+- ✅ Widget (`widget.html`, Tools → Embed the Jar), per-band OG cards (stamp.js swaps og:image), print stylesheet, search arrow-key navigation
+
+Decision records: `research/AUXILIARY-LINES-DECISION-2026-08-27.md`. Review doc: `docs/UX-REVIEW-2026-08-27.md`.
 ## Done (context for the agents)
 - ✅ Full site shell: 6 pages, containment-lab brand, staged motion, mobile pass (AA contrast, touch targets, mobile nav)
 - ✅ Honest offline state (score 0, sensors offline) — currently deployed
