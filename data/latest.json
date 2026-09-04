@@ -1,5 +1,5 @@
 {
- "generated": "2026-09-03T17:11:20.891Z",
+ "generated": "2026-09-04T17:04:00.753Z",
  "methodologyVersion": "3.0.0",
  "month": "2026-07",
  "monthLabel": "July 2026",
@@ -7,11 +7,11 @@
  "prevMonthLabel": "June 2026",
  "ooze": 25,
  "prevOoze": 26,
- "updatedLabel": "July 2026 reading · collected 2026-09-03",
+ "updatedLabel": "July 2026 reading · collected 2026-09-04",
  "collection": {
   "status": "ok",
   "changed": true,
-  "inputFingerprint": "2f09e14475ef39c7e51a0800d35f664194a0399d7fd734c4b19ada49bbf8d5a7",
+  "inputFingerprint": "14438f904541d85f0f0bf1dea553ac75078bf598c7b146792f3e5e772f85ef8b",
   "fingerprintSchemaVersion": 3,
   "vintageRetentionPolicy": "retain-all-unique-schema-v3-manifests",
   "freshnessStatus": "current",
@@ -63,7 +63,7 @@
    "contrib": 6,
    "delta": 0,
    "stale": false,
-   "updateStatus": "new-observation"
+   "updateStatus": "no-new-release"
   },
   "credit": {
    "value": "2.9%",
@@ -103,7 +103,7 @@
   },
   "jobs": {
    "value": "4.1%",
-   "asOf": "2026-07-01",
+   "asOf": "2026-08-01",
    "cadence": "monthly",
    "source": {
     "publisher": "U.S. Bureau of Labor Statistics",
@@ -124,7 +124,7 @@
    "contrib": 3,
    "delta": -1,
    "stale": false,
-   "updateStatus": "no-new-release"
+   "updateStatus": "new-observation"
   },
   "inflation": {
    "value": "3.4%",
