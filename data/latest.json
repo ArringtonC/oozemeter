@@ -1,17 +1,17 @@
 {
- "generated": "2026-09-10T17:10:19.797Z",
+ "generated": "2026-09-11T17:11:32.019Z",
  "methodologyVersion": "3.0.0",
- "month": "2026-07",
- "monthLabel": "July 2026",
- "prevMonth": "2026-06",
- "prevMonthLabel": "June 2026",
- "ooze": 25,
- "prevOoze": 26,
- "updatedLabel": "July 2026 reading · collected 2026-09-10",
+ "month": "2026-08",
+ "monthLabel": "August 2026",
+ "prevMonth": "2026-07",
+ "prevMonthLabel": "July 2026",
+ "ooze": 26,
+ "prevOoze": 25,
+ "updatedLabel": "August 2026 reading · collected 2026-09-11",
  "collection": {
   "status": "ok",
   "changed": true,
-  "inputFingerprint": "f1eee242341b97ef920f5af2ed48801fd3329da7c4f961648ab4c0d041544671",
+  "inputFingerprint": "d53d3037e16f7f950c592986706f686ca907d79168f4af002f539da8d4691e83",
   "fingerprintSchemaVersion": 3,
   "vintageRetentionPolicy": "retain-all-unique-schema-v3-manifests",
   "freshnessStatus": "current",
@@ -34,9 +34,9 @@
     "url": "https://fred.stlouisfed.org/series/GASREGW",
     "proxy": false
    },
-   "stress": 58,
-   "contrib": 4,
-   "delta": -3,
+   "stress": 61,
+   "contrib": 5,
+   "delta": 2,
    "stale": false,
    "updateStatus": "no-new-release"
   },
@@ -59,11 +59,11 @@
     "asOf": "2026-04-01",
     "proxy": true
    },
-   "stress": 44,
-   "contrib": 6,
-   "delta": 0,
+   "stress": 46,
+   "contrib": 7,
+   "delta": 2,
    "stale": false,
-   "updateStatus": "new-observation"
+   "updateStatus": "no-new-release"
   },
   "credit": {
    "value": "2.9%",
@@ -121,14 +121,14 @@
     "transform": "trailing four-week mean"
    },
    "stress": 13,
-   "contrib": 3,
-   "delta": -1,
+   "contrib": 2,
+   "delta": 0,
    "stale": false,
    "updateStatus": "no-new-release"
   },
   "inflation": {
    "value": "3.4%",
-   "asOf": "2026-07-01",
+   "asOf": "2026-08-01",
    "cadence": "monthly",
    "source": {
     "publisher": "U.S. Bureau of Labor Statistics",
@@ -140,11 +140,11 @@
     "seasonalAdjustment": "not seasonally adjusted",
     "transform": "same-month year-over-year percent change"
    },
-   "stress": 30,
+   "stress": 31,
    "contrib": 2,
-   "delta": -3,
+   "delta": 1,
    "stale": false,
-   "updateStatus": "no-new-release"
+   "updateStatus": "new-observation"
   },
   "financial": {
    "value": "-0.56",
@@ -160,11 +160,11 @@
     "proxy": false,
     "transform": "calendar-month mean"
    },
-   "stress": 11,
+   "stress": 10,
    "contrib": 0,
-   "delta": 0,
+   "delta": -1,
    "stale": false,
-   "updateStatus": "new-observation"
+   "updateStatus": "no-new-release"
   },
   "foreclosures": {
    "value": "1.9%",
@@ -247,16 +247,16 @@
  },
  "movers": [
   {
+   "slug": "housing",
+   "delta": 2
+  },
+  {
    "slug": "gas",
-   "delta": -3
+   "delta": 2
   },
   {
    "slug": "inflation",
-   "delta": -3
-  },
-  {
-   "slug": "jobs",
-   "delta": -1
+   "delta": 1
   }
  ],
  "history": [
@@ -370,7 +370,7 @@
   ],
   [
    2005.25,
-   30
+   31
   ],
   [
    2005.333,
@@ -410,7 +410,7 @@
   ],
   [
    2006.083,
-   33
+   34
   ],
   [
    2006.167,
@@ -418,7 +418,7 @@
   ],
   [
    2006.25,
-   41
+   42
   ],
   [
    2006.333,
@@ -514,7 +514,7 @@
   ],
   [
    2008.25,
-   65
+   66
   ],
   [
    2008.333,
@@ -618,7 +618,7 @@
   ],
   [
    2010.417,
-   76
+   77
   ],
   [
    2010.5,
@@ -642,7 +642,7 @@
   ],
   [
    2010.917,
-   66
+   67
   ],
   [
    2011,
@@ -858,7 +858,7 @@
   ],
   [
    2015.417,
-   32
+   33
   ],
   [
    2015.5,
@@ -910,7 +910,7 @@
   ],
   [
    2016.5,
-   24
+   25
   ],
   [
    2016.583,
@@ -986,7 +986,7 @@
   ],
   [
    2018.083,
-   18
+   19
   ],
   [
    2018.167,
@@ -1058,7 +1058,7 @@
   ],
   [
    2019.583,
-   11
+   12
   ],
   [
    2019.667,
@@ -1302,7 +1302,7 @@
   ],
   [
    2024.667,
-   23
+   24
   ],
   [
    2024.75,
@@ -1326,7 +1326,7 @@
   ],
   [
    2025.167,
-   23
+   24
   ],
   [
    2025.25,
@@ -1387,6 +1387,10 @@
   [
    2026.5,
    25
+  ],
+  [
+   2026.583,
+   26
   ]
  ],
  "oozemaxing": false
