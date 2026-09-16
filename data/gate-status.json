@@ -3,8 +3,9 @@
  "month": "2026-08",
  "headline": 26,
  "warnings": [
-  "revision: 4 past month(s) moved >=1pt (logged in data/revisions.json)"
+  "revision: 8 past month(s) moved >=1pt (logged in data/revisions.json)",
+  "NFCI historical revision exceeded 0.02 in 116 month(s); max |Δ|=0.0626"
  ],
  "failures": [],
- "generated": "2026-09-15T17:45:26.507Z"
+ "generated": "2026-09-16T17:44:04.758Z"
 }
