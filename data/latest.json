@@ -1,5 +1,5 @@
 {
- "generated": "2026-09-17T17:44:21.579Z",
+ "generated": "2026-09-18T17:11:29.016Z",
  "methodologyVersion": "3.0.0",
  "month": "2026-08",
  "monthLabel": "August 2026",
@@ -7,17 +7,15 @@
  "prevMonthLabel": "July 2026",
  "ooze": 26,
  "prevOoze": 25,
- "updatedLabel": "August 2026 reading · collected 2026-09-17",
+ "updatedLabel": "August 2026 reading · collected 2026-09-18",
  "collection": {
   "status": "ok",
   "changed": true,
-  "inputFingerprint": "82bead81127ed056f1d95ca2dbd39ed077d26779ccc69c937fcb1821b500c64f",
+  "inputFingerprint": "97ee7a784a501a6b8bd6d8a6621438363246a36ab02e638482304144b8ced89f",
   "fingerprintSchemaVersion": 3,
   "vintageRetentionPolicy": "retain-all-unique-schema-v3-manifests",
-  "freshnessStatus": "degraded",
-  "staleLines": [
-   "manufacturing"
-  ]
+  "freshnessStatus": "current",
+  "staleLines": []
  },
  "calibration": {
   "a": 1.418684348943213,
@@ -65,7 +63,7 @@
    "contrib": 7,
    "delta": 2,
    "stale": false,
-   "updateStatus": "new-observation"
+   "updateStatus": "no-new-release"
   },
   "credit": {
    "value": "2.9%",
@@ -190,11 +188,11 @@
    "updateStatus": "no-new-release"
   },
   "manufacturing": {
-   "value": "1.1% YoY",
-   "asOf": "2026-07-01",
+   "value": "1.4% YoY",
+   "asOf": "2026-08-01",
    "cadence": "monthly",
-   "stress": 28,
-   "delta": 2,
+   "stress": 26,
+   "delta": -1,
    "contributesToOoze": false,
    "scoreWeight": 0,
    "calibrationStatus": "provisional-auxiliary",
@@ -215,8 +213,8 @@
     "transform": "same-month year-over-year percent change"
    },
    "contrib": 0,
-   "stale": true,
-   "updateStatus": "no-new-release"
+   "stale": false,
+   "updateStatus": "new-observation"
   },
   "debtBurden": {
    "value": "20.9% of receipts",

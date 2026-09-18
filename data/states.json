@@ -1,5 +1,5 @@
 {
- "generated": "2026-09-17T17:44:35.239Z",
+ "generated": "2026-09-18T17:11:41.550Z",
  "methodologyVersion": "3.0.0 (employment leg only)",
  "source": "FRED <ST>UR — state civilian unemployment rate",
  "method": {
@@ -12,20 +12,11 @@
   {
    "code": "DC",
    "name": "District of Columbia",
-   "month": "2026-07",
-   "unrate": 5.9,
-   "stress": 37,
-   "prevUnrate": 6,
-   "delta": 1.3
-  },
-  {
-   "code": "CT",
-   "name": "Connecticut",
-   "month": "2026-07",
-   "unrate": 5.2,
-   "stress": 27.7,
-   "prevUnrate": 5.2,
-   "delta": 0
+   "month": "2026-08",
+   "unrate": 5.7,
+   "stress": 34.3,
+   "prevUnrate": 5.9,
+   "delta": 2.7
   },
   {
    "code": "OR",
@@ -39,7 +30,16 @@
   {
    "code": "CA",
    "name": "California",
-   "month": "2026-07",
+   "month": "2026-08",
+   "unrate": 5.1,
+   "stress": 26.3,
+   "prevUnrate": 5.1,
+   "delta": 0
+  },
+  {
+   "code": "CT",
+   "name": "Connecticut",
+   "month": "2026-08",
    "unrate": 5.1,
    "stress": 26.3,
    "prevUnrate": 5.2,
@@ -66,7 +66,7 @@
   {
    "code": "AZ",
    "name": "Arizona",
-   "month": "2026-07",
+   "month": "2026-08",
    "unrate": 4.9,
    "stress": 23.7,
    "prevUnrate": 4.9,
@@ -174,11 +174,11 @@
   {
    "code": "AK",
    "name": "Alaska",
-   "month": "2026-07",
+   "month": "2026-08",
    "unrate": 4.3,
    "stress": 15.7,
-   "prevUnrate": 4.4,
-   "delta": 1.3
+   "prevUnrate": 4.3,
+   "delta": 0
   },
   {
    "code": "MN",
@@ -226,22 +226,22 @@
    "delta": 1.3
   },
   {
-   "code": "AR",
-   "name": "Arkansas",
-   "month": "2026-07",
-   "unrate": 4,
-   "stress": 11.7,
-   "prevUnrate": 4.1,
-   "delta": 1.3
-  },
-  {
    "code": "CO",
    "name": "Colorado",
-   "month": "2026-07",
+   "month": "2026-08",
+   "unrate": 4,
+   "stress": 11.7,
+   "prevUnrate": 3.9,
+   "delta": -1.3
+  },
+  {
+   "code": "AR",
+   "name": "Arkansas",
+   "month": "2026-08",
    "unrate": 3.9,
    "stress": 10.3,
-   "prevUnrate": 3.9,
-   "delta": 0
+   "prevUnrate": 4,
+   "delta": 1.3
   },
   {
    "code": "PA",
@@ -282,11 +282,11 @@
   {
    "code": "ID",
    "name": "Idaho",
-   "month": "2026-07",
+   "month": "2026-08",
    "unrate": 3.6,
    "stress": 6.3,
-   "prevUnrate": 3.7,
-   "delta": 1.3
+   "prevUnrate": 3.6,
+   "delta": 0
   },
   {
    "code": "MS",
@@ -327,19 +327,19 @@
   {
    "code": "AL",
    "name": "Alabama",
-   "month": "2026-07",
+   "month": "2026-08",
    "unrate": 3.4,
    "stress": 5,
-   "prevUnrate": 3.2,
+   "prevUnrate": 3.4,
    "delta": 0
   },
   {
    "code": "GA",
    "name": "Georgia",
-   "month": "2026-07",
-   "unrate": 3.3,
+   "month": "2026-08",
+   "unrate": 3.2,
    "stress": 5,
-   "prevUnrate": 3.4,
+   "prevUnrate": 3.3,
    "delta": 0
   },
   {
