@@ -1,5 +1,5 @@
 {
- "generated": "2026-09-18T17:11:29.016Z",
+ "generated": "2026-09-19T16:47:31.645Z",
  "methodologyVersion": "3.0.0",
  "month": "2026-08",
  "monthLabel": "August 2026",
@@ -7,10 +7,10 @@
  "prevMonthLabel": "July 2026",
  "ooze": 26,
  "prevOoze": 25,
- "updatedLabel": "August 2026 reading · collected 2026-09-18",
+ "updatedLabel": "August 2026 reading · collected 2026-09-19",
  "collection": {
   "status": "ok",
-  "changed": true,
+  "changed": false,
   "inputFingerprint": "97ee7a784a501a6b8bd6d8a6621438363246a36ab02e638482304144b8ced89f",
   "fingerprintSchemaVersion": 3,
   "vintageRetentionPolicy": "retain-all-unique-schema-v3-manifests",
@@ -214,7 +214,7 @@
    },
    "contrib": 0,
    "stale": false,
-   "updateStatus": "new-observation"
+   "updateStatus": "no-new-release"
   },
   "debtBurden": {
    "value": "20.9% of receipts",
