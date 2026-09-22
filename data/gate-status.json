@@ -2,7 +2,9 @@
  "status": "pass",
  "month": "2026-08",
  "headline": 26,
- "warnings": [],
+ "warnings": [
+  "revision: 4 past month(s) moved >=1pt (logged in data/revisions.json)"
+ ],
  "failures": [],
- "generated": "2026-09-21T18:53:41.025Z"
+ "generated": "2026-09-22T17:45:12.796Z"
 }
