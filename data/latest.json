@@ -1,5 +1,5 @@
 {
- "generated": "2026-09-28T20:13:21.780Z",
+ "generated": "2026-09-29T18:51:18.634Z",
  "methodologyVersion": "3.0.0",
  "month": "2026-08",
  "monthLabel": "August 2026",
@@ -7,11 +7,11 @@
  "prevMonthLabel": "July 2026",
  "ooze": 26,
  "prevOoze": 25,
- "updatedLabel": "August 2026 reading · collected 2026-09-28",
+ "updatedLabel": "August 2026 reading · collected 2026-09-29",
  "collection": {
   "status": "ok",
-  "changed": false,
-  "inputFingerprint": "e84c12a80dd97e296992f6c7a4e7981efd6d184a4e619a982f84694a31cee4ba",
+  "changed": true,
+  "inputFingerprint": "2a111a14571db53c79f4dada341f1f35d286bd619ffbf12a09ce5221cbace41b",
   "fingerprintSchemaVersion": 3,
   "vintageRetentionPolicy": "retain-all-unique-schema-v3-manifests",
   "freshnessStatus": "current",
@@ -23,8 +23,8 @@
  },
  "lines": {
   "gas": {
-   "value": "$4.48",
-   "asOf": "2026-09-21",
+   "value": "$4.46",
+   "asOf": "2026-09-28",
    "cadence": "weekly",
    "source": {
     "publisher": "U.S. Energy Information Administration",
@@ -38,7 +38,7 @@
    "contrib": 5,
    "delta": 2,
    "stale": false,
-   "updateStatus": "no-new-release"
+   "updateStatus": "new-observation"
   },
   "housing": {
    "value": "7.03%",
