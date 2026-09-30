@@ -2,7 +2,10 @@
  "status": "pass",
  "month": "2026-08",
  "headline": 26,
- "warnings": [],
+ "warnings": [
+  "revision: 6 past month(s) moved >=1pt (logged in data/revisions.json)",
+  "NFCI historical revision exceeded 0.02 in 115 month(s); max |Δ|=0.0622"
+ ],
  "failures": [],
- "generated": "2026-09-29T18:51:18.634Z"
+ "generated": "2026-09-30T18:33:22.521Z"
 }

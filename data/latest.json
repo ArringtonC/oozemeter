@@ -1,5 +1,5 @@
 {
- "generated": "2026-09-29T18:51:18.634Z",
+ "generated": "2026-09-30T18:33:22.521Z",
  "methodologyVersion": "3.0.0",
  "month": "2026-08",
  "monthLabel": "August 2026",
@@ -7,11 +7,11 @@
  "prevMonthLabel": "July 2026",
  "ooze": 26,
  "prevOoze": 25,
- "updatedLabel": "August 2026 reading · collected 2026-09-29",
+ "updatedLabel": "August 2026 reading · collected 2026-09-30",
  "collection": {
   "status": "ok",
   "changed": true,
-  "inputFingerprint": "2a111a14571db53c79f4dada341f1f35d286bd619ffbf12a09ce5221cbace41b",
+  "inputFingerprint": "67a0b217f407d991a35c2069628a67718e0ec86e5bafde39b0febd7e28f383a6",
   "fingerprintSchemaVersion": 3,
   "vintageRetentionPolicy": "retain-all-unique-schema-v3-manifests",
   "freshnessStatus": "current",
@@ -38,7 +38,7 @@
    "contrib": 5,
    "delta": 2,
    "stale": false,
-   "updateStatus": "new-observation"
+   "updateStatus": "no-new-release"
   },
   "housing": {
    "value": "7.03%",
@@ -147,8 +147,8 @@
    "updateStatus": "no-new-release"
   },
   "financial": {
-   "value": "-0.56",
-   "asOf": "2026-09-18",
+   "value": "-0.55",
+   "asOf": "2026-09-25",
    "cadence": "weekly",
    "contributesToOoze": true,
    "source": {
@@ -164,7 +164,7 @@
    "contrib": 0,
    "delta": -1,
    "stale": false,
-   "updateStatus": "no-new-release"
+   "updateStatus": "new-observation"
   },
   "foreclosures": {
    "value": "1.9%",
@@ -217,10 +217,10 @@
    "updateStatus": "no-new-release"
   },
   "debtBurden": {
-   "value": "20.9% of receipts",
+   "value": "21.1% of receipts",
    "asOf": "2026-04-01",
    "cadence": "quarterly",
-   "stress": 70,
+   "stress": 71,
    "delta": 0,
    "contributesToOoze": false,
    "scoreWeight": 0,
@@ -236,13 +236,13 @@
    "secondary": {
     "publisher": "U.S. Bureau of Economic Analysis",
     "seriesId": "FGRECPT",
-    "value": 5980.631,
+    "value": 6055.991,
     "asOf": "2026-04-01",
     "transform": "denominator — federal current receipts"
    },
    "contrib": 0,
    "stale": false,
-   "updateStatus": "no-new-release"
+   "updateStatus": "new-observation"
   }
  },
  "movers": [
@@ -370,7 +370,7 @@
   ],
   [
    2005.25,
-   30
+   31
   ],
   [
    2005.333,
@@ -410,7 +410,7 @@
   ],
   [
    2006.083,
-   33
+   34
   ],
   [
    2006.167,
@@ -418,7 +418,7 @@
   ],
   [
    2006.25,
-   41
+   42
   ],
   [
    2006.333,
@@ -470,7 +470,7 @@
   ],
   [
    2007.333,
-   42
+   43
   ],
   [
    2007.417,
@@ -702,7 +702,7 @@
   ],
   [
    2012.167,
-   56
+   55
   ],
   [
    2012.25,
@@ -762,7 +762,7 @@
   ],
   [
    2013.417,
-   48
+   47
   ],
   [
    2013.5,
