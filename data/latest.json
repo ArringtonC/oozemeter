@@ -1,5 +1,5 @@
 {
- "generated": "2026-09-30T18:33:22.521Z",
+ "generated": "2026-10-01T19:01:01.725Z",
  "methodologyVersion": "3.0.0",
  "month": "2026-08",
  "monthLabel": "August 2026",
@@ -7,11 +7,11 @@
  "prevMonthLabel": "July 2026",
  "ooze": 26,
  "prevOoze": 25,
- "updatedLabel": "August 2026 reading · collected 2026-09-30",
+ "updatedLabel": "August 2026 reading · collected 2026-10-01",
  "collection": {
   "status": "ok",
   "changed": true,
-  "inputFingerprint": "67a0b217f407d991a35c2069628a67718e0ec86e5bafde39b0febd7e28f383a6",
+  "inputFingerprint": "b5993c3c36f0aec6737699fee2f8f15a06c4bbf58f4a4960e04999a8b440e8ba",
   "fingerprintSchemaVersion": 3,
   "vintageRetentionPolicy": "retain-all-unique-schema-v3-manifests",
   "freshnessStatus": "current",
@@ -41,8 +41,8 @@
    "updateStatus": "no-new-release"
   },
   "housing": {
-   "value": "7.03%",
-   "asOf": "2026-09-24",
+   "value": "7.28%",
+   "asOf": "2026-10-01",
    "cadence": "weekly",
    "source": {
     "publisher": "Freddie Mac",
@@ -63,7 +63,7 @@
    "contrib": 7,
    "delta": 2,
    "stale": false,
-   "updateStatus": "no-new-release"
+   "updateStatus": "new-observation"
   },
   "credit": {
    "value": "2.9%",
@@ -116,8 +116,8 @@
    "secondary": {
     "publisher": "U.S. Department of Labor",
     "seriesId": "ICSA",
-    "value": 202250,
-    "asOf": "2026-09-19",
+    "value": 200000,
+    "asOf": "2026-09-26",
     "transform": "trailing four-week mean"
    },
    "stress": 13,
@@ -164,7 +164,7 @@
    "contrib": 0,
    "delta": -1,
    "stale": false,
-   "updateStatus": "new-observation"
+   "updateStatus": "no-new-release"
   },
   "foreclosures": {
    "value": "1.9%",
@@ -242,7 +242,7 @@
    },
    "contrib": 0,
    "stale": false,
-   "updateStatus": "new-observation"
+   "updateStatus": "no-new-release"
   }
  },
  "movers": [
