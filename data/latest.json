@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-01T19:01:01.725Z",
+ "generated": "2026-10-02T18:40:25.811Z",
  "methodologyVersion": "3.0.0",
  "month": "2026-08",
  "monthLabel": "August 2026",
@@ -7,11 +7,11 @@
  "prevMonthLabel": "July 2026",
  "ooze": 26,
  "prevOoze": 25,
- "updatedLabel": "August 2026 reading · collected 2026-10-01",
+ "updatedLabel": "August 2026 reading · collected 2026-10-02",
  "collection": {
   "status": "ok",
   "changed": true,
-  "inputFingerprint": "b5993c3c36f0aec6737699fee2f8f15a06c4bbf58f4a4960e04999a8b440e8ba",
+  "inputFingerprint": "c082972fa79067fce16fe84c15646701cac7d324345ab9807469b55929f9b723",
   "fingerprintSchemaVersion": 3,
   "vintageRetentionPolicy": "retain-all-unique-schema-v3-manifests",
   "freshnessStatus": "current",
@@ -63,7 +63,7 @@
    "contrib": 7,
    "delta": 2,
    "stale": false,
-   "updateStatus": "new-observation"
+   "updateStatus": "no-new-release"
   },
   "credit": {
    "value": "2.9%",
@@ -102,8 +102,8 @@
    "updateStatus": "no-new-release"
   },
   "jobs": {
-   "value": "4.1%",
-   "asOf": "2026-08-01",
+   "value": "4.2%",
+   "asOf": "2026-09-01",
    "cadence": "monthly",
    "source": {
     "publisher": "U.S. Bureau of Labor Statistics",
@@ -124,7 +124,7 @@
    "contrib": 2,
    "delta": 0,
    "stale": false,
-   "updateStatus": "no-new-release"
+   "updateStatus": "new-observation"
   },
   "inflation": {
    "value": "3.4%",
@@ -208,8 +208,8 @@
    "secondary": {
     "publisher": "U.S. Census Bureau",
     "seriesId": "AMTMNO",
-    "value": 9.945558710771962,
-    "asOf": "2026-07-01",
+    "value": 8.50859576360996,
+    "asOf": "2026-08-01",
     "transform": "same-month year-over-year percent change"
    },
    "contrib": 0,
