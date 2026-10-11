@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-10T17:59:37.855Z",
+ "generated": "2026-10-11T18:26:20.578Z",
  "methodologyVersion": "3.0.0",
  "month": "2026-08",
  "monthLabel": "August 2026",
@@ -7,7 +7,7 @@
  "prevMonthLabel": "July 2026",
  "ooze": 26,
  "prevOoze": 25,
- "updatedLabel": "August 2026 reading · collected 2026-10-10",
+ "updatedLabel": "August 2026 reading · collected 2026-10-11",
  "collection": {
   "status": "ok",
   "changed": false,
