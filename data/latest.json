@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-15T17:52:21.304Z",
+ "generated": "2026-10-16T17:41:00.700Z",
  "methodologyVersion": "3.0.0",
  "month": "2026-09",
  "monthLabel": "September 2026",
@@ -7,17 +7,15 @@
  "prevMonthLabel": "August 2026",
  "ooze": 29,
  "prevOoze": 26,
- "updatedLabel": "September 2026 reading · collected 2026-10-15",
+ "updatedLabel": "September 2026 reading · collected 2026-10-16",
  "collection": {
   "status": "ok",
   "changed": true,
-  "inputFingerprint": "5f24ade5375c2a96f79be63cb70602b634286bb9951299f6b5f1c7ae72d794c6",
+  "inputFingerprint": "9ea78dc0ee516e36f8672b4b7a908d66ff60d4d880b3727573c44b80c42ea09d",
   "fingerprintSchemaVersion": 3,
   "vintageRetentionPolicy": "retain-all-unique-schema-v3-manifests",
-  "freshnessStatus": "degraded",
-  "staleLines": [
-   "manufacturing"
-  ]
+  "freshnessStatus": "current",
+  "staleLines": []
  },
  "calibration": {
   "a": 1.418684348943213,
@@ -65,7 +63,7 @@
    "contrib": 7,
    "delta": 2,
    "stale": false,
-   "updateStatus": "new-observation"
+   "updateStatus": "no-new-release"
   },
   "credit": {
    "value": "2.9%",
@@ -166,7 +164,7 @@
    "contrib": 0,
    "delta": 1,
    "stale": false,
-   "updateStatus": "new-observation"
+   "updateStatus": "no-new-release"
   },
   "foreclosures": {
    "value": "1.9%",
@@ -190,11 +188,11 @@
    "updateStatus": "no-new-release"
   },
   "manufacturing": {
-   "value": "1.4% YoY",
-   "asOf": "2026-08-01",
+   "value": "2.2% YoY",
+   "asOf": "2026-09-01",
    "cadence": "monthly",
-   "stress": 26,
-   "delta": -1,
+   "stress": 20,
+   "delta": -4,
    "contributesToOoze": false,
    "scoreWeight": 0,
    "calibrationStatus": "provisional-auxiliary",
@@ -215,8 +213,8 @@
     "transform": "same-month year-over-year percent change"
    },
    "contrib": 0,
-   "stale": true,
-   "updateStatus": "no-new-release"
+   "stale": false,
+   "updateStatus": "new-observation"
   },
   "debtBurden": {
    "value": "21.1% of receipts",
