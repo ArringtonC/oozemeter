@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-20T18:05:56.849Z",
+ "generated": "2026-10-22T18:09:24.558Z",
  "methodologyVersion": "3.0.0",
  "month": "2026-09",
  "monthLabel": "September 2026",
@@ -7,11 +7,11 @@
  "prevMonthLabel": "August 2026",
  "ooze": 29,
  "prevOoze": 26,
- "updatedLabel": "September 2026 reading · collected 2026-10-20",
+ "updatedLabel": "September 2026 reading · collected 2026-10-22",
  "collection": {
   "status": "ok",
-  "changed": false,
-  "inputFingerprint": "9ea78dc0ee516e36f8672b4b7a908d66ff60d4d880b3727573c44b80c42ea09d",
+  "changed": true,
+  "inputFingerprint": "2852169f499d4f30f23883e684b3b2d4eafcf1061030e0a6a594367987709c0e",
   "fingerprintSchemaVersion": 3,
   "vintageRetentionPolicy": "retain-all-unique-schema-v3-manifests",
   "freshnessStatus": "current",
@@ -23,8 +23,8 @@
  },
  "lines": {
   "gas": {
-   "value": "$4.33",
-   "asOf": "2026-10-12",
+   "value": "$4.28",
+   "asOf": "2026-10-19",
    "cadence": "weekly",
    "source": {
     "publisher": "U.S. Energy Information Administration",
@@ -38,11 +38,11 @@
    "contrib": 5,
    "delta": 7,
    "stale": false,
-   "updateStatus": "no-new-release"
+   "updateStatus": "new-observation"
   },
   "housing": {
-   "value": "7.40%",
-   "asOf": "2026-10-15",
+   "value": "7.32%",
+   "asOf": "2026-10-22",
    "cadence": "weekly",
    "source": {
     "publisher": "Freddie Mac",
@@ -63,7 +63,7 @@
    "contrib": 7,
    "delta": 2,
    "stale": false,
-   "updateStatus": "no-new-release"
+   "updateStatus": "new-observation"
   },
   "credit": {
    "value": "2.9%",
@@ -116,8 +116,8 @@
    "secondary": {
     "publisher": "U.S. Department of Labor",
     "seriesId": "ICSA",
-    "value": 198500,
-    "asOf": "2026-10-10",
+    "value": 197750,
+    "asOf": "2026-10-17",
     "transform": "trailing four-week mean"
    },
    "stress": 14,
@@ -148,7 +148,7 @@
   },
   "financial": {
    "value": "-0.50",
-   "asOf": "2026-10-09",
+   "asOf": "2026-10-16",
    "cadence": "weekly",
    "contributesToOoze": true,
    "source": {
@@ -164,7 +164,7 @@
    "contrib": 0,
    "delta": 1,
    "stale": false,
-   "updateStatus": "no-new-release"
+   "updateStatus": "new-observation"
   },
   "foreclosures": {
    "value": "1.9%",
@@ -594,7 +594,7 @@
   ],
   [
    2009.917,
-   83
+   82
   ],
   [
    2010,
@@ -614,7 +614,7 @@
   ],
   [
    2010.333,
-   76
+   75
   ],
   [
    2010.417,
@@ -654,7 +654,7 @@
   ],
   [
    2011.167,
-   65
+   64
   ],
   [
    2011.25,
@@ -686,7 +686,7 @@
   ],
   [
    2011.833,
-   60
+   59
   ],
   [
    2011.917,
@@ -890,7 +890,7 @@
   ],
   [
    2016.083,
-   23
+   22
   ],
   [
    2016.167,
@@ -1002,7 +1002,7 @@
   ],
   [
    2018.417,
-   20
+   19
   ],
   [
    2018.5,
@@ -1206,7 +1206,7 @@
   ],
   [
    2022.667,
-   18
+   19
   ],
   [
    2022.75,
