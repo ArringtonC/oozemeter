@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-27T18:57:05.910Z",
+ "generated": "2026-10-28T19:05:27.526Z",
  "methodologyVersion": "3.0.0",
  "month": "2026-09",
  "monthLabel": "September 2026",
@@ -7,11 +7,11 @@
  "prevMonthLabel": "August 2026",
  "ooze": 29,
  "prevOoze": 26,
- "updatedLabel": "September 2026 reading · collected 2026-10-27",
+ "updatedLabel": "September 2026 reading · collected 2026-10-28",
  "collection": {
   "status": "ok",
   "changed": true,
-  "inputFingerprint": "72108a3ed0a88114f9117ceba9999813e756e90511ce937d68099ff2073d838f",
+  "inputFingerprint": "9a2a325916fa44b9fc156e530be4134156f0c821b2539e1d2b9cc64c70a57d32",
   "fingerprintSchemaVersion": 3,
   "vintageRetentionPolicy": "retain-all-unique-schema-v3-manifests",
   "freshnessStatus": "current",
@@ -38,7 +38,7 @@
    "contrib": 5,
    "delta": 7,
    "stale": false,
-   "updateStatus": "new-observation"
+   "updateStatus": "no-new-release"
   },
   "housing": {
    "value": "7.32%",
@@ -148,7 +148,7 @@
   },
   "financial": {
    "value": "-0.50",
-   "asOf": "2026-10-16",
+   "asOf": "2026-10-23",
    "cadence": "weekly",
    "contributesToOoze": true,
    "source": {
@@ -164,7 +164,7 @@
    "contrib": 0,
    "delta": 1,
    "stale": false,
-   "updateStatus": "no-new-release"
+   "updateStatus": "new-observation"
   },
   "foreclosures": {
    "value": "1.9%",
