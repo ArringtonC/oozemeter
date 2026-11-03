@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-02T22:27:47.948Z",
+ "generated": "2026-11-03T20:16:20.314Z",
  "methodologyVersion": "3.0.0",
  "month": "2026-09",
  "monthLabel": "September 2026",
@@ -7,11 +7,11 @@
  "prevMonthLabel": "August 2026",
  "ooze": 29,
  "prevOoze": 26,
- "updatedLabel": "September 2026 reading · collected 2026-11-02",
+ "updatedLabel": "September 2026 reading · collected 2026-11-03",
  "collection": {
   "status": "ok",
-  "changed": false,
-  "inputFingerprint": "339b08e813daeb11a4af0db6b36c1883f3665e5218769f9b9eda91b0b320705a",
+  "changed": true,
+  "inputFingerprint": "0d1a59e6d12a44e21a9e3fc41f5d746c7927712087969a14a99e60f57d290cd3",
   "fingerprintSchemaVersion": 3,
   "vintageRetentionPolicy": "retain-all-unique-schema-v3-manifests",
   "freshnessStatus": "current",
@@ -23,8 +23,8 @@
  },
  "lines": {
   "gas": {
-   "value": "$4.27",
-   "asOf": "2026-10-26",
+   "value": "$4.15",
+   "asOf": "2026-11-02",
    "cadence": "weekly",
    "source": {
     "publisher": "U.S. Energy Information Administration",
@@ -38,7 +38,7 @@
    "contrib": 5,
    "delta": 7,
    "stale": false,
-   "updateStatus": "no-new-release"
+   "updateStatus": "new-observation"
   },
   "housing": {
    "value": "7.24%",
@@ -208,8 +208,8 @@
    "secondary": {
     "publisher": "U.S. Census Bureau",
     "seriesId": "AMTMNO",
-    "value": 8.50859576360996,
-    "asOf": "2026-08-01",
+    "value": 10.503464007283725,
+    "asOf": "2026-09-01",
     "transform": "same-month year-over-year percent change"
    },
    "contrib": 0,
