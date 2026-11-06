@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-05T20:49:08.782Z",
+ "generated": "2026-11-06T20:04:02.214Z",
  "methodologyVersion": "3.0.0",
  "month": "2026-09",
  "monthLabel": "September 2026",
@@ -7,11 +7,11 @@
  "prevMonthLabel": "August 2026",
  "ooze": 29,
  "prevOoze": 26,
- "updatedLabel": "September 2026 reading · collected 2026-11-05",
+ "updatedLabel": "September 2026 reading · collected 2026-11-06",
  "collection": {
   "status": "ok",
   "changed": true,
-  "inputFingerprint": "c64f0e0989f9fa29413dcf7d012cfc748a4a064904e7eec7b961c79da1a13c00",
+  "inputFingerprint": "1acb3724eaeadadf0632a98ca66f1eba6dd1a1a434798083be0563dd054f1403",
   "fingerprintSchemaVersion": 3,
   "vintageRetentionPolicy": "retain-all-unique-schema-v3-manifests",
   "freshnessStatus": "current",
@@ -63,7 +63,7 @@
    "contrib": 7,
    "delta": 2,
    "stale": false,
-   "updateStatus": "new-observation"
+   "updateStatus": "no-new-release"
   },
   "credit": {
    "value": "2.9%",
@@ -102,8 +102,8 @@
    "updateStatus": "no-new-release"
   },
   "jobs": {
-   "value": "4.2%",
-   "asOf": "2026-09-01",
+   "value": "4.1%",
+   "asOf": "2026-10-01",
    "cadence": "monthly",
    "source": {
     "publisher": "U.S. Bureau of Labor Statistics",
@@ -124,7 +124,7 @@
    "contrib": 3,
    "delta": 1,
    "stale": false,
-   "updateStatus": "no-new-release"
+   "updateStatus": "new-observation"
   },
   "inflation": {
    "value": "3.7%",
