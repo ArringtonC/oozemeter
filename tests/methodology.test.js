@@ -2,6 +2,9 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 
 const {
+  COST_OF_LIVING_CALIBRATION,
+  COST_OF_LIVING_LINES,
+  costOfLivingRaw,
   FINANCIAL_CONDITIONS_ANCHORS,
   METHODOLOGY_V3_WEIGHTS,
   auto30PlusStress,
@@ -136,4 +139,18 @@ test('computes same-month year-over-year percentage change', () => {
   const cpi = {'2025-06': 100, '2026-06': 103.5};
   assert.ok(Math.abs(yearOverYear(cpi, '2026-06') - 3.5) < 1e-9);
   assert.equal(yearOverYear(cpi, '2025-06'), null);
+});
+
+test('cost-of-living dial is the plain mean of the three price lines and its frozen pair maps calm to 10 and the 2008 peak to 90', () => {
+  assert.deepEqual([...COST_OF_LIVING_LINES], ['gas', 'inflation', 'housing']);
+  assert.equal(costOfLivingRaw({gas: 60, inflation: 30, housing: 45, jobs: 99}), 45);
+  assert.throws(() => costOfLivingRaw({gas: 60, inflation: 30}), /missing stress for housing/);
+  const {months} = require('../data/line-history.json');
+  const raw = Object.fromEntries(months.map(m => [m.month, costOfLivingRaw(m.stresses)]));
+  const cal = v => Math.round(COST_OF_LIVING_CALIBRATION.a * v + COST_OF_LIVING_CALIBRATION.b);
+  const window = Object.entries(raw).filter(([m]) => m >= '2003-01' && m <= '2025-12');
+  const calm = Math.min(...window.map(([, v]) => v));
+  const gfc = Math.max(...window.filter(([m]) => m >= '2007-01' && m <= '2010-12').map(([, v]) => v));
+  assert.equal(cal(calm), 10);
+  assert.equal(cal(gfc), 90);
 });

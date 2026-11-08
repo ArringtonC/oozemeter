@@ -16,6 +16,8 @@ const {fetchFredSeries}=require('./lib/fred');
 const {
   AUTO_30_PLUS_ANCHORS,
   CALIBRATION_V3,
+  COST_OF_LIVING_CALIBRATION,
+  COST_OF_LIVING_LINES,
   DEBT_BURDEN_ANCHORS,
   MANUFACTURING_YOY_ANCHORS,
   CARD_DELINQ_ANCHORS,
@@ -28,6 +30,7 @@ const {
   MORTGAGE_RATE_ANCHORS,
   UNEMPLOYMENT_ANCHORS,
   auto30PlusStress,
+  costOfLivingRaw,
   fetchNyFedAutoSeries,
   financialConditionsStress,
   interpolateAnchors,
@@ -144,6 +147,9 @@ const writeAtomic=(file,content)=>{
   const M=complete[complete.length-1],P=complete[complete.length-2];
   const stM=stressesFor(M),stP=stressesFor(P);
   const ooze=Math.round(cal(composite(stM))),prevOoze=Math.round(cal(composite(stP)));
+  /* auxiliary dial: prices only, own frozen calibration, zero weight in the headline */
+  const colCal=raw=>Math.round(Math.max(0,Math.min(100,COST_OF_LIVING_CALIBRATION.a*raw+COST_OF_LIVING_CALIBRATION.b)));
+  const costOfLiving=colCal(costOfLivingRaw(stM)),prevCostOfLiving=colCal(costOfLivingRaw(stP));
 
   /* contributions: calibrated score split proportionally to weighted stress */
   const wsum=Object.entries(WEIGHTS).reduce((a,[k,w])=>a+w*stM[k],0);
@@ -262,6 +268,7 @@ const writeAtomic=(file,content)=>{
     weights:WEIGHTS,
     anchors:ANCHORS,
     manufacturingYoYAnchors:MANUFACTURING_YOY_ANCHORS,
+    costOfLiving:{lines:COST_OF_LIVING_LINES,calibration:COST_OF_LIVING_CALIBRATION,contributesToOoze:false},
     transforms:{
       claims:'Trailing mean of the latest four weekly observations available at each month end',
       inflation:'Same-month year-over-year percent change of non-seasonally-adjusted CPI-U',
@@ -310,6 +317,10 @@ const writeAtomic=(file,content)=>{
       vintageRetentionPolicy:VINTAGE_RETENTION_POLICY,
       freshnessStatus:staleLines.length?'degraded':'current',staleLines},
     calibration:CAL,lines:LINES,movers,history:hist,
+    dials:{costOfLiving:{score:costOfLiving,prev:prevCostOfLiving,delta:costOfLiving-prevCostOfLiving,
+      lines:COST_OF_LIVING_LINES,calibration:COST_OF_LIVING_CALIBRATION,
+      contributesToOoze:false,scoreWeight:0,calibrationStatus:'provisional-auxiliary',
+      label:'Cost-of-living dial',note:'Mean of the gas, inflation and housing stress lines, on its own 0-100 scale (calmest month 10, 2008 peak 90). Not part of the headline.'}},
     oozemaxing:Object.values(stM).every(v=>v>=60),
   };
 

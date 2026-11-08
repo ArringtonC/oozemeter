@@ -43,6 +43,7 @@
         <div class="delta" id="heroDelta">▲ +3 VS AUGUST 2026</div>
       </div>
       <div class="verdict cine c4" id="verdictLine">Calmer than 6 of every 10 months since 2003</div>
+      <p class="hero-plain cine c5" id="colDial" hidden></p>
       <p class="hero-plain cine c5">One score for U.S. household economic stress — built from public data, recomputed as each release lands.</p>
       <p class="hero-drivers cine c5" id="heroDrivers"></p>
 
@@ -248,6 +249,13 @@ if(LIVE){
   const d=TODAY_SCORE-YESTERDAY;
   $('heroDelta').textContent=`${d>=0?'▲ +':'▼ −'}${Math.abs(d)} VS ${LD.prevMonthLabel.toUpperCase()}`;
   $('heroDelta').style.color=d>=0?'var(--amber)':'var(--green)';
+  /* auxiliary dial from the payload; rendered only when the collector published it, never computed here */
+  const col=LD.dials&&LD.dials.costOfLiving;
+  if(col&&Number.isFinite(col.score)){
+    const cd=col.score-col.prev;
+    $('colDial').textContent=`${col.label}: ${col.score}/100 (${cd>=0?'+':'−'}${Math.abs(cd)} vs ${LD.prevMonthLabel}) — ${col.lines.join(', ')} only, on its own scale; not part of the headline.`;
+    $('colDial').hidden=false;
+  }
   /* resolveClaims, not the raw field: editorial prose is a token CARRIER by
      design, and a verdict that one day carries a canonical-truth token must
      not ship the braces to a reader on an otherwise green build. */

@@ -35,6 +35,21 @@ const METHODOLOGY_V3_WEIGHTS = Object.freeze({
    bump, not a maintenance edit. Re-derive with OOZEMETER_RECALIBRATE=1. */
 const CALIBRATION_V3 = Object.freeze({a: 1.418684348943213, b: -23.96514845099034});
 
+/* Cost-of-living dial (auxiliary, zero weight in the headline). Plain mean of the
+   three price lines' raw stresses, calibrated by the same frozen rule on its own
+   history (calmest 2003-2025 month, 2003-06 -> 10; 2007-2010 peak, 2008-07 -> 90),
+   derived once from data/line-history.json on 2026-11-08 and frozen for the same
+   reason as CALIBRATION_V3. Shown beside the headline, never added to it. */
+const COST_OF_LIVING_LINES = Object.freeze(['gas', 'inflation', 'housing']);
+const COST_OF_LIVING_CALIBRATION = Object.freeze({a: 1.5795982833613427, b: -25.810070700116952});
+function costOfLivingRaw(stresses) {
+  return COST_OF_LIVING_LINES.reduce((sum, key) => {
+    const value = stresses[key];
+    if (!Number.isFinite(value)) throw new Error(`cost-of-living dial: missing stress for ${key}`);
+    return sum + value;
+  }, 0) / COST_OF_LIVING_LINES.length;
+}
+
 function parseProviderNumber(rawValue, label) {
   if (typeof rawValue !== 'string' || !/^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?$/.test(rawValue)) {
     throw new Error(`Invalid ${label} numeric value: ${JSON.stringify(rawValue)}`);
@@ -241,6 +256,8 @@ function yearOverYear(monthly, month) {
 module.exports = {
   AUTO_30_PLUS_ANCHORS,
   CALIBRATION_V3,
+  COST_OF_LIVING_CALIBRATION,
+  COST_OF_LIVING_LINES,
   DEBT_BURDEN_ANCHORS,
   MANUFACTURING_YOY_ANCHORS,
   CARD_DELINQ_ANCHORS,
@@ -253,6 +270,7 @@ module.exports = {
   FINANCIAL_CONDITIONS_ANCHORS,
   METHODOLOGY_V3_WEIGHTS,
   auto30PlusStress,
+  costOfLivingRaw,
   discoverNyFedWorkbookUrl,
   fetchNyFedAutoSeries,
   financialConditionsStress,
