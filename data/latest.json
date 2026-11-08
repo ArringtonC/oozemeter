@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-08T18:29:22.650Z",
+ "generated": "2026-11-08T23:17:27.222Z",
  "methodologyVersion": "3.0.0",
  "month": "2026-09",
  "monthLabel": "September 2026",
@@ -10,8 +10,8 @@
  "updatedLabel": "September 2026 reading · collected 2026-11-08",
  "collection": {
   "status": "ok",
-  "changed": false,
-  "inputFingerprint": "1acb3724eaeadadf0632a98ca66f1eba6dd1a1a434798083be0563dd054f1403",
+  "changed": true,
+  "inputFingerprint": "7a45419dc3786708490b2b8925dfab5f126c4bff5b8e520124e304c020d80ad0",
   "fingerprintSchemaVersion": 3,
   "vintageRetentionPolicy": "retain-all-unique-schema-v3-manifests",
   "freshnessStatus": "current",
@@ -1397,5 +1397,26 @@
    29
   ]
  ],
+ "dials": {
+  "costOfLiving": {
+   "score": 55,
+   "prev": 47,
+   "delta": 8,
+   "lines": [
+    "gas",
+    "inflation",
+    "housing"
+   ],
+   "calibration": {
+    "a": 1.5795982833613427,
+    "b": -25.810070700116952
+   },
+   "contributesToOoze": false,
+   "scoreWeight": 0,
+   "calibrationStatus": "provisional-auxiliary",
+   "label": "Cost-of-living dial",
+   "note": "Mean of the gas, inflation and housing stress lines, on its own 0-100 scale (calmest month 10, 2008 peak 90). Not part of the headline."
+  }
+ },
  "oozemaxing": false
 }
